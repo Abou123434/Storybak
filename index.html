@@ -1,118 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoryBak</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoryBak</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header>
+    <h1 class="logo">Story<span class="highlight">Bak</span></h1>
+  </header>
 
-<header>
-<h1 class="logo">Story<span class="highlight">Bak</span></h1>
-</header>
+  <!-- Input pour ajouter stories (hidden) -->
+  <input type="file" id="fileInput" accept="image/*,video/*" hidden>
 
-<!-- FORMULAIRE INSCRIPTION -->
-<div id="signup" class="signup">
+  <!-- Liste des stories -->
+  <div class="stories" id="stories"></div>
 
-<h2>Créer un compte</h2>
-<input type="text" id="nom" placeholder="Nom">
-<input type="text" id="prenom" placeholder="Prénom">
-<input type="password" id="pin" placeholder="PIN (4 chiffres)">
-<input type="file" id="profilePic" accept="image/*">
-<button onclick="register()">Créer le compte</button>
-
-<p onclick="forgotPin()" style="color:#25D366;cursor:pointer;margin-top:10px;">
-Mot de passe oublié ?
-</p>
-
-<hr style="width:80%;margin:15px auto;border-color:#25D366;">
-
-<h2>Se connecter</h2>
-<input type="text" id="loginNom" placeholder="Nom">
-<input type="text" id="loginPrenom" placeholder="Prénom">
-<input type="password" id="loginPin" placeholder="PIN">
-<button onclick="login()">Connexion</button>
-
-</div>
-
-<input type="file" id="fileInput" accept="image/*,video/*" hidden>
-
-<div class="stories" id="stories"></div>
-
-<!-- VIEWER -->
-<div class="viewer" id="viewer">
-
-<div class="progress-container" id="progressContainer"></div>
-
-<div class="content" id="content"></div>
-
-<div class="view-count" id="viewCount"></div>
-
-<div class="tap-left" onclick="prevStory()"></div>
-<div class="tap-right" onclick="nextStory()"></div>
-
-<div class="reactions">
-<span onclick="react('❤️')">❤️</span>
-<span onclick="react('😂')">😂</span>
-<span onclick="react('🔥')">🔥</span>
-<span onclick="react('😮')">😮</span>
-</div>
-
-</div>
-
-<!-- MODAL CADEAU -->
-
-<div id="giftModal">
-
-<div class="modal-content">
-
-<div id="coinBalance">💰 0</div>
-
-<button id="buyCoins">+ Acheter des coins</button>
-
-<h3>Envoyer un cadeau</h3>
-
-<div class="gift-options">
-
-<button data-cost="1">🌹 Rose – 1 pièce</button>
-
-<button data-cost="10">🔥 Feu – 10 pièces</button>
-
-<button data-cost="100">🚀 Fusée – 100 pièces</button>
-
-<button data-cost="30000">🦁 Lion – 30 000 pièces</button>
-
-<button data-cost="100000">🐉 Dragon – 100 000 pièces</button>
-
-</div>
-
-<div id="giftMessage"></div>
-
-<button id="closeGiftModal">Fermer</button>
-
-</div>
-
-</div>
-
-<!-- BOUTON MENU -->
-<div id="floatingBtn">☰</div>
-
-<div id="floatingMenu">
-
-<div class="menu-item">💰 Solde</div>
-
-<div class="menu-item">👤 Changer de profil</div>
-
-<div class="menu-item">🚪 Déconnexion</div>
-
-</div>
-
-<script src="script.js"></script>
-
-</body>
-</html>  <!-- VIEWER -->
+  <!-- VIEWER -->
   <div class="viewer" id="viewer">
     <div class="progress-container" id="progressContainer"></div>
     <div class="content" id="content"></div>
@@ -142,6 +47,20 @@ Mot de passe oublié ?
       </div>
       <div id="giftMessage"></div>
       <button id="closeGiftModal">Fermer</button>
+    </div>
+  </div>
+
+  <!-- MENU HAMBURGER -->
+  <div id="hamburgerMenu">
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="menuOptions" id="menuOptions">
+      <p>Solde</p>
+      <p>Changer de profil</p>
+      <p>Déconnexion</p>
     </div>
   </div>
 
