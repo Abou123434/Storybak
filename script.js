@@ -1,24 +1,23 @@
-let currentLoggedUser = null;
+let currentLoggedUser = "MonProfil"; // Ton profil par défaut
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
 
 let users = JSON.parse(localStorage.getItem("storyUsers")) || {};
 let localReactions = JSON.parse(localStorage.getItem("localReactions")) || {};
-let coins = JSON.parse(localStorage.getItem("userCoins")) || {}; // solde utilisateur
+let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
+
+// Si le profil par défaut n'existe pas, on le crée
+if(!users[currentLoggedUser]){
+  users[currentLoggedUser] = { photo: generateAvatar("Mon","Profil"), stories:[], reactions:{} };
+  coins[currentLoggedUser] = 100;
+  localStorage.setItem("storyUsers", JSON.stringify(users));
+  localStorage.setItem("userCoins", JSON.stringify(coins));
+}
 
 function saveData(){ localStorage.setItem("storyUsers", JSON.stringify(users)); }
 function saveLocal(){ localStorage.setItem("localReactions", JSON.stringify(localReactions)); }
 function saveCoins(){ localStorage.setItem("userCoins", JSON.stringify(coins)); }
-
-// Nettoyer les stories anciennes (>24h)
-function cleanOldStories(){
-  let now = Date.now();
-  for(let user in users){
-    users[user].stories = users[user].stories.filter(s => now - s.time < 86400000);
-  }
-  saveData();
-}
 
 // Génération avatar par défaut
 function generateAvatar(nom, prenom){
@@ -79,15 +78,10 @@ document.getElementById("fileInput").addEventListener("change", async function(e
   let imageCount = userStories.filter(s=>s.type==="image").length;
 
   if(file.type.startsWith("video")){
-    if(videoCount >= 5){ alert("Vous ne pouvez avoir que 5 vidéos maximum."); return; }
-
-    const forbiddenKeywords = ["porn","xxx","sex"];
-    if(forbiddenKeywords.some(word => file.name.toLowerCase().includes(word))){
-      alert("Vidéo rejetée : contenu inapproprié."); return;
-    }
+    if(videoCount >= 5){ alert("Max 5 vidéos."); return; }
     await addVideoWithSegments(file);
   } else {
-    if(imageCount >= 10){ alert("Vous ne pouvez avoir que 10 images maximum."); return; }
+    if(imageCount >= 10){ alert("Max 10 images."); return; }
     await addImageStory(file);
   }
 });
@@ -124,9 +118,7 @@ async function addVideoWithSegments(file){
 function addImageStory(file){
   return new Promise((resolve)=>{
     if(users[currentLoggedUser].stories.filter(s=>s.type==="image").length >= 10){
-      alert("Vous ne pouvez avoir que 10 images maximum.");
-      resolve();
-      return;
+      alert("Max 10 images."); resolve(); return;
     }
 
     let reader = new FileReader();
@@ -220,7 +212,6 @@ function showStory(){
   }
   content.appendChild(element);
 
-  // --- CONTROLS ---
   let oldControls = document.getElementById("progressControls");
   if(oldControls) oldControls.remove();
 
@@ -246,7 +237,7 @@ function showStory(){
   progressContainer.style.flex="1"; progressContainer.style.margin="0 10px";
   progressControls.appendChild(progressContainer);
 
-  // Bouton Supprimer
+  // Supprimer story si c'est la sienne
   if(currentLoggedUser === currentUser){
     let deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Supprimer";
@@ -335,13 +326,12 @@ document.querySelectorAll("#giftModal .gift-options button").forEach(btn=>{
   }
 });
 
-/* --- INIT --- */
-cleanOldStories();
-renderStories();
-
-// HAMBURGER MENU
+/* --- HAMBURGER MENU --- */
 const hamburger = document.getElementById("hamburger");
 const menuOptions = document.getElementById("menuOptions");
 hamburger.addEventListener("click", ()=>{
   menuOptions.style.display = menuOptions.style.display === "flex" ? "none" : "flex";
 });
+
+/* INIT */
+renderStories();
