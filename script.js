@@ -1,4 +1,9 @@
-let currentLoggedUser = "MonProfil"; // Ton profil par défaut
+// PROFIL
+let currentProfile = {
+  username: "MonProfil",
+  bio: "Ma bio ici"
+};
+
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
@@ -7,17 +12,13 @@ let users = JSON.parse(localStorage.getItem("storyUsers")) || {};
 let localReactions = JSON.parse(localStorage.getItem("localReactions")) || {};
 let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
 
-// Si le profil par défaut n'existe pas, on le crée
-if(!users[currentLoggedUser]){
-  users[currentLoggedUser] = { photo: generateAvatar("Mon","Profil"), stories:[], reactions:{} };
-  coins[currentLoggedUser] = 100;
+// Si le profil n'existe pas, le créer
+if(!users[currentProfile.username]){
+  users[currentProfile.username] = { photo: generateAvatar("Mon","Profil"), stories:[], reactions:{} };
+  coins[currentProfile.username] = 100;
   localStorage.setItem("storyUsers", JSON.stringify(users));
   localStorage.setItem("userCoins", JSON.stringify(coins));
 }
-
-function saveData(){ localStorage.setItem("storyUsers", JSON.stringify(users)); }
-function saveLocal(){ localStorage.setItem("localReactions", JSON.stringify(localReactions)); }
-function saveCoins(){ localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
 // Génération avatar par défaut
 function generateAvatar(nom, prenom){
@@ -37,7 +38,7 @@ function renderStories(){
   container.innerHTML = "";
 
   let usernames = Object.keys(users);
-  usernames.sort((a,b) => (a===currentLoggedUser ? -1 : b===currentLoggedUser ? 1 : 0));
+  usernames.sort((a,b) => (a===currentProfile.username ? -1 : b===currentProfile.username ? 1 : 0));
 
   usernames.forEach(username=>{
     let div = document.createElement("div");
@@ -51,7 +52,7 @@ function renderStories(){
 
     let plus = document.createElement("div");
     plus.className = "plus"; plus.innerText = "+";
-    if(username === currentLoggedUser){
+    if(username === currentProfile.username){
       plus.onclick = (e)=>{
         e.stopPropagation();
         document.getElementById("fileInput").click();
@@ -73,7 +74,7 @@ document.getElementById("fileInput").addEventListener("change", async function(e
   let file = e.target.files[0];
   if(!file) return;
 
-  let userStories = users[currentLoggedUser].stories;
+  let userStories = users[currentProfile.username].stories;
   let videoCount = userStories.filter(s=>s.type==="video").length;
   let imageCount = userStories.filter(s=>s.type==="image").length;
 
@@ -98,9 +99,9 @@ async function addVideoWithSegments(file){
   let segments = Math.ceil(duration / 10);
 
   for(let i=0; i<segments; i++){
-    if(users[currentLoggedUser].stories.filter(s=>s.type==="video").length >= 5) break;
+    if(users[currentProfile.username].stories.filter(s=>s.type==="video").length >= 5) break;
 
-    users[currentLoggedUser].stories.push({
+    users[currentProfile.username].stories.push({
       url: url,
       type: "video",
       startTime: i*10,
@@ -117,13 +118,13 @@ async function addVideoWithSegments(file){
 /* Ajout image */
 function addImageStory(file){
   return new Promise((resolve)=>{
-    if(users[currentLoggedUser].stories.filter(s=>s.type==="image").length >= 10){
+    if(users[currentProfile.username].stories.filter(s=>s.type==="image").length >= 10){
       alert("Max 10 images."); resolve(); return;
     }
 
     let reader = new FileReader();
     reader.onload = function(e){
-      users[currentLoggedUser].stories.push({
+      users[currentProfile.username].stories.push({
         url: e.target.result,
         type: "image",
         time: Date.now(),
@@ -154,6 +155,7 @@ function renderProgressBars(activeIndex){
   stories.forEach((s,i)=>{
     let bar = document.createElement("div");
     bar.className = "progress";
+    bar.style.marginTop = "23px"; // 23px marge au-dessus
     let inner = document.createElement("div");
     inner.className = "progress-inner";
     if(i<activeIndex) inner.style.width = "100%";
@@ -217,11 +219,17 @@ function showStory(){
 
   let progressControls = document.createElement("div");
   progressControls.id = "progressControls";
+  progressControls.style.position = "absolute";
+  progressControls.style.top = "10px"; // en haut
+  progressControls.style.left = "10px";
+  progressControls.style.right = "10px";
+  progressControls.style.display = "flex";
+  progressControls.style.justifyContent = "space-between";
   document.getElementById("viewer").appendChild(progressControls);
 
   // Bouton cadeau 🎁
   let giftBtn = document.createElement("button");
-  giftBtn.innerText = "🎁 Envoyer un cadeau";
+  giftBtn.innerText = "🎁";
   giftBtn.style.background="#FFD700";
   giftBtn.style.color="#000";
   giftBtn.style.border="none";
@@ -231,16 +239,10 @@ function showStory(){
   giftBtn.onclick = ()=>openGiftModal();
   progressControls.appendChild(giftBtn);
 
-  // Barre progression
-  let progressContainer = document.createElement("div");
-  progressContainer.id = "progressContainer";
-  progressContainer.style.flex="1"; progressContainer.style.margin="0 10px";
-  progressControls.appendChild(progressContainer);
-
-  // Supprimer story si c'est la sienne
-  if(currentLoggedUser === currentUser){
+  // Bouton Supprimer
+  if(currentProfile.username === currentUser){
     let deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "Supprimer";
+    deleteBtn.innerText = "🗑️";
     deleteBtn.style.background="red";
     deleteBtn.style.color="white";
     deleteBtn.style.border="none";
@@ -264,12 +266,15 @@ function showStory(){
     progressControls.appendChild(deleteBtn);
   }
 
+  // Ne pas afficher le menu dans le viewer
+  document.getElementById("hamburgerContainer").style.display = "none";
+
   renderProgressBars(currentIndex);
 
   // Vues
-  if(!story.views[currentLoggedUser]){ story.views[currentLoggedUser]=true; saveData(); }
+  if(!story.views[currentProfile.username]){ story.views[currentProfile.username]=true; saveData(); }
   let viewCount = document.getElementById("viewCount");
-  if(currentUser===currentLoggedUser){
+  if(currentUser===currentProfile.username){
     let reactionsText=""; for(let u in story.reactions) reactionsText+=story.reactions[u]+" ";
     viewCount.innerText = "👁 "+Object.keys(story.views).length+" vues "+reactionsText;
   } else {
@@ -287,7 +292,7 @@ function react(emoji){
   localReactions[storyId] = emoji; saveLocal();
   showReaction(emoji);
   let story = users[currentUser].stories[currentIndex];
-  story.reactions[currentLoggedUser]=emoji; saveData();
+  story.reactions[currentProfile.username]=emoji; saveData();
 }
 function showReaction(emoji){
   let container=document.querySelector(".reactions-display");
@@ -299,7 +304,7 @@ function showReaction(emoji){
 /* NEXT / PREV */
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } else closeViewer(); }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
-function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
+function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; document.getElementById("hamburgerContainer").style.display="flex"; }
 
 /* --- MODAL CADEAU --- */
 function openGiftModal(){
@@ -309,14 +314,14 @@ function openGiftModal(){
 }
 function updateCoinBalance(){
   let balance=document.getElementById("coinBalance");
-  balance.innerText="💰 "+(coins[currentLoggedUser]||0);
+  balance.innerText="💰 "+(coins[currentProfile.username]||0);
 }
 document.getElementById("closeGiftModal").onclick=()=>{ document.getElementById("giftModal").style.display="none"; };
 document.querySelectorAll("#giftModal .gift-options button").forEach(btn=>{
   btn.onclick=function(){
     let cost=parseInt(this.dataset.cost);
-    if((coins[currentLoggedUser]||0) >= cost){
-      coins[currentLoggedUser]-=cost;
+    if((coins[currentProfile.username]||0) >= cost){
+      coins[currentProfile.username]-=cost;
       saveCoins();
       document.getElementById("giftMessage").innerText="Cadeau envoyé !";
       updateCoinBalance();
