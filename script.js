@@ -1,6 +1,6 @@
 let currentProfile = {
-username: "MonProfil",
-bio: "Ma bio ici"
+username:"MonProfil",
+bio:"Ma bio"
 };
 
 let currentUser=null;
@@ -8,16 +8,21 @@ let currentIndex=0;
 let timer=null;
 
 let users=JSON.parse(localStorage.getItem("storyUsers"))||{};
-let localReactions=JSON.parse(localStorage.getItem("localReactions"))||{};
 let coins=JSON.parse(localStorage.getItem("userCoins"))||{};
+let localReactions={};
 
-function saveData(){localStorage.setItem("storyUsers",JSON.stringify(users));}
-function saveLocal(){localStorage.setItem("localReactions",JSON.stringify(localReactions));}
-function saveCoins(){localStorage.setItem("userCoins",JSON.stringify(coins));}
+function saveData(){
+localStorage.setItem("storyUsers",JSON.stringify(users));
+}
 
-/* création profil */
+function saveCoins(){
+localStorage.setItem("userCoins",JSON.stringify(coins));
+}
+
+/* Création profil */
 
 if(!users[currentProfile.username]){
+
 users[currentProfile.username]={
 photo:generateAvatar("Mon","Profil"),
 stories:[]
@@ -27,7 +32,10 @@ coins[currentProfile.username]=0;
 
 saveData();
 saveCoins();
+
 }
+
+/* Avatar */
 
 function generateAvatar(nom,prenom){
 
@@ -56,7 +64,6 @@ return canvas.toDataURL();
 function renderStories(){
 
 let container=document.getElementById("stories");
-
 container.innerHTML="";
 
 Object.keys(users).forEach(username=>{
@@ -82,9 +89,7 @@ document.getElementById("fileInput").click();
 };
 
 }else{
-
 plus.style.display="none";
-
 }
 
 div.appendChild(img);
@@ -99,22 +104,17 @@ container.appendChild(div);
 
 }
 
-/* AJOUT STORY */
+/* Upload story */
 
-document.getElementById("fileInput").addEventListener("change",async function(e){
+document.getElementById("fileInput").addEventListener("change",function(e){
 
 let file=e.target.files[0];
-
 if(!file)return;
 
 if(file.type.startsWith("video")){
-
 addVideo(file);
-
 }else{
-
 addImage(file);
-
 }
 
 });
@@ -124,13 +124,9 @@ function addVideo(file){
 let url=URL.createObjectURL(file);
 
 users[currentProfile.username].stories.push({
-
 url:url,
 type:"video",
-time:Date.now(),
-views:{},
-reactions:{}
-
+views:{}
 });
 
 saveData();
@@ -145,13 +141,9 @@ let reader=new FileReader();
 reader.onload=function(e){
 
 users[currentProfile.username].stories.push({
-
 url:e.target.result,
 type:"image",
-time:Date.now(),
-views:{},
-reactions:{}
-
+views:{}
 });
 
 saveData();
@@ -173,19 +165,17 @@ currentUser=user;
 currentIndex=0;
 
 document.getElementById("viewer").style.display="flex";
-
 document.getElementById("hamburgerContainer").style.display="none";
 
 showStory();
 
 }
 
-/* PROGRESS */
+/* Progress bars */
 
 function renderProgressBars(){
 
 let container=document.getElementById("progressContainer");
-
 container.innerHTML="";
 
 users[currentUser].stories.forEach((s,i)=>{
@@ -210,7 +200,6 @@ function startProgress(story){
 let bars=document.querySelectorAll(".progress-inner");
 
 let width=0;
-
 let duration=story.type==="image"?5000:10000;
 
 timer=setInterval(()=>{
@@ -224,14 +213,10 @@ if(width>=100){
 clearInterval(timer);
 
 if(currentIndex<users[currentUser].stories.length-1){
-
 currentIndex++;
 showStory();
-
 }else{
-
 closeViewer();
-
 }
 
 }
@@ -274,7 +259,6 @@ let old=document.getElementById("progressControls");
 if(old)old.remove();
 
 let controls=document.createElement("div");
-controls.id="progressControls";
 
 controls.style.position="absolute";
 controls.style.top="35px";
@@ -308,14 +292,11 @@ deleteBtn.onclick=()=>{
 if(confirm("Supprimer cette story ?")){
 
 users[currentUser].stories.splice(currentIndex,1);
-
 saveData();
 
 if(users[currentUser].stories.length===0){
-
 closeViewer();
 return;
-
 }
 
 showStory();
@@ -333,7 +314,6 @@ controls.appendChild(deleteBtn);
 if(!story.views[currentProfile.username]){
 
 story.views[currentProfile.username]=true;
-
 saveData();
 
 }
@@ -345,40 +325,13 @@ startProgress(story);
 
 }
 
-/* NAVIGATION */
-
-function nextStory(){
-
-if(currentIndex<users[currentUser].stories.length-1){
-
-currentIndex++;
-showStory();
-
-}else{
-
-closeViewer();
-
-}
-
-}
-
-function prevStory(){
-
-if(currentIndex>0){
-
-currentIndex--;
-showStory();
-
-}
-
-}
+/* NAV */
 
 function closeViewer(){
 
 clearInterval(timer);
 
 document.getElementById("viewer").style.display="none";
-
 document.getElementById("hamburgerContainer").style.display="flex";
 
 }
@@ -399,7 +352,7 @@ updateCoinBalance();
 
 function updateCoinBalance(){
 
-document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" coins";
+document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰";
 
 }
 
@@ -414,18 +367,17 @@ document.querySelectorAll("#giftModal .gift-options button").forEach(btn=>{
 btn.onclick=function(){
 
 selectedGiftCost=parseInt(this.dataset.cost);
-
 openGiftQuantityModal();
 
 };
 
 });
 
+/* quantité cadeau */
+
 function openGiftQuantityModal(){
 
 let modal=document.createElement("div");
-
-modal.id="giftQuantityModal";
 
 modal.style.position="fixed";
 modal.style.inset="0";
@@ -437,43 +389,46 @@ modal.style.alignItems="center";
 let box=document.createElement("div");
 
 box.style.background="#111";
-box.style.padding="20px";
-box.style.borderRadius="10px";
+box.style.padding="25px";
+box.style.borderRadius="15px";
 box.style.textAlign="center";
 
 box.innerHTML=`
 
 <h3>Choisir la quantité</h3>
 
-<button onclick="sendGift(1)">×1</button>
-<button onclick="sendGift(2)">×2</button>
-<button onclick="sendGift(5)">×5</button>
-<button onclick="sendGift(7)">×7</button>
-<button onclick="sendGift(10)">×10</button>
+<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
 
-<br><br>
+<button onclick="sendGift(1)">🌹 ×1</button>
+<button onclick="sendGift(2)">🌹 ×2</button>
+<button onclick="sendGift(5)">🌹 ×5</button>
+<button onclick="sendGift(7)">🌹 ×7</button>
+<button onclick="sendGift(10)">🌹 ×10</button>
+
+</div>
+
+<br>
 
 <button onclick="closeGiftQuantity()">Fermer</button>
 
 `;
 
 modal.appendChild(box);
-
 document.body.appendChild(modal);
 
 }
 
 function closeGiftQuantity(){
 
-let modal=document.getElementById("giftQuantityModal");
+let modal=document.querySelector("body > div:last-child");
 
 if(modal)modal.remove();
 
 }
 
-function sendGift(quantity){
+function sendGift(q){
 
-let total=selectedGiftCost*quantity;
+let total=selectedGiftCost*q;
 
 if((coins[currentProfile.username]||0)>=total){
 
@@ -481,7 +436,7 @@ coins[currentProfile.username]-=total;
 
 saveCoins();
 
-document.getElementById("giftMessage").innerText="Cadeau envoyé x"+quantity;
+document.getElementById("giftMessage").innerText="Cadeau envoyé x"+q;
 
 updateCoinBalance();
 
@@ -495,14 +450,15 @@ closeGiftQuantity();
 
 }
 
-/* MENU */
+/* HAMBURGER */
 
 const hamburger=document.getElementById("hamburger");
 const menuOptions=document.getElementById("menuOptions");
 
 hamburger.addEventListener("click",()=>{
 
-menuOptions.style.display=menuOptions.style.display==="flex"?"none":"flex";
+menuOptions.style.display=
+menuOptions.style.display==="flex"?"none":"flex";
 
 });
 
