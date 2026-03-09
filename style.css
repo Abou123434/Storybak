@@ -7,26 +7,6 @@ header{padding:15px;background:#111;text-align:center;}
 .logo{font-size:24px;color:white;}
 .logo .highlight{color:#25D366;}
 
-/* INSCRIPTION */
-.signup{
-  position:fixed; inset:0;
-  background:rgba(0,0,0,0.9);
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  gap:10px;
-  z-index:1000;
-}
-.signup input{padding:8px;width:200px;border-radius:5px;border:none;}
-.signup button{
-  padding:8px 15px;
-  background:#25D366;
-  border:none;
-  border-radius:5px;
-  color:white;
-  cursor:pointer;
-  font-weight:bold;
-}
-
 /* STORIES */
 .stories{
   display:flex;
@@ -229,41 +209,39 @@ header{padding:15px;background:#111;text-align:center;}
   color:white;
   cursor:pointer;
 }
-/* MENU FLOTTANT */
 
-#floatingBtn{
-position:fixed;
-bottom:30px;
-right:20px;
-width:60px;
-height:60px;
-background:#25D366;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-color:white;
-cursor:pointer;
-z-index:2000;
+/* HAMBURGER MENU */
+#hamburgerMenu{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:1002;
 }
-
-#floatingMenu{
-position:fixed;
-bottom:100px;
-right:20px;
-background:#111;
-border-radius:10px;
-padding:10px;
-display:none;
-flex-direction:column;
-gap:10px;
-z-index:2000;
+.hamburger{
+  width:40px;
+  height:30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
 }
-
-.menu-item{
-padding:10px 15px;
-background:#222;
-border-radius:8px;
-cursor:pointer;
+.hamburger span{
+  display:block;
+  height:4px;
+  width:100%;
+  background:#25D366;
+  border-radius:2px;
 }
+.menuOptions{
+  display:none;
+  flex-direction:column;
+  margin-top:10px;
+  background:#111;
+  padding:10px;
+  border-radius:10px;
+  color:white;
+  min-width:150px;
+}
+.menuOptions p{
+  margin:8px 0;
+  }
