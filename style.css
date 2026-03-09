@@ -42,7 +42,6 @@ header{padding:15px;background:#111;text-align:center;}
   font-weight:bold;
   cursor:pointer;
 }
-.cross{font-weight:bold; z-index:10;}
 
 /* VIEWER */
 .viewer{
@@ -211,37 +210,31 @@ header{padding:15px;background:#111;text-align:center;}
 }
 
 /* HAMBURGER MENU */
-#hamburgerMenu{
+#hamburgerContainer{
   position:fixed;
   bottom:20px;
   right:20px;
   z-index:1002;
 }
-.hamburger{
-  width:40px;
-  height:30px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+#hamburger{
+  font-size:28px;
   cursor:pointer;
-}
-.hamburger span{
-  display:block;
-  height:4px;
-  width:100%;
   background:#25D366;
-  border-radius:2px;
+  color:white;
+  padding:8px;
+  border-radius:8px;
 }
-.menuOptions{
+#menuOptions{
   display:none;
   flex-direction:column;
-  margin-top:10px;
   background:#111;
-  padding:10px;
-  border-radius:10px;
-  color:white;
-  min-width:150px;
+  border:1px solid #25D366;
+  border-radius:8px;
+  margin-top:5px;
+  padding:8px;
 }
-.menuOptions p{
-  margin:8px 0;
-  }
+#menuOptions p{
+  margin:5px 0;
+  color:white;
+  cursor:default;
+}
