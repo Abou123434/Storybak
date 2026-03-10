@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +14,8 @@
 <h1 class="logo">Story<span class="highlight">Bak</span></h1>
 </header>
 
-<!-- Input pour ajouter stories -->
 <input type="file" id="fileInput" accept="image/*,video/*" hidden>
 
-<!-- Stories -->
 <div class="stories" id="stories"></div>
 
 <!-- VIEWER -->
@@ -28,27 +27,17 @@
 
 <div class="view-count" id="viewCount"></div>
 
-<div class="tap-left" onclick="prevStory()"></div>
-<div class="tap-right" onclick="nextStory()"></div>
-
-<div class="reactions">
-<span onclick="react('❤️')">❤️</span>
-<span onclick="react('😂')">😂</span>
-<span onclick="react('🔥')">🔥</span>
-<span onclick="react('😮')">😮</span>
-</div>
-
 </div>
 
 <!-- MODAL CADEAUX -->
 
-<div id="giftModal">
+<div id="giftModal" style="display:none;">
 
 <div class="modal-content">
 
 <div id="coinBalance">Solde 0 💰</div>
 
-<button id="buyCoins" onclick="openBuyCoinsModal()">+ Acheter des coins</button>
+<button id="buyCoins">+ Acheter des coins</button>
 
 <h3>Envoyer un cadeau</h3>
 
@@ -69,22 +58,6 @@
 <div id="giftMessage"></div>
 
 <button id="closeGiftModal">Fermer</button>
-
-</div>
-
-</div>
-
-<!-- HAMBURGER MENU -->
-
-<div id="hamburgerContainer">
-
-<div id="hamburger">&#9776;</div>
-
-<div id="menuOptions">
-
-<p>Solde</p>
-<p>Changer de profil</p>
-<p>Déconnexion</p>
 
 </div>
 
