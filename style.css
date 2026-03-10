@@ -209,6 +209,34 @@ header{padding:15px;background:#111;text-align:center;}
   cursor:pointer;
 }
 
+/* MODALE ACHETER COINS */
+#buyCoinsModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1002;
+}
+#buyCoinsModal .modal-content{
+  background:#111;
+  color:white;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  width:300px;
+}
+#buyCoinsModal ul{
+  list-style:none;
+  padding:0;
+  margin:15px 0;
+}
+#buyCoinsModal li{
+  margin:10px 0;
+}
+
 /* HAMBURGER MENU */
 #hamburgerContainer{
   position:fixed;
@@ -237,4 +265,4 @@ header{padding:15px;background:#111;text-align:center;}
   margin:5px 0;
   color:white;
   cursor:default;
-  }
+}
