@@ -6,160 +6,94 @@
 <title>StoryBak</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-<h1 class="logo">Story<span class="highlight">Bak</span></h1>
+  <h1 class="logo">Story<span class="highlight">Bak</span></h1>
 </header>
 
-<input type="file" id="fileInput" accept="image/*,video/*" hidden>
+<!-- Upload story -->
+<input type="file" id="fileInput" hidden accept="image/*,video/*">
 
+<!-- Liste stories -->
 <div class="stories" id="stories"></div>
 
+<!-- VIEWER -->
 <div class="viewer" id="viewer">
-
-<div class="progress-container" id="progressContainer"></div>
-
-<div class="content" id="content"></div>
-
-<div class="view-count" id="viewCount"></div>
-
-<div class="tap-left" onclick="prevStory()"></div>
-<div class="tap-right" onclick="nextStory()"></div>
-
-<div class="reactions">
-<span onclick="react('❤️')">❤️</span>
-<span onclick="react('😂')">😂</span>
-<span onclick="react('🔥')">🔥</span>
-<span onclick="react('😮')">😮</span>
+  <div class="progress-container" id="progressContainer"></div>
+  <div class="content" id="content"></div>
+  <div class="view-count" id="viewCount"></div>
+  <div class="tap-left" onclick="prevStory()"></div>
+  <div class="tap-right" onclick="nextStory()"></div>
+  <div id="progressControls"></div>
 </div>
 
-</div>
-
-
-<!-- CADEAUX -->
+<!-- MODAL CADEAU -->
 <div id="giftModal">
-
-<div class="modal-content">
-
-<div id="coinBalance">💰 0</div>
-
-<button id="buyCoins">+ Acheter des coins</button>
-
-<h3>Envoyer un cadeau</h3>
-
-<div class="gift-options">
-
-<button data-cost="1">🌹 Rose – 1</button>
-
-<button data-cost="10">🔥 Feu – 10</button>
-
-<button data-cost="100">🚀 Fusée – 100</button>
-
-<button data-cost="30000">🦁 Lion – 30000</button>
-
-<button data-cost="100000">🐉 Dragon – 100000</button>
-
+  <div class="modal-content">
+    <div id="coinBalance">💰 0</div>
+    <button id="buyCoins">+ Acheter coins</button>
+    <h3>Envoyer un cadeau</h3>
+    <div class="gift-options">
+      <button data-cost="1">🌹 Rose</button>
+      <button data-cost="10">🔥 Feu</button>
+      <button data-cost="100">🚀 Fusée</button>
+      <button data-cost="30000">🦁 Lion</button>
+      <button data-cost="100000">🐉 Dragon</button>
+    </div>
+    <div id="giftMessage"></div>
+    <button id="closeGiftModal">Fermer</button>
+  </div>
 </div>
 
-<div id="giftMessage"></div>
-
-<button id="closeGiftModal">Fermer</button>
-
-</div>
-
-</div>
-
-
-<!-- ACHETER COINS -->
+<!-- MODAL ACHAT COINS -->
 <div id="buyCoinsModal">
-
-<div class="modal-content">
-
-<h3>Acheter des coins</h3>
-
-<ul>
-
-<li onclick="openPayment()">1 pièce – 0.01€</li>
-
-<li onclick="openPayment()">10 pièces – 0.10€</li>
-
-<li onclick="openPayment()">100 pièces – 1€</li>
-
-<li onclick="openPayment()">30000 pièces – 300€</li>
-
-<li onclick="openPayment()">100000 pièces – 1000€</li>
-
-</ul>
-
-<button id="closeBuyCoinsModal">Fermer</button>
-
+  <div class="modal-content">
+    <h3>Acheter coins</h3>
+    <ul>
+      <li onclick="openPayment()">1 pièce – 0.01€</li>
+      <li onclick="openPayment()">10 pièces – 0.10€</li>
+      <li onclick="openPayment()">100 pièces – 1€</li>
+      <li onclick="openPayment()">30000 pièces – 300€</li>
+      <li onclick="openPayment()">100000 pièces – 1000€</li>
+    </ul>
+    <button onclick="closeBuy()">Fermer</button>
+  </div>
 </div>
 
-</div>
-
-
-<!-- PAIEMENT -->
+<!-- MODAL PAIEMENT -->
 <div id="paymentModal">
-
-<div class="modal-content">
-
-<h3>Moyen de paiement</h3>
-
-<button onclick="openBlank()">💳 Carte bancaire</button>
-
-<button onclick="openBlank()">🅿️ PayPal</button>
-
-<button onclick="openMobileMoney()">📱 Mobile Money</button>
-
-<button onclick="closePayment()">Fermer</button>
-
+  <div class="modal-content">
+    <h3>Moyen paiement</h3>
+    <button onclick="openBlank()">💳 Carte</button>
+    <button onclick="openBlank()">🅿️ PayPal</button>
+    <button onclick="openMobile()">📱 Mobile Money</button>
+    <button onclick="closePayment()">Fermer</button>
+  </div>
 </div>
 
-</div>
-
-
-<!-- MOBILE MONEY -->
+<!-- MODAL MOBILE MONEY -->
 <div id="mobileMoneyModal">
-
-<div class="modal-content">
-
-<h3>Mobile Money</h3>
-
-<button onclick="openBlank()">MTN</button>
-
-<button onclick="openBlank()">MOOV</button>
-
-<button onclick="openBlank()">ORANGE</button>
-
-<button onclick="openBlank()">WAVE</button>
-
-<button onclick="closeMobile()">Fermer</button>
-
+  <div class="modal-content">
+    <h3>Mobile Money</h3>
+    <button onclick="openBlank()">MTN</button>
+    <button onclick="openBlank()">MOOV</button>
+    <button onclick="openBlank()">ORANGE</button>
+    <button onclick="openBlank()">WAVE</button>
+    <button onclick="closeMobile()">Fermer</button>
+  </div>
 </div>
 
-</div>
-
-
+<!-- HAMBURGER -->
 <div id="hamburgerContainer">
-
-<div id="hamburger">&#9776;</div>
-
-<div id="menuOptions">
-
-<p>Solde</p>
-
-<p>Changer de profil</p>
-
-<p>Déconnexion</p>
-
+  <div id="hamburger">&#9776;</div>
+  <div id="menuOptions">
+    <p>Solde</p>
+    <p>Changer profil</p>
+    <p>Déconnexion</p>
+  </div>
 </div>
-
-</div>
-
 
 <script src="script.js"></script>
-
 </body>
-</html>
+  </html>
