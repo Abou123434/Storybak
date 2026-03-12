@@ -18,19 +18,28 @@
 <!-- Liste des stories -->
 <div class="stories" id="stories"></div>
 
-<!-- VIEWER -->
+<!-- VIEWER STORY PUBLIÉE -->
 <div class="viewer" id="viewer">
   <div class="progress-container" id="progressContainer"></div>
   <div class="content" id="content"></div>
   <div class="view-count" id="viewCount"></div>
-  
-  <!-- Boste et flèche publication -->
+
   <div id="storyControls">
     <button id="boostBtn">🚀 Boste</button>
     <button id="shareBtn">➡️</button>
   </div>
 
   <div id="progressControls"></div>
+</div>
+
+<!-- PREVIEW AVANT PUBLICATION -->
+<div class="preview" id="preview" style="display:none;">
+  <div class="content" id="previewContent"></div>
+  <div id="previewControls">
+    <button id="previewBoostBtn">🚀 Boste</button>
+    <button id="publishBtn">✅ Publier</button>
+    <button id="cancelBtn">❌ Annuler</button>
+  </div>
 </div>
 
 <!-- MODAL CADEAU -->
@@ -102,4 +111,4 @@
 
 <script src="script.js"></script>
 </body>
-</html>
+  </html>
