@@ -16,21 +16,19 @@ header{padding:15px;background:#111;text-align:center;}
 .viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
 .content{width:100%;height:85vh;display:flex;justify-content:center;align-items:center;}
 .content img,.content video{max-width:100%;max-height:80vh;border-radius:15px;}
-#storyControls{position:absolute;top:50%;left:10px;right:10px;display:flex;justify-content:space-between;transform:translateY(-50%);}
-#storyControls button{padding:10px 15px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;transition:0.3s;}
-#storyControls button:hover{transform:scale(1.1);}
-#boostBtn{background:#25D366;color:black;}
-#shareBtn{background:#FFD700;color:black;}
+.progress-container{position:absolute;top:15px;left:10px;right:10px;display:flex;gap:5px;}
+.progress{flex:1;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;}
+.progress-inner{height:100%;width:0%;background:white;transition:width 0.05s linear;}
+.view-count{position:absolute;bottom:20px;left:15px;font-size:14px;background:rgba(0,0,0,0.6);padding:6px 10px;border-radius:20px;}
 
 /* PREVIEW AVANT PUBLICATION */
 .preview{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
 #previewContent{width:80%;max-height:60%;display:flex;justify-content:center;align-items:center;}
 #previewContent img,#previewContent video{max-width:100%;max-height:100%;border-radius:15px;}
-#previewControls{position:absolute;top:50%;left:10px;right:10px;display:flex;justify-content:space-between;transform:translateY(-50%);}
+#previewControls{position:absolute;bottom:20px;left:10px;right:10px;display:flex;justify-content:space-between;}
 #previewControls button{padding:10px 15px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;transition:0.3s;}
 #previewBoostBtn{background:#25D366;color:black;}
 #publishBtn{background:#FFD700;color:black;}
-#cancelBtn{background:red;color:white;}
 
 /* MODALES */
 #giftModal,#buyCoinsModal,#paymentModal,#boostModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
