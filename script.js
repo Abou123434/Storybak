@@ -1,4 +1,4 @@
-/* -------------------- CONFIG -------------------- */
+/* CONFIG */
 let currentProfile={username:"MonProfil",bio:"Ma bio"};
 let currentUser=null,currentIndex=0,timer=null;
 let users=JSON.parse(localStorage.getItem("storyUsers"))||{};
@@ -14,7 +14,7 @@ if(!users[currentProfile.username]){
     coins[currentProfile.username]=100; saveData(); saveCoins();
 }
 
-/* -------------------- AVATAR -------------------- */
+/* AVATAR */
 function generateAvatar(nom,prenom){
     let canvas=document.createElement("canvas"); canvas.width=150; canvas.height=150;
     let ctx=canvas.getContext("2d"); ctx.fillStyle="#25D366"; ctx.fillRect(0,0,150,150);
@@ -22,7 +22,7 @@ function generateAvatar(nom,prenom){
     ctx.fillText(nom[0]+prenom[0],75,75); return canvas.toDataURL();
 }
 
-/* -------------------- STORIES -------------------- */
+/* STORIES */
 function renderStories(){
     let container=document.getElementById("stories"); container.innerHTML="";
     Object.keys(users).forEach(u=>{
@@ -36,15 +36,15 @@ function renderStories(){
     });
 }
 
-/* -------------------- UPLOAD -------------------- */
+/* UPLOAD */
 document.getElementById("fileInput").addEventListener("change",e=>{
-    let file=e.target.files[0]; if(!file) return;
+    let file=e.target.files[0]; if(!file)return;
     if(file.type.startsWith("video")) addVideo(file); else addImage(file);
 });
 function addVideo(file){ let url=URL.createObjectURL(file); users[currentProfile.username].stories.push({url,type:"video",views:{}}); saveData(); renderStories(); }
 function addImage(file){ let reader=new FileReader(); reader.onload=e=>{ users[currentProfile.username].stories.push({url:e.target.result,type:"image",views:{}}); saveData(); renderStories(); }; reader.readAsDataURL(file); }
 
-/* -------------------- VIEWER -------------------- */
+/* VIEWER */
 function openViewer(u){ if(users[u].stories.length===0)return; currentUser=u; currentIndex=0; document.getElementById("viewer").style.display="flex"; showStory(); }
 function renderProgressBars(){ let c=document.getElementById("progressContainer"); c.innerHTML=""; users[currentUser].stories.forEach((s,i)=>{ let bar=document.createElement("div"); bar.className="progress"; let inner=document.createElement("div"); inner.className="progress-inner"; if(i<currentIndex) inner.style.width="100%"; bar.appendChild(inner); c.appendChild(bar); }); }
 function startProgress(s){ let bars=document.querySelectorAll(".progress-inner"); let w=0; let dur=s.type==="image"?5000:10000; timer=setInterval(()=>{ w+=100/(dur/50); bars[currentIndex].style.width=Math.min(w,100)+"%"; if(w>=100){ clearInterval(timer); if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } else closeViewer(); } },50); }
@@ -65,7 +65,7 @@ function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ curr
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
-/* -------------------- CADEAUX -------------------- */
+/* CADEAUX */
 let selectedGiftCost=0, selectedGiftEmoji="";
 function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
@@ -75,19 +75,17 @@ function openGiftQuantityModal(){ let m=document.createElement("div"); m.style.c
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
 function sendGift(q){ let t=selectedGiftCost*q; if((coins[currentProfile.username]||0)>=t){ coins[currentProfile.username]-=t; saveCoins(); document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; updateCoinBalance(); } else document.getElementById("giftMessage").innerText="Solde insuffisant"; closeGiftQuantity(); }
 
-/* -------------------- ACHAT COINS -------------------- */
+/* ACHAT COINS */
 document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 
-/* -------------------- PAIEMENT -------------------- */
+/* PAIEMENT PAYPAL */
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openMobile(){ document.getElementById("mobileMoneyModal").style.display="flex"; }
-function closeMobile(){ document.getElementById("mobileMoneyModal").style.display="none"; }
 function openBlank(){ window.open("about:blank","_blank"); }
 
-/* -------------------- HAMBURGER -------------------- */
+/* HAMBURGER */
 document.getElementById("hamburger").onclick=()=>{ let m=document.getElementById("menuOptions"); m.style.display=m.style.display==="flex"?"none":"flex"; };
 
-/* -------------------- INIT -------------------- */
+/* INIT */
 renderStories();
