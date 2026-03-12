@@ -66,6 +66,19 @@ function addVideo(file){ let url=URL.createObjectURL(file); users[currentProfile
 function addImage(file){ let reader=new FileReader(); reader.onload=e=>{ users[currentProfile.username].stories.push({url:e.target.result,type:"image",views:{}}); saveData(); renderStories(); }; reader.readAsDataURL(file); }
 function saveData(){ localStorage.setItem("storyUsers",JSON.stringify(users)); }
 
+/* VIEWER VIDEO */
+function openViewer(user){
+    let stories=users[user].stories; if(!stories.length) return;
+    const viewer=document.getElementById("viewer"); viewer.style.display="flex";
+    const content=document.getElementById("content"); content.innerHTML="";
+    let story=stories[0]; let el=story.type==="video"?document.createElement("video"):document.createElement("img");
+    el.src=story.url; if(story.type==="video") el.autoplay=true; content.appendChild(el);
+}
+
+/* VIDEO BUTTONS */
+document.getElementById("videoBoostBtn").onclick=()=>{ openBoost(); };
+document.getElementById("videoPublishBtn").onclick=()=>{ alert("Story déjà publiée !"); };
+
 /* PAYPAL */
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
@@ -77,4 +90,3 @@ function closeBoost(){ document.getElementById("boostModal").style.display="none
 
 /* ACHAT COINS */
 document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
