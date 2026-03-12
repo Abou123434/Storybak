@@ -4,7 +4,7 @@ let users=JSON.parse(localStorage.getItem("storyUsers"))||{};
 let coins=JSON.parse(localStorage.getItem("userCoins"))||{};
 let tempFile=null;
 
-/* PROFIL INIT */
+/* INIT PROFIL */
 if(!users[currentProfile.username]){
     users[currentProfile.username]={photo:generateAvatar("Mon","Profil"),stories:[]};
     coins[currentProfile.username]=100;
@@ -50,7 +50,10 @@ function showPreview(file){
     preview.style.display="flex"; content.innerHTML="";
     let el=file.type.startsWith("video")?document.createElement("video"):document.createElement("img");
     el.src=file.type.startsWith("video")?URL.createObjectURL(file):URL.createObjectURL(file);
-    if(file.type.startsWith("video")) el.autoplay=true; content.appendChild(el);
+    if(file.type.startsWith("video")) el.autoplay=true;
+    content.appendChild(el);
+    // Afficher Boost uniquement pour vidéo
+    document.getElementById("previewBoostBtn").style.display=file.type.startsWith("video")?"inline-block":"none";
 }
 
 /* PREVIEW CONTROLS */
@@ -71,22 +74,30 @@ function openViewer(user){
     let stories=users[user].stories; if(!stories.length) return;
     const viewer=document.getElementById("viewer"); viewer.style.display="flex";
     const content=document.getElementById("content"); content.innerHTML="";
-    let story=stories[0]; let el=story.type==="video"?document.createElement("video"):document.createElement("img");
+    let story=stories[0]; 
+    let el=story.type==="video"?document.createElement("video"):document.createElement("img");
     el.src=story.url; if(story.type==="video") el.autoplay=true; content.appendChild(el);
+    // Cadeaux visibles uniquement sur vidéo
+    document.getElementById("giftBtn").style.display=story.type==="video"?"inline-block":"none";
 }
 
-/* VIDEO BUTTONS */
-document.getElementById("videoBoostBtn").onclick=()=>{ openBoost(); };
-document.getElementById("videoPublishBtn").onclick=()=>{ alert("Story déjà publiée !"); };
+/* BOOST */
+function openBoost(){ document.getElementById("boostModal").style.display="flex"; }
+function closeBoost(){ document.getElementById("boostModal").style.display="none"; }
 
 /* PAYPAL */
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
 function openBlank(){ window.open("about:blank","_blank"); }
 
-/* BOOST */
-function openBoost(){ document.getElementById("boostModal").style.display="flex"; }
-function closeBoost(){ document.getElementById("boostModal").style.display="none"; }
+/* GIFTS */
+document.getElementById("giftBtn").onclick=()=>{ document.getElementById("giftModal").style.display="flex"; };
+document.getElementById("closeGiftModal").onclick=()=>{ document.getElementById("giftModal").style.display="none"; };
 
 /* ACHAT COINS */
 document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
+
+/* HAMBURGER */
+const hamburger=document.getElementById("hamburger");
+const menuOptions=document.getElementById("menuOptions");
+hamburger.addEventListener("click",()=>{ menuOptions.style.display=menuOptions.style.display==="flex"?"none":"flex"; });
