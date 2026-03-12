@@ -29,17 +29,39 @@ function renderStories(){
         let div=document.createElement("div"); div.className="story";
         let img=document.createElement("img"); img.src=users[u].photo;
         let plus=document.createElement("div"); plus.className="plus"; plus.innerText="+";
-        if(u===currentProfile.username){ plus.onclick=e=>{e.stopPropagation();document.getElementById("fileInput").click();} } else plus.style.display="none";
+        if(u===currentProfile.username){ plus.onclick=e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); } } else plus.style.display="none";
         div.appendChild(img); div.appendChild(plus); container.appendChild(div);
         div.onclick=()=>openViewer(u);
     });
 }
 
-/* UPLOAD */
+/* UPLOAD PREVIEW */
+let tempFile=null;
 document.getElementById("fileInput").addEventListener("change",e=>{
     let file=e.target.files[0]; if(!file)return;
-    if(file.type.startsWith("video")) addVideo(file); else addImage(file);
+    tempFile=file;
+    showPreview(file);
 });
+
+function showPreview(file){
+    const preview=document.getElementById("preview");
+    const content=document.getElementById("previewContent");
+    preview.style.display="flex"; content.innerHTML="";
+    let el=file.type.startsWith("video")?document.createElement("video"):document.createElement("img");
+    el.src=file.type.startsWith("video")?URL.createObjectURL(file):URL.createObjectURL(file);
+    if(file.type.startsWith("video")) el.autoplay=true; content.appendChild(el);
+}
+
+/* PREVIEW CONTROLS */
+document.getElementById("cancelBtn").onclick=()=>{ document.getElementById("preview").style.display="none"; tempFile=null; };
+document.getElementById("publishBtn").onclick=()=>{
+    if(!tempFile) return;
+    if(tempFile.type.startsWith("video")) addVideo(tempFile); else addImage(tempFile);
+    document.getElementById("preview").style.display="none"; tempFile=null;
+};
+document.getElementById("previewBoostBtn").onclick=()=>{ openBoost(); };
+
+/* UPLOAD */
 function addVideo(file){ let url=URL.createObjectURL(file); users[currentProfile.username].stories.push({url,type:"video",views:{}}); saveData(); renderStories(); }
 function addImage(file){ let reader=new FileReader(); reader.onload=e=>{ users[currentProfile.username].stories.push({url:e.target.result,type:"image",views:{}}); saveData(); renderStories(); }; reader.readAsDataURL(file); }
 
@@ -85,16 +107,4 @@ document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCo
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 
 /* BOOST */
-function openBoost(){ document.getElementById("boostModal").style.display="flex"; }
-function closeBoost(){ document.getElementById("boostModal").style.display="none"; }
-
-/* PAIEMENT PAYPAL */
-function openPayment(amount){ document.getElementById("boostModal").style.display="none"; document.getElementById("buyCoinsModal").style.display="none"; document.getElementById("paymentModal").style.display="flex"; }
-function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank","_blank"); }
-
-/* HAMBURGER */
-document.getElementById("hamburger").onclick=()=>{ let m=document.getElementById("menuOptions"); m.style.display=m.style.display==="flex"?"none":"flex"; };
-
-/* INIT */
-renderStories();
+function openBoost(){ document
