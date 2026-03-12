@@ -23,8 +23,13 @@
   <div class="progress-container" id="progressContainer"></div>
   <div class="content" id="content"></div>
   <div class="view-count" id="viewCount"></div>
-  <div class="tap-left" onclick="prevStory()"></div>
-  <div class="tap-right" onclick="nextStory()"></div>
+  
+  <!-- Boste et flèche publication -->
+  <div id="storyControls">
+    <button id="boostBtn">🚀 Boste</button>
+    <button id="shareBtn">➡️</button>
+  </div>
+
   <div id="progressControls"></div>
 </div>
 
@@ -58,6 +63,21 @@
       <li onclick="openPayment()">100 000 pièces – 1000€</li>
     </ul>
     <button onclick="closeBuy()">Fermer</button>
+  </div>
+</div>
+
+<!-- MODAL BOOST -->
+<div id="boostModal">
+  <div class="modal-content">
+    <h3>Boster la story</h3>
+    <div class="boost-options">
+      <button onclick="openPayment(0.5)">0,50€</button>
+      <button onclick="openPayment(0.75)">0,75€</button>
+      <button onclick="openPayment(1)">1€</button>
+      <button onclick="openPayment(2)">2€</button>
+      <button onclick="openPayment(5)">5€</button>
+    </div>
+    <button onclick="closeBoost()" class="red-btn">Fermer</button>
   </div>
 </div>
 
