@@ -54,7 +54,6 @@ function showPreview(file){
 }
 
 /* PREVIEW CONTROLS */
-document.getElementById("cancelBtn").onclick=()=>{ document.getElementById("preview").style.display="none"; tempFile=null; };
 document.getElementById("publishBtn").onclick=()=>{
     if(!tempFile) return;
     if(tempFile.type.startsWith("video")) addVideo(tempFile); else addImage(tempFile);
