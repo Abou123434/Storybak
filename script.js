@@ -1,4 +1,3 @@
-/* CONFIG & INIT */
 let currentProfile={username:"MonProfil",bio:"Ma bio"};
 let users=JSON.parse(localStorage.getItem("storyUsers"))||{};
 let coins=JSON.parse(localStorage.getItem("userCoins"))||{};
@@ -25,8 +24,7 @@ function renderStories(){
     let container=document.getElementById("stories"); container.innerHTML="";
     Object.keys(users).forEach(u=>{
         let div=document.createElement("div"); div.className="story";
-        let img=document.createElement("img"); img.src=users[u].photo;
-        div.appendChild(img);
+        let img=document.createElement("img"); img.src=users[u].photo; div.appendChild(img);
         if(u===currentProfile.username){
             let plus=document.createElement("div"); plus.className="plus"; plus.innerText="+"; plus.onclick=e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };
             div.appendChild(plus);
@@ -52,7 +50,6 @@ function showPreview(file){
     el.src=file.type.startsWith("video")?URL.createObjectURL(file):URL.createObjectURL(file);
     if(file.type.startsWith("video")) el.autoplay=true;
     content.appendChild(el);
-    // Afficher Boost uniquement pour vidéo
     document.getElementById("previewBoostBtn").style.display=file.type.startsWith("video")?"inline-block":"none";
 }
 
@@ -69,7 +66,7 @@ function addVideo(file){ let url=URL.createObjectURL(file); users[currentProfile
 function addImage(file){ let reader=new FileReader(); reader.onload=e=>{ users[currentProfile.username].stories.push({url:e.target.result,type:"image",views:{}}); saveData(); renderStories(); }; reader.readAsDataURL(file); }
 function saveData(){ localStorage.setItem("storyUsers",JSON.stringify(users)); }
 
-/* VIEWER VIDEO */
+/* VIEWER */
 function openViewer(user){
     let stories=users[user].stories; if(!stories.length) return;
     const viewer=document.getElementById("viewer"); viewer.style.display="flex";
@@ -77,7 +74,6 @@ function openViewer(user){
     let story=stories[0]; 
     let el=story.type==="video"?document.createElement("video"):document.createElement("img");
     el.src=story.url; if(story.type==="video") el.autoplay=true; content.appendChild(el);
-    // Cadeaux visibles uniquement sur vidéo
     document.getElementById("giftBtn").style.display=story.type==="video"?"inline-block":"none";
 }
 
@@ -93,9 +89,6 @@ function openBlank(){ window.open("about:blank","_blank"); }
 /* GIFTS */
 document.getElementById("giftBtn").onclick=()=>{ document.getElementById("giftModal").style.display="flex"; };
 document.getElementById("closeGiftModal").onclick=()=>{ document.getElementById("giftModal").style.display="none"; };
-
-/* ACHAT COINS */
-document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
 
 /* HAMBURGER */
 const hamburger=document.getElementById("hamburger");
