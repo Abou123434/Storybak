@@ -10,15 +10,17 @@ header{padding:15px;background:#111;text-align:center;}
 .stories{display:flex;gap:12px;padding:12px;overflow-x:auto;}
 .story{text-align:center;cursor:pointer;position:relative;}
 .story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;}
-.story p{font-size:13px;margin-top:5px;}
-.plus{position:absolute;bottom:10px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;cursor:pointer;font-size:16px;}
+.plus{position:absolute;bottom:10px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;font-size:16px;cursor:pointer;}
 
 /* VIEWER */
 .viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
 .content{width:100%;height:85vh;display:flex;justify-content:center;align-items:center;}
 .content img,.content video{max-width:100%;max-height:80vh;border-radius:15px;}
-.tap-left,.tap-right{position:absolute;top:0;bottom:0;width:50%;}
-.tap-left{left:0;} .tap-right{right:0;}
+#storyControls{position:absolute;top:50%;left:10px;right:10px;display:flex;justify-content:space-between;transform:translateY(-50%);}
+#storyControls button{padding:10px 15px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;transition:0.3s;}
+#storyControls button:hover{transform:scale(1.1);}
+#boostBtn{background:#25D366;color:black;}
+#shareBtn{background:#FFD700;color:black;}
 
 /* PROGRESS */
 .progress-container{position:absolute;top:15px;left:10px;right:10px;height:4px;display:flex;gap:5px;z-index:10;}
@@ -33,11 +35,11 @@ header{padding:15px;background:#111;text-align:center;}
 #progressControls button{background:#25D366;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer;color:black;margin:0 5px;transition:0.3s;}
 #progressControls button:hover{transform:scale(1.1);}
 
-/* MODALE */
-#giftModal,#buyCoinsModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
+/* MODALES */
+#giftModal,#buyCoinsModal,#paymentModal,#boostModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
 .modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
-.gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
-.gift-options button:hover,.green-btn:hover{transform:scale(1.05);}
+.gift-options button,.boost-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
+.gift-options button:hover,.boost-options button:hover,.green-btn:hover{transform:scale(1.05);}
 #coinBalance{font-size:18px;margin-bottom:15px;}
 #buyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
 #giftMessage{margin-top:10px;color:#FFD700;font-weight:bold;}
