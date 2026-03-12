@@ -1,14 +1,14 @@
-/* CONFIG */
+/* CONFIG & INIT */
 let currentProfile={username:"MonProfil",bio:"Ma bio"};
 let currentUser=null,currentIndex=0,timer=null;
 let users=JSON.parse(localStorage.getItem("storyUsers"))||{};
 let coins=JSON.parse(localStorage.getItem("userCoins"))||{};
 
-/* Sauvegarde */
-function saveData(){localStorage.setItem("storyUsers",JSON.stringify(users));}
-function saveCoins(){localStorage.setItem("userCoins",JSON.stringify(coins));}
+/* SAUVEGARDE */
+function saveData(){ localStorage.setItem("storyUsers",JSON.stringify(users)); }
+function saveCoins(){ localStorage.setItem("userCoins",JSON.stringify(coins)); }
 
-/* Création profil initial */
+/* PROFIL INIT */
 if(!users[currentProfile.username]){
     users[currentProfile.username]={photo:generateAvatar("Mon","Profil"),stories:[]};
     coins[currentProfile.username]=100; saveData(); saveCoins();
@@ -29,8 +29,7 @@ function renderStories(){
         let div=document.createElement("div"); div.className="story";
         let img=document.createElement("img"); img.src=users[u].photo;
         let plus=document.createElement("div"); plus.className="plus"; plus.innerText="+";
-        if(u===currentProfile.username){ plus.onclick=e=>{e.stopPropagation();document.getElementById("fileInput").click();} }
-        else plus.style.display="none";
+        if(u===currentProfile.username){ plus.onclick=e=>{e.stopPropagation();document.getElementById("fileInput").click();} } else plus.style.display="none";
         div.appendChild(img); div.appendChild(plus); container.appendChild(div);
         div.onclick=()=>openViewer(u);
     });
@@ -57,10 +56,16 @@ function showStory(){
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
+    // Controls
     let controls=document.getElementById("progressControls"); controls.innerHTML="";
     let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal; controls.appendChild(giftBtn);
     if(currentProfile.username===currentUser){ let delBtn=document.createElement("button"); delBtn.innerText="Supprimer"; delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){ users[currentUser].stories.splice(currentIndex,1); saveData(); if(users[currentUser].stories.length===0){ closeViewer(); return; } showStory(); } }; controls.appendChild(delBtn); }
+
+    // Boste + share
+    document.getElementById("boostBtn").onclick=openBoost;
+    document.getElementById("shareBtn").onclick=()=>alert("Story partagée !");
 }
+
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
@@ -79,8 +84,12 @@ function sendGift(q){ let t=selectedGiftCost*q; if((coins[currentProfile.usernam
 document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 
+/* BOOST */
+function openBoost(){ document.getElementById("boostModal").style.display="flex"; }
+function closeBoost(){ document.getElementById("boostModal").style.display="none"; }
+
 /* PAIEMENT PAYPAL */
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
+function openPayment(amount){ document.getElementById("boostModal").style.display="none"; document.getElementById("buyCoinsModal").style.display="none"; document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
 function openBlank(){ window.open("about:blank","_blank"); }
 
