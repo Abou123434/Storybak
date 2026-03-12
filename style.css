@@ -7,36 +7,41 @@ header{padding:15px;background:#111;text-align:center;}
 /* STORIES */
 .stories{display:flex;gap:12px;padding:12px;overflow-x:auto;}
 .story{text-align:center;cursor:pointer;position:relative;}
-.story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;}
-.plus{position:absolute;bottom:0;right:0;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;font-size:16px;cursor:pointer;}
+.story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;transition:0.3s;}
+.story img:hover{transform:scale(1.1);}
+.plus{position:absolute;bottom:-5px;right:-5px;width:30px;height:30px;border-radius:50%;background:#25D366;color:white;display:flex;justify-content:center;align-items:center;font-weight:bold;font-size:18px;cursor:pointer;animation: pulse 1.2s infinite;}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
 
 /* PREVIEW */
-.preview{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
+.preview{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;transition:0.3s;}
 #previewContent{width:80%;max-height:60%;display:flex;justify-content:center;align-items:center;}
-#previewContent img,#previewContent video{max-width:100%;max-height:100%;border-radius:15px;}
-#previewControls{position:absolute;bottom:20px;left:10px;right:10px;display:flex;justify-content:space-between;}
-#previewControls button{padding:10px 15px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;transition:0.3s;}
-#previewBoostBtn{background:#25D366;color:black; display:none;} /* Boost uniquement vidéo */
+#previewContent img,#previewContent video{max-width:100%;max-height:100%;border-radius:15px;transition:0.3s;}
+#previewControls{position:absolute;bottom:20px;left:10px;right:10px;display:flex;justify-content:space-between;gap:15px;}
+#previewControls button{padding:10px 15px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;transition:0.2s;}
+#previewBoostBtn{background:#25D366;color:black; display:none;}
 #publishBtn{background:#FFD700;color:black;}
+#previewControls button:hover{transform:scale(1.1);}
 
 /* VIEWER PUBLIÉE */
 .viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
-.content img,.content video{max-width:100%;max-height:80vh;border-radius:15px;}
+.content img,.content video{max-width:100%;max-height:80vh;border-radius:15px;transition:0.3s;}
 .progress-container{position:absolute;top:15px;left:10px;right:10px;display:flex;gap:5px;}
 .progress{flex:1;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;}
 .progress-inner{height:100%;width:0%;background:white;transition:width 0.05s linear;}
 .view-count{position:absolute;bottom:20px;left:15px;font-size:14px;background:rgba(0,0,0,0.6);padding:6px 10px;border-radius:20px;}
 
 /* GIFTS & BOOST */
-#giftBtn{position:absolute;bottom:20px;right:20px;padding:10px 15px;border:none;border-radius:10px;background:#FFD700;color:black;font-weight:bold;cursor:pointer;}
+#giftBtn{position:absolute;bottom:20px;right:20px;padding:10px 15px;border:none;border-radius:10px;background:#FFD700;color:black;font-weight:bold;cursor:pointer;transition:0.2s;}
+#giftBtn:hover{transform:scale(1.1);}
 #giftModal,#boostModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
-.modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
+.modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;transition:0.3s;}
 .gift-options button,.boost-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
-.gift-options button:hover,.boost-options button:hover,.green-btn:hover{transform:scale(1.05);}
+.gift-options button:hover,.boost-options button:hover,.green-btn:hover{transform:scale(1.1);}
 #coinBalance{font-size:18px;margin-bottom:15px;}
 #buyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
 #giftMessage{margin-top:10px;color:#FFD700;font-weight:bold;}
 .red-btn{background:red;color:white;padding:8px 12px;border:none;border-radius:10px;margin-top:10px;cursor:pointer;}
+.green-btn{background:#25D366;color:black;padding:10px 15px;border-radius:10px;margin-top:10px;cursor:pointer;}
 
 /* HAMBURGER */
 #hamburgerContainer{position:fixed;bottom:20px;right:20px;z-index:1002;}
