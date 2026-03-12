@@ -34,10 +34,10 @@ header{padding:15px;background:#111;text-align:center;}
 #progressControls button:hover{transform:scale(1.1);}
 
 /* MODALE */
-#giftModal,#buyCoinsModal,#paymentModal,#mobileMoneyModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
+#giftModal,#buyCoinsModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
 .modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
-.gift-options button,.payment-options button,.mobile-options button{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
-.gift-options button:hover,.payment-options button:hover,.mobile-options button:hover{transform:scale(1.05);}
+.gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
+.gift-options button:hover,.green-btn:hover{transform:scale(1.05);}
 #coinBalance{font-size:18px;margin-bottom:15px;}
 #buyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
 #giftMessage{margin-top:10px;color:#FFD700;font-weight:bold;}
