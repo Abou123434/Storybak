@@ -1,4 +1,4 @@
-/* ===== GLOBAL ===== */
+/* GLOBAL */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
 body { background: #0f0f0f; color: white; overflow-x: hidden; }
 
@@ -35,9 +35,7 @@ header { padding: 15px; background: #111; text-align: center; }
 #progressControls button:hover { transform: scale(1.1); }
 
 /* MODALES */
-#giftModal, #buyCoinsModal, #paymentModal, #kycModal, #withdrawModal {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1001; display: flex;
-}
+#giftModal, #buyCoinsModal, #paymentModal, #kycModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1001; }
 .modal-content { background: #111; color: white; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
 .gift-options button, .green-btn { margin: 5px; padding: 10px 15px; border: none; border-radius: 10px; background: #25D366; color: black; font-weight: bold; cursor: pointer; transition: 0.3s; }
 .gift-options button:hover, .green-btn:hover { transform: scale(1.05); }
@@ -48,19 +46,22 @@ header { padding: 15px; background: #111; text-align: center; }
 
 /* HAMBURGER MENU */
 #hamburgerContainer { position: fixed; bottom: 20px; right: 20px; z-index: 1002; }
-#hamburger { font-size: 28px; cursor: pointer; background: #25D366; color: white; padding: 8px; border-radius: 8px; }
-#menuOptions { display: none; flex-direction: column; background: #111; border: 1px solid #25D366; border-radius: 8px; margin-top: 5px; padding: 8px; }
-#menuOptions p { margin: 5px 0; color: white; cursor: default; }
+#hamburger { font-size: 28px; cursor: pointer; background: #25D366; color: white; padding: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+#menuOptions { display: none; flex-direction: column; background: #111; border: 1px solid #25D366; border-radius: 8px; margin-top: 5px; padding: 8px; position: absolute; bottom: 60px; right: 0; }
+#menuOptions p { margin: 5px 0; color: white; cursor: pointer; padding: 5px 8px; border-radius: 5px; transition: 0.2s; }
+#menuOptions p:hover { background: #25D366; color: black; }
 
 /* OVERLAY PORTEFEUILLE */
-#walletOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; display: flex; }
+#walletOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; }
 .wallet-content { background: #111; padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; color: white; }
 .wallet-content h2 { margin-bottom: 20px; color: #25D366; }
 .wallet-content p { font-size: 18px; margin: 10px 0; }
 .wallet-buttons { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
-.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; }
+.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; opacity: 0.7; }
 
 /* MODAL RETRAIT */
+#withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 3000; }
+#withdrawModal .modal-content { background: #111; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
 #withdrawModal .green-btn { margin: 10px; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; background: #25D366; color: black; font-weight: bold; }
 
 /* KYC */
@@ -73,4 +74,4 @@ header { padding: 15px; background: #111; text-align: center; }
     .story img { width: 50px; height: 50px; }
     #progressControls button { padding: 8px 12px; font-size: 14px; }
     .content img, .content video { max-height: 70vh; }
-              }
+                      }
