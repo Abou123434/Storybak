@@ -32,7 +32,6 @@
 <div id="giftModal">
   <div class="modal-content">
     <div id="coinBalance">💰 0</div>
-    <button id="buyCoins">+ Acheter des coins</button>
     <h3>Envoyer un cadeau</h3>
     <div class="gift-options">
       <button data-cost="1">🌹 Rose – 1 pièce</button>
@@ -70,6 +69,18 @@
   </div>
 </div>
 
+<!-- MODAL KYC -->
+<div id="kycModal">
+  <div class="modal-content">
+    <h3>Vérification d'identité</h3>
+    <p>Veuillez envoyer vos documents pour valider votre compte.</p>
+    <input type="file" id="kycFileInput" accept="image/*,application/pdf">
+    <button id="kycSubmitBtn" class="green-btn">Envoyer documents</button>
+    <div id="kycStatus"></div>
+    <button id="closeKyc" class="red-btn">Fermer</button>
+  </div>
+</div>
+
 <!-- HAMBURGER -->
 <div id="hamburgerContainer">
   <div id="hamburger">&#9776;</div>
@@ -88,23 +99,10 @@
     <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
     <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
     <div class="wallet-buttons">
-      <button id="walletBuyBtn">+ Acheter des coins</button>
+      <button disabled>+ Acheter des coins</button>
       <button id="withdrawBtn">Retirer</button>
     </div>
     <button id="closeWallet" class="red-btn">Fermer</button>
-  </div>
-</div>
-
-<!-- MODAL KYC -->
-<div id="kycModal">
-  <div class="modal-content">
-    <h3>Vérification d'identité</h3>
-    <input type="file" id="kycFile">
-    <div id="kycMessage" style="margin:10px 0;color:#fff;"></div>
-    <button id="kycSendBtn" class="green-btn">Envoyer</button>
-    <button id="kycPaypalBtn" class="green-btn" style="display:none;margin-top:10px;">Retirer via PayPal</button>
-    <button id="closeKyc" class="red-btn" style="margin-top:10px;">Fermer</button>
-    <div id="kycStatus" style="margin-top:10px;"></div>
   </div>
 </div>
 
