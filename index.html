@@ -102,6 +102,22 @@
   </div>
 </div>
 
+<!-- MODAL KYC -->
+<div id="kycModal">
+  <div class="modal-content">
+    <h3>Vérification d'identité (KYC)</h3>
+    <p>Pour retirer votre argent, vous devez vérifier votre identité.</p>
+    <input type="file" id="kycFile">
+    <br><br>
+    <button id="sendKycBtn" class="green-btn">Envoyer document</button>
+    <div id="kycStatus" style="margin-top:15px;"></div>
+    <br>
+    <button id="kycPaypalBtn" class="green-btn" style="display:none;">🅿️ Retirer avec PayPal</button>
+    <br><br>
+    <button id="closeKyc" class="red-btn">Fermer</button>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
