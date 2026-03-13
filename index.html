@@ -89,9 +89,18 @@
     <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
     <div class="wallet-buttons">
       <button disabled>+ Acheter des coins</button>
-      <button disabled>Retirer</button>
+      <button id="withdrawBtn">Retirer</button>
     </div>
     <button id="closeWallet" class="red-btn">Fermer</button>
+  </div>
+</div>
+
+<!-- MODAL RETRAIT PAYPAL -->
+<div id="withdrawModal">
+  <div class="modal-content">
+    <h3>Retirer avec PayPal</h3>
+    <button id="withdrawPaypalBtn" class="green-btn">🅿️ PayPal</button>
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
   </div>
 </div>
 
