@@ -1,3 +1,4 @@
+/* GLOBAL */
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
 body{background:#0f0f0f;color:white;overflow-x:hidden;}
 
@@ -10,7 +11,6 @@ header{padding:15px;background:#111;text-align:center;}
 .stories{display:flex;gap:12px;padding:12px;overflow-x:auto;}
 .story{text-align:center;cursor:pointer;position:relative;}
 .story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;}
-.story p{font-size:13px;margin-top:5px;}
 .plus{position:absolute;bottom:10px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;cursor:pointer;font-size:16px;}
 
 /* VIEWER */
@@ -34,12 +34,12 @@ header{padding:15px;background:#111;text-align:center;}
 #progressControls button:hover{transform:scale(1.1);}
 
 /* MODALES */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
+#giftModal,#buyCoinsModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
 .modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
 .gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
 .gift-options button:hover,.green-btn:hover{transform:scale(1.05);}
 #coinBalance{font-size:18px;margin-bottom:15px;}
-#buyCoins,#walletBuyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
+#buyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
 #giftMessage{margin-top:10px;color:#FFD700;font-weight:bold;}
 .red-btn{background:red;color:white;padding:8px 12px;border:none;border-radius:10px;margin-top:10px;cursor:pointer;}
 
@@ -48,3 +48,16 @@ header{padding:15px;background:#111;text-align:center;}
 #hamburger{font-size:28px;cursor:pointer;background:#25D366;color:white;padding:8px;border-radius:8px;}
 #menuOptions{display:none;flex-direction:column;background:#111;border:1px solid #25D366;border-radius:8px;margin-top:5px;padding:8px;}
 #menuOptions p{margin:5px 0;color:white;cursor:default;}
+
+/* OVERLAY PORTEFEUILLE */
+#walletOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; }
+.wallet-content { background: #111; padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; color: white; }
+.wallet-content h2 { margin-bottom: 20px; color: #25D366; }
+.wallet-content p { font-size: 18px; margin: 10px 0; }
+.wallet-buttons { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
+.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: default; opacity: 0.7; }
+
+/* MODAL RETRAIT */
+#withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 3000; }
+#withdrawModal .modal-content { background: #111; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
+#withdrawModal .green-btn { margin: 10px; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; background: #25D366; color: black; font-weight: bold; }
