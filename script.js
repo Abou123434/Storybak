@@ -8,7 +8,7 @@ let selectedGiftCost = 0, selectedGiftEmoji = "";
 // ----------------- INIT PROFIL -----------------
 if(!users[currentProfile.username]){
     users[currentProfile.username] = { photo: generateAvatar("Mon","Profil"), stories: [] };
-    coins[currentProfile.username] = 100; 
+    coins[currentProfile.username] = 100;   
     saveData(); saveCoins();
 }
 
@@ -71,22 +71,37 @@ function openViewer(u){
     currentUser = u; currentIndex = 0;
     document.getElementById("viewer").style.display = "flex";
     document.getElementById("hamburgerContainer").style.display = "none";
-    showBosteAndPublish();
-    showStory();
+    showStory(); // ouvre story sans publier
 }
 
 function showStory(){
     clearInterval(timer);
     let s = users[currentUser].stories[currentIndex];
-    let c = document.getElementById("content"); c.innerHTML="";
+    let c = document.getElementById("content"); 
+    c.innerHTML = "";
+
     let e = s.type === "image" ? document.createElement("img") : document.createElement("video");
-    e.src = s.url; if(s.type === "video") e.autoplay = true; c.appendChild(e);
+    e.src = s.url; 
+    if(s.type === "video") e.autoplay = true; 
+    c.appendChild(e);
 
     if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true; saveData();
+        s.views[currentProfile.username] = true; 
+        saveData();
     }
     document.getElementById("viewCount").innerText = "👁 "+Object.keys(s.views).length+" vues";
-    renderProgressBars(); startProgress(s); renderControls();
+
+    renderProgressBars(); 
+    startProgress(s);
+
+    // Gestion des boutons selon publication
+    if(s.published){
+        hideBosteAndPublish();
+        renderControls(); // cadeau + supprimer
+    } else {
+        showBosteAndPublish(); // Boste inactive + flèche
+        hideControls();        // cacher cadeau et supprimer
+    }
 }
 
 function renderProgressBars(){
@@ -133,19 +148,31 @@ function renderControls(){
     }
 }
 
+function hideControls(){
+    document.getElementById("progressControls").innerHTML = "";
+}
+
 // ----------------- BOSTE ET FLECHE -----------------
 function showBosteAndPublish(){
-    bosteBtn.style.display = "block"; publishBtn.style.display = "block";
-    bosteBtn.onclick = ()=>{}; // inactif
+    bosteBtn.style.display = "block";
+    publishBtn.style.display = "block";
+
+    // Boste inactif
+    bosteBtn.onclick = ()=>{};
+
+    // Flèche de publication
     publishBtn.onclick = ()=>{
         users[currentUser].stories[currentIndex].published = true;
-        saveData(); alert("Story publiée !");
+        saveData();
+        alert("Story publiée !");
         hideBosteAndPublish();
+        renderControls(); // Cadeau + Supprimer après publication
     };
 }
 
 function hideBosteAndPublish(){
-    bosteBtn.style.display = "none"; publishBtn.style.display = "none";
+    bosteBtn.style.display = "none";
+    publishBtn.style.display = "none";
 }
 
 // ----------------- MODALE CADEAU -----------------
