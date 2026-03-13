@@ -28,8 +28,8 @@
   <div id="progressControls"></div>
 </div>
 
-<!-- MODAL CADEAUX -->
-<div id="giftModal" class="modal">
+<!-- MODAL CADEAU -->
+<div id="giftModal">
   <div class="modal-content">
     <div id="coinBalance">💰 0</div>
     <button id="buyCoins">+ Acheter des coins</button>
@@ -47,48 +47,26 @@
 </div>
 
 <!-- MODAL ACHAT COINS -->
-<div id="buyCoinsModal" class="modal">
+<div id="buyCoinsModal">
   <div class="modal-content">
     <h3>Acheter des pièces</h3>
     <ul>
-      <li>1 pièce – 0,01€</li>
-      <li>10 pièces – 0,10€</li>
-      <li>100 pièces – 1€</li>
-      <li>30 000 pièces – 300€</li>
-      <li>100 000 pièces – 1000€</li>
+      <li onclick="openPayment()">1 pièce – 0,01€</li>
+      <li onclick="openPayment()">10 pièces – 0,10€</li>
+      <li onclick="openPayment()">100 pièces – 1€</li>
+      <li onclick="openPayment()">30 000 pièces – 300€</li>
+      <li onclick="openPayment()">100 000 pièces – 1000€</li>
     </ul>
     <button onclick="closeBuy()">Fermer</button>
   </div>
 </div>
 
 <!-- MODAL PAIEMENT PAYPAL -->
-<div id="paymentModal" class="modal">
+<div id="paymentModal">
   <div class="modal-content">
     <h3>Payer avec PayPal</h3>
-    <button id="paypalBtn" class="green-btn">🅿️ PayPal</button>
+    <button onclick="openBlank()" class="green-btn">🅿️ PayPal</button>
     <button onclick="closePayment()" class="red-btn">Fermer</button>
-  </div>
-</div>
-
-<!-- MODAL PORTEFEUILLE -->
-<div id="walletOverlay" class="modal">
-  <div class="modal-content">
-    <h2>Mon portefeuille</h2>
-    <p>🪙 Coins : <span id="walletCoins"></span></p>
-    <p>💎 Diamonds : <span id="walletDiamonds"></span></p>
-    <p>💰 Valeur estimée : <span id="walletValue"></span> €</p>
-    <button id="walletBuyCoins">Acheter des coins</button>
-    <button id="withdrawBtn">Retirer</button>
-    <button id="closeWallet" class="red-btn">Fermer</button>
-  </div>
-</div>
-
-<!-- MODAL RETRAIT -->
-<div id="withdrawModal" class="modal">
-  <div class="modal-content">
-    <h3>Retirer via PayPal</h3>
-    <button id="withdrawPaypalBtn" class="green-btn">🅿️ PayPal</button>
-    <button id="closeWithdraw" class="red-btn">Fermer</button>
   </div>
 </div>
 
@@ -102,6 +80,30 @@
   </div>
 </div>
 
+<!-- OVERLAY PORTEFEUILLE -->
+<div id="walletOverlay">
+  <div class="wallet-content">
+    <h2>Mon portefeuille</h2>
+    <p>🪙 Coins : <span id="walletCoins">0</span></p>
+    <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
+    <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
+    <div class="wallet-buttons">
+      <button disabled>+ Acheter des coins</button>
+      <button id="withdrawBtn">Retirer</button>
+    </div>
+    <button id="closeWallet" class="red-btn">Fermer</button>
+  </div>
+</div>
+
+<!-- MODAL RETRAIT PAYPAL -->
+<div id="withdrawModal">
+  <div class="modal-content">
+    <h3>Retirer avec PayPal</h3>
+    <button id="withdrawPaypalBtn" class="green-btn">🅿️ PayPal</button>
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
-  </html>
+</html>
