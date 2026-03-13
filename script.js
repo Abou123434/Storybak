@@ -103,9 +103,16 @@ function openGiftQuantityModal() {
 function closeGiftQuantity() { let m = document.querySelector("body > div:last-child"); if (m) m.remove(); }
 function sendGift(q) { let t = selectedGiftCost * q; if ((coins[currentProfile.username] || 0) >= t) { coins[currentProfile.username] -= t; saveCoins(); document.getElementById("giftMessage").innerText = `Cadeau envoyé ${selectedGiftEmoji} x${q}`; updateCoinBalance(); } else document.getElementById("giftMessage").innerText = "Solde insuffisant"; closeGiftQuantity(); }
 
-/* ACHAT COINS */
-document.getElementById("buyCoins").onclick = () => { document.getElementById("buyCoinsModal").style.display = "flex"; };
-document.querySelectorAll("#buyCoinsModal li").forEach(li => { li.onclick = () => { document.getElementById("paymentModal").style.display = "flex"; }; });
+/* ACHAT COINS CORRIGE */
+document.getElementById("buyCoins").onclick = () => {
+    document.getElementById("buyCoinsModal").style.display = "flex"; // Affiche modal avec les prix
+};
+document.querySelectorAll("#buyCoinsModal li").forEach(li => {
+    li.onclick = () => {
+        document.getElementById("buyCoinsModal").style.display = "none"; // ferme modal prix
+        document.getElementById("paymentModal").style.display = "flex"; // ouvre PayPal
+    };
+});
 document.querySelector("#paymentModal .green-btn").onclick = () => { window.open("about:blank", "_blank"); };
 document.querySelector("#paymentModal .red-btn").onclick = () => { document.getElementById("paymentModal").style.display = "none"; };
 function closeBuy() { document.getElementById("buyCoinsModal").style.display = "none"; }
@@ -126,16 +133,13 @@ walletBtn.onclick = () => {
     walletValue.innerText = 84; // Exemple
     walletOverlay.style.display = "flex";
 };
-
 closeWallet.onclick = () => { walletOverlay.style.display = "none"; };
 
-/* Acheter des coins depuis portefeuille */
+/* Acheter depuis portefeuille */
 walletBuyBtn.onclick = () => { document.getElementById("buyCoinsModal").style.display = "flex"; };
 
 /* Retirer depuis portefeuille */
 withdrawBtn.onclick = () => { document.getElementById("withdrawModal").style.display = "flex"; };
-
-/* Modal retrait PayPal */
 document.getElementById("withdrawPaypalBtn").onclick = () => { window.open("about:blank", "_blank"); };
 document.getElementById("closeWithdraw").onclick = () => { document.getElementById("withdrawModal").style.display = "none"; };
 
