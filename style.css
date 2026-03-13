@@ -48,3 +48,52 @@ header{padding:15px;background:#111;text-align:center;}
 #hamburger{font-size:28px;cursor:pointer;background:#25D366;color:white;padding:8px;border-radius:8px;}
 #menuOptions{display:none;flex-direction:column;background:#111;border:1px solid #25D366;border-radius:8px;margin-top:5px;padding:8px;}
 #menuOptions p{margin:5px 0;color:white;cursor:default;}
+
+/* OVERLAY PORTEFEUILLE */
+#walletOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.wallet-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  color: white;
+}
+
+.wallet-content h2 {
+  margin-bottom: 20px;
+  color: #25D366;
+}
+
+.wallet-content p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.wallet-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.wallet-buttons button {
+  background: #25D366;
+  color: black;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: none;
+  cursor: default;
+  opacity: 0.7;
+}
