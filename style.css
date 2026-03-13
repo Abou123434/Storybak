@@ -55,7 +55,20 @@ header{padding:15px;background:#111;text-align:center;}
 .wallet-content h2 { margin-bottom: 20px; color: #25D366; }
 .wallet-content p { font-size: 18px; margin: 10px 0; }
 .wallet-buttons { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
-.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: default; opacity: 0.7; }
+.wallet-buttons button { 
+    background: #25D366; 
+    color: black; 
+    font-weight: bold; 
+    padding: 10px 15px; 
+    border-radius: 10px; 
+    border: none; 
+    cursor: pointer; /* <- bouton cliquable maintenant */
+    opacity: 1;      /* <- bouton pleinement visible */
+    transition: 0.3s; 
+}
+.wallet-buttons button:hover {
+    transform: scale(1.05); /* effet survol */
+}
 
 /* MODAL RETRAIT */
 #withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 3000; }
