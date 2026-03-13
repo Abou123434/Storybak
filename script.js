@@ -169,8 +169,8 @@ function sendGift(q){
 }
 
 /* ACHAT COINS */
-document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
+document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display = "flex"; };
+function closeBuy(){ document.getElementById("buyCoinsModal").style.display = "none"; }
 
 /* PAIEMENT PAYPAL */
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
@@ -204,7 +204,8 @@ closeWithdraw.onclick = () => withdrawModal.style.display = "none";
 withdrawPaypalBtn.onclick = () => window.open("about:blank","_blank");
 
 // ** NOUVEAU : bouton "+ Acheter des coins" dans le portefeuille **
-document.querySelector("#walletOverlay .wallet-buttons button").onclick = () => {
+const walletBuyBtn = document.querySelector("#walletOverlay .wallet-buttons button");
+walletBuyBtn.onclick = () => {
     document.getElementById("buyCoinsModal").style.display = "flex";
 };
 
