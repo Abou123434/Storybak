@@ -1,5 +1,5 @@
-// Initialisation
-let currentProfile = {username:"MonProfil", bio:"Ma bio"};
+// ================= INIT PROFIL ET COINS =================
+let currentProfile = { username: "MonProfil", bio: "Ma bio" };
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
@@ -19,9 +19,10 @@ if(!users[currentProfile.username]){
     saveData(); saveCoins();
 }
 
-// Génération avatar
+// ================= GENERATION AVATAR =================
 function generateAvatar(nom, prenom){
-    let canvas = document.createElement("canvas"); canvas.width = 150; canvas.height = 150;
+    let canvas = document.createElement("canvas");
+    canvas.width = 150; canvas.height = 150;
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = "#25D366"; ctx.fillRect(0,0,150,150);
     ctx.fillStyle = "white"; ctx.font="bold 60px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
@@ -29,21 +30,25 @@ function generateAvatar(nom, prenom){
     return canvas.toDataURL();
 }
 
-// --- STORIES ---
+// ================= RENDER STORIES =================
 function renderStories(){
-    let container = document.getElementById("stories"); container.innerHTML="";
+    let container = document.getElementById("stories");
+    container.innerHTML="";
     Object.keys(users).forEach(u=>{
-        let div = document.createElement("div"); div.className="story";
+        let div = document.createElement("div");
+        div.className="story";
         let img = document.createElement("img"); img.src = users[u].photo;
         let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";
         if(u === currentProfile.username){
             plus.onclick = e => { e.stopPropagation(); document.getElementById("fileInput").click(); };
         } else plus.style.display="none";
-        div.appendChild(img); div.appendChild(plus); container.appendChild(div);
+        div.appendChild(img); div.appendChild(plus);
+        container.appendChild(div);
         div.onclick = () => openViewer(u);
     });
 }
 
+// ================= UPLOAD STORY =================
 document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0]; if(!file) return;
     if(file.type.startsWith("video")) addVideo(file); else addImage(file);
@@ -64,7 +69,7 @@ function addImage(file){
     reader.readAsDataURL(file);
 }
 
-// --- VIEWER ---
+// ================= VIEWER =================
 function openViewer(u){
     if(users[u].stories.length===0) return;
     currentUser = u; currentIndex = 0;
@@ -129,10 +134,14 @@ function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ curr
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
-// --- CADEAUX ---
+// ================= CADEAUX =================
 let selectedGiftCost=0, selectedGiftEmoji="";
-function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
-function updateCoinBalance(){ document.getElementById("coinBalance")?.innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
+function openGiftModal(){ 
+    document.getElementById("giftModal").style.display="flex"; 
+    updateCoinBalance(); 
+}
+function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
+
 document.getElementById("closeGiftModal").onclick = ()=>{ document.getElementById("giftModal").style.display="none"; };
 document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
     b.onclick=()=>{
@@ -166,77 +175,78 @@ function sendGift(q){
     closeGiftQuantity();
 }
 
-// --- ACHAT COINS ---
-document.getElementById("buyCoins")?.addEventListener("click", ()=>{ document.getElementById("buyCoinsModal").style.display="flex"; });
+// ================= ACHAT COINS =================
+document.getElementById("buyCoins").onclick = ()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 
-// --- WALLET & KYC & RETRAIT ---
+// ================= PAIEMENT PAYPAL =================
+function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
+function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
+function openBlank(){ window.open("about:blank","_blank"); }
+
+// ================= HAMBURGER =================
+document.getElementById("hamburger").onclick = ()=>{ 
+    let m=document.getElementById("menuOptions"); 
+    m.style.display=m.style.display==="flex"?"none":"flex"; 
+};
+
+// ================= WALLET =================
 const walletBtn=document.getElementById("walletBtn");
 const walletOverlay=document.getElementById("walletOverlay");
 const closeWallet=document.getElementById("closeWallet");
 const withdrawBtn=document.getElementById("withdrawBtn");
 const walletBuyCoins=document.getElementById("walletBuyCoins");
 
-const kycModal=document.getElementById("kycModal");
-const closeKYC=document.getElementById("closeKYC");
-const submitKYC=document.getElementById("submitKYC");
-const kycMessage=document.getElementById("kycMessage");
-
-const withdrawModal=document.getElementById("withdrawModal");
-const withdrawPaypalBtn=document.getElementById("withdrawPaypalBtn");
-const closeWithdraw=document.getElementById("closeWithdraw");
-
-// Wallet
-walletBtn?.addEventListener("click", ()=>{
+walletBtn.onclick=()=>{
     document.getElementById("walletCoins").innerText = coins[currentProfile.username]||0;
     document.getElementById("walletDiamonds").innerText = 8400;
     document.getElementById("walletValue").innerText = 84;
     walletOverlay.style.display="flex";
-});
-closeWallet?.addEventListener("click", ()=>walletOverlay.style.display="none");
-
-// Acheter coins depuis wallet
-walletBuyCoins?.addEventListener("click", ()=>{
+};
+closeWallet.onclick=()=>walletOverlay.style.display="none";
+walletBuyCoins.onclick=()=>{
     walletOverlay.style.display="none";
     document.getElementById("buyCoinsModal").style.display="flex";
-});
+};
 
-// Retrait
-withdrawBtn?.addEventListener("click", ()=>{
+// ================= KYC + RETRAIT =================
+const kycModal=document.getElementById("kycModal");
+const closeKYC=document.getElementById("closeKYC");
+const submitKYC=document.getElementById("submitKYC");
+const kycMessage=document.getElementById("kycMessage");
+const withdrawModal=document.getElementById("withdrawModal");
+const withdrawPaypalBtn=document.getElementById("withdrawPaypalBtn");
+const closeWithdraw=document.getElementById("closeWithdraw");
+
+// LOGIQUE RETRAIT
+withdrawBtn.onclick=()=>{
     if(kycDone){
         walletOverlay.style.display="none";
         withdrawModal.style.display="flex";
     } else {
         kycModal.style.display="flex";
     }
-});
+};
 
 // KYC
-closeKYC?.addEventListener("click", ()=>{ kycModal.style.display="none"; });
-submitKYC?.addEventListener("click", ()=>{
+closeKYC.onclick=()=>{ kycModal.style.display="none"; }
+submitKYC.onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
     const country=document.getElementById("kycCountry").value.trim();
     const doc=document.getElementById("kycDocument").files[0];
-    if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs"; return;}
+    if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return;}
     kycMessage.innerText="✅ Vérification envoyée !";
     setTimeout(()=>{
         kycModal.style.display="none";
         kycDone=true;
-        walletOverlay.style.display="none";
-        withdrawModal.style.display="flex"; // ouverture automatique après KYC
-    },1500);
-});
+        withdrawModal.style.display="flex";
+    },2000);
+};
 
 // Retrait PayPal
-withdrawPaypalBtn?.addEventListener("click", ()=>window.open("about:blank","_blank"));
-closeWithdraw?.addEventListener("click", ()=>withdrawModal.style.display="none");
+withdrawPaypalBtn.onclick=()=>window.open("about:blank","_blank");
+closeWithdraw.onclick=()=>withdrawModal.style.display="none";
 
-// Hamburger
-document.getElementById("hamburger")?.addEventListener("click", ()=>{
-    let m=document.getElementById("menuOptions"); 
-    if(m) m.style.display = m.style.display==="flex"?"none":"flex";
-});
-
-// Initialisation
+// ================= INIT STORIES =================
 renderStories();
