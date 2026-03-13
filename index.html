@@ -68,7 +68,20 @@
   </div>
 </div>
 
-<!-- HAMBURGER -->
+<!-- MODAL KYC -->
+<div id="kycModal">
+  <div class="modal-content">
+    <h3>Vérification d'identité</h3>
+    <p id="kycMessage">Veuillez envoyer vos documents pour vérifier votre identité.</p>
+    <input type="file" id="kycFile" accept="image/*,application/pdf">
+    <button id="kycSendBtn" class="green-btn">Envoyer</button>
+    <p id="kycStatus" style="display:none;">Vérification en cours ⏳</p>
+    <button id="kycPaypalBtn" class="green-btn" style="display:none;">Retirer via PayPal</button>
+    <button id="closeKyc" class="red-btn">Fermer</button>
+  </div>
+</div>
+
+<!-- HAMBURGER EN BAS -->
 <div id="hamburgerContainer">
   <div id="hamburger">&#9776;</div>
   <div id="menuOptions">
@@ -90,22 +103,6 @@
       <button id="withdrawBtn">Retirer</button>
     </div>
     <button id="closeWallet" class="red-btn">Fermer</button>
-  </div>
-</div>
-
-<!-- MODAL KYC -->
-<div id="kycModal">
-  <div class="modal-content">
-    <h3>Vérification d'identité (KYC)</h3>
-    <p id="kycMessage">Pour retirer votre argent, vous devez vérifier votre identité.</p>
-    <input type="file" id="kycFile">
-    <br><br>
-    <button id="sendKycBtn" class="green-btn">Envoyer document</button>
-    <div id="kycStatus" style="margin-top:15px;"></div>
-    <br>
-    <button id="kycPaypalBtn" class="green-btn" style="display:none;">🅿️ Retirer avec PayPal</button>
-    <br><br>
-    <button id="closeKyc" class="red-btn">Fermer</button>
   </div>
 </div>
 
