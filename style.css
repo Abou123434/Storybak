@@ -62,13 +62,11 @@ header{padding:15px;background:#111;text-align:center;}
     padding: 10px 15px; 
     border-radius: 10px; 
     border: none; 
-    cursor: pointer; /* <- bouton cliquable maintenant */
-    opacity: 1;      /* <- bouton pleinement visible */
+    cursor: pointer; 
+    opacity: 1; 
     transition: 0.3s; 
 }
-.wallet-buttons button:hover {
-    transform: scale(1.05); /* effet survol */
-}
+.wallet-buttons button:hover { transform: scale(1.05); }
 
 /* MODAL RETRAIT */
 #withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 3000; }
