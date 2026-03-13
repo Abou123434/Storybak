@@ -1,101 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StoryBak</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StoryBak</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1 class="logo">Story<span class="highlight">Bak</span></h1>
-  </header>
 
-  <!-- Input pour ajouter stories (hidden) -->
-  <input type="file" id="fileInput" accept="image/*,video/*" hidden>
+<header>
+  <h1 class="logo">Story<span class="highlight">Bak</span></h1>
+</header>
 
-  <!-- Liste des stories -->
-  <div class="stories" id="stories"></div>
+<!-- Input pour publier story -->
+<input type="file" id="fileInput" accept="image/*,video/*" hidden>
 
-  <!-- VIEWER -->
-  <div class="viewer" id="viewer">
-    <div class="progress-container" id="progressContainer"></div>
-    <div class="content" id="content"></div>
-    <div class="view-count" id="viewCount"></div>
-    <div class="tap-left" onclick="prevStory()"></div>
-    <div class="tap-right" onclick="nextStory()"></div>
+<!-- Liste des stories -->
+<div class="stories" id="stories"></div>
 
-    <!-- Actions uniquement sur vidéos publiées -->
-    <div class="actions-video" id="videoActions">
-      <button id="giftBtn">🎁 Envoyer un cadeau</button>
-    </div>
+<!-- VIEWER -->
+<div class="viewer" id="viewer">
+  <div class="progress-container" id="progressContainer"></div>
+  <div class="content" id="content"></div>
+  <div class="view-count" id="viewCount"></div>
+  <div class="tap-left" onclick="prevStory()"></div>
+  <div class="tap-right" onclick="nextStory()"></div>
+  <div id="progressControls"></div>
+</div>
 
-    <!-- Actions pré-publication uniquement -->
-    <div class="actions-prepub" id="prepubActions">
-      <button id="boostBtn">🚀 Boster</button>
-      <button id="publishBtn">Publier</button>
-    </div>
+<!-- PREVIEW AVANT PUBLICATION (COMME WHATSAPP) -->
+<div id="previewModal">
+  <div class="preview-content">
+
+    <div id="previewMedia"></div>
+
+    <!-- BOOST (bloqué pour le moment) -->
+    <button id="boostBtn">🚀 Booster</button>
+
+    <!-- PUBLIER -->
+    <button id="publishBtn">➤</button>
+
   </div>
+</div>
 
-  <!-- MODALE CADEAU -->
-  <div id="giftModal">
-    <div class="modal-content">
-      <div id="coinBalance">💰 0</div>
-      <button id="buyCoins">+ Acheter des coins</button>
-      <h3>Envoyer un cadeau</h3>
-      <div class="gift-options">
-        <button data-cost="1">🌹 Rose – 1 pièce</button>
-        <button data-cost="10">🔥 Feu – 10 pièces</button>
-        <button data-cost="100">🚀 Fusée – 100 pièces</button>
-        <button data-cost="30000">🦁 Lion – 30 000 pièces</button>
-        <button data-cost="100000">🐉 Dragon – 100 000 pièces</button>
-      </div>
-      <div id="giftMessage"></div>
-      <button id="closeGiftModal">Fermer</button>
+<!-- MODAL CADEAU -->
+<div id="giftModal">
+  <div class="modal-content">
+    <div id="coinBalance">💰 0</div>
+    <button id="buyCoins">+ Acheter des coins</button>
+    <h3>Envoyer un cadeau</h3>
+    <div class="gift-options">
+      <button data-cost="1">🌹 Rose – 1 pièce</button>
+      <button data-cost="10">🔥 Feu – 10 pièces</button>
+      <button data-cost="100">🚀 Fusée – 100 pièces</button>
+      <button data-cost="30000">🦁 Lion – 30 000 pièces</button>
+      <button data-cost="100000">🐉 Dragon – 100 000 pièces</button>
     </div>
+    <div id="giftMessage"></div>
+    <button id="closeGiftModal" class="red-btn">Fermer</button>
   </div>
+</div>
 
-  <!-- MODALE ACHAT COINS / Paypal -->
-  <div id="buyCoinsModal">
-    <div class="modal-content">
-      <h3>Acheter des pièces</h3>
-      <ul>
-        <li>1 pièce – 0,01€</li>
-        <li>10 pièces – 0,10€</li>
-        <li>100 pièces – 1€</li>
-        <li>30 000 pièces – 300€</li>
-        <li>100 000 pièces – 1000€</li>
-      </ul>
-      <button data-pay="paypal" class="payBtn">💳 Payer avec PayPal</button>
-      <button id="closeBuyCoinsModal">Fermer</button>
-    </div>
+<!-- MODAL ACHAT COINS -->
+<div id="buyCoinsModal">
+  <div class="modal-content">
+    <h3>Acheter des pièces</h3>
+    <ul>
+      <li onclick="openPayment()">1 pièce – 0,01€</li>
+      <li onclick="openPayment()">10 pièces – 0,10€</li>
+      <li onclick="openPayment()">100 pièces – 1€</li>
+      <li onclick="openPayment()">30 000 pièces – 300€</li>
+      <li onclick="openPayment()">100 000 pièces – 1000€</li>
+    </ul>
+    <button onclick="closeBuy()">Fermer</button>
   </div>
+</div>
 
-  <!-- MODALE BOSTE -->
-  <div id="boostModal">
-    <div class="modal-content">
-      <h3>Boster votre story</h3>
-      <div class="boost-options">
-        <button data-price="0.5">0,50€</button>
-        <button data-price="0.75">0,75€</button>
-        <button data-price="1">1€</button>
-        <button data-price="2">2€</button>
-        <button data-price="5">5€</button>
-      </div>
-      <button id="closeBoostModal">Fermer</button>
-    </div>
+<!-- MODAL PAIEMENT PAYPAL -->
+<div id="paymentModal">
+  <div class="modal-content">
+    <h3>Payer avec PayPal</h3>
+    <button onclick="openBlank()" class="green-btn">🅿️ PayPal</button>
+    <button onclick="closePayment()" class="red-btn">Fermer</button>
   </div>
+</div>
 
-  <!-- HAMBURGER MENU -->
-  <div id="hamburgerContainer">
-    <div id="hamburger">&#9776;</div>
-    <div id="menuOptions">
-      <p>Solde</p>
-      <p>Changer profil</p>
-      <p>Déconnexion</p>
-    </div>
+<!-- HAMBURGER -->
+<div id="hamburgerContainer">
+  <div id="hamburger">&#9776;</div>
+  <div id="menuOptions">
+    <p>Solde</p>
+    <p>Changer profil</p>
+    <p>Déconnexion</p>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
