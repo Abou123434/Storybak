@@ -61,6 +61,7 @@ header{padding:15px;background:#111;text-align:center;}
   font-weight: bold;
   cursor: pointer;
   z-index: 1003;
+  display: none;
   transition: 0.3s;
 }
 #bosteBtn:hover { transform: scale(1.1); }
@@ -76,7 +77,12 @@ header{padding:15px;background:#111;text-align:center;}
   font-weight: bold;
   cursor: pointer;
   z-index: 1003;
-  display: none; /* n’apparaît que quand une story est ouverte */
+  display: none;
   transition: 0.3s;
 }
 #publishBtn:hover { transform: scale(1.1); }
+
+/* Cacher hamburger quand viewer ouvert */
+.viewer-open #hamburgerContainer {
+  display: none;
+         }
