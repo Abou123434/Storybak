@@ -1,3 +1,4 @@
+/* GLOBAL */
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
 body{background:#0f0f0f;color:white;overflow-x:hidden;}
 
@@ -33,7 +34,7 @@ header{padding:15px;background:#111;text-align:center;}
 #progressControls button{background:#25D366;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer;color:black;margin:0 5px;transition:0.3s;}
 #progressControls button:hover{transform:scale(1.1);}
 
-/* MODALE */
+/* MODALES */
 #giftModal,#buyCoinsModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
 .modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
 .gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
@@ -50,50 +51,9 @@ header{padding:15px;background:#111;text-align:center;}
 #menuOptions p{margin:5px 0;color:white;cursor:default;}
 
 /* OVERLAY PORTEFEUILLE */
-#walletOverlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-.wallet-content {
-  background: #111;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  width: 90%;
-  max-width: 400px;
-  color: white;
-}
-
-.wallet-content h2 {
-  margin-bottom: 20px;
-  color: #25D366;
-}
-
-.wallet-content p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-.wallet-buttons {
-  margin-top: 15px;
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-}
-
-.wallet-buttons button {
-  background: #25D366;
-  color: black;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: none;
-  cursor: default;
-  opacity: 0.7;
-}
+#walletOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; }
+.wallet-content { background: #111; padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; color: white; }
+.wallet-content h2 { margin-bottom: 20px; color: #25D366; }
+.wallet-content p { font-size: 18px; margin: 10px 0; }
+.wallet-buttons { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
+.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: default; opacity: 0.7; }
