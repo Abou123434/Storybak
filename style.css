@@ -11,7 +11,7 @@ header{padding:15px;background:#111;text-align:center;}
 .stories{display:flex;gap:12px;padding:12px;overflow-x:auto;}
 .story{text-align:center;cursor:pointer;position:relative;}
 .story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;}
-.plus{position:absolute;bottom:10px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;cursor:pointer;font-size:16px;}
+.plus{position:absolute;bottom:5px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;cursor:pointer;font-size:16px;}
 
 /* VIEWER */
 .viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
@@ -24,17 +24,13 @@ header{padding:15px;background:#111;text-align:center;}
 .progress-container{position:absolute;top:15px;left:10px;right:10px;height:4px;display:flex;gap:5px;z-index:10;}
 .progress{flex:1;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;}
 .progress-inner{height:100%;width:0%;background:white;transition:width 0.05s linear;}
-
-/* compteur vues */
 .view-count{position:absolute;bottom:20px;left:15px;font-size:14px;background:rgba(0,0,0,0.6);padding:6px 10px;border-radius:20px;display:flex;align-items:center;}
-
-/* PROGRESS CONTROLS */
 #progressControls{display:flex;align-items:center;justify-content:center;position:absolute;bottom:60px;left:0;width:100%;gap:10px;}
 #progressControls button{background:#25D366;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer;color:black;margin:0 5px;transition:0.3s;}
 #progressControls button:hover{transform:scale(1.1);}
 
 /* MODALES */
-#giftModal,#buyCoinsModal,#paymentModal,#walletOverlay,#kycModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
+#giftModal,#buyCoinsModal,#paymentModal,#kycModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
 .modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
 .gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
 .gift-options button:hover,.green-btn:hover{transform:scale(1.05);}
@@ -47,16 +43,21 @@ header{padding:15px;background:#111;text-align:center;}
 #hamburgerContainer{position:fixed;bottom:20px;right:20px;z-index:1002;}
 #hamburger{font-size:28px;cursor:pointer;background:#25D366;color:white;padding:8px;border-radius:8px;}
 #menuOptions{display:none;flex-direction:column;background:#111;border:1px solid #25D366;border-radius:8px;margin-top:5px;padding:8px;}
-#menuOptions p{margin:5px 0;color:white;cursor:default;}
+#menuOptions p{margin:5px 0;color:white;cursor:pointer;}
 
 /* OVERLAY PORTEFEUILLE */
+#walletOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; }
 .wallet-content { background: #111; padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; color: white; }
 .wallet-content h2 { margin-bottom: 20px; color: #25D366; }
 .wallet-content p { font-size: 18px; margin: 10px 0; }
 .wallet-buttons { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
-.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; }
+.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: default; opacity: 0.7; }
+
+/* MODAL RETRAIT */
+#withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 3000; }
+#withdrawModal .modal-content { background: #111; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
+#withdrawModal .green-btn { margin: 10px; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; background: #25D366; color: black; font-weight: bold; }
 
 /* MODAL KYC */
-#kycModal .steps{display:flex;justify-content:space-between;margin-bottom:15px;}
-#kycModal .step{flex:1;height:6px;background:#444;border-radius:3px;margin:0 2px;position:relative;}
-#kycModal .step.active::after{content:"";position:absolute;left:0;top:0;width:100%;height:100%;background:#25D366;border-radius:3px;}
+#kycModal .modal-content input{margin:15px 0;padding:8px;width:80%;border-radius:8px;border:none;}
+#kycModal #kycStatus{margin-top:10px;color:#FFD700;font-weight:bold;}
