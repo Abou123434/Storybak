@@ -87,5 +87,14 @@ function openBlank(){ window.open("about:blank","_blank"); }
 /* HAMBURGER */
 document.getElementById("hamburger").onclick=()=>{ let m=document.getElementById("menuOptions"); m.style.display=m.style.display==="flex"?"none":"flex"; };
 
-/* INIT */
-renderStories();
+/* OVERLAY PORTEFEUILLE */
+const walletOverlay = document.getElementById("walletOverlay");
+const closeWallet = document.getElementById("closeWallet");
+const walletCoins = document.getElementById("walletCoins");
+const walletDiamonds = document.getElementById("walletDiamonds");
+const walletValue = document.getElementById("walletValue");
+
+// Ouverture portefeuille
+document.querySelector("#menuOptions p").onclick = () => {
+    walletCoins.innerText = coins[currentProfile.username] || 0;
+    walletDiamonds.innerText
