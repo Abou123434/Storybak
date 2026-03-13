@@ -46,13 +46,23 @@ document.getElementById("fileInput").addEventListener("change", e => {
 });
 function addVideo(file){ 
     let url = URL.createObjectURL(file); 
-    users[currentProfile.username].stories.push({url, type:"video", views:{}, published:false}); 
+    users[currentProfile.username].stories.push({
+        url,
+        type: "video",
+        views: {},
+        published: false
+    }); 
     saveData(); renderStories(); 
 }
 function addImage(file){ 
     let reader = new FileReader(); 
     reader.onload = e => { 
-        users[currentProfile.username].stories.push({url:e.target.result, type:"image", views:{}, published:false}); 
+        users[currentProfile.username].stories.push({
+            url: e.target.result,
+            type: "image",
+            views: {},
+            published: false
+        }); 
         saveData(); renderStories(); 
     }; 
     reader.readAsDataURL(file); 
@@ -111,13 +121,44 @@ function showStory(){
     if(oldArrow) oldArrow.remove();
 
     if(!s.published){
-        // Mode preview : ajouter flèche de publication
+        // Flèche publication stylée en bas à droite
         let publishBtn = document.createElement("div");
         publishBtn.id = "publishArrow";
-        publishBtn.innerText = "▶️";
-        publishBtn.style.cssText = "position:absolute;top:10px;left:10px;font-size:24px;color:#25D366;cursor:pointer;z-index:1002;";
+        publishBtn.style.cssText = `
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1002;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        `;
+        let arrow = document.createElement("div");
+        arrow.style.cssText = `
+            width: 0;
+            height: 0;
+            border-left: 18px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+        `;
+        publishBtn.appendChild(arrow);
+
+        // Animation au survol
+        publishBtn.onmouseover = () => publishBtn.style.transform = "scale(1.2)";
+        publishBtn.onmouseout = () => publishBtn.style.transform = "scale(1)";
+        
+        // Publication au clic
         publishBtn.onclick = () => {
-            s.published = true; saveData(); showStory();
+            s.published = true; 
+            saveData(); 
+            showStory();
         };
         document.getElementById("viewer").appendChild(publishBtn);
     } else {
