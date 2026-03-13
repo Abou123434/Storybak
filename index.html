@@ -12,7 +12,10 @@
   <h1 class="logo">Story<span class="highlight">Bak</span></h1>
 </header>
 
+<!-- Input pour publier story -->
 <input type="file" id="fileInput" accept="image/*,video/*" hidden>
+
+<!-- Liste des stories -->
 <div class="stories" id="stories"></div>
 
 <!-- VIEWER -->
@@ -20,14 +23,12 @@
   <div class="progress-container" id="progressContainer"></div>
   <div class="content" id="content"></div>
   <div class="view-count" id="viewCount"></div>
+  <div class="tap-left" onclick="prevStory()"></div>
+  <div class="tap-right" onclick="nextStory()"></div>
   <div id="progressControls"></div>
 </div>
 
-<!-- Boste et Flèche publication -->
-<button id="bosteBtn">Boste</button>
-<button id="publishBtn">➤</button>
-
-<!-- MODALES -->
+<!-- MODAL CADEAU -->
 <div id="giftModal">
   <div class="modal-content">
     <div id="coinBalance">💰 0</div>
@@ -45,6 +46,7 @@
   </div>
 </div>
 
+<!-- MODAL ACHAT COINS -->
 <div id="buyCoinsModal">
   <div class="modal-content">
     <h3>Acheter des pièces</h3>
@@ -59,6 +61,7 @@
   </div>
 </div>
 
+<!-- MODAL PAIEMENT PAYPAL -->
 <div id="paymentModal">
   <div class="modal-content">
     <h3>Payer avec PayPal</h3>
@@ -67,6 +70,7 @@
   </div>
 </div>
 
+<!-- HAMBURGER -->
 <div id="hamburgerContainer">
   <div id="hamburger">&#9776;</div>
   <div id="menuOptions">
@@ -78,4 +82,4 @@
 
 <script src="script.js"></script>
 </body>
-  </html>
+</html>
