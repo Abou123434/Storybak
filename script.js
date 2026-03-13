@@ -71,7 +71,7 @@ function openViewer(u){
     currentUser = u; currentIndex = 0;
     document.getElementById("viewer").style.display = "flex";
     document.getElementById("hamburgerContainer").style.display = "none";
-    showStory(); // ouvre story sans publier
+    showStory();
 }
 
 function showStory(){
@@ -91,15 +91,30 @@ function showStory(){
     }
     document.getElementById("viewCount").innerText = "👁 "+Object.keys(s.views).length+" vues";
 
-    renderProgressBars(); 
-    startProgress(s);
+    renderProgressBars();
 
-    // Gestion des boutons selon publication
+    // Progression automatique vers la story suivante (sans publier)
+    if(currentIndex < users[currentUser].stories.length - 1){
+        let dur = s.type==="image"?5000:10000;
+        let w=0;
+        let bars = document.querySelectorAll(".progress-inner");
+        timer = setInterval(()=>{
+            w += 100/(dur/50); 
+            bars[currentIndex].style.width = Math.min(w,100)+"%";
+            if(w >= 100){
+                clearInterval(timer);
+                currentIndex++;
+                showStory(); // passe à la suivante mais **ne publie pas**
+            }
+        },50);
+    }
+
+    // Gestion boutons
     if(s.published){
         hideBosteAndPublish();
-        renderControls(); // cadeau + supprimer
+        renderControls(); // Cadeau + Supprimer
     } else {
-        showBosteAndPublish(); // Boste inactive + flèche
+        showBosteAndPublish(); // Boste inactif + flèche
         hideControls();        // cacher cadeau et supprimer
     }
 }
@@ -112,20 +127,6 @@ function renderProgressBars(){
         if(i<currentIndex) inner.style.width="100%";
         bar.appendChild(inner); c.appendChild(bar);
     });
-}
-
-function startProgress(s){
-    let bars = document.querySelectorAll(".progress-inner"); let w=0;
-    let dur = s.type==="image"?5000:10000;
-    timer = setInterval(()=>{
-        w += 100/(dur/50); bars[currentIndex].style.width = Math.min(w,100)+"%";
-        if(w >= 100){
-            clearInterval(timer);
-            if(currentIndex < users[currentUser].stories.length-1){
-                currentIndex++; showStory();
-            } else closeViewer();
-        }
-    },50);
 }
 
 function closeViewer(){
@@ -160,13 +161,13 @@ function showBosteAndPublish(){
     // Boste inactif
     bosteBtn.onclick = ()=>{};
 
-    // Flèche de publication
+    // Flèche pour publier
     publishBtn.onclick = ()=>{
         users[currentUser].stories[currentIndex].published = true;
         saveData();
         alert("Story publiée !");
         hideBosteAndPublish();
-        renderControls(); // Cadeau + Supprimer après publication
+        renderControls(); // Cadeau + Supprimer
     };
 }
 
