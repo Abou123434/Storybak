@@ -8,7 +8,7 @@ let selectedGiftCost = 0, selectedGiftEmoji = "";
 // ----------------- INIT PROFIL -----------------
 if(!users[currentProfile.username]){
     users[currentProfile.username] = { photo: generateAvatar("Mon","Profil"), stories: [] };
-    coins[currentProfile.username] = 100;   
+    coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
 
@@ -48,11 +48,13 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0]; if(!file) return;
     if(file.type.startsWith("video")) addVideo(file); else addImage(file);
 });
+
 function addVideo(file){
     let url = URL.createObjectURL(file);
     users[currentProfile.username].stories.push({url,type:"video",views:{},published:false});
     saveData(); renderStories();
 }
+
 function addImage(file){
     let reader = new FileReader();
     reader.onload = e=>{
@@ -77,46 +79,17 @@ function openViewer(u){
 function showStory(){
     clearInterval(timer);
     let s = users[currentUser].stories[currentIndex];
-    let c = document.getElementById("content"); 
-    c.innerHTML = "";
-
+    let c = document.getElementById("content"); c.innerHTML="";
     let e = s.type === "image" ? document.createElement("img") : document.createElement("video");
-    e.src = s.url; 
-    if(s.type === "video") e.autoplay = true; 
-    c.appendChild(e);
+    e.src = s.url; if(s.type === "video") e.autoplay = true; c.appendChild(e);
 
     if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true; 
-        saveData();
+        s.views[currentProfile.username] = true; saveData();
     }
+
     document.getElementById("viewCount").innerText = "👁 "+Object.keys(s.views).length+" vues";
-
-    renderProgressBars();
-
-    // Progression automatique vers la story suivante (sans publier)
-    if(currentIndex < users[currentUser].stories.length - 1){
-        let dur = s.type==="image"?5000:10000;
-        let w=0;
-        let bars = document.querySelectorAll(".progress-inner");
-        timer = setInterval(()=>{
-            w += 100/(dur/50); 
-            bars[currentIndex].style.width = Math.min(w,100)+"%";
-            if(w >= 100){
-                clearInterval(timer);
-                currentIndex++;
-                showStory(); // passe à la suivante mais **ne publie pas**
-            }
-        },50);
-    }
-
-    // Gestion boutons
-    if(s.published){
-        hideBosteAndPublish();
-        renderControls(); // Cadeau + Supprimer
-    } else {
-        showBosteAndPublish(); // Boste inactif + flèche
-        hideControls();        // cacher cadeau et supprimer
-    }
+    renderProgressBars(); startProgress(s);
+    renderControls(); updateBosteAndPublish();
 }
 
 function renderProgressBars(){
@@ -129,6 +102,20 @@ function renderProgressBars(){
     });
 }
 
+function startProgress(s){
+    let bars = document.querySelectorAll(".progress-inner"); let w=0;
+    let dur = s.type==="image"?5000:10000;
+    timer = setInterval(()=>{
+        w += 100/(dur/50); bars[currentIndex].style.width = Math.min(w,100)+"%";
+        if(w >= 100){
+            clearInterval(timer);
+            if(currentIndex < users[currentUser].stories.length-1){
+                currentIndex++; showStory();
+            } else closeViewer();
+        }
+    },50);
+}
+
 function closeViewer(){
     clearInterval(timer);
     document.getElementById("viewer").style.display = "none";
@@ -136,39 +123,38 @@ function closeViewer(){
     document.getElementById("hamburgerContainer").style.display = "block";
 }
 
+// ----------------- CONTROLS (CADEAU & SUPPRIMER) -----------------
 function renderControls(){
     let controls = document.getElementById("progressControls"); controls.innerHTML="";
-    let giftBtn = document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal; controls.appendChild(giftBtn);
-    if(currentProfile.username===currentUser){
-        let delBtn = document.createElement("button"); delBtn.innerText="Supprimer"; delBtn.onclick=()=>{
-            if(confirm("Supprimer cette story ?")){
-                users[currentUser].stories.splice(currentIndex,1); saveData();
-                if(users[currentUser].stories.length===0){ closeViewer(); return; } showStory();
-            }
-        }; controls.appendChild(delBtn);
+    let s = users[currentUser].stories[currentIndex];
+
+    // Cadeau et supprimer → seulement si story publiée
+    if(s.published){
+        let giftBtn = document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal; controls.appendChild(giftBtn);
+        if(currentProfile.username===currentUser){
+            let delBtn = document.createElement("button"); delBtn.innerText="Supprimer"; delBtn.onclick=()=>{
+                if(confirm("Supprimer cette story ?")){
+                    users[currentUser].stories.splice(currentIndex,1); saveData();
+                    if(users[currentUser].stories.length===0){ closeViewer(); return; } showStory();
+                }
+            }; controls.appendChild(delBtn);
+        }
     }
 }
 
-function hideControls(){
-    document.getElementById("progressControls").innerHTML = "";
-}
-
 // ----------------- BOSTE ET FLECHE -----------------
-function showBosteAndPublish(){
-    bosteBtn.style.display = "block";
-    publishBtn.style.display = "block";
-
-    // Boste inactif
-    bosteBtn.onclick = ()=>{};
-
-    // Flèche pour publier
-    publishBtn.onclick = ()=>{
-        users[currentUser].stories[currentIndex].published = true;
-        saveData();
-        alert("Story publiée !");
-        hideBosteAndPublish();
-        renderControls(); // Cadeau + Supprimer
-    };
+function updateBosteAndPublish(){
+    let s = users[currentUser].stories[currentIndex];
+    if(!s.published){
+        bosteBtn.style.display = "block"; publishBtn.style.display = "block";
+        bosteBtn.onclick = ()=>{}; // inactif
+        publishBtn.onclick = ()=>{
+            s.published = true; saveData();
+            alert("Story publiée !");
+            hideBosteAndPublish();
+            renderControls(); // cadeau et supprimer maintenant visibles
+        };
+    } else hideBosteAndPublish();
 }
 
 function hideBosteAndPublish(){
@@ -176,7 +162,7 @@ function hideBosteAndPublish(){
     publishBtn.style.display = "none";
 }
 
-// ----------------- MODALE CADEAU -----------------
+// ----------------- MODALES CADEAU -----------------
 function openGiftModal(){
     document.getElementById("giftModal").style.display="flex";
     updateCoinBalance();
