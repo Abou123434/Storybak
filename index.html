@@ -19,7 +19,7 @@
 <div class="stories" id="stories"></div>
 
 <!-- VIEWER -->
-<div class="viewer" id="viewer" style="display:none">
+<div class="viewer" id="viewer">
   <div class="progress-container" id="progressContainer"></div>
   <div class="content" id="content"></div>
   <div class="view-count" id="viewCount"></div>
@@ -29,7 +29,7 @@
 </div>
 
 <!-- MODAL CADEAU -->
-<div id="giftModal" style="display:none">
+<div id="giftModal">
   <div class="modal-content">
     <div id="coinBalance">💰 0</div>
     <button id="buyCoins">+ Acheter des coins</button>
@@ -47,7 +47,7 @@
 </div>
 
 <!-- MODAL ACHAT COINS -->
-<div id="buyCoinsModal" style="display:none">
+<div id="buyCoinsModal">
   <div class="modal-content">
     <h3>Acheter des pièces</h3>
     <ul>
@@ -62,7 +62,7 @@
 </div>
 
 <!-- MODAL PAIEMENT PAYPAL -->
-<div id="paymentModal" style="display:none">
+<div id="paymentModal">
   <div class="modal-content">
     <h3>Payer avec PayPal</h3>
     <button onclick="openBlank()" class="green-btn">🅿️ PayPal</button>
@@ -71,7 +71,7 @@
 </div>
 
 <!-- MODAL KYC -->
-<div id="kycModal" style="display:none">
+<div id="kycModal">
   <div class="modal-content">
     <h3>Vérification KYC</h3>
     <label>Nom complet</label>
@@ -99,15 +99,15 @@
 <!-- HAMBURGER -->
 <div id="hamburgerContainer">
   <div id="hamburger">&#9776;</div>
-  <div id="menuOptions" style="display:none">
+  <div id="menuOptions">
     <p id="walletBtn">Solde</p>
-    <p>Changer profil</p>
-    <p>Déconnexion</p>
+    <p id="changeProfileBtn">Changer profil</p>
+    <p id="logoutBtn">Déconnexion</p>
   </div>
 </div>
 
 <!-- OVERLAY PORTEFEUILLE -->
-<div id="walletOverlay" style="display:none">
+<div id="walletOverlay">
   <div class="wallet-content">
     <h2>Mon portefeuille</h2>
     <p>🪙 Coins : <span id="walletCoins">0</span></p>
@@ -122,7 +122,7 @@
 </div>
 
 <!-- MODAL RETRAIT PAYPAL -->
-<div id="withdrawModal" style="display:none">
+<div id="withdrawModal">
   <div class="modal-content">
     <h3>Retirer avec PayPal</h3>
     <button id="withdrawPaypalBtn" class="green-btn">🅿️ PayPal</button>
@@ -130,6 +130,6 @@
   </div>
 </div>
 
-<script src="app.js"></script>
+<script src="script.js"></script>
 </body>
-                                         </html>
+</html>
