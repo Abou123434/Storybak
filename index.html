@@ -12,10 +12,8 @@
   <h1 class="logo">Story<span class="highlight">Bak</span></h1>
 </header>
 
-<!-- Input pour publier story -->
 <input type="file" id="fileInput" accept="image/*,video/*" hidden>
 
-<!-- Liste des stories -->
 <div class="stories" id="stories"></div>
 
 <!-- VIEWER -->
@@ -80,7 +78,7 @@
   </div>
 </div>
 
-<!-- OVERLAY PORTEFEUILLE -->
+<!-- PORTEFEUILLE -->
 <div id="walletOverlay">
   <div class="wallet-content">
     <h2>Mon portefeuille</h2>
@@ -88,14 +86,14 @@
     <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
     <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
     <div class="wallet-buttons">
-      <button>+ Acheter des coins</button>
+      <button id="walletBuyBtn">+ Acheter des coins</button>
       <button id="withdrawBtn">Retirer</button>
     </div>
     <button id="closeWallet" class="red-btn">Fermer</button>
   </div>
 </div>
 
-<!-- MODAL RETRAIT PAYPAL -->
+<!-- MODAL RETRAIT -->
 <div id="withdrawModal">
   <div class="modal-content">
     <h3>Retirer avec PayPal</h3>
@@ -106,4 +104,4 @@
 
 <script src="script.js"></script>
 </body>
-  </html>
+</html>
