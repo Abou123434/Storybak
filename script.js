@@ -153,25 +153,23 @@ function openGiftQuantityModal(){
             <button onclick="sendGift(5)">×5</button>
             <button onclick="sendGift(7)">×7</button>
             <button onclick="sendGift(10)">×10</button>
-        </div>
-        <br><button onclick="closeGiftQuantity()">Fermer</button>`;
+        </div><br>
+        <button onclick="closeGiftQuantity()">Fermer</button>`;
     m.appendChild(box); document.body.appendChild(m);
 }
-
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
-
-function sendGift(q){
-    let t = selectedGiftCost*q;
+function sendGift(q){ 
+    let t = selectedGiftCost * q;
     if((coins[currentProfile.username]||0) >= t){
-        coins[currentProfile.username]-=t; saveCoins();
+        coins[currentProfile.username]-=t; saveCoins(); 
         document.getElementById("giftMessage").innerText = `Cadeau envoyé ${selectedGiftEmoji} x${q}`;
         updateCoinBalance();
-    } else document.getElementById("giftMessage").innerText = "Solde insuffisant";
-    closeGiftQuantity();
+    } else document.getElementById("giftMessage").innerText="Solde insuffisant"; 
+    closeGiftQuantity(); 
 }
 
 /* ACHAT COINS */
-document.getElementById("buyCoins").onclick = ()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
+document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; };
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 
 /* PAIEMENT PAYPAL */
@@ -180,28 +178,28 @@ function closePayment(){ document.getElementById("paymentModal").style.display="
 function openBlank(){ window.open("about:blank","_blank"); }
 
 /* HAMBURGER */
-document.getElementById("hamburger").onclick = ()=>{
-    let m = document.getElementById("menuOptions");
-    m.style.display = m.style.display==="flex"?"none":"flex";
-};
+document.getElementById("hamburger").onclick=()=>{ let m=document.getElementById("menuOptions"); m.style.display = m.style.display==="flex"?"none":"flex"; };
 
 /* PORTEFEUILLE */
-const walletOverlay = document.getElementById("walletOverlay");
-const closeWalletBtn = document.getElementById("closeWallet");
-const walletCoins = document.getElementById("walletCoins");
-const walletDiamonds = document.getElementById("walletDiamonds");
-const walletValue = document.getElementById("walletValue");
 const walletBtn = document.getElementById("walletBtn");
+const walletOverlay = document.getElementById("walletOverlay");
+const closeWallet = document.getElementById("closeWallet");
+const withdrawBtn = document.getElementById("withdrawBtn");
+const withdrawModal = document.getElementById("withdrawModal");
+const withdrawPaypalBtn = document.getElementById("withdrawPaypalBtn");
+const closeWithdraw = document.getElementById("closeWithdraw");
 
 walletBtn.onclick = () => {
-    walletCoins.innerText = coins[currentProfile.username] || 0;
-    walletDiamonds.innerText = 8400; // fixe
-    let estVal = ((coins[currentProfile.username] || 0)/100) + (8400*0.01);
-    walletValue.innerText = estVal.toLocaleString() + " €";
+    document.getElementById("walletCoins").innerText = coins[currentProfile.username] || 0;
+    document.getElementById("walletDiamonds").innerText = 8400; // exemple
+    document.getElementById("walletValue").innerText = 84;
     walletOverlay.style.display = "flex";
 };
+closeWallet.onclick = () => walletOverlay.style.display = "none";
 
-closeWalletBtn.onclick = () => { walletOverlay.style.display = "none"; };
+withdrawBtn.onclick = () => withdrawModal.style.display = "flex";
+closeWithdraw.onclick = () => withdrawModal.style.display = "none";
+withdrawPaypalBtn.onclick = () => window.open("about:blank","_blank");
 
 /* INIT */
 renderStories();
