@@ -1,181 +1,82 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:sans-serif;
-}
-
-body{
-background:#0f0f0f;
-color:white;
-overflow-x:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{background:#0f0f0f;color:white;overflow-x:hidden;}
 
 /* HEADER */
-
-header{
-padding:15px;
-background:#111;
-text-align:center;
-}
-
-.logo{
-font-size:24px;
-}
-
-.highlight{
-color:#25D366;
-}
+header{padding:15px;background:#111;text-align:center;}
+.logo{font-size:24px;color:white;}
+.highlight{color:#25D366;}
 
 /* STORIES */
-
-.stories{
-display:flex;
-gap:12px;
-padding:12px;
-overflow-x:auto;
-}
-
-.story{
-text-align:center;
-cursor:pointer;
-position:relative;
-}
-
-.story img{
-width:60px;
-height:60px;
-border-radius:50%;
-object-fit:cover;
-border:3px solid #25D366;
-}
-
-.plus{
-position:absolute;
-bottom:10px;
-right:2px;
-background:#25D366;
-color:white;
-width:24px;
-height:24px;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-font-weight:bold;
-cursor:pointer;
-}
+.stories{display:flex;gap:12px;padding:12px;overflow-x:auto;}
+.story{text-align:center;cursor:pointer;position:relative;}
+.story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;}
+.story p{font-size:13px;margin-top:5px;}
+.plus{position:absolute;bottom:10px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;cursor:pointer;font-size:16px;}
 
 /* VIEWER */
-
-.viewer{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.95);
-display:none;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-}
-
-.content{
-width:100%;
-height:85vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.content img,
-.content video{
-max-width:100%;
-max-height:80vh;
-border-radius:15px;
-}
-
-.tap-left,
-.tap-right{
-position:absolute;
-top:0;
-bottom:0;
-width:50%;
-}
-
-.tap-left{
-left:0;
-}
-
-.tap-right{
-right:0;
-}
-
-/* BOOST */
-
-#boostBtn{
-position:absolute;
-bottom:20px;
-left:20px;
-background:#444;
-color:white;
-border:none;
-padding:12px 18px;
-border-radius:25px;
-opacity:0.5;
-cursor:not-allowed;
-}
-
-/* PUBLICATION */
-
-#publishBtn{
-position:fixed;
-bottom:25px;
-right:25px;
-width:55px;
-height:55px;
-border-radius:50%;
-background:#25D366;
-color:black;
-font-size:22px;
-border:none;
-display:none;
-justify-content:center;
-align-items:center;
-cursor:pointer;
-}
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
+.content{width:100%;height:85vh;display:flex;justify-content:center;align-items:center;}
+.content img,.content video{max-width:100%;max-height:80vh;border-radius:15px;}
+.tap-left,.tap-right{position:absolute;top:0;bottom:0;width:50%;}
+.tap-left{left:0;} .tap-right{right:0;}
 
 /* PROGRESS */
+.progress-container{position:absolute;top:15px;left:10px;right:10px;height:4px;display:flex;gap:5px;z-index:10;}
+.progress{flex:1;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;}
+.progress-inner{height:100%;width:0%;background:white;transition:width 0.05s linear;}
 
-.progress-container{
-position:absolute;
-top:15px;
-left:10px;
-right:10px;
-height:4px;
-display:flex;
-gap:5px;
+/* compteur vues */
+.view-count{position:absolute;bottom:20px;left:15px;font-size:14px;background:rgba(0,0,0,0.6);padding:6px 10px;border-radius:20px;display:flex;align-items:center;}
+
+/* PROGRESS CONTROLS */
+#progressControls{display:flex;align-items:center;justify-content:center;position:absolute;bottom:60px;left:0;width:100%;gap:10px;}
+#progressControls button{background:#25D366;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer;color:black;margin:0 5px;transition:0.3s;}
+#progressControls button:hover{transform:scale(1.1);}
+
+/* MODALE */
+#giftModal,#buyCoinsModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
+.modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
+.gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
+.gift-options button:hover,.green-btn:hover{transform:scale(1.05);}
+#coinBalance{font-size:18px;margin-bottom:15px;}
+#buyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
+#giftMessage{margin-top:10px;color:#FFD700;font-weight:bold;}
+.red-btn{background:red;color:white;padding:8px 12px;border:none;border-radius:10px;margin-top:10px;cursor:pointer;}
+
+/* HAMBURGER MENU */
+#hamburgerContainer{position:fixed;bottom:20px;right:20px;z-index:1002;}
+#hamburger{font-size:28px;cursor:pointer;background:#25D366;color:white;padding:8px;border-radius:8px;}
+#menuOptions{display:none;flex-direction:column;background:#111;border:1px solid #25D366;border-radius:8px;margin-top:5px;padding:8px;}
+#menuOptions p{margin:5px 0;color:white;cursor:default;}
+
+/* BOSTE & PUBLISH BUTTONS */
+#bosteBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #25D366;
+  color: black;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1003;
+  transition: 0.3s;
 }
+#bosteBtn:hover { transform: scale(1.1); }
 
-.progress{
-flex:1;
-background:rgba(255,255,255,0.3);
-border-radius:4px;
-overflow:hidden;
+#publishBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #FFD700;
+  color: black;
+  padding: 12px 16px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1003;
+  display: none; /* n’apparaît que quand une story est ouverte */
+  transition: 0.3s;
 }
-
-.progress-inner{
-height:100%;
-width:0%;
-background:white;
-}
-
-/* VIEW COUNT */
-
-.view-count{
-position:absolute;
-bottom:20px;
-left:15px;
-font-size:14px;
-background:rgba(0,0,0,0.6);
-padding:6px 10px;
-border-radius:20px;
-}
+#publishBtn:hover { transform: scale(1.1); }
