@@ -32,6 +32,7 @@
 <div id="giftModal">
   <div class="modal-content">
     <div id="coinBalance">💰 0</div>
+    <button id="buyCoins">+ Acheter des coins</button>
     <h3>Envoyer un cadeau</h3>
     <div class="gift-options">
       <button data-cost="1">🌹 Rose – 1 pièce</button>
@@ -72,12 +73,26 @@
 <!-- MODAL KYC -->
 <div id="kycModal">
   <div class="modal-content">
-    <h3>Vérification d'identité</h3>
-    <p>Veuillez envoyer vos documents pour valider votre compte.</p>
-    <input type="file" id="kycFileInput" accept="image/*,application/pdf">
-    <button id="kycSubmitBtn" class="green-btn">Envoyer documents</button>
-    <div id="kycStatus"></div>
-    <button id="closeKyc" class="red-btn">Fermer</button>
+    <h3>Vérification KYC</h3>
+    <label>Nom complet</label>
+    <input type="text" id="kycFullName" placeholder="Nom complet">
+    <label>Date de naissance</label>
+    <input type="date" id="kycDOB">
+    <label>Pays</label>
+    <input type="text" id="kycCountry" placeholder="Pays">
+    <label>Type de document</label>
+    <select id="kycDocumentType">
+      <option>Carte d'identité</option>
+      <option>Passeport</option>
+      <option>Permis de conduire</option>
+    </select>
+    <label>Télécharger document</label>
+    <input type="file" id="kycDocument">
+    <label>Selfie avec document (optionnel)</label>
+    <input type="file" id="kycSelfie">
+    <div id="kycMessage" style="margin:10px 0;color:#FFD700;"></div>
+    <button id="submitKYC" class="green-btn">Envoyer pour vérification</button>
+    <button id="closeKYC" class="red-btn">Fermer</button>
   </div>
 </div>
 
@@ -106,6 +121,15 @@
   </div>
 </div>
 
+<!-- MODAL RETRAIT PAYPAL -->
+<div id="withdrawModal">
+  <div class="modal-content">
+    <h3>Retirer avec PayPal</h3>
+    <button id="withdrawPaypalBtn" class="green-btn">🅿️ PayPal</button>
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
-  </html>
+</html>
