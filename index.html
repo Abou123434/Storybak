@@ -1,83 +1,48 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoryBak</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{background:#0f0f0f;color:white;overflow-x:hidden;}
 
-<header>
-  <h1 class="logo">Story<span class="highlight">Bak</span></h1>
-</header>
+/* HEADER */
+header{padding:15px;background:#111;text-align:center;}
+.logo{font-size:24px;color:white;}
+.highlight{color:#25D366;}
 
-<!-- Input pour publier story -->
-<input type="file" id="fileInput" accept="image/*,video/*" hidden>
+/* STORIES */
+.stories{display:flex;gap:12px;padding:12px;overflow-x:auto;}
+.story{text-align:center;cursor:pointer;position:relative;}
+.story img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #25D366;}
+.story p{font-size:13px;margin-top:5px;}
+.plus{position:absolute;bottom:10px;right:2px;background:#25D366;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;cursor:pointer;font-size:16px;}
 
-<!-- Liste des stories -->
-<div class="stories" id="stories"></div>
+/* VIEWER */
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;flex-direction:column;justify-content:center;align-items:center;}
+.content{width:100%;height:85vh;display:flex;justify-content:center;align-items:center;}
+.content img,.content video{max-width:100%;max-height:80vh;border-radius:15px;}
 
-<!-- VIEWER -->
-<div class="viewer" id="viewer">
-  <div class="progress-container" id="progressContainer"></div>
-  <div class="content" id="content"></div>
-  <div class="view-count" id="viewCount"></div>
-  <div id="progressControls"></div>
-</div>
+/* PROGRESS */
+.progress-container{position:absolute;top:15px;left:10px;right:10px;height:4px;display:flex;gap:5px;z-index:10;}
+.progress{flex:1;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;}
+.progress-inner{height:100%;width:0%;background:white;transition:width 0.05s linear;}
 
-<!-- MODAL CADEAU -->
-<div id="giftModal">
-  <div class="modal-content">
-    <div id="coinBalance">💰 0</div>
-    <button id="buyCoins">+ Acheter des coins</button>
-    <h3>Envoyer un cadeau</h3>
-    <div class="gift-options">
-      <button data-cost="1">🌹 Rose – 1 pièce</button>
-      <button data-cost="10">🔥 Feu – 10 pièces</button>
-      <button data-cost="100">🚀 Fusée – 100 pièces</button>
-      <button data-cost="30000">🦁 Lion – 30 000 pièces</button>
-      <button data-cost="100000">🐉 Dragon – 100 000 pièces</button>
-    </div>
-    <div id="giftMessage"></div>
-    <button id="closeGiftModal" class="red-btn">Fermer</button>
-  </div>
-</div>
+/* compteur vues */
+.view-count{position:absolute;bottom:20px;left:15px;font-size:14px;background:rgba(0,0,0,0.6);padding:6px 10px;border-radius:20px;display:flex;align-items:center;}
 
-<!-- MODAL ACHAT COINS -->
-<div id="buyCoinsModal">
-  <div class="modal-content">
-    <h3>Acheter des pièces</h3>
-    <ul>
-      <li onclick="openPayment()">1 pièce – 0,01€</li>
-      <li onclick="openPayment()">10 pièces – 0,10€</li>
-      <li onclick="openPayment()">100 pièces – 1€</li>
-      <li onclick="openPayment()">30 000 pièces – 300€</li>
-      <li onclick="openPayment()">100 000 pièces – 1000€</li>
-    </ul>
-    <button onclick="closeBuy()">Fermer</button>
-  </div>
-</div>
+/* PROGRESS CONTROLS */
+#progressControls{display:flex;align-items:center;justify-content:center;position:absolute;bottom:60px;left:0;width:100%;gap:10px;}
+#progressControls button{background:#25D366;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer;color:black;margin:0 5px;transition:0.3s;}
+#progressControls button:hover{transform:scale(1.1);}
 
-<!-- MODAL PAIEMENT PAYPAL -->
-<div id="paymentModal">
-  <div class="modal-content">
-    <h3>Payer avec PayPal</h3>
-    <button onclick="openBlank()" class="green-btn">🅿️ PayPal</button>
-    <button onclick="closePayment()" class="red-btn">Fermer</button>
-  </div>
-</div>
+/* MODALE */
+#giftModal,#buyCoinsModal,#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1001;}
+.modal-content{background:#111;color:white;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:400px;}
+.gift-options button,.green-btn{margin:5px;padding:10px 15px;border:none;border-radius:10px;background:#25D366;color:black;font-weight:bold;cursor:pointer;transition:0.3s;}
+.gift-options button:hover,.green-btn:hover{transform:scale(1.05);}
+#coinBalance{font-size:18px;margin-bottom:15px;}
+#buyCoins{margin-top:5px;padding:8px 12px;border-radius:5px;border:none;background:#FFD700;color:black;cursor:pointer;}
+#giftMessage{margin-top:10px;color:#FFD700;font-weight:bold;}
+.red-btn{background:red;color:white;padding:8px 12px;border:none;border-radius:10px;margin-top:10px;cursor:pointer;}
 
-<!-- HAMBURGER -->
-<div id="hamburgerContainer">
-  <div id="hamburger">&#9776;</div>
-  <div id="menuOptions">
-    <p>Solde</p>
-    <p>Changer profil</p>
-    <p>Déconnexion</p>
-  </div>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+/* HAMBURGER MENU */
+#hamburgerContainer{position:fixed;bottom:20px;right:20px;z-index:1002;}
+#hamburger{font-size:28px;cursor:pointer;background:#25D366;color:white;padding:8px;border-radius:8px;}
+#menuOptions{display:none;flex-direction:column;background:#111;border:1px solid #25D366;border-radius:8px;margin-top:5px;padding:8px;}
+#menuOptions p{margin:5px 0;color:white;cursor:default;}
