@@ -1,5 +1,5 @@
 /* ===== GLOBAL ===== */
-let currentProfile = { username: "MonProfil", bio: "123" };
+let currentProfile = { username: "MonProfil", bio: "Prenom" };
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
@@ -26,7 +26,7 @@ function generateAvatar(nom, prenom) {
 
 /* ===== CREATION PROFIL INITIAL ===== */
 if(!users[currentProfile.username]){
-    users[currentProfile.username] = { photo: generateAvatar("Mon","123"), stories: [] };
+    users[currentProfile.username] = { photo: generateAvatar("Mon","Prenom"), stories: [] };
     coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
@@ -37,7 +37,7 @@ function renderStories(){
     container.innerHTML="";
     Object.keys(users).forEach(u=>{
         let div = document.createElement("div"); div.className="story";
-        
+
         // Cercle avatar
         let avatarDiv = document.createElement("div"); 
         avatarDiv.style.width="80px"; avatarDiv.style.height="80px";
@@ -152,7 +152,7 @@ document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
 });
 function openGiftQuantityModal(){
     let m=document.createElement("div"); m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
-    let box=document.createElement("div"); box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;";
+    let box=document.createElement("div"); box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
     box.innerHTML=`<h3>Quantité pour ${selectedGiftEmoji}</h3>
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
     <button onclick="sendGift(1)">×1</button>
@@ -209,7 +209,10 @@ walletBtn.onclick=()=>{
 };
 closeWallet.onclick=()=>walletOverlay.style.display="none";
 walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
-withdrawBtn.onclick=()=>{ if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; } else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }};
+withdrawBtn.onclick=()=>{ 
+    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; } 
+    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; } 
+};
 
 closeKYC.onclick=()=>kycModal.style.display="none";
 submitKYC.onclick=()=>{
@@ -229,7 +232,28 @@ withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); 
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 /* ===== CHANGER PROFIL ===== */
-const changeProfileBtn = document.getElementById("changeProfileBtn");
+const changeProfileBtn2 = document.getElementById("changeProfileBtn");
+
+// Créer modal si pas présent
+if(!document.getElementById("profileModal")){
+    let modal = document.createElement("div");
+    modal.id="profileModal";
+    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+    modal.innerHTML=`
+    <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;">
+        <h3>Modifier le profil</h3>
+        <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;"></div>
+        <input type="file" id="avatarInput" hidden>
+        <br><br>
+        <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;"><br>
+        <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;"><br>
+        <button id="saveProfile" class="green-btn">Sauvegarder</button>
+        <button id="closeProfileModal" class="red-btn">Fermer</button>
+    </div>`;
+    document.body.appendChild(modal);
+}
+
+// Elements modal
 const profileModal = document.getElementById("profileModal");
 const avatarPreview = document.getElementById("avatarPreview");
 const avatarInput = document.getElementById("avatarInput");
@@ -238,16 +262,19 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
-changeProfileBtn?.addEventListener("click", ()=>{
+// Ouvrir modal
+changeProfileBtn2.addEventListener("click", ()=>{
     profileModal.style.display="flex";
     profileNom.value=currentProfile.username;
     profilePrenom.value=currentProfile.bio;
     avatarPreview.innerText=currentProfile.username[0]+currentProfile.bio[0];
     avatarPreview.style.backgroundImage=users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
+    avatarPreview.style.backgroundSize="cover";
 });
 
-avatarPreview?.addEventListener("click", ()=>avatarInput.click());
-avatarInput?.addEventListener("change", e=>{
+// Modifier avatar
+avatarPreview.addEventListener("click", ()=> avatarInput.click());
+avatarInput.addEventListener("change", e=>{
     let file=e.target.files[0]; if(!file) return;
     let reader=new FileReader();
     reader.onload=ev=>{
@@ -261,24 +288,24 @@ avatarInput?.addEventListener("change", e=>{
     reader.readAsDataURL(file);
 });
 
-saveProfile?.addEventListener("click", ()=>{
+// Sauvegarder profil
+saveProfile.addEventListener("click", ()=>{
     let nom=profileNom.value.trim();
     let prenom=profilePrenom.value.trim();
-    if(!nom || !/^\d{3}$/.test(prenom)) { 
-        return alert("Le prénom doit contenir exactement 3 chiffres"); 
-    }
+    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
 
     currentProfile.username=nom;
     currentProfile.bio=prenom;
 
-    // Mise à jour du cercle existant
-    users[currentProfile.username] = users[currentProfile.username] || { photo: generateAvatar(nom, prenom), stories: [] };
+    // Mettre à jour cercle existant sans en créer un nouveau
+    users[currentProfile.username] = users[currentProfile.username] || { photo: users[currentProfile.username]?.photo || generateAvatar(nom, prenom), stories: users[currentProfile.username]?.stories || [] };
     saveData();
     renderStories();
     profileModal.style.display="none";
 });
 
-closeProfileModal?.addEventListener("click", ()=>profileModal.style.display="none");
+// Fermer modal
+closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
 /* ===== INIT ===== */
 renderStories();
