@@ -20,18 +20,17 @@ function generateAvatar(nom, prenom){
     ctx.fillStyle = "#25D366";
     ctx.fillRect(0,0,150,150);
     ctx.fillStyle = "white";
-    ctx.font = "bold 20px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     let text = nom + " " + prenom;
-    if(text.length > 10) ctx.font = "bold 12px sans-serif"; // réduire si trop long
+    ctx.font = text.length > 10 ? "bold 12px sans-serif" : "bold 20px sans-serif";
     ctx.fillText(text, 75, 75, 140);
     return canvas.toDataURL();
 }
 
 /* ===== CREATION PROFIL INITIAL ===== */
 if(!users[currentProfile.username]){
-    users[currentProfile.username] = { photo: generateAvatar("Mon","Prenom"), stories: [] };
+    users[currentProfile.username] = { photo: generateAvatar("Mon","Prenom"), bio: "Prenom", stories: [] };
     coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
@@ -56,7 +55,7 @@ function renderStories(){
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
-        // Nom + prénom côte à côte, sans parenthèses
+        // Nom + prénom côte à côte
         let label = document.createElement("div");  
         label.style.textAlign="center"; label.style.marginTop="5px";  
         label.style.color="white"; 
@@ -314,7 +313,7 @@ avatarInput.addEventListener("change", e=>{
     reader.readAsDataURL(file);
 });
 
-// Sauvegarder profil
+// Sauvegarder profil (corrigé pour prénom et nom correctement)
 saveProfile.addEventListener("click", ()=>{
     let nom = profileNom.value.trim();
     let prenom = profilePrenom.value.trim();
@@ -323,17 +322,17 @@ saveProfile.addEventListener("click", ()=>{
     let oldKey = currentProfile.username;
     let userData = users[oldKey];
 
+    userData.bio = prenom; // mettre à jour le prénom
+    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
+
+    // Renommer la clé si le nom change
+    if(oldKey !== nom){
+        users[nom] = userData;
+        delete users[oldKey];
+    }
+
     currentProfile.username = nom;
     currentProfile.bio = prenom;
-
-    if(oldKey !== nom){
-        delete users[oldKey];
-        users[nom] = userData;
-    }
-
-    if(!users[nom].photo){
-        users[nom].photo = generateAvatar(nom, prenom);
-    }
 
     saveData();
     renderStories();
