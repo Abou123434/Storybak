@@ -23,7 +23,9 @@ function generateAvatar(nom, prenom){
     ctx.font = "bold 20px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(nom + " " + prenom, 75, 75, 140);
+    let text = nom + " " + prenom;
+    if(text.length > 10) ctx.font = "bold 12px sans-serif"; // réduire si trop long
+    ctx.fillText(text, 75, 75, 140);
     return canvas.toDataURL();
 }
 
@@ -50,6 +52,7 @@ function renderStories(){
         avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";  
         avatarDiv.style.backgroundImage = `url(${users[u].photo})`;  
         avatarDiv.style.backgroundSize="cover";  
+        avatarDiv.style.backgroundPosition="center";
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
@@ -249,13 +252,13 @@ if(!document.getElementById("profileModal")){
     modal.id="profileModal";
     modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
     modal.innerHTML= `
-        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;">
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
             <h3>Modifier le profil</h3>
             <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
             <input type="file" id="avatarInput" hidden>
             <br><br>
-            <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;"><br>
-            <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;"><br>
+            <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
+            <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
             <button id="saveProfile" class="green-btn">Sauvegarder</button>
             <button id="closeProfileModal" class="red-btn">Fermer</button>
         </div>
@@ -276,16 +279,21 @@ changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
-    
+
     avatarPreview.innerText = "";
     if(users[currentProfile.username]?.photo){
         avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
         avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
     } else {
         avatarPreview.style.backgroundImage = "";
         avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
     }
 });
+
+// Fermer modal
+closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
 // Modifier avatar
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
@@ -296,6 +304,7 @@ avatarInput.addEventListener("change", e=>{
     reader.onload = ev => {
         avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
         avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
         avatarPreview.innerText = "";
         users[currentProfile.username].photo = ev.target.result;
         saveData();
