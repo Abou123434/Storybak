@@ -1,4 +1,4 @@
-/* GLOBAL */
+/* ==== GLOBAL ==== */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
 body { background: #0f0f0f; color: white; overflow-x: hidden; }
 
@@ -60,9 +60,12 @@ header { padding: 15px; background: #111; text-align: center; }
 .wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; opacity: 0.7; }
 
 /* MODAL RETRAIT */
-#withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 3000; }
-#withdrawModal .modal-content { background: #111; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
-#withdrawModal .green-btn { margin: 10px; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; background: #25D366; color: black; font-weight: bold; }
+#withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 3000; }
+#withdrawModal .modal-content { background: #111; padding: 30px 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 450px; color: white; }
+#withdrawModal h3 { margin-bottom: 15px; color: #25D366; }
+#withdrawModal .green-btn, #withdrawPaypalBtn { margin: 10px; padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer; background: #25D366; color: black; font-weight: bold; font-size: 18px; }
+#withdrawModal .red-btn, #closeWithdraw { margin: 10px; padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer; background: red; color: white; font-weight: bold; font-size: 18px; }
+#withdrawMin { margin-top: 20px; font-size: 16px; color: #FFD700; font-weight: bold; }
 
 /* KYC */
 #kycModal input, #kycModal select { width: 100%; padding: 8px; margin: 5px 0 15px 0; border-radius: 8px; border: 1px solid #25D366; background: #0f0f0f; color: white; }
@@ -74,4 +77,4 @@ header { padding: 15px; background: #111; text-align: center; }
     .story img { width: 50px; height: 50px; }
     #progressControls button { padding: 8px 12px; font-size: 14px; }
     .content img, .content video { max-height: 70vh; }
-                      }
+}
