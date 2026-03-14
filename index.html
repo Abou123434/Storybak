@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoryBak</title>
+<title>StoryBak Fusion</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,7 +23,12 @@
   <div class="view-count" id="viewCount"></div>
   <div class="tap-left" onclick="prevStory()"></div>
   <div class="tap-right" onclick="nextStory()"></div>
-  <div id="progressControls"></div>
+  <div class="reactions">
+    <span onclick="react('❤️')">❤️</span>
+    <span onclick="react('😂')">😂</span>
+    <span onclick="react('🔥')">🔥</span>
+    <span onclick="react('😮')">😮</span>
+  </div>
 </div>
 
 <!-- MODAL CADEAUX -->
@@ -110,7 +115,7 @@
     <h2>Mon portefeuille</h2>
     <p>🪙 Coins : <span id="walletCoins">0</span></p>
     <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
-    <p>💰 Valeur estimée : <span id="walletValue">0</span></p>
+    <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
     <div class="wallet-buttons">
       <button id="walletBuyCoins">+ Acheter des coins</button>
       <button id="withdrawBtn">Retirer</button>
@@ -129,22 +134,6 @@
   </div>
 </div>
 
-<!-- BOUTON PUBLIE FLOTTANT -->
-<button id="publishStoryBtn" style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    font-size: 18px;
-    border-radius: 50px;
-    background-color: #25D366;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: none;
-    z-index: 9999;
-">Publier</button>
-
 <script src="script.js"></script>
 </body>
-      </html>
+  </html>
