@@ -251,7 +251,7 @@ if(!document.getElementById("profileModal")){
     modal.innerHTML= `
         <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;">
             <h3>Modifier le profil</h3>
-            <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;"></div>
+            <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
             <input type="file" id="avatarInput" hidden>
             <br><br>
             <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;"><br>
@@ -276,25 +276,58 @@ changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
+    
     avatarPreview.innerText = "";
-    avatarPreview.style.backgroundImage = users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
-    avatarPreview.style.backgroundSize = "cover";
+    if(users[currentProfile.username]?.photo){
+        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
+        avatarPreview.style.backgroundSize = "cover";
+    } else {
+        avatarPreview.style.backgroundImage = "";
+        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+    }
 });
 
 // Modifier avatar
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
 avatarInput.addEventListener("change", e=>{
-    let file=e.target.files[0]; if(!file) return;
-    let reader=new FileReader();
-    reader.onload=ev=>{
-        avatarPreview.style.backgroundImage=`url(${ev.target.result})`;
-        avatarPreview.style.backgroundSize="cover";
-        avatarPreview.innerText="";
-        users[currentProfile.username].photo=ev.target.result;
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = ev => {
+        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.innerText = "";
+        users[currentProfile.username].photo = ev.target.result;
         saveData();
         renderStories();
     };
     reader.readAsDataURL(file);
+});
+
+// Sauvegarder profil
+saveProfile.addEventListener("click", ()=>{
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
+    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
+
+    let oldKey = currentProfile.username;
+    let userData = users[oldKey];
+
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
+
+    if(oldKey !== nom){
+        delete users[oldKey];
+        users[nom] = userData;
+    }
+
+    if(!users[nom].photo){
+        users[nom].photo = generateAvatar(nom, prenom);
+    }
+
+    saveData();
+    renderStories();
+    profileModal.style.display = "none";
 });
 
 /* ===== INIT ===== */
