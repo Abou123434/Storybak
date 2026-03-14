@@ -40,12 +40,12 @@ if(!users[currentProfile.username]){
 function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
-
     let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
     allUsers.forEach(u=>{
         let div = document.createElement("div"); 
         div.className="story";
+        div.style.position = "relative";        
 
         let avatarDiv = document.createElement("div");
         avatarDiv.style.width="80px";
@@ -76,8 +76,8 @@ function renderStories(){
             plus.className="plus";
             plus.innerText="+";
             plus.style.position="absolute";
-            plus.style.top="55px";
-            plus.style.left="55px";
+            plus.style.bottom="0";
+            plus.style.right="0";
             plus.style.color="white";
             plus.style.background="#25D366";
             plus.style.borderRadius="50%";
@@ -91,7 +91,6 @@ function renderStories(){
                 e.stopPropagation();
                 document.getElementById("fileInput").click();
             };
-            div.style.position="relative";
             div.appendChild(plus);
         }
 
@@ -168,23 +167,19 @@ function showStory(previewMode=false){
         let delBtn=document.createElement("button"); delBtn.innerText="Supprimer"; delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){ users[currentUser].stories.splice(currentIndex,1); saveData(); if(users[currentUser].stories.length===0){ closeViewer(); return; } showStory(); } }; controls.appendChild(delBtn);
     }
 }
-function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
-function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
-function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
 /* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
 function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
 document.getElementById("closeGiftModal").onclick=()=>document.getElementById("giftModal").style.display="none";
-document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{ b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); } });
+document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{ b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); }; });
 function openGiftQuantityModal(){
     let m=document.createElement("div"); 
     m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
     let box=document.createElement("div"); 
     box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
-    box.innerHTML = `
-        <h3>Quantité pour ${selectedGiftEmoji}</h3>
+    box.innerHTML = `<h3>Quantité pour ${selectedGiftEmoji}</h3>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
             <button onclick="sendGift(1)">×1</button>
             <button onclick="sendGift(2)">×2</button>
@@ -192,117 +187,49 @@ function openGiftQuantityModal(){
             <button onclick="sendGift(7)">×7</button>
             <button onclick="sendGift(10)">×10</button>
         </div><br>
-        <button onclick="closeGiftQuantity()">Fermer</button>
-    `;
+        <button onclick="closeGiftQuantity()">Fermer</button>`;
     m.appendChild(box); document.body.appendChild(m);
 }
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
 function sendGift(q){ let t=selectedGiftCost*q; if((coins[currentProfile.username]||0)>=t){ coins[currentProfile.username]-=t; saveCoins(); document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; updateCoinBalance(); }else document.getElementById("giftMessage").innerText="Solde insuffisant"; closeGiftQuantity(); }
 
-/* ===== COINS ===== */
+/* ===== ACHAT COINS ===== */
 document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
-function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank","_blank"); }
+document.getElementById("closeBuyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="none";
+document.getElementById("walletBuyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; document.getElementById("walletOverlay").style.display="none"; };
+document.getElementById("openPayment").onclick=()=>document.getElementById("paymentModal").style.display="flex";
+document.getElementById("closePayment").onclick=()=>document.getElementById("paymentModal").style.display="none";
 
-/* ===== HAMBURGER ===== */
-document.getElementById("hamburger").onclick=()=>{ let m=document.getElementById("menuOptions"); m.style.display=(m.style.display==="flex")?"none":"flex"; };
-
-/* ===== WALLET & KYC & RETRAIT ===== */
-const walletBtn=document.getElementById("walletBtn");
-const walletOverlay=document.getElementById("walletOverlay");
-const closeWallet=document.getElementById("closeWallet");
-const withdrawBtn=document.getElementById("withdrawBtn");
-const walletBuyCoins=document.getElementById("walletBuyCoins");
-const kycModal=document.getElementById("kycModal");
-const closeKYC=document.getElementById("closeKYC");
-const submitKYC=document.getElementById("submitKYC");
-const kycMessage=document.getElementById("kycMessage");
-const withdrawPaypalBtn=document.getElementById("withdrawPaypalBtn");
-const closeWithdraw=document.getElementById("closeWithdraw");
-
-walletBtn.onclick=()=>{
+/* ===== WALLET & KYC ===== */
+document.getElementById("walletBtn").onclick=()=>{
     document.getElementById("walletCoins").innerText=coins[currentProfile.username]||0;
     document.getElementById("walletDiamonds").innerText=8400;
     document.getElementById("walletValue").innerText=84;
-    walletOverlay.style.display="flex";
+    document.getElementById("walletOverlay").style.display="flex";
 };
-closeWallet.onclick=()=>walletOverlay.style.display="none";
-walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
-withdrawBtn.onclick=()=>{
-    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
-    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }
+document.getElementById("closeWallet").onclick=()=>document.getElementById("walletOverlay").style.display="none";
+document.getElementById("withdrawBtn").onclick=()=>{
+    if(kycDone){ document.getElementById("walletOverlay").style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
+    else { document.getElementById("kycModal").style.display="flex"; kycModal.style.zIndex="99999"; }
 };
-closeKYC.onclick=()=>kycModal.style.display="none";
-submitKYC.onclick=()=>{
+document.getElementById("closeKYC").onclick=()=>document.getElementById("kycModal").style.display="none";
+document.getElementById("submitKYC").onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
     const country=document.getElementById("kycCountry").value.trim();
     const doc=document.getElementById("kycDocument").files[0];
-    if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return; }
-    kycMessage.innerText="✅ Vérification envoyée !";
-    setTimeout(()=>{ kycModal.style.display="none"; kycDone=true; document.getElementById("withdrawModal").style.display="flex"; },2000);
+    if(!name||!dob||!country||!doc){ document.getElementById("kycMessage").innerText="Veuillez remplir tous les champs obligatoires"; return; }
+    document.getElementById("kycMessage").innerText="✅ Vérification envoyée !";
+    setTimeout(()=>{ document.getElementById("kycModal").style.display="none"; kycDone=true; document.getElementById("withdrawModal").style.display="flex"; },2000);
 };
-withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
-closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
+document.getElementById("withdrawPaypalBtn").onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
+document.getElementById("closeWithdraw").onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
-/* ===== CHANGER PROFIL ===== */
-const changeProfileBtn=document.getElementById("changeProfileBtn");
-const profileModal=document.getElementById("profileModal");
-const avatarPreview=document.getElementById("avatarPreview");
-const avatarInput=document.getElementById("avatarInput");
-const profileNom=document.getElementById("profileNom");
-const profilePrenom=document.getElementById("profilePrenom");
-const saveProfile=document.getElementById("saveProfile");
-const closeProfileModal=document.getElementById("closeProfileModal");
-
-changeProfileBtn.addEventListener("click", ()=>{
-    profileModal.style.display="flex";
-    profileNom.value=currentProfile.username;
-    profilePrenom.value=currentProfile.bio;
-    avatarPreview.innerText="";
-    if(users[currentProfile.username]?.photo){
-        avatarPreview.style.backgroundImage=`url(${users[currentProfile.username].photo})`;
-        avatarPreview.style.backgroundSize="cover";
-        avatarPreview.style.backgroundPosition="center";
-    } else {
-        avatarPreview.style.backgroundImage="";
-        avatarPreview.innerText=currentProfile.username+" "+currentProfile.bio;
-        avatarPreview.style.fontSize=(currentProfile.username.length+currentProfile.bio.length>10)?"12px":"20px";
-    }
-});
-closeProfileModal.addEventListener("click", ()=>profileModal.style.display="none");
-avatarPreview.addEventListener("click", ()=>avatarInput.click());
-avatarInput.addEventListener("change", e=>{
-    let file=e.target.files[0]; if(!file) return;
-    let reader=new FileReader();
-    reader.onload=ev=>{
-        avatarPreview.style.backgroundImage=`url(${ev.target.result})`;
-        avatarPreview.style.backgroundSize="cover";
-        avatarPreview.style.backgroundPosition="center";
-        avatarPreview.innerText="";
-        users[currentProfile.username].photo=ev.target.result;
-        saveData();
-        renderStories();
-    };
-    reader.readAsDataURL(file);
-});
-saveProfile.addEventListener("click", ()=>{
-    let nom=profileNom.value.trim();
-    let prenom=profilePrenom.value.trim();
-    if(!nom||!prenom){ return alert("Nom et prénom sont obligatoires"); }
-    let oldKey=currentProfile.username;
-    let userData=users[oldKey];
-    userData.bio=prenom;
-    if(!userData.photo) userData.photo=generateAvatar(nom, prenom);
-    if(oldKey!==nom){ users[nom]=userData; delete users[oldKey]; }
-    currentProfile.username=nom;
-    currentProfile.bio=prenom;
-    saveData();
-    renderStories();
-    profileModal.style.display="none";
-});
+/* ===== MENU HAMBURGER ===== */
+document.getElementById("hamburger").onclick=()=>{
+    let m=document.getElementById("menuOptions");
+    m.style.display=(m.style.display==="flex")?"none":"flex";
+};
 
 /* ===== INIT ===== */
 renderStories();
