@@ -5,39 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StoryBak</title>
 <link rel="stylesheet" href="style.css">
-<style>
-/* Styles spécifiques pour modals fusionnés */
-#withdrawModal {
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.9);
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-#withdrawModal .modal-content {
-    background:#111;
-    padding:30px 40px;
-    border-radius:20px;
-    text-align:center;
-    max-width:400px;
-    width:90%;
-    color:white;
-}
-#withdrawModal .green-btn {
-    background:#25D366; color:white; font-size:18px; padding:12px 25px;
-    border:none; border-radius:10px; margin:10px; cursor:pointer;
-}
-#withdrawModal .red-btn {
-    background:red; color:white; font-size:18px; padding:12px 25px;
-    border:none; border-radius:10px; margin:10px; cursor:pointer;
-}
-#withdrawMin {
-    margin-top:20px; font-size:16px;
-    color:#FFD700;
-}
-</style>
 </head>
 <body>
 
@@ -45,10 +12,8 @@
   <h1 class="logo">Story<span class="highlight">Bak</span></h1>
 </header>
 
-<!-- Input pour publier story -->
 <input type="file" id="fileInput" accept="image/*,video/*" hidden>
 
-<!-- Liste des stories -->
 <div class="stories" id="stories"></div>
 
 <!-- VIEWER -->
@@ -61,7 +26,7 @@
   <div id="progressControls"></div>
 </div>
 
-<!-- MODAL CADEAU -->
+<!-- MODAL CADEAUX -->
 <div id="giftModal">
   <div class="modal-content">
     <div id="coinBalance">💰 0</div>
@@ -129,7 +94,7 @@
   </div>
 </div>
 
-<!-- HAMBURGER -->
+<!-- HAMBURGER MENU -->
 <div id="hamburgerContainer">
   <div id="hamburger">&#9776;</div>
   <div id="menuOptions">
@@ -154,7 +119,7 @@
   </div>
 </div>
 
-<!-- MODAL RETRAIT PAYPAL (fusionné avec minimum 15€) -->
+<!-- MODAL RETRAIT PAYPAL -->
 <div id="withdrawModal">
   <div class="modal-content">
     <h3>Retirer avec PayPal</h3>
@@ -166,4 +131,4 @@
 
 <script src="script.js"></script>
 </body>
-      </html>
+</html>
