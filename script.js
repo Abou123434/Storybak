@@ -40,7 +40,6 @@ function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
 
-    // Profil courant en premier
     let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
     allUsers.forEach(u=>{
@@ -65,7 +64,10 @@ function renderStories(){
 
         if(u===currentProfile.username){  
             let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
-            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
+            plus.addEventListener("click", e=>{
+                e.stopPropagation();
+                document.getElementById("fileInput").click();
+            });  
             div.appendChild(plus);  
         }  
 
@@ -73,41 +75,45 @@ function renderStories(){
     });
 }
 
-/* ===== UPLOAD STORY + BOUTON PUBLIE ===== */
+/* ===== UPLOAD STORY + BOUTON PUBLIE FLOTTANT ===== */
 let pendingFile = null; // fichier temporaire
 
-document.getElementById("fileInput").addEventListener("change", e=>{
-    let file = e.target.files[0]; 
-    if(!file) return;
-    pendingFile = file;
-    document.getElementById("publishBtn").style.display = "block"; // bouton flottant visible
-});
-
+// Bouton Publier flottant
 document.body.insertAdjacentHTML('beforeend', `
-    <button id="publishBtn" style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #25D366;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
-        cursor: pointer;
-        display: none;
-        z-index: 9999;
-    ">➤</button>
+<button id="publishBtn" style="
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+    z-index: 9999;
+">➤</button>
 `);
-
 const publishBtn = document.getElementById("publishBtn");
+
+// Publier et masquer bouton
 publishBtn.addEventListener("click", ()=>{
     if(!pendingFile) return;
     if(pendingFile.type.startsWith("video")) addVideo(pendingFile);
     else addImage(pendingFile);
     pendingFile = null;
     publishBtn.style.display = "none";
+});
+
+// Fichier choisi → afficher bouton flottant
+document.getElementById("fileInput").addEventListener("change", e=>{
+    let file = e.target.files[0]; 
+    if(!file) return;
+    pendingFile = file;
+    publishBtn.style.display = "block";
 });
 
 function addVideo(file){
