@@ -1,5 +1,5 @@
 /* ===== GLOBAL ===== */
-let currentProfile = { username: "MonProfil", bio: "Ma bio" };
+let currentProfile = { username: "MonProfil", bio: "PRO" }; // bio = prénom 3 lettres
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
@@ -26,7 +26,7 @@ function generateAvatar(nom, prenom) {
 
 // Création profil initial
 if (!users[currentProfile.username]) {
-    users[currentProfile.username] = { photo: generateAvatar("Mon","Profil"), stories: [] };
+    users[currentProfile.username] = { photo: generateAvatar("Mon","PRO"), stories: [] };
     coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
@@ -34,6 +34,7 @@ if (!users[currentProfile.username]) {
 /* ===== STORIES ===== */
 function renderStories() {
     let container = document.getElementById("stories");
+    if(!container) return;
     container.innerHTML = "";
     Object.keys(users).forEach(u => {
         let div = document.createElement("div"); div.className = "story";
@@ -48,7 +49,7 @@ function renderStories() {
 }
 
 /* ===== UPLOAD STORY ===== */
-document.getElementById("fileInput").addEventListener("change", e => {
+document.getElementById("fileInput")?.addEventListener("change", e => {
     let file = e.target.files[0]; if (!file) return;
     if (file.type.startsWith("video")) addVideo(file); else addImage(file);
 });
@@ -126,8 +127,8 @@ function closeViewer(){ clearInterval(timer); document.getElementById("viewer").
 let selectedGiftCost=0, selectedGiftEmoji="";
 function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
-document.getElementById("closeGiftModal").onclick = ()=>{ document.getElementById("giftModal").style.display="none"; };
-document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
+document.getElementById("closeGiftModal")?.addEventListener("click", ()=>{ document.getElementById("giftModal").style.display="none"; });
+document.querySelectorAll("#giftModal .gift-options button")?.forEach(b=>{
     b.onclick=()=>{
         selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal();
     }
@@ -158,20 +159,20 @@ function sendGift(q){
 }
 
 /* ===== ACHAT COINS ===== */
-document.getElementById("buyCoins").onclick=()=>{ 
+document.getElementById("buyCoins")?.addEventListener("click",()=>{ 
     document.getElementById("buyCoinsModal").style.display="flex"; 
     document.getElementById("buyCoinsModal").style.zIndex = 1001;
-}
+});
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; document.getElementById("paymentModal").style.zIndex = 1002; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
 function openBlank(){ window.open("about:blank", "_blank"); }
 
 /* ===== HAMBURGER ===== */
-document.getElementById("hamburger").onclick=()=>{
+document.getElementById("hamburger")?.addEventListener("click",()=>{
     let m=document.getElementById("menuOptions");
     m.style.display=(m.style.display==="flex")?"none":"flex";
-};
+});
 
 /* ===== WALLET + KYC + RETRAIT ===== */
 const walletBtn=document.getElementById("walletBtn");
@@ -190,28 +191,27 @@ const withdrawPaypalBtn=document.getElementById("withdrawPaypalBtn");
 const closeWithdraw=document.getElementById("closeWithdraw");
 
 /* ===== OUVRIR WALLET ===== */
-walletBtn.onclick = () => {
+walletBtn?.addEventListener("click", () => {
     document.getElementById("walletCoins").innerText = coins[currentProfile.username] || 0;
     document.getElementById("walletDiamonds").innerText = 8400;
     document.getElementById("walletValue").innerText = 84;
     walletOverlay.style.display = "flex";
     walletOverlay.style.zIndex = 1000;
-};
+});
 
 /* ===== FERMER WALLET ===== */
-closeWallet.onclick = () => { walletOverlay.style.display = "none"; };
+closeWallet?.addEventListener("click",()=>{ walletOverlay.style.display = "none"; });
 
 /* ===== ACHETER COINS DEPUIS WALLET ===== */
-walletBuyCoins.onclick = () => {
+walletBuyCoins?.addEventListener("click", () => {
     walletOverlay.style.display = "none";
     document.getElementById("buyCoinsModal").style.display = "flex";
     document.getElementById("buyCoinsModal").style.zIndex = 1001;
-};
+});
 
 /* ===== RETRAIT ===== */
-withdrawBtn.onclick = () => {
+withdrawBtn?.addEventListener("click", () => {
     walletOverlay.style.display = "none"; // fermer wallet
-
     if(kycDone){
         withdrawModal.style.display = "flex";
         withdrawModal.style.zIndex = 1002;
@@ -219,18 +219,17 @@ withdrawBtn.onclick = () => {
         kycModal.style.display = "flex";
         kycModal.style.zIndex = 1003;
     }
-};
+});
 
 /* ===== KYC ===== */
-closeKYC.onclick = () => { kycModal.style.display = "none"; }
+closeKYC?.addEventListener("click", () => { kycModal.style.display = "none"; });
 
-submitKYC.onclick = () => {
+submitKYC?.addEventListener("click", () => {
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
     const country=document.getElementById("kycCountry").value.trim();
     const doc=document.getElementById("kycDocument").files[0];
     if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return; }
-
     kycMessage.innerText="✅ Vérification envoyée !";
     setTimeout(()=>{
         kycDone=true;
@@ -238,16 +237,70 @@ submitKYC.onclick = () => {
         withdrawModal.style.display="flex";
         withdrawModal.style.zIndex = 1002;
     },2000);
-};
+});
 
 /* ===== RETRAIT PAYPAL ===== */
-withdrawPaypalBtn.onclick = () => {
+withdrawPaypalBtn?.addEventListener("click", () => {
     alert("Montant minimum de retrait : 15 €");
     window.open("about:blank", "_blank");
-};
+});
 
 /* ===== FERMER RETRAIT ===== */
-closeWithdraw.onclick = () => { withdrawModal.style.display = "none"; };
+closeWithdraw?.addEventListener("click", () => { withdrawModal.style.display = "none"; });
+
+/* ===== PROFIL / CHANGER AVATAR, NOM, PRÉNOM ===== */
+const profileCircle = document.getElementById("profileCircle");
+const profileModal = document.getElementById("profileModal");
+const avatarPreview = document.getElementById("avatarPreview");
+const avatarInput = document.getElementById("avatarInput");
+const profileNom = document.getElementById("profileNom");
+const profilePrenom = document.getElementById("profilePrenom");
+const saveProfile = document.getElementById("saveProfile");
+const closeProfileModal = document.getElementById("closeProfileModal");
+
+profileCircle?.addEventListener("click", () => {
+    profileModal.style.display = "flex";
+    profileNom.value = currentProfile.username;
+    profilePrenom.value = currentProfile.bio;
+    avatarPreview.innerText = currentProfile.username[0] + currentProfile.bio[0];
+    avatarPreview.style.backgroundImage = users[currentProfile.username].photo ? `url(${users[currentProfile.username].photo})` : "";
+});
+
+avatarPreview?.addEventListener("click", ()=> avatarInput.click());
+
+avatarInput?.addEventListener("change", e => {
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = ev => {
+        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.innerText = "";
+        users[currentProfile.username].photo = ev.target.result;
+        saveData();
+        renderStories();
+        profileCircle.style.backgroundImage = `url(${ev.target.result})`;
+        profileCircle.style.backgroundSize = "cover";
+        profileCircle.innerText = "";
+    };
+    reader.readAsDataURL(file);
+});
+
+saveProfile?.addEventListener("click", () => {
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim().slice(0,3);
+    if(!nom||!prenom) return alert("Remplir nom et prénom");
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
+    if(!users[nom].photo){
+        profileCircle.innerText = nom[0]+prenom[0];
+        profileCircle.style.backgroundImage = "";
+    }
+    profileModal.style.display = "none";
+    renderStories();
+});
+
+closeProfileModal?.addEventListener("click", () => profileModal.style.display = "none");
 
 /* ===== INIT ===== */
 renderStories();
