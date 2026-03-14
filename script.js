@@ -1,5 +1,5 @@
 /* ===== GLOBAL ===== */
-let currentProfile = { username: "MonProfil", bio: "PRO" }; // bio = prénom 3 lettres
+let currentProfile = { username: "MonProfil", bio: "MP" };
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
@@ -8,7 +8,7 @@ let kycDone = false;
 let users = JSON.parse(localStorage.getItem("storyUsers")) || {};
 let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
 
-// Sauvegarde
+/* ===== SAUVEGARDE ===== */
 function saveData() { localStorage.setItem("storyUsers", JSON.stringify(users)); }
 function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
@@ -24,9 +24,9 @@ function generateAvatar(nom, prenom) {
     return canvas.toDataURL();
 }
 
-// Création profil initial
+/* ===== CREATION PROFIL INITIAL ===== */
 if (!users[currentProfile.username]) {
-    users[currentProfile.username] = { photo: generateAvatar("Mon","PRO"), stories: [] };
+    users[currentProfile.username] = { photo: generateAvatar("Mon","Profil"), stories: [] };
     coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
@@ -34,70 +34,71 @@ if (!users[currentProfile.username]) {
 /* ===== STORIES ===== */
 function renderStories() {
     let container = document.getElementById("stories");
-    if(!container) return;
     container.innerHTML = "";
     Object.keys(users).forEach(u => {
         let div = document.createElement("div"); div.className = "story";
         let img = document.createElement("img"); img.src = users[u].photo;
-        let plus = document.createElement("div"); plus.className = "plus"; plus.innerText = "+";
-        if (u === currentProfile.username) {
+        div.appendChild(img); container.appendChild(div);
+        if(u === currentProfile.username){
+            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";
             plus.onclick = e => { e.stopPropagation(); document.getElementById("fileInput").click(); };
-        } else plus.style.display = "none";
-        div.appendChild(img); div.appendChild(plus); container.appendChild(div);
+            div.appendChild(plus);
+        }
         div.onclick = () => openViewer(u);
     });
 }
 
 /* ===== UPLOAD STORY ===== */
-document.getElementById("fileInput")?.addEventListener("change", e => {
-    let file = e.target.files[0]; if (!file) return;
-    if (file.type.startsWith("video")) addVideo(file); else addImage(file);
+document.getElementById("fileInput").addEventListener("change", e => {
+    let file = e.target.files[0]; if(!file) return;
+    if(file.type.startsWith("video")) addVideo(file); else addImage(file);
 });
-function addVideo(file) {
+function addVideo(file){
     let url = URL.createObjectURL(file);
-    users[currentProfile.username].stories.push({ url, type: "video", views: {} });
+    users[currentProfile.username].stories.push({ url, type:"video", views:{} });
     saveData(); renderStories();
 }
-function addImage(file) {
+function addImage(file){
     let reader = new FileReader();
     reader.onload = e => {
-        users[currentProfile.username].stories.push({ url: e.target.result, type: "image", views: {} });
+        users[currentProfile.username].stories.push({ url:e.target.result, type:"image", views:{} });
         saveData(); renderStories();
     };
     reader.readAsDataURL(file);
 }
 
 /* ===== VIEWER ===== */
-function openViewer(u) {
-    if (users[u].stories.length === 0) return;
+function openViewer(u){
+    if(users[u].stories.length===0) return;
     currentUser = u; currentIndex = 0;
-    document.getElementById("viewer").style.display = "flex";
+    document.getElementById("viewer").style.display="flex";
     showStory();
 }
-function renderProgressBars() {
-    let c = document.getElementById("progressContainer"); c.innerHTML = "";
+function renderProgressBars(){
+    let c = document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
-        let bar=document.createElement("div"); bar.className="progress";
-        let inner=document.createElement("div"); inner.className="progress-inner";
+        let bar = document.createElement("div"); bar.className="progress";
+        let inner = document.createElement("div"); inner.className="progress-inner";
         if(i<currentIndex) inner.style.width="100%";
         bar.appendChild(inner); c.appendChild(bar);
     });
 }
-function startProgress(s) {
+function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner"); let w=0;
     let dur = s.type==="image"?5000:10000;
-    timer=setInterval(()=>{
+    timer = setInterval(()=>{
         w+=100/(dur/50); bars[currentIndex].style.width=Math.min(w,100)+"%";
-        if(w>=100){ clearInterval(timer);
-            if(currentIndex<users[currentUser].stories.length-1){currentIndex++; showStory();}
+        if(w>=100){
+            clearInterval(timer);
+            if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); }
             else closeViewer();
         }
     },50);
 }
-function showStory() {
+function showStory(){
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
+    let s = users[currentUser].stories[currentIndex];
+    let c = document.getElementById("content"); c.innerHTML="";
     let e = s.type==="image"?document.createElement("img"):document.createElement("video");
     e.src = s.url; if(s.type==="video") e.autoplay=true; c.appendChild(e);
     if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
@@ -105,12 +106,12 @@ function showStory() {
     renderProgressBars(); startProgress(s);
 
     // Controls
-    let controls=document.getElementById("progressControls"); controls.innerHTML="";
-    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;
+    let controls = document.getElementById("progressControls"); controls.innerHTML="";
+    let giftBtn = document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;
     controls.appendChild(giftBtn);
 
     if(currentProfile.username===currentUser){
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";
+        let delBtn = document.createElement("button"); delBtn.innerText="Supprimer";
         delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1); saveData();
             if(users[currentUser].stories.length===0){ closeViewer(); return; }
@@ -119,16 +120,16 @@ function showStory() {
         controls.appendChild(delBtn);
     }
 }
-function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){currentIndex++; showStory();} }
-function prevStory(){ if(currentIndex>0){currentIndex--; showStory();} }
+function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
+function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
 /* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
 function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
-document.getElementById("closeGiftModal")?.addEventListener("click", ()=>{ document.getElementById("giftModal").style.display="none"; });
-document.querySelectorAll("#giftModal .gift-options button")?.forEach(b=>{
+document.getElementById("closeGiftModal").onclick = ()=>{ document.getElementById("giftModal").style.display="none"; };
+document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
     b.onclick=()=>{
         selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal();
     }
@@ -159,22 +160,19 @@ function sendGift(q){
 }
 
 /* ===== ACHAT COINS ===== */
-document.getElementById("buyCoins")?.addEventListener("click",()=>{ 
-    document.getElementById("buyCoinsModal").style.display="flex"; 
-    document.getElementById("buyCoinsModal").style.zIndex = 1001;
-});
+document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; }
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; document.getElementById("paymentModal").style.zIndex = 1002; }
+function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank", "_blank"); }
+function openBlank(){ window.open("about:blank","_blank"); }
 
 /* ===== HAMBURGER ===== */
-document.getElementById("hamburger")?.addEventListener("click",()=>{
+document.getElementById("hamburger").onclick=()=>{
     let m=document.getElementById("menuOptions");
     m.style.display=(m.style.display==="flex")?"none":"flex";
-});
+};
 
-/* ===== WALLET + KYC + RETRAIT ===== */
+/* ===== WALLET & KYC & RETRAIT ===== */
 const walletBtn=document.getElementById("walletBtn");
 const walletOverlay=document.getElementById("walletOverlay");
 const closeWallet=document.getElementById("closeWallet");
@@ -186,45 +184,21 @@ const closeKYC=document.getElementById("closeKYC");
 const submitKYC=document.getElementById("submitKYC");
 const kycMessage=document.getElementById("kycMessage");
 
-const withdrawModal=document.getElementById("withdrawModal");
 const withdrawPaypalBtn=document.getElementById("withdrawPaypalBtn");
 const closeWithdraw=document.getElementById("closeWithdraw");
 
-/* ===== OUVRIR WALLET ===== */
-walletBtn?.addEventListener("click", () => {
-    document.getElementById("walletCoins").innerText = coins[currentProfile.username] || 0;
-    document.getElementById("walletDiamonds").innerText = 8400;
-    document.getElementById("walletValue").innerText = 84;
-    walletOverlay.style.display = "flex";
-    walletOverlay.style.zIndex = 1000;
-});
+walletBtn.onclick=()=>{
+    document.getElementById("walletCoins").innerText=coins[currentProfile.username]||0;
+    document.getElementById("walletDiamonds").innerText=8400;
+    document.getElementById("walletValue").innerText=84;
+    walletOverlay.style.display="flex";
+};
+closeWallet.onclick=()=>walletOverlay.style.display="none";
+walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
+withdrawBtn.onclick=()=>{ if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; } else kycModal.style.display="flex"; };
 
-/* ===== FERMER WALLET ===== */
-closeWallet?.addEventListener("click",()=>{ walletOverlay.style.display = "none"; });
-
-/* ===== ACHETER COINS DEPUIS WALLET ===== */
-walletBuyCoins?.addEventListener("click", () => {
-    walletOverlay.style.display = "none";
-    document.getElementById("buyCoinsModal").style.display = "flex";
-    document.getElementById("buyCoinsModal").style.zIndex = 1001;
-});
-
-/* ===== RETRAIT ===== */
-withdrawBtn?.addEventListener("click", () => {
-    walletOverlay.style.display = "none"; // fermer wallet
-    if(kycDone){
-        withdrawModal.style.display = "flex";
-        withdrawModal.style.zIndex = 1002;
-    } else {
-        kycModal.style.display = "flex";
-        kycModal.style.zIndex = 1003;
-    }
-});
-
-/* ===== KYC ===== */
-closeKYC?.addEventListener("click", () => { kycModal.style.display = "none"; });
-
-submitKYC?.addEventListener("click", () => {
+closeKYC.onclick=()=>{ kycModal.style.display="none"; }
+submitKYC.onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
     const country=document.getElementById("kycCountry").value.trim();
@@ -232,24 +206,16 @@ submitKYC?.addEventListener("click", () => {
     if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return; }
     kycMessage.innerText="✅ Vérification envoyée !";
     setTimeout(()=>{
-        kycDone=true;
         kycModal.style.display="none";
-        withdrawModal.style.display="flex";
-        withdrawModal.style.zIndex = 1002;
+        kycDone=true;
+        document.getElementById("withdrawModal").style.display="flex";
     },2000);
-});
+};
+withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
+closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
-/* ===== RETRAIT PAYPAL ===== */
-withdrawPaypalBtn?.addEventListener("click", () => {
-    alert("Montant minimum de retrait : 15 €");
-    window.open("about:blank", "_blank");
-});
-
-/* ===== FERMER RETRAIT ===== */
-closeWithdraw?.addEventListener("click", () => { withdrawModal.style.display = "none"; });
-
-/* ===== PROFIL / CHANGER AVATAR, NOM, PRÉNOM ===== */
-const profileCircle = document.getElementById("profileCircle");
+/* ===== CHANGER PROFIL ===== */
+const changeProfileBtn = document.getElementById("changeProfileBtn");
 const profileModal = document.getElementById("profileModal");
 const avatarPreview = document.getElementById("avatarPreview");
 const avatarInput = document.getElementById("avatarInput");
@@ -258,49 +224,47 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
-profileCircle?.addEventListener("click", () => {
-    profileModal.style.display = "flex";
+changeProfileBtn?.addEventListener("click", ()=>{
+    profileModal.style.display="flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
-    avatarPreview.innerText = currentProfile.username[0] + currentProfile.bio[0];
-    avatarPreview.style.backgroundImage = users[currentProfile.username].photo ? `url(${users[currentProfile.username].photo})` : "";
+    avatarPreview.innerText = currentProfile.username[0]+currentProfile.bio[0];
+    avatarPreview.style.backgroundImage = users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
 });
 
-avatarPreview?.addEventListener("click", ()=> avatarInput.click());
-
-avatarInput?.addEventListener("change", e => {
-    let file = e.target.files[0];
-    if(!file) return;
-    let reader = new FileReader();
+avatarPreview?.addEventListener("click", ()=>avatarInput.click());
+avatarInput?.addEventListener("change", e=>{
+    let file=e.target.files[0]; if(!file) return;
+    let reader=new FileReader();
     reader.onload = ev => {
         avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
-        avatarPreview.style.backgroundSize = "cover";
-        avatarPreview.innerText = "";
+        avatarPreview.style.backgroundSize="cover";
+        avatarPreview.innerText="";
         users[currentProfile.username].photo = ev.target.result;
         saveData();
         renderStories();
-        profileCircle.style.backgroundImage = `url(${ev.target.result})`;
-        profileCircle.style.backgroundSize = "cover";
-        profileCircle.innerText = "";
     };
     reader.readAsDataURL(file);
 });
 
-saveProfile?.addEventListener("click", () => {
-    let nom = profileNom.value.trim();
-    let prenom = profilePrenom.value.trim().slice(0,3);
+saveProfile?.addEventListener("click", ()=>{
+    let nom=profileNom.value.trim();
+    let prenom=profilePrenom.value.trim().slice(0,3);
     if(!nom||!prenom) return alert("Remplir nom et prénom");
-    currentProfile.username = nom;
-    currentProfile.bio = prenom;
-    if(!users[nom].photo){
-        profileCircle.innerText = nom[0]+prenom[0];
-        profileCircle.style.backgroundImage = "";
+
+    currentProfile.username=nom;
+    currentProfile.bio=prenom;
+
+    if(!users[nom]?.photo){
+        users[nom] = users[nom] || { photo: generateAvatar(nom, prenom), stories: [] };
     }
-    profileModal.style.display = "none";
+
+    saveData();
     renderStories();
+    profileModal.style.display="none";
 });
 
-closeProfileModal?.addEventListener("click", () => profileModal.style.display = "none");
+closeProfileModal?.addEventListener("click", ()=>profileModal.style.display="none");
 
 /* ===== INIT ===== */
 renderStories();
