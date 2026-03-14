@@ -12,21 +12,25 @@ let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
 function saveData() { localStorage.setItem("storyUsers", JSON.stringify(users)); }
 function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
-/* ===== AVATAR ===== */
-function generateAvatar(nom, prenom) {
+/* ===== AVATAR ILLIMITE ===== */
+function generateAvatar(nom, prenom){
     let canvas = document.createElement("canvas");
     canvas.width = 150; canvas.height = 150;
     let ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#25D366"; ctx.fillRect(0, 0, 150, 150);
-    ctx.fillStyle = "white"; ctx.font = "bold 60px sans-serif";
-    ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(nom[0]+prenom[0], 75, 75);
+    ctx.fillStyle = "#25D366";
+    ctx.fillRect(0,0,150,150);
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    let text = nom + " " + prenom;
+    ctx.font = text.length > 10 ? "bold 12px sans-serif" : "bold 20px sans-serif";
+    ctx.fillText(text, 75, 75, 140);
     return canvas.toDataURL();
 }
 
 /* ===== CREATION PROFIL INITIAL ===== */
 if(!users[currentProfile.username]){
-    users[currentProfile.username] = { photo: generateAvatar("Mon","Prenom"), stories: [] };
+    users[currentProfile.username] = { photo: generateAvatar("Mon","Prenom"), bio: "Prenom", stories: [] };
     coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
@@ -36,30 +40,29 @@ function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
 
-    // Mettre l’utilisateur courant en premier
-    const usernames = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 1);
+    // Profil courant en premier
+    let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
-    usernames.forEach(u=>{
+    allUsers.forEach(u=>{
         let div = document.createElement("div"); div.className="story";
 
-        // Cercle avatar  
         let avatarDiv = document.createElement("div");   
         avatarDiv.style.width="80px"; avatarDiv.style.height="80px";  
         avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";  
         avatarDiv.style.backgroundImage = `url(${users[u].photo})`;  
         avatarDiv.style.backgroundSize="cover";  
+        avatarDiv.style.backgroundPosition="center";
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
-        // Nom + prénom  
         let label = document.createElement("div");  
         label.style.textAlign="center"; label.style.marginTop="5px";  
-        label.style.color="white"; label.innerText = `${u} ${users[u].bio}`;  
+        label.style.color="white"; 
+        label.innerText = u + " " + users[u].bio;
 
         div.appendChild(avatarDiv); div.appendChild(label);  
         container.appendChild(div);  
 
-        // Ajouter "+" pour l'utilisateur courant  
         if(u===currentProfile.username){  
             let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
             plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
@@ -70,26 +73,41 @@ function renderStories(){
     });
 }
 
-/* ===== UPLOAD STORY ===== */
-let pendingFile = null;
-const publishBtn = document.getElementById("publishStoryBtn");
+/* ===== UPLOAD STORY + BOUTON PUBLIE ===== */
+let pendingFile = null; // fichier temporaire
 
-document.getElementById("fileInput").addEventListener("change", e => {
-    let file = e.target.files[0];
+document.getElementById("fileInput").addEventListener("change", e=>{
+    let file = e.target.files[0]; 
     if(!file) return;
-
     pendingFile = file;
-    publishBtn.style.display = "block"; // Affiche le bouton Publier
+    document.getElementById("publishBtn").style.display = "block"; // bouton flottant visible
 });
 
-publishBtn.addEventListener("click", () => {
-    if(!pendingFile) return alert("Aucun fichier sélectionné");
+document.body.insertAdjacentHTML('beforeend', `
+    <button id="publishBtn" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #25D366;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        cursor: pointer;
+        display: none;
+        z-index: 9999;
+    ">➤</button>
+`);
 
+const publishBtn = document.getElementById("publishBtn");
+publishBtn.addEventListener("click", ()=>{
+    if(!pendingFile) return;
     if(pendingFile.type.startsWith("video")) addVideo(pendingFile);
     else addImage(pendingFile);
-
     pendingFile = null;
-    publishBtn.style.display = "none"; // Masque le bouton après publication
+    publishBtn.style.display = "none";
 });
 
 function addVideo(file){
@@ -97,7 +115,6 @@ function addVideo(file){
     users[currentProfile.username].stories.push({ url,type:"video", views:{} });
     saveData(); renderStories();
 }
-
 function addImage(file){
     let reader=new FileReader();
     reader.onload=e=>{
@@ -114,7 +131,6 @@ function openViewer(u){
     document.getElementById("viewer").style.display="flex";
     showStory();
 }
-
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
@@ -124,7 +140,6 @@ function renderProgressBars(){
         bar.appendChild(inner); c.appendChild(bar);
     });
 }
-
 function startProgress(s){
     let bars=document.querySelectorAll(".progress-inner"); let w=0;
     let dur=s.type==="image"?5000:10000;
@@ -137,7 +152,6 @@ function startProgress(s){
         }
     },50);
 }
-
 function showStory(){
     clearInterval(timer);
     let s=users[currentUser].stories[currentIndex];
@@ -148,7 +162,6 @@ function showStory(){
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
-    // Controls  
     let controls=document.getElementById("progressControls"); controls.innerHTML="";  
     let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
     controls.appendChild(giftBtn);  
@@ -163,7 +176,6 @@ function showStory(){
         controls.appendChild(delBtn);  
     }
 }
-
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
@@ -181,7 +193,7 @@ function openGiftQuantityModal(){
     m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
     let box=document.createElement("div"); 
     box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
-    box.innerHTML=`
+    box.innerHTML = `
         <h3>Quantité pour ${selectedGiftEmoji}</h3>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
             <button onclick="sendGift(1)">×1</button>
@@ -190,26 +202,29 @@ function openGiftQuantityModal(){
             <button onclick="sendGift(7)">×7</button>
             <button onclick="sendGift(10)">×10</button>
         </div><br>
-        <button onclick="closeGiftQuantity()">Fermer</button>`;
+        <button onclick="closeGiftQuantity()">Fermer</button>
+    `;
     m.appendChild(box); document.body.appendChild(m);
 }
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
 function sendGift(q){
     let t=selectedGiftCost*q;
-    if((coins[currentProfile.username]||0)>=t){ coins[currentProfile.username]-=t; saveCoins();
-        document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; updateCoinBalance();
+    if((coins[currentProfile.username]||0)>=t){ 
+        coins[currentProfile.username]-=t; saveCoins();
+        document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; 
+        updateCoinBalance();
     }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
 }
 
-/* ===== ACHAT COINS ===== */
+/* ===== ACHAT COINS & PAIEMENT ===== */
 document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
 function openBlank(){ window.open("about:blank","_blank"); }
 
-/* ===== HAMBURGER ===== */
+/* ===== HAMBURGER MENU ===== */
 document.getElementById("hamburger").onclick=()=>{
     let m=document.getElementById("menuOptions");
     m.style.display=(m.style.display==="flex")?"none":"flex";
@@ -261,28 +276,27 @@ withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); 
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 /* ===== CHANGER PROFIL ===== */
-const changeProfileBtn2 = document.getElementById("changeProfileBtn");
+const changeProfileBtn = document.getElementById("changeProfileBtn");
 
-// Créer modal si pas présent
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
     modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
-    modal.innerHTML=`
-    <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;">
-        <h3>Modifier le profil</h3>
-        <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;"></div>
-        <input type="file" id="avatarInput" hidden>
-        <br><br>
-        <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;"><br>
-        <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;"><br>
-        <button id="saveProfile" class="green-btn">Sauvegarder</button>
-        <button id="closeProfileModal" class="red-btn">Fermer</button>
-    </div>`;
+    modal.innerHTML= `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
+            <h3>Modifier le profil</h3>
+            <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
+            <input type="file" id="avatarInput" hidden>
+            <br><br>
+            <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
+            <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
+            <button id="saveProfile" class="green-btn">Sauvegarder</button>
+            <button id="closeProfileModal" class="red-btn">Fermer</button>
+        </div>
+    `;
     document.body.appendChild(modal);
 }
 
-// Elements modal
 const profileModal = document.getElementById("profileModal");
 const avatarPreview = document.getElementById("avatarPreview");
 const avatarInput = document.getElementById("avatarInput");
@@ -292,25 +306,38 @@ const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
 // Ouvrir modal
-changeProfileBtn2.addEventListener("click", ()=>{
-    profileModal.style.display="flex";
-    profileNom.value=currentProfile.username;
-    profilePrenom.value=currentProfile.bio;
-    avatarPreview.innerText=currentProfile.username[0]+currentProfile.bio[0];
-    avatarPreview.style.backgroundImage=users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
-    avatarPreview.style.backgroundSize="cover";
+changeProfileBtn.addEventListener("click", ()=>{
+    profileModal.style.display = "flex";
+    profileNom.value = currentProfile.username;
+    profilePrenom.value = currentProfile.bio;
+
+    avatarPreview.innerText = "";
+    if(users[currentProfile.username]?.photo){
+        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+    } else {
+        avatarPreview.style.backgroundImage = "";
+        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
+    }
 });
+
+// Fermer modal
+closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
 // Modifier avatar
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
 avatarInput.addEventListener("change", e=>{
-    let file=e.target.files[0]; if(!file) return;
-    let reader=new FileReader();
-    reader.onload=ev=>{
-        avatarPreview.style.backgroundImage=`url(${ev.target.result})`;
-        avatarPreview.style.backgroundSize="cover";
-        avatarPreview.innerText="";
-        users[currentProfile.username].photo=ev.target.result;
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = ev => {
+        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+        avatarPreview.innerText = "";
+        users[currentProfile.username].photo = ev.target.result;
         saveData();
         renderStories();
     };
@@ -319,29 +346,28 @@ avatarInput.addEventListener("change", e=>{
 
 // Sauvegarder profil
 saveProfile.addEventListener("click", ()=>{
-    let nom=profileNom.value.trim();
-    let prenom=profilePrenom.value.trim();
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
     if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
 
-    // Mettre à jour cercle existant
-    const oldUsername = currentProfile.username;
-    currentProfile.username = nom;  
-    currentProfile.bio = prenom;  
+    let oldKey = currentProfile.username;
+    let userData = users[oldKey];
 
-    if(oldUsername !== nom){
-        users[nom] = users[oldUsername] || { photo: users[oldUsername]?.photo || generateAvatar(nom, prenom), stories: users[oldUsername]?.stories || [] };
-        if(oldUsername !== nom) delete users[oldUsername];
-        coins[nom] = coins[oldUsername] || 100;
-        if(oldUsername !== nom) delete coins[oldUsername];
+    userData.bio = prenom;
+    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
+
+    if(oldKey !== nom){
+        users[nom] = userData;
+        delete users[oldKey];
     }
 
-    saveData(); saveCoins();
-    renderStories();  
-    profileModal.style.display="none";
-});
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
 
-// Fermer modal
-closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
+    saveData();
+    renderStories();
+    profileModal.style.display = "none";
+});
 
 /* ===== INIT ===== */
 renderStories();
