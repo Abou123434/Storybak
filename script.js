@@ -1,5 +1,5 @@
 /* ===== GLOBAL ===== */
-let currentProfile = { username: "MonProfil", bio: "MP" };
+let currentProfile = { username: "MonProfil", bio: "123" };
 let currentUser = null;
 let currentIndex = 0;
 let timer = null;
@@ -25,43 +25,61 @@ function generateAvatar(nom, prenom) {
 }
 
 /* ===== CREATION PROFIL INITIAL ===== */
-if (!users[currentProfile.username]) {
-    users[currentProfile.username] = { photo: generateAvatar("Mon","Profil"), stories: [] };
+if(!users[currentProfile.username]){
+    users[currentProfile.username] = { photo: generateAvatar("Mon","123"), stories: [] };
     coins[currentProfile.username] = 100;
     saveData(); saveCoins();
 }
 
 /* ===== STORIES ===== */
-function renderStories() {
+function renderStories(){
     let container = document.getElementById("stories");
-    container.innerHTML = "";
-    Object.keys(users).forEach(u => {
-        let div = document.createElement("div"); div.className = "story";
-        let img = document.createElement("img"); img.src = users[u].photo;
-        div.appendChild(img); container.appendChild(div);
-        if(u === currentProfile.username){
+    container.innerHTML="";
+    Object.keys(users).forEach(u=>{
+        let div = document.createElement("div"); div.className="story";
+        
+        // Cercle avatar
+        let avatarDiv = document.createElement("div"); 
+        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";
+        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";
+        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;
+        avatarDiv.style.backgroundSize="cover";
+        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";
+        avatarDiv.style.cursor="pointer";
+
+        // Nom + prénom
+        let label = document.createElement("div");
+        label.style.textAlign="center"; label.style.marginTop="5px";
+        label.style.color="white"; label.innerText = `${u} (${users[u].bio})`;
+
+        div.appendChild(avatarDiv); div.appendChild(label);
+        container.appendChild(div);
+
+        // Ajouter "+" pour l'utilisateur courant
+        if(u===currentProfile.username){
             let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";
-            plus.onclick = e => { e.stopPropagation(); document.getElementById("fileInput").click(); };
+            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };
             div.appendChild(plus);
         }
-        div.onclick = () => openViewer(u);
+
+        div.onclick = ()=> openViewer(u);
     });
 }
 
 /* ===== UPLOAD STORY ===== */
-document.getElementById("fileInput").addEventListener("change", e => {
-    let file = e.target.files[0]; if(!file) return;
+document.getElementById("fileInput").addEventListener("change", e=>{
+    let file=e.target.files[0]; if(!file) return;
     if(file.type.startsWith("video")) addVideo(file); else addImage(file);
 });
 function addVideo(file){
     let url = URL.createObjectURL(file);
-    users[currentProfile.username].stories.push({ url, type:"video", views:{} });
+    users[currentProfile.username].stories.push({ url,type:"video", views:{} });
     saveData(); renderStories();
 }
 function addImage(file){
-    let reader = new FileReader();
-    reader.onload = e => {
-        users[currentProfile.username].stories.push({ url:e.target.result, type:"image", views:{} });
+    let reader=new FileReader();
+    reader.onload=e=>{
+        users[currentProfile.username].stories.push({ url:e.target.result,type:"image",views:{} });
         saveData(); renderStories();
     };
     reader.readAsDataURL(file);
@@ -70,23 +88,23 @@ function addImage(file){
 /* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
-    currentUser = u; currentIndex = 0;
+    currentUser = u; currentIndex=0;
     document.getElementById("viewer").style.display="flex";
     showStory();
 }
 function renderProgressBars(){
-    let c = document.getElementById("progressContainer"); c.innerHTML="";
+    let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
-        let bar = document.createElement("div"); bar.className="progress";
-        let inner = document.createElement("div"); inner.className="progress-inner";
+        let bar=document.createElement("div"); bar.className="progress";
+        let inner=document.createElement("div"); inner.className="progress-inner";
         if(i<currentIndex) inner.style.width="100%";
         bar.appendChild(inner); c.appendChild(bar);
     });
 }
 function startProgress(s){
-    let bars = document.querySelectorAll(".progress-inner"); let w=0;
-    let dur = s.type==="image"?5000:10000;
-    timer = setInterval(()=>{
+    let bars=document.querySelectorAll(".progress-inner"); let w=0;
+    let dur=s.type==="image"?5000:10000;
+    timer=setInterval(()=>{
         w+=100/(dur/50); bars[currentIndex].style.width=Math.min(w,100)+"%";
         if(w>=100){
             clearInterval(timer);
@@ -97,21 +115,21 @@ function startProgress(s){
 }
 function showStory(){
     clearInterval(timer);
-    let s = users[currentUser].stories[currentIndex];
-    let c = document.getElementById("content"); c.innerHTML="";
-    let e = s.type==="image"?document.createElement("img"):document.createElement("video");
-    e.src = s.url; if(s.type==="video") e.autoplay=true; c.appendChild(e);
+    let s=users[currentUser].stories[currentIndex];
+    let c=document.getElementById("content"); c.innerHTML="";
+    let e=s.type==="image"?document.createElement("img"):document.createElement("video");
+    e.src=s.url; if(s.type==="video") e.autoplay=true; c.appendChild(e);
     if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
     // Controls
-    let controls = document.getElementById("progressControls"); controls.innerHTML="";
-    let giftBtn = document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;
+    let controls=document.getElementById("progressControls"); controls.innerHTML="";
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;
     controls.appendChild(giftBtn);
 
     if(currentProfile.username===currentUser){
-        let delBtn = document.createElement("button"); delBtn.innerText="Supprimer";
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";
         delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1); saveData();
             if(users[currentUser].stories.length===0){ closeViewer(); return; }
@@ -128,17 +146,13 @@ function closeViewer(){ clearInterval(timer); document.getElementById("viewer").
 let selectedGiftCost=0, selectedGiftEmoji="";
 function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
-document.getElementById("closeGiftModal").onclick = ()=>{ document.getElementById("giftModal").style.display="none"; };
+document.getElementById("closeGiftModal").onclick=()=>document.getElementById("giftModal").style.display="none";
 document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
-    b.onclick=()=>{
-        selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal();
-    }
+    b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); }
 });
 function openGiftQuantityModal(){
-    let m=document.createElement("div");
-    m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
-    let box=document.createElement("div");
-    box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;";
+    let m=document.createElement("div"); m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
+    let box=document.createElement("div"); box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;";
     box.innerHTML=`<h3>Quantité pour ${selectedGiftEmoji}</h3>
     <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
     <button onclick="sendGift(1)">×1</button>
@@ -150,17 +164,17 @@ function openGiftQuantityModal(){
     <button onclick="closeGiftQuantity()">Fermer</button>`;
     m.appendChild(box); document.body.appendChild(m);
 }
-function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m) m.remove(); }
+function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
 function sendGift(q){
-    let t = selectedGiftCost*q;
+    let t=selectedGiftCost*q;
     if((coins[currentProfile.username]||0)>=t){ coins[currentProfile.username]-=t; saveCoins();
         document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; updateCoinBalance();
-    } else document.getElementById("giftMessage").innerText="Solde insuffisant";
+    }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
 }
 
 /* ===== ACHAT COINS ===== */
-document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; }
+document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
@@ -195,9 +209,9 @@ walletBtn.onclick=()=>{
 };
 closeWallet.onclick=()=>walletOverlay.style.display="none";
 walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
-withdrawBtn.onclick=()=>{ if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; } else kycModal.style.display="flex"; };
+withdrawBtn.onclick=()=>{ if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; } else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }};
 
-closeKYC.onclick=()=>{ kycModal.style.display="none"; }
+closeKYC.onclick=()=>kycModal.style.display="none";
 submitKYC.onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
@@ -226,21 +240,21 @@ const closeProfileModal = document.getElementById("closeProfileModal");
 
 changeProfileBtn?.addEventListener("click", ()=>{
     profileModal.style.display="flex";
-    profileNom.value = currentProfile.username;
-    profilePrenom.value = currentProfile.bio;
-    avatarPreview.innerText = currentProfile.username[0]+currentProfile.bio[0];
-    avatarPreview.style.backgroundImage = users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
+    profileNom.value=currentProfile.username;
+    profilePrenom.value=currentProfile.bio;
+    avatarPreview.innerText=currentProfile.username[0]+currentProfile.bio[0];
+    avatarPreview.style.backgroundImage=users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
 });
 
 avatarPreview?.addEventListener("click", ()=>avatarInput.click());
 avatarInput?.addEventListener("change", e=>{
     let file=e.target.files[0]; if(!file) return;
     let reader=new FileReader();
-    reader.onload = ev => {
-        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+    reader.onload=ev=>{
+        avatarPreview.style.backgroundImage=`url(${ev.target.result})`;
         avatarPreview.style.backgroundSize="cover";
         avatarPreview.innerText="";
-        users[currentProfile.username].photo = ev.target.result;
+        users[currentProfile.username].photo=ev.target.result;
         saveData();
         renderStories();
     };
@@ -249,16 +263,16 @@ avatarInput?.addEventListener("change", e=>{
 
 saveProfile?.addEventListener("click", ()=>{
     let nom=profileNom.value.trim();
-    let prenom=profilePrenom.value.trim().slice(0,3);
-    if(!nom||!prenom) return alert("Remplir nom et prénom");
+    let prenom=profilePrenom.value.trim();
+    if(!nom || !/^\d{3}$/.test(prenom)) { 
+        return alert("Le prénom doit contenir exactement 3 chiffres"); 
+    }
 
     currentProfile.username=nom;
     currentProfile.bio=prenom;
 
-    if(!users[nom]?.photo){
-        users[nom] = users[nom] || { photo: generateAvatar(nom, prenom), stories: [] };
-    }
-
+    // Mise à jour du cercle existant
+    users[currentProfile.username] = users[currentProfile.username] || { photo: generateAvatar(nom, prenom), stories: [] };
     saveData();
     renderStories();
     profileModal.style.display="none";
