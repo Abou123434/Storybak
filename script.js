@@ -56,9 +56,11 @@ function renderStories(){
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
+        // Nom + prénom côte à côte, sans parenthèses
         let label = document.createElement("div");  
         label.style.textAlign="center"; label.style.marginTop="5px";  
-        label.style.color="white"; label.innerText = `${u} (${users[u].bio})`;  
+        label.style.color="white"; 
+        label.innerText = u + " " + users[u].bio;
 
         div.appendChild(avatarDiv); div.appendChild(label);  
         container.appendChild(div);  
@@ -246,7 +248,6 @@ closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display
 /* ===== CHANGER PROFIL ===== */
 const changeProfileBtn = document.getElementById("changeProfileBtn");
 
-// Créer modal si pas présent
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
