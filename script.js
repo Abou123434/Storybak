@@ -38,31 +38,31 @@ function renderStories(){
     Object.keys(users).forEach(u=>{
         let div = document.createElement("div"); div.className="story";
 
-        // Cercle avatar
-        let avatarDiv = document.createElement("div"); 
-        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";
-        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";
-        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;
-        avatarDiv.style.backgroundSize="cover";
-        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";
-        avatarDiv.style.cursor="pointer";
+        // Cercle avatar  
+        let avatarDiv = document.createElement("div");   
+        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";  
+        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";  
+        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;  
+        avatarDiv.style.backgroundSize="cover";  
+        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
+        avatarDiv.style.cursor="pointer";  
 
-        // Nom + prénom
-        let label = document.createElement("div");
-        label.style.textAlign="center"; label.style.marginTop="5px";
-        label.style.color="white"; label.innerText = `${u} (${users[u].bio})`;
+        // Nom + prénom  
+        let label = document.createElement("div");  
+        label.style.textAlign="center"; label.style.marginTop="5px";  
+        label.style.color="white"; label.innerText = `${u} (${users[u].bio})`;  
 
-        div.appendChild(avatarDiv); div.appendChild(label);
-        container.appendChild(div);
+        div.appendChild(avatarDiv); div.appendChild(label);  
+        container.appendChild(div);  
 
-        // Ajouter "+" pour l'utilisateur courant
-        if(u===currentProfile.username){
-            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";
-            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };
-            div.appendChild(plus);
-        }
+        // Ajouter "+" pour l'utilisateur courant  
+        if(u===currentProfile.username){  
+            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
+            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
+            div.appendChild(plus);  
+        }  
 
-        div.onclick = ()=> openViewer(u);
+        div.onclick = ()=> openViewer(u);  
     });
 }
 
@@ -123,19 +123,19 @@ function showStory(){
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
-    // Controls
-    let controls=document.getElementById("progressControls"); controls.innerHTML="";
-    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;
-    controls.appendChild(giftBtn);
+    // Controls  
+    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
+    controls.appendChild(giftBtn);  
 
-    if(currentProfile.username===currentUser){
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";
-        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){
-            users[currentUser].stories.splice(currentIndex,1); saveData();
-            if(users[currentUser].stories.length===0){ closeViewer(); return; }
-            showStory();
-        }};
-        controls.appendChild(delBtn);
+    if(currentProfile.username===currentUser){  
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
+        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
+            users[currentUser].stories.splice(currentIndex,1); saveData();  
+            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
+            showStory();  
+        }};  
+        controls.appendChild(delBtn);  
     }
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
@@ -151,24 +151,30 @@ document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
     b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); }
 });
 function openGiftQuantityModal(){
-    let m=document.createElement("div"); m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
-    let box=document.createElement("div"); box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
-    box.innerHTML=`<h3>Quantité pour ${selectedGiftEmoji}</h3>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-    <button onclick="sendGift(1)">×1</button>
-    <button onclick="sendGift(2)">×2</button>
-    <button onclick="sendGift(5)">×5</button>
-    <button onclick="sendGift(7)">×7</button>
-    <button onclick="sendGift(10)">×10</button>
-    </div><br>
-    <button onclick="closeGiftQuantity()">Fermer</button>`;
+    let m=document.createElement("div"); 
+    m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
+    let box=document.createElement("div"); 
+    box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
+    box.innerHTML = `
+        <h3>Quantité pour ${selectedGiftEmoji}</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <button onclick="sendGift(1)">×1</button>
+            <button onclick="sendGift(2)">×2</button>
+            <button onclick="sendGift(5)">×5</button>
+            <button onclick="sendGift(7)">×7</button>
+            <button onclick="sendGift(10)">×10</button>
+        </div><br>
+        <button onclick="closeGiftQuantity()">Fermer</button>
+    `;
     m.appendChild(box); document.body.appendChild(m);
 }
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
 function sendGift(q){
     let t=selectedGiftCost*q;
-    if((coins[currentProfile.username]||0)>=t){ coins[currentProfile.username]-=t; saveCoins();
-        document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; updateCoinBalance();
+    if((coins[currentProfile.username]||0)>=t){ 
+        coins[currentProfile.username]-=t; saveCoins();
+        document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; 
+        updateCoinBalance();
     }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
 }
@@ -209,9 +215,9 @@ walletBtn.onclick=()=>{
 };
 closeWallet.onclick=()=>walletOverlay.style.display="none";
 walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
-withdrawBtn.onclick=()=>{ 
-    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; } 
-    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; } 
+withdrawBtn.onclick=()=>{
+    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
+    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }
 };
 
 closeKYC.onclick=()=>kycModal.style.display="none";
@@ -232,28 +238,28 @@ withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); 
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 /* ===== CHANGER PROFIL ===== */
-const changeProfileBtn2 = document.getElementById("changeProfileBtn");
+const changeProfileBtn = document.getElementById("changeProfileBtn");
 
 // Créer modal si pas présent
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
     modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
-    modal.innerHTML=`
-    <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;">
-        <h3>Modifier le profil</h3>
-        <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;"></div>
-        <input type="file" id="avatarInput" hidden>
-        <br><br>
-        <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;"><br>
-        <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;"><br>
-        <button id="saveProfile" class="green-btn">Sauvegarder</button>
-        <button id="closeProfileModal" class="red-btn">Fermer</button>
-    </div>`;
+    modal.innerHTML= `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;">
+            <h3>Modifier le profil</h3>
+            <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;"></div>
+            <input type="file" id="avatarInput" hidden>
+            <br><br>
+            <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;"><br>
+            <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;"><br>
+            <button id="saveProfile" class="green-btn">Sauvegarder</button>
+            <button id="closeProfileModal" class="red-btn">Fermer</button>
+        </div>
+    `;
     document.body.appendChild(modal);
 }
 
-// Elements modal
 const profileModal = document.getElementById("profileModal");
 const avatarPreview = document.getElementById("avatarPreview");
 const avatarInput = document.getElementById("avatarInput");
@@ -263,13 +269,13 @@ const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
 // Ouvrir modal
-changeProfileBtn2.addEventListener("click", ()=>{
-    profileModal.style.display="flex";
-    profileNom.value=currentProfile.username;
-    profilePrenom.value=currentProfile.bio;
-    avatarPreview.innerText=currentProfile.username[0]+currentProfile.bio[0];
-    avatarPreview.style.backgroundImage=users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
-    avatarPreview.style.backgroundSize="cover";
+changeProfileBtn.addEventListener("click", ()=>{
+    profileModal.style.display = "flex";
+    profileNom.value = currentProfile.username;
+    profilePrenom.value = currentProfile.bio;
+    avatarPreview.innerText = currentProfile.username[0]+currentProfile.bio[0];
+    avatarPreview.style.backgroundImage = users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
+    avatarPreview.style.backgroundSize = "cover";
 });
 
 // Modifier avatar
@@ -290,15 +296,22 @@ avatarInput.addEventListener("change", e=>{
 
 // Sauvegarder profil
 saveProfile.addEventListener("click", ()=>{
-    let nom=profileNom.value.trim();
-    let prenom=profilePrenom.value.trim();
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
     if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
 
-    currentProfile.username=nom;
-    currentProfile.bio=prenom;
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
 
-    // Mettre à jour cercle existant sans en créer un nouveau
-    users[currentProfile.username] = users[currentProfile.username] || { photo: users[currentProfile.username]?.photo || generateAvatar(nom, prenom), stories: users[currentProfile.username]?.stories || [] };
+    // Conserver le cercle existant
+    let userData = users[currentProfile.username] || { stories: [] };
+    userData.photo = users[currentProfile.username]?.photo || generateAvatar(nom, prenom);
+    users[currentProfile.username] = userData;
+
+    avatarPreview.innerText = nom[0]+prenom[0];
+    avatarPreview.style.backgroundImage=`url(${userData.photo})`;
+    avatarPreview.style.backgroundSize="cover";
+
     saveData();
     renderStories();
     profileModal.style.display="none";
