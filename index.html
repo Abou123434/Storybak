@@ -110,7 +110,7 @@
     <h2>Mon portefeuille</h2>
     <p>🪙 Coins : <span id="walletCoins">0</span></p>
     <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
-    <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
+    <p>💰 Valeur estimée : <span id="walletValue">0</span></p>
     <div class="wallet-buttons">
       <button id="walletBuyCoins">+ Acheter des coins</button>
       <button id="withdrawBtn">Retirer</button>
@@ -129,27 +129,22 @@
   </div>
 </div>
 
-<!-- MODAL CHANGER PROFIL (OUVERTURE DEPUIS MENU) -->
-<div id="profileModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:10000;">
-  <div style="background:#111;padding:20px;border-radius:15px;text-align:center;color:white;width:300px;">
-    <h3>Modifier Profil</h3>
-    <div style="margin:10px;">
-        <div id="avatarPreview" style="width:100px;height:100px;margin:0 auto;border-radius:50%;background:#555;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:36px;color:white;">
-            MP
-        </div>
-        <input type="file" id="avatarInput" style="display:none;">
-    </div>
-    <div>
-        <input type="text" id="profileNom" placeholder="Nom" style="width:90%;margin:5px;padding:5px;">
-    </div>
-    <div>
-        <input type="text" id="profilePrenom" placeholder="Prénom (3 caractères max)" maxlength="3" style="width:90%;margin:5px;padding:5px;">
-    </div>
-    <button id="saveProfile" style="margin-top:10px;padding:5px 15px;">Enregistrer</button>
-    <button id="closeProfileModal" style="margin-top:10px;padding:5px 15px;">Fermer</button>
-  </div>
-</div>
+<!-- BOUTON PUBLIE FLOTTANT -->
+<button id="publishStoryBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    font-size: 18px;
+    border-radius: 50px;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: none;
+    z-index: 9999;
+">Publier</button>
 
 <script src="script.js"></script>
 </body>
-  </html>
+      </html>
