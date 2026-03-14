@@ -106,53 +106,41 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     el.style.maxHeight = "80vh";
     content.appendChild(el);
 
-    // Progress + boutons
+    // Progress + boutons (fusion avec Booster et Publier)
     let controls = document.getElementById("progressControls");
     controls.innerHTML = "";
 
-    // Bouton Publier
+    // style du conteneur
+    controls.style.position = "absolute";
+    controls.style.bottom = "20px";
+    controls.style.left = "0";
+    controls.style.right = "0";
+    controls.style.display = "flex";
+    controls.style.justifyContent = "space-between";
+    controls.style.padding = "0 20px";
+
+    // Bouton Booster (gauche - désactivé pour l'instant)
+    let boostBtn = document.createElement("button");
+    boostBtn.innerText = "🚀 Booster";
+    boostBtn.style.padding = "10px 15px";
+    boostBtn.style.borderRadius = "20px";
+    boostBtn.style.background = "#444";
+    boostBtn.style.color = "white";
+    boostBtn.style.opacity = "0.6";
+    boostBtn.style.cursor = "not-allowed";
+    controls.appendChild(boostBtn);
+
+    // Bouton Publier (droite - action principale)
     let publishBtn = document.createElement("button");
     publishBtn.innerText = "Publier";
+    publishBtn.style.padding = "10px 20px";
+    publishBtn.style.borderRadius = "20px";
+    publishBtn.style.background = "#25D366";
+    publishBtn.style.color = "white";
+    publishBtn.style.fontWeight = "bold";
     publishBtn.onclick = publishPreviewStory;
     controls.appendChild(publishBtn);
-
-    // Bouton Annuler
-    let cancelBtn = document.createElement("button");
-    cancelBtn.innerText = "Annuler";
-    cancelBtn.onclick = () => { previewFile = null; closeViewer(); }
-    controls.appendChild(cancelBtn);
 });
-
-// Fonction pour publier la story depuis la prévisualisation
-function publishPreviewStory(){
-    if(!previewFile) return;
-
-    if(previewFile.type.startsWith("video")){
-        users[currentProfile.username].stories.push({
-            url: URL.createObjectURL(previewFile),
-            type: "video",
-            views: {}
-        });
-        saveData();
-        renderStories();
-        previewFile = null;
-        closeViewer();
-    } else {
-        let reader = new FileReader();
-        reader.onload = ev => {
-            users[currentProfile.username].stories.push({
-                url: ev.target.result,
-                type: "image",
-                views: {}
-            });
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
-        reader.readAsDataURL(previewFile);
-    }
-}
 
 /* ===== VIEWER ===== */
 function openViewer(u){
@@ -206,9 +194,6 @@ function showStory(){
         controls.appendChild(delBtn);  
     }
 }
-function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
-function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
-function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
 /* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
