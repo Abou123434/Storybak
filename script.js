@@ -12,7 +12,7 @@ let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
 function saveData() { localStorage.setItem("storyUsers", JSON.stringify(users)); }
 function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
-/* ===== AVATAR ===== */
+/* ===== AVATAR ILLIMITE ===== */
 function generateAvatar(nom, prenom){
     let canvas = document.createElement("canvas");
     canvas.width = 150; canvas.height = 150;
@@ -23,7 +23,7 @@ function generateAvatar(nom, prenom){
     ctx.font = "bold 20px sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(nom + " " + prenom, 75, 75, 140); // afficher tout le nom/prénom
+    ctx.fillText(nom + " " + prenom, 75, 75, 140);
     return canvas.toDataURL();
 }
 
@@ -38,10 +38,13 @@ if(!users[currentProfile.username]){
 function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
-    Object.keys(users).forEach(u=>{
+
+    // Profil courant en premier
+    let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
+
+    allUsers.forEach(u=>{
         let div = document.createElement("div"); div.className="story";
 
-        // Cercle avatar  
         let avatarDiv = document.createElement("div");   
         avatarDiv.style.width="80px"; avatarDiv.style.height="80px";  
         avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";  
@@ -50,7 +53,6 @@ function renderStories(){
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
-        // Nom + prénom  
         let label = document.createElement("div");  
         label.style.textAlign="center"; label.style.marginTop="5px";  
         label.style.color="white"; label.innerText = `${u} (${users[u].bio})`;  
@@ -58,7 +60,6 @@ function renderStories(){
         div.appendChild(avatarDiv); div.appendChild(label);  
         container.appendChild(div);  
 
-        // Ajouter "+" pour l'utilisateur courant  
         if(u===currentProfile.username){  
             let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
             plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
@@ -126,7 +127,6 @@ function showStory(){
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
-    // Controls  
     let controls=document.getElementById("progressControls"); controls.innerHTML="";  
     let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
     controls.appendChild(giftBtn);  
@@ -295,30 +295,6 @@ avatarInput.addEventListener("change", e=>{
         renderStories();
     };
     reader.readAsDataURL(file);
-});
-
-// Sauvegarder profil
-saveProfile.addEventListener("click", ()=>{
-    let nom = profileNom.value.trim();
-    let prenom = profilePrenom.value.trim();
-    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
-
-    let oldKey = currentProfile.username;
-    currentProfile.username = nom;
-    currentProfile.bio = prenom;
-
-    // Conserver l'objet existant pour ne pas créer de nouveau cercle
-    let userData = users[oldKey];
-    delete users[oldKey]; // supprime l'ancien nom
-    users[nom] = userData;
-
-    avatarPreview.innerText = "";
-    avatarPreview.style.backgroundImage=`url(${userData.photo})`;
-    avatarPreview.style.backgroundSize="cover";
-
-    saveData();
-    renderStories();
-    profileModal.style.display="none";
 });
 
 /* ===== INIT ===== */
