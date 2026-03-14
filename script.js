@@ -167,7 +167,7 @@ document.getElementById("hamburger").onclick = () => {
     m.style.display = (m.style.display === "flex") ? "none" : "flex";
 };
 
-/* ===== WALLET + KYC + RETRAIT + PAYPAL ===== */
+/* ===== WALLET + KYC + RETRAIT PAYPAL ===== */
 const walletBtn = document.getElementById("walletBtn");
 const walletOverlay = document.getElementById("walletOverlay");
 const closeWallet = document.getElementById("closeWallet");
@@ -197,11 +197,17 @@ walletBuyCoins.onclick = () => {
     document.getElementById("buyCoinsModal").style.display = "flex";
 };
 
-/* ===== RETRAIT ===== */
+/* ===== RETRAIT + PAYPAL ===== */
+function openWithdrawModal() {
+    withdrawModal.style.display = "flex";
+    document.getElementById("withdrawMin").innerText = "Montant minimum : 15 €";
+    withdrawPaypalBtn.onclick = () => { window.open("about:blank", "_blank"); };
+}
+
 withdrawBtn.onclick = () => {
     walletOverlay.style.display = "none";
     if (!kycDone) kycModal.style.display = "flex";
-    else withdrawModal.style.display = "flex";
+    else openWithdrawModal();
 };
 
 /* ===== KYC ===== */
@@ -223,15 +229,10 @@ submitKYC.onclick = () => {
     setTimeout(() => {
         kycModal.style.display = "none";
         kycDone = true;
-
-        withdrawModal.style.display = "flex";
-        withdrawPaypalBtn.onclick = () => {
-            window.open("https://www.paypal.com/myaccount/transfer/homepage", "_blank");
-        };
+        openWithdrawModal();
     }, 2000);
 };
 
-/* ===== FERMER RETRAIT ===== */
 closeWithdraw.onclick = () => withdrawModal.style.display = "none";
 
 /* ===== INIT ===== */
