@@ -162,7 +162,7 @@ document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCo
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank", "_blank"); }
+function openBlank(){ window.open("about:blank","_blank"); }
 
 /* ===== HAMBURGER ===== */
 document.getElementById("hamburger").onclick=()=>{
@@ -197,31 +197,45 @@ closeWallet.onclick=()=>walletOverlay.style.display="none";
 // Acheter coins depuis wallet
 walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
 
-// Retrait avec KYC
-withdrawBtn.onclick=()=>{
-    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
-    else kycModal.style.display="flex";
-};
-
-// KYC
-closeKYC.onclick=()=>{ kycModal.style.display="none"; }
-submitKYC.onclick=()=>{
-    const name=document.getElementById("kycFullName").value.trim();
-    const dob=document.getElementById("kycDOB").value;
-    const country=document.getElementById("kycCountry").value.trim();
-    const doc=document.getElementById("kycDocument").files[0];
-    if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return; }
-    kycMessage.innerText="✅ Vérification envoyée !";
-    setTimeout(()=>{
-        kycModal.style.display="none";
-        kycDone=true;
+// ===== RETRAIT CORRIGÉ =====
+withdrawBtn.onclick = () => {
+    if(kycDone){
+        walletOverlay.style.display="none";
         document.getElementById("withdrawModal").style.display="flex";
-    },2000);
+    } else {
+        kycModal.style.display = "flex";
+
+        // Supprime ancien listener
+        submitKYC.onclick = null;
+
+        submitKYC.onclick = () => {
+            const name = document.getElementById("kycFullName").value.trim();
+            const dob = document.getElementById("kycDOB").value;
+            const country = document.getElementById("kycCountry").value.trim();
+            const doc = document.getElementById("kycDocument").files[0];
+
+            if(!name || !dob || !country || !doc){
+                kycMessage.innerText = "Veuillez remplir tous les champs obligatoires";
+                return;
+            }
+
+            kycMessage.innerText = "✅ Vérification envoyée !";
+            kycDone = true;
+
+            // Ferme KYC et ouvre retrait immédiatement
+            kycModal.style.display = "none";
+            walletOverlay.style.display = "none";
+            document.getElementById("withdrawModal").style.display = "flex";
+        };
+    }
 };
 
 // Retrait PayPal minimum 15€
-withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
-closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
+withdrawPaypalBtn.onclick = () => {
+    alert("Montant minimum de retrait : 15 €");
+    window.open("about:blank","_blank");
+};
+closeWithdraw.onclick = () => document.getElementById("withdrawModal").style.display="none";
 
 /* ===== INIT ===== */
 renderStories();
