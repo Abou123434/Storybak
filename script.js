@@ -15,8 +15,7 @@ function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins));
 /* ===== AVATAR ADAPTATIF ===== */
 function generateAvatar(nom, prenom){
     let canvas = document.createElement("canvas");
-    canvas.width = 150;
-    canvas.height = 150;
+    canvas.width = 150; canvas.height = 150;
     let ctx = canvas.getContext("2d");
 
     ctx.fillStyle = "#25D366";
@@ -157,9 +156,9 @@ function closeViewer(){ clearInterval(timer); document.getElementById("viewer").
 
 /* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
-function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
+function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; document.getElementById("giftModal").style.pointerEvents="auto"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
-document.getElementById("closeGiftModal").onclick=()=>document.getElementById("giftModal").style.display="none";
+document.getElementById("closeGiftModal").onclick=()=>{ document.getElementById("giftModal").style.display="none"; document.getElementById("giftModal").style.pointerEvents="none"; };
 document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
     b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); }
 });
@@ -192,7 +191,7 @@ function sendGift(q){
     closeGiftQuantity();
 }
 
-/* ===== WALLET, KYC, RETRAIT ===== */
+/* ===== WALLET, KYC, RETRAIT, ACHAT COINS ===== */
 const walletBtn=document.getElementById("walletBtn");
 const walletOverlay=document.getElementById("walletOverlay");
 const closeWallet=document.getElementById("closeWallet");
@@ -211,15 +210,15 @@ walletBtn.onclick=()=>{
     document.getElementById("walletCoins").innerText=coins[currentProfile.username]||0;
     document.getElementById("walletDiamonds").innerText=8400;
     document.getElementById("walletValue").innerText=84;
-    walletOverlay.style.display="flex";
+    walletOverlay.style.display="flex"; walletOverlay.style.pointerEvents="auto";
 };
-closeWallet.onclick=()=>walletOverlay.style.display="none";
-walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
+closeWallet.onclick=()=>{ walletOverlay.style.display="none"; walletOverlay.style.pointerEvents="none"; };
+walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; walletOverlay.style.pointerEvents="none"; document.getElementById("buyCoinsModal").style.display="flex"; document.getElementById("buyCoinsModal").style.pointerEvents="auto"; };
 withdrawBtn.onclick=()=>{
-    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
-    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }
+    if(kycDone){ walletOverlay.style.display="none"; walletOverlay.style.pointerEvents="none"; document.getElementById("withdrawModal").style.display="flex"; document.getElementById("withdrawModal").style.pointerEvents="auto"; }
+    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; kycModal.style.pointerEvents="auto"; }
 };
-closeKYC.onclick=()=>kycModal.style.display="none";
+closeKYC.onclick=()=>{ kycModal.style.display="none"; kycModal.style.pointerEvents="none"; };
 submitKYC.onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
@@ -228,19 +227,26 @@ submitKYC.onclick=()=>{
     if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return; }
     kycMessage.innerText="✅ Vérification envoyée !";
     setTimeout(()=>{
-        kycModal.style.display="none";
+        kycModal.style.display="none"; kycModal.style.pointerEvents="none";
         kycDone=true;
-        document.getElementById("withdrawModal").style.display="flex";
+        document.getElementById("withdrawModal").style.display="flex"; document.getElementById("withdrawModal").style.pointerEvents="auto";
     },2000);
 };
 withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
-closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
+closeWithdraw.onclick=()=>{ document.getElementById("withdrawModal").style.display="none"; document.getElementById("withdrawModal").style.pointerEvents="none"; };
 
-/* ===== ACHAT COINS ===== */
-document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
-function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
+document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; document.getElementById("buyCoinsModal").style.pointerEvents="auto"; };
+function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; document.getElementById("buyCoinsModal").style.pointerEvents="none"; }
+function openPayment(){ document.getElementById("paymentModal").style.display="flex"; document.getElementById("paymentModal").style.pointerEvents="auto"; }
+function closePayment(){ document.getElementById("paymentModal").style.display="none"; document.getElementById("paymentModal").style.pointerEvents="none"; }
+
+/* ===== HAMBURGER ===== */
+document.getElementById("hamburger").onclick=()=>{
+    let m=document.getElementById("menuOptions");
+    m.style.display=(m.style.display==="flex")?"none":"flex";
+    m.style.pointerEvents="auto";
+    m.style.zIndex=10000;
+};
 
 /* ===== CHANGER PROFIL ===== */
 const changeProfileBtn = document.getElementById("changeProfileBtn");
@@ -248,7 +254,7 @@ const changeProfileBtn = document.getElementById("changeProfileBtn");
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
-    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;pointer-events:none;";
     modal.innerHTML= `
         <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
             <h3>Modifier le profil</h3>
@@ -274,6 +280,7 @@ const closeProfileModal = document.getElementById("closeProfileModal");
 
 changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
+    profileModal.style.pointerEvents="auto";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
 
@@ -289,7 +296,7 @@ changeProfileBtn.addEventListener("click", ()=>{
     }
 });
 
-closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
+closeProfileModal.addEventListener("click", ()=> { profileModal.style.display="none"; profileModal.style.pointerEvents="none"; });
 
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
 avatarInput.addEventListener("change", e=>{
@@ -330,6 +337,7 @@ saveProfile.addEventListener("click", ()=>{
     saveData();
     renderStories();
     profileModal.style.display = "none";
+    profileModal.style.pointerEvents="none";
 });
 
 /* ===== INIT ===== */
