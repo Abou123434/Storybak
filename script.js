@@ -12,28 +12,19 @@ let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
 function saveData() { localStorage.setItem("storyUsers", JSON.stringify(users)); }
 function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
-/* ===== AVATAR ADAPTATIF ===== */
+/* ===== AVATAR ILLIMITE ===== */
 function generateAvatar(nom, prenom){
     let canvas = document.createElement("canvas");
     canvas.width = 150; canvas.height = 150;
     let ctx = canvas.getContext("2d");
-
     ctx.fillStyle = "#25D366";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    let text = nom + " " + prenom;
+    ctx.fillRect(0,0,150,150);
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-
-    let fontSize = 40;
-    ctx.font = `bold ${fontSize}px sans-serif`;
-    while(ctx.measureText(text).width > canvas.width * 0.8 && fontSize > 10){
-        fontSize -= 2;
-        ctx.font = `bold ${fontSize}px sans-serif`;
-    }
-
-    ctx.fillText(text, canvas.width/2, canvas.height/2);
+    let text = nom + " " + prenom;
+    ctx.font = text.length > 10 ? "bold 12px sans-serif" : "bold 20px sans-serif";
+    ctx.fillText(text, 75, 75, 140);
     return canvas.toDataURL();
 }
 
@@ -49,6 +40,7 @@ function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
 
+    // Profil courant en premier
     let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
     allUsers.forEach(u=>{
@@ -63,6 +55,7 @@ function renderStories(){
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
+        // Nom + prénom côte à côte
         let label = document.createElement("div");  
         label.style.textAlign="center"; label.style.marginTop="5px";  
         label.style.color="white"; 
@@ -152,13 +145,15 @@ function showStory(){
         controls.appendChild(delBtn);  
     }
 }
+function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
+function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
 /* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
-function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; document.getElementById("giftModal").style.pointerEvents="auto"; updateCoinBalance(); }
+function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
-document.getElementById("closeGiftModal").onclick=()=>{ document.getElementById("giftModal").style.display="none"; document.getElementById("giftModal").style.pointerEvents="none"; };
+document.getElementById("closeGiftModal").onclick=()=>document.getElementById("giftModal").style.display="none";
 document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
     b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); }
 });
@@ -191,7 +186,20 @@ function sendGift(q){
     closeGiftQuantity();
 }
 
-/* ===== WALLET, KYC, RETRAIT, ACHAT COINS ===== */
+/* ===== ACHAT COINS ===== */
+document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
+function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
+function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
+function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
+function openBlank(){ window.open("about:blank","_blank"); }
+
+/* ===== HAMBURGER ===== */
+document.getElementById("hamburger").onclick=()=>{
+    let m=document.getElementById("menuOptions");
+    m.style.display=(m.style.display==="flex")?"none":"flex";
+};
+
+/* ===== WALLET & KYC & RETRAIT ===== */
 const walletBtn=document.getElementById("walletBtn");
 const walletOverlay=document.getElementById("walletOverlay");
 const closeWallet=document.getElementById("closeWallet");
@@ -210,15 +218,16 @@ walletBtn.onclick=()=>{
     document.getElementById("walletCoins").innerText=coins[currentProfile.username]||0;
     document.getElementById("walletDiamonds").innerText=8400;
     document.getElementById("walletValue").innerText=84;
-    walletOverlay.style.display="flex"; walletOverlay.style.pointerEvents="auto";
+    walletOverlay.style.display="flex";
 };
-closeWallet.onclick=()=>{ walletOverlay.style.display="none"; walletOverlay.style.pointerEvents="none"; };
-walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; walletOverlay.style.pointerEvents="none"; document.getElementById("buyCoinsModal").style.display="flex"; document.getElementById("buyCoinsModal").style.pointerEvents="auto"; };
+closeWallet.onclick=()=>walletOverlay.style.display="none";
+walletBuyCoins.onclick=()=>{ walletOverlay.style.display="none"; document.getElementById("buyCoinsModal").style.display="flex"; };
 withdrawBtn.onclick=()=>{
-    if(kycDone){ walletOverlay.style.display="none"; walletOverlay.style.pointerEvents="none"; document.getElementById("withdrawModal").style.display="flex"; document.getElementById("withdrawModal").style.pointerEvents="auto"; }
-    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; kycModal.style.pointerEvents="auto"; }
+    if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
+    else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }
 };
-closeKYC.onclick=()=>{ kycModal.style.display="none"; kycModal.style.pointerEvents="none"; };
+
+closeKYC.onclick=()=>kycModal.style.display="none";
 submitKYC.onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
     const dob=document.getElementById("kycDOB").value;
@@ -227,26 +236,13 @@ submitKYC.onclick=()=>{
     if(!name||!dob||!country||!doc){ kycMessage.innerText="Veuillez remplir tous les champs obligatoires"; return; }
     kycMessage.innerText="✅ Vérification envoyée !";
     setTimeout(()=>{
-        kycModal.style.display="none"; kycModal.style.pointerEvents="none";
+        kycModal.style.display="none";
         kycDone=true;
-        document.getElementById("withdrawModal").style.display="flex"; document.getElementById("withdrawModal").style.pointerEvents="auto";
+        document.getElementById("withdrawModal").style.display="flex";
     },2000);
 };
 withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
-closeWithdraw.onclick=()=>{ document.getElementById("withdrawModal").style.display="none"; document.getElementById("withdrawModal").style.pointerEvents="none"; };
-
-document.getElementById("buyCoins").onclick=()=>{ document.getElementById("buyCoinsModal").style.display="flex"; document.getElementById("buyCoinsModal").style.pointerEvents="auto"; };
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; document.getElementById("buyCoinsModal").style.pointerEvents="none"; }
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; document.getElementById("paymentModal").style.pointerEvents="auto"; }
-function closePayment(){ document.getElementById("paymentModal").style.display="none"; document.getElementById("paymentModal").style.pointerEvents="none"; }
-
-/* ===== HAMBURGER ===== */
-document.getElementById("hamburger").onclick=()=>{
-    let m=document.getElementById("menuOptions");
-    m.style.display=(m.style.display==="flex")?"none":"flex";
-    m.style.pointerEvents="auto";
-    m.style.zIndex=10000;
-};
+closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 /* ===== CHANGER PROFIL ===== */
 const changeProfileBtn = document.getElementById("changeProfileBtn");
@@ -254,7 +250,7 @@ const changeProfileBtn = document.getElementById("changeProfileBtn");
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
-    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;pointer-events:none;";
+    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
     modal.innerHTML= `
         <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
             <h3>Modifier le profil</h3>
@@ -278,9 +274,9 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
+// Ouvrir modal
 changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
-    profileModal.style.pointerEvents="auto";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
 
@@ -296,8 +292,10 @@ changeProfileBtn.addEventListener("click", ()=>{
     }
 });
 
-closeProfileModal.addEventListener("click", ()=> { profileModal.style.display="none"; profileModal.style.pointerEvents="none"; });
+// Fermer modal
+closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
+// Modifier avatar
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
 avatarInput.addEventListener("change", e=>{
     let file = e.target.files[0];
@@ -315,6 +313,7 @@ avatarInput.addEventListener("change", e=>{
     reader.readAsDataURL(file);
 });
 
+// Sauvegarder profil (corrigé pour prénom et nom correctement)
 saveProfile.addEventListener("click", ()=>{
     let nom = profileNom.value.trim();
     let prenom = profilePrenom.value.trim();
@@ -323,9 +322,10 @@ saveProfile.addEventListener("click", ()=>{
     let oldKey = currentProfile.username;
     let userData = users[oldKey];
 
-    userData.bio = prenom; 
+    userData.bio = prenom; // mettre à jour le prénom
     if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
 
+    // Renommer la clé si le nom change
     if(oldKey !== nom){
         users[nom] = userData;
         delete users[oldKey];
@@ -337,7 +337,6 @@ saveProfile.addEventListener("click", ()=>{
     saveData();
     renderStories();
     profileModal.style.display = "none";
-    profileModal.style.pointerEvents="none";
 });
 
 /* ===== INIT ===== */
