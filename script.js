@@ -13,14 +13,17 @@ function saveData() { localStorage.setItem("storyUsers", JSON.stringify(users));
 function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
 /* ===== AVATAR ===== */
-function generateAvatar(nom, prenom) {
+function generateAvatar(nom, prenom){
     let canvas = document.createElement("canvas");
     canvas.width = 150; canvas.height = 150;
     let ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#25D366"; ctx.fillRect(0, 0, 150, 150);
-    ctx.fillStyle = "white"; ctx.font = "bold 60px sans-serif";
-    ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(nom[0]+prenom[0], 75, 75);
+    ctx.fillStyle = "#25D366";
+    ctx.fillRect(0,0,150,150);
+    ctx.fillStyle = "white";
+    ctx.font = "bold 20px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(nom + " " + prenom, 75, 75, 140); // afficher tout le nom/prénom
     return canvas.toDataURL();
 }
 
@@ -273,7 +276,7 @@ changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
-    avatarPreview.innerText = currentProfile.username[0]+currentProfile.bio[0];
+    avatarPreview.innerText = "";
     avatarPreview.style.backgroundImage = users[currentProfile.username]?.photo ? `url(${users[currentProfile.username].photo})` : "";
     avatarPreview.style.backgroundSize = "cover";
 });
@@ -300,15 +303,16 @@ saveProfile.addEventListener("click", ()=>{
     let prenom = profilePrenom.value.trim();
     if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
 
+    let oldKey = currentProfile.username;
     currentProfile.username = nom;
     currentProfile.bio = prenom;
 
-    // Conserver le cercle existant
-    let userData = users[currentProfile.username] || { stories: [] };
-    userData.photo = users[currentProfile.username]?.photo || generateAvatar(nom, prenom);
-    users[currentProfile.username] = userData;
+    // Conserver l'objet existant pour ne pas créer de nouveau cercle
+    let userData = users[oldKey];
+    delete users[oldKey]; // supprime l'ancien nom
+    users[nom] = userData;
 
-    avatarPreview.innerText = nom[0]+prenom[0];
+    avatarPreview.innerText = "";
     avatarPreview.style.backgroundImage=`url(${userData.photo})`;
     avatarPreview.style.backgroundSize="cover";
 
@@ -316,9 +320,6 @@ saveProfile.addEventListener("click", ()=>{
     renderStories();
     profileModal.style.display="none";
 });
-
-// Fermer modal
-closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
 /* ===== INIT ===== */
 renderStories();
