@@ -12,19 +12,29 @@ let coins = JSON.parse(localStorage.getItem("userCoins")) || {};
 function saveData() { localStorage.setItem("storyUsers", JSON.stringify(users)); }
 function saveCoins() { localStorage.setItem("userCoins", JSON.stringify(coins)); }
 
-/* ===== AVATAR ILLIMITE ===== */
+/* ===== AVATAR ADAPTATIF ===== */
 function generateAvatar(nom, prenom){
     let canvas = document.createElement("canvas");
-    canvas.width = 150; canvas.height = 150;
+    canvas.width = 150;
+    canvas.height = 150;
     let ctx = canvas.getContext("2d");
+
     ctx.fillStyle = "#25D366";
-    ctx.fillRect(0,0,150,150);
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    let text = nom + " " + prenom;
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    let text = nom + " " + prenom;
-    ctx.font = text.length > 10 ? "bold 12px sans-serif" : "bold 20px sans-serif";
-    ctx.fillText(text, 75, 75, 140);
+
+    let fontSize = 40;
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    while(ctx.measureText(text).width > canvas.width * 0.8 && fontSize > 10){
+        fontSize -= 2;
+        ctx.font = `bold ${fontSize}px sans-serif`;
+    }
+
+    ctx.fillText(text, canvas.width/2, canvas.height/2);
     return canvas.toDataURL();
 }
 
@@ -40,7 +50,6 @@ function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
 
-    // Profil courant en premier
     let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
     allUsers.forEach(u=>{
@@ -55,7 +64,6 @@ function renderStories(){
         avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
         avatarDiv.style.cursor="pointer";  
 
-        // Nom + prénom côte à côte
         let label = document.createElement("div");  
         label.style.textAlign="center"; label.style.marginTop="5px";  
         label.style.color="white"; 
@@ -145,8 +153,6 @@ function showStory(){
         controls.appendChild(delBtn);  
     }
 }
-function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
-function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
 /* ===== CADEAUX ===== */
@@ -186,20 +192,7 @@ function sendGift(q){
     closeGiftQuantity();
 }
 
-/* ===== ACHAT COINS ===== */
-document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
-function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank","_blank"); }
-
-/* ===== HAMBURGER ===== */
-document.getElementById("hamburger").onclick=()=>{
-    let m=document.getElementById("menuOptions");
-    m.style.display=(m.style.display==="flex")?"none":"flex";
-};
-
-/* ===== WALLET & KYC & RETRAIT ===== */
+/* ===== WALLET, KYC, RETRAIT ===== */
 const walletBtn=document.getElementById("walletBtn");
 const walletOverlay=document.getElementById("walletOverlay");
 const closeWallet=document.getElementById("closeWallet");
@@ -226,7 +219,6 @@ withdrawBtn.onclick=()=>{
     if(kycDone){ walletOverlay.style.display="none"; document.getElementById("withdrawModal").style.display="flex"; }
     else { kycModal.style.display="flex"; kycModal.style.zIndex="99999"; }
 };
-
 closeKYC.onclick=()=>kycModal.style.display="none";
 submitKYC.onclick=()=>{
     const name=document.getElementById("kycFullName").value.trim();
@@ -243,6 +235,12 @@ submitKYC.onclick=()=>{
 };
 withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
+
+/* ===== ACHAT COINS ===== */
+document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
+function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
+function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
+function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
 
 /* ===== CHANGER PROFIL ===== */
 const changeProfileBtn = document.getElementById("changeProfileBtn");
@@ -274,7 +272,6 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
-// Ouvrir modal
 changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
@@ -292,10 +289,8 @@ changeProfileBtn.addEventListener("click", ()=>{
     }
 });
 
-// Fermer modal
 closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
-// Modifier avatar
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
 avatarInput.addEventListener("change", e=>{
     let file = e.target.files[0];
@@ -313,7 +308,6 @@ avatarInput.addEventListener("change", e=>{
     reader.readAsDataURL(file);
 });
 
-// Sauvegarder profil (corrigé pour prénom et nom correctement)
 saveProfile.addEventListener("click", ()=>{
     let nom = profileNom.value.trim();
     let prenom = profilePrenom.value.trim();
@@ -322,10 +316,9 @@ saveProfile.addEventListener("click", ()=>{
     let oldKey = currentProfile.username;
     let userData = users[oldKey];
 
-    userData.bio = prenom; // mettre à jour le prénom
+    userData.bio = prenom; 
     if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
 
-    // Renommer la clé si le nom change
     if(oldKey !== nom){
         users[nom] = userData;
         delete users[oldKey];
