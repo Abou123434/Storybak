@@ -74,23 +74,84 @@ function renderStories(){
     });
 }
 
-/* ===== UPLOAD STORY ===== */
+/* ===== UPLOAD & PREVISUALISATION ===== */
+let previewFile = null; // fichier en cours de prévisualisation
+
 document.getElementById("fileInput").addEventListener("change", e=>{
-    let file=e.target.files[0]; if(!file) return;
-    if(file.type.startsWith("video")) addVideo(file); else addImage(file);
+    let file = e.target.files[0]; 
+    if(!file) return;
+
+    previewFile = file; // garder le fichier pour publication
+
+    // Afficher viewer pour prévisualisation
+    let viewer = document.getElementById("viewer");
+    viewer.style.display = "flex";
+
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    // Créer l’élément media
+    let el;
+    if(file.type.startsWith("video")){
+        el = document.createElement("video");
+        el.src = URL.createObjectURL(file);
+        el.controls = true;
+    } else {
+        el = document.createElement("img");
+        let reader = new FileReader();
+        reader.onload = ev => { el.src = ev.target.result; }
+        reader.readAsDataURL(file);
+    }
+    el.style.maxWidth = "100%";
+    el.style.maxHeight = "80vh";
+    content.appendChild(el);
+
+    // Progress + boutons
+    let controls = document.getElementById("progressControls");
+    controls.innerHTML = "";
+
+    // Bouton Publier
+    let publishBtn = document.createElement("button");
+    publishBtn.innerText = "Publier";
+    publishBtn.onclick = publishPreviewStory;
+    controls.appendChild(publishBtn);
+
+    // Bouton Annuler
+    let cancelBtn = document.createElement("button");
+    cancelBtn.innerText = "Annuler";
+    cancelBtn.onclick = () => { previewFile = null; closeViewer(); }
+    controls.appendChild(cancelBtn);
 });
-function addVideo(file){
-    let url = URL.createObjectURL(file);
-    users[currentProfile.username].stories.push({ url,type:"video", views:{} });
-    saveData(); renderStories();
-}
-function addImage(file){
-    let reader=new FileReader();
-    reader.onload=e=>{
-        users[currentProfile.username].stories.push({ url:e.target.result,type:"image",views:{} });
-        saveData(); renderStories();
-    };
-    reader.readAsDataURL(file);
+
+// Fonction pour publier la story depuis la prévisualisation
+function publishPreviewStory(){
+    if(!previewFile) return;
+
+    if(previewFile.type.startsWith("video")){
+        users[currentProfile.username].stories.push({
+            url: URL.createObjectURL(previewFile),
+            type: "video",
+            views: {}
+        });
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    } else {
+        let reader = new FileReader();
+        reader.onload = ev => {
+            users[currentProfile.username].stories.push({
+                url: ev.target.result,
+                type: "image",
+                views: {}
+            });
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer();
+        };
+        reader.readAsDataURL(previewFile);
+    }
 }
 
 /* ===== VIEWER ===== */
