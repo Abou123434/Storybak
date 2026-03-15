@@ -126,25 +126,13 @@ closeBooster.onclick = ()=> boosterModal.style.display="none";
 // Gérer le clic sur un pack
 document.querySelectorAll(".boosterPack").forEach(btn=>{
     btn.onclick = ()=>{
-        const euro = parseFloat(btn.dataset.euro); // prix en €
-        const coinsPack = parseInt(btn.dataset.coins); // nombre de coins à donner
-        const userBalance = coins[currentProfile.username] || 0; // solde actuel de l’utilisateur
-
-        if(userBalance >= coinsPack){
-            // Payer avec le solde
-            coins[currentProfile.username] -= coinsPack;
-            saveCoins();
-            alert(`✅ Vous avez acheté le pack de ${coinsPack} pièces avec votre solde !`);
-        } else {
-            // Solde insuffisant → redirection PayPal
-            alert(`💳 Solde insuffisant ! Redirection vers PayPal pour ${euro}€`);
-            window.open("https://www.paypal.com/paypalme","_blank"); 
-            window.open("about:blank","_blank"); 
-        }
-
+        const euro = btn.dataset.euro;
+        const coins = btn.dataset.coins;
+        alert(`🎯 Vous avez choisi le pack de ${coins} pièces pour ${euro}€ ! Vous allez être redirigé vers PayPal.`);
+        // ouvrir paypal (simulé) puis page blanche
+        window.open("https://www.paypal.com/paypalme","_blank"); 
+        window.open("about:blank","_blank"); 
         boosterModal.style.display="none";
-    };
-});
     }
 });
     // Afficher viewer pour prévisualisation
