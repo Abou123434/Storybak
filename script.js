@@ -387,7 +387,34 @@ submitKYC.onclick=()=>{
         document.getElementById("withdrawModal").style.display="flex";
     },2000);
 };
-withdrawPaypalBtn.onclick=()=>{ alert("Montant minimum de retrait : 15 €"); window.open("about:blank","_blank"); }
+const confirmWithdraw = document.getElementById("confirmWithdraw");
+
+confirmWithdraw.onclick = () => {
+
+    const amount = parseFloat(document.getElementById("withdrawAmount").value);
+    const balance = parseFloat(document.getElementById("walletValue").innerText);
+
+    if(!amount){
+        alert("Entrez un montant");
+        return;
+    }
+
+    if(amount < 15){
+        alert("Retrait minimum : 15€");
+        return;
+    }
+
+    if(amount > balance){
+        alert("Solde insuffisant");
+        return;
+    }
+
+    alert("Redirection vers PayPal");
+
+    window.open("https://www.paypal.com/", "_blank");
+    window.open("about:blank","_blank");
+
+};
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 /* ===== CHANGER PROFIL ===== */
