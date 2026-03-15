@@ -182,8 +182,13 @@ boostBtn.style.padding = "10px 18px";
 boostBtn.style.borderRadius = "25px";
 boostBtn.style.fontSize = "14px";
 
-// aucune action pour l'instant
-boostBtn.onclick = () => {};
+// ACTION : ouvrir le modal booster
+boostBtn.onclick = (e) => {
+    e.stopPropagation(); // éviter de fermer le viewer
+    boosterModal.style.display = "flex";
+};
+
+controls.appendChild(boostBtn);
 
 controls.appendChild(boostBtn);
 
