@@ -119,8 +119,18 @@ controls.style.display = "flex";
 controls.style.justifyContent = "space-between";
 controls.style.padding = "0 20px";
 
-/* ===== BOOSTER ===== */
-function openBoosterModal(){
+// bouton BOOSTER (gauche)
+let boostBtn = document.createElement("button");
+boostBtn.innerText = "🚀 Booster";
+boostBtn.style.background = "#ff9800";
+boostBtn.style.color = "white";
+boostBtn.style.border = "none";
+boostBtn.style.padding = "10px 18px";
+boostBtn.style.borderRadius = "25px";
+boostBtn.style.fontSize = "14px";
+
+// Fonctionnalité Booster
+boostBtn.onclick = () => {
     // Création du modal si inexistant
     if(!document.getElementById("boosterModal")){
         let modal = document.createElement("div");
@@ -151,25 +161,17 @@ function openBoosterModal(){
             let btn = document.createElement("button");
             btn.innerText = `${b.price}€ → ${b.coins} pièces`;
             btn.style.cssText = "padding:10px 18px;border-radius:25px;border:none;background:#25D366;color:white;font-size:14px;cursor:pointer;";
-            btn.onclick = () => openBoosterPayment(b.price);
+            btn.onclick = () => {
+                alert(`Redirection vers PayPal pour ${b.price}€`);
+                window.open("about:blank","_blank");
+            };
             container.appendChild(btn);
         });
     }
     document.getElementById("boosterModal").style.display = "flex";
-}
+};
 
-// Ouvrir le paiement (redirection PayPal)
-function openBoosterPayment(amount){
-    alert(`Redirection vers PayPal pour ${amount}€`);
-    window.open("about:blank","_blank");
-}
-
-// Modifier le bouton booster pour appeler le modal
-document.querySelectorAll("button").forEach(btn=>{
-    if(btn.innerText==="🚀 Booster"){
-        btn.onclick = openBoosterModal;
-    }
-});
+controls.appendChild(boostBtn);
 
 // bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
@@ -384,85 +386,4 @@ if(!document.getElementById("profileModal")){
             <br><br>
             <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
             <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
-            <button id="saveProfile" class="green-btn">Sauvegarder</button>
-            <button id="closeProfileModal" class="red-btn">Fermer</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-
-const profileModal = document.getElementById("profileModal");
-const avatarPreview = document.getElementById("avatarPreview");
-const avatarInput = document.getElementById("avatarInput");
-const profileNom = document.getElementById("profileNom");
-const profilePrenom = document.getElementById("profilePrenom");
-const saveProfile = document.getElementById("saveProfile");
-const closeProfileModal = document.getElementById("closeProfileModal");
-
-// Ouvrir modal
-changeProfileBtn.addEventListener("click", ()=>{
-    profileModal.style.display = "flex";
-    profileNom.value = currentProfile.username;
-    profilePrenom.value = currentProfile.bio;
-
-    avatarPreview.innerText = "";
-    if(users[currentProfile.username]?.photo){
-        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
-        avatarPreview.style.backgroundSize = "cover";
-        avatarPreview.style.backgroundPosition = "center";
-    } else {
-        avatarPreview.style.backgroundImage = "";
-        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
-        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
-    }
-});
-
-// Fermer modal
-closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
-
-// Modifier avatar
-avatarPreview.addEventListener("click", ()=> avatarInput.click());
-avatarInput.addEventListener("change", e=>{
-    let file = e.target.files[0];
-    if(!file) return;
-    let reader = new FileReader();
-    reader.onload = ev => {
-        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
-        avatarPreview.style.backgroundSize = "cover";
-        avatarPreview.style.backgroundPosition = "center";
-        avatarPreview.innerText = "";
-        users[currentProfile.username].photo = ev.target.result;
-        saveData();
-        renderStories();
-    };
-    reader.readAsDataURL(file);
-});
-
-// Sauvegarder profil (corrigé pour prénom et nom correctement)
-saveProfile.addEventListener("click", ()=>{
-    let nom = profileNom.value.trim();
-    let prenom = profilePrenom.value.trim();
-    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
-
-    let oldKey = currentProfile.username;
-    let userData = users[oldKey];
-
-    userData.bio = prenom; // mettre à jour le prénom
-    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
-
-    // Renommer la clé si le nom change
-    if(oldKey !== nom){
-        users[nom] = userData;
-        delete users[oldKey];
-    }
-
-    currentProfile.username = nom;
-    currentProfile.bio = prenom;
-
-    saveData();
-    renderStories();
-    profileModal.style.display = "none";
-});
-
-/* ===== INIT ===== */
-renderStories();
+            <button id="saveProfile" class="green-btn">Sauveg
