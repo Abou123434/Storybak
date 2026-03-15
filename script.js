@@ -215,67 +215,88 @@ let userStories = users[currentProfile.username].stories;
 if(previewFile.type.startsWith("video")){
 
 let videoCount = userStories.filter(s => s.type === "video").length;
+document.getElementById("fileInput").addEventListener("change", async function(e){
+  let file = e.target.files[0];
+  if(!file) return;
 
-if(videoCount >= 3){
-alert("Maximum 3 vidéos autorisées !");
-return;
-}
+  let userStories = users[currentLoggedUser].stories;
+  let videoCount = userStories.filter(s=>s.type==="video").length;
+  let imageCount = userStories.filter(s=>s.type==="image").length;
 
-let video = document.createElement("video");
-video.src = URL.createObjectURL(previewFile);
+  if(file.type.startsWith("video")){
+    if(videoCount >= 5){ alert("Vous ne pouvez avoir que 3 vidéos maximum."); return; }
 
-video.onloadedmetadata = () => {
-
-let duration = video.duration;
-
-if(duration > 30){
-alert("Chaque vidéo doit faire maximum 30 secondes !");
-return;
-}
-
-userStories.push({
-url: URL.createObjectURL(previewFile),
-type: "video",
-views: {}
+    const forbiddenKeywords = ["porn","xxx","sex"];
+    if(forbiddenKeywords.some(word => file.name.toLowerCase().includes(word))){
+      alert("Vidéo rejetée : contenu inapproprié."); return;
+    }
+    await addVideoWithSegments(file);
+  } else {
+    if(imageCount >= 10){ alert("Vous ne pouvez avoir que 10 images maximum."); return; }
+    await addImageStory(file);
+  }
 });
 
-saveData();
-renderStories();
-previewFile = null;
-closeViewer();
+/* Découpage vidéo en segments de 30s max */
+async function addVideoWithSegments(file){
+  let url = URL.createObjectURL(file);
+  let video = document.createElement("video");
+  video.src = url;
+  video.preload = "metadata";
 
-};
+  await new Promise(res => video.onloadedmetadata = res);
+  let duration = video.duration;
+  let segments = Math.ceil(duration / 10);
 
+  for(let i=0; i<segments; i++){
+    if(users[currentLoggedUser].stories.filter(s=>s.type==="video").length >= 5) break;
+
+    users[currentLoggedUser].stories.push({
+      url: url,
+      type: "video",
+      startTime: i*30,
+      endTime: Math.min((i+1)*30,duration),
+      time: Date.now(),
+      views:{},
+      reactions:{}
+    });
+  }
+  saveData();
+  renderStories();
 }
 
-// ===== IMAGE =====
-else {
+/* Ajout image */
+function addImageStory(file){
+  return new Promise((resolve)=>{
+    if(users[currentLoggedUser].stories.filter(s=>s.type==="image").length >= 10){
+      alert("Vous ne pouvez avoir que 10 images maximum.");
+      resolve();
+      return;
+    }
 
-let imageCount = userStories.filter(s => s.type === "image").length;
-
-if(imageCount >= 10){
-alert("Maximum 10 images autorisées !");
-return;
+    let reader = new FileReader();
+    reader.onload = function(e){
+      users[currentLoggedUser].stories.push({
+        url: e.target.result,
+        type: "image",
+        time: Date.now(),
+        views:{},
+        reactions:{}
+      });
+      saveData();
+      renderStories();
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
-let reader = new FileReader();
-
-reader.onload = ev => {
-
-userStories.push({
-url: ev.target.result,
-type: "image",
-views: {}
-});
-
-saveData();
-renderStories();
-previewFile = null;
-closeViewer();
-
-};
-
-reader.readAsDataURL(previewFile);
+/* VIEWER */
+function openViewer(user){
+  if(users[user].stories.length === 0) return;
+  currentUser = user; currentIndex = 0;
+  document.getElementById("viewer").style.display = "flex";
+  showStory();
 
 }
 
