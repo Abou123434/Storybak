@@ -369,9 +369,12 @@ function closePayment(){ document.getElementById("paymentModal").style.display="
 function openBlank(){ window.open("about:blank","_blank"); }
 
 /* ===== HAMBURGER ===== */
-document.getElementById("hamburger").onclick=()=>{
-    let m=document.getElementById("menuOptions");
-    m.style.display=(m.style.display==="flex")?"none":"flex";
+const hamburger = document.getElementById("hamburger");
+const menuOptions = document.getElementById("menuOptions");
+
+hamburger.addEventListener("click", () => {
+    menuOptions.classList.toggle("show");
+});
 };
 
 /* ===== WALLET & KYC & RETRAIT ===== */
