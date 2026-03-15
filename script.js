@@ -72,13 +72,20 @@ function renderStories(){
     });
 }
 
-/* ===== UPLOAD & PRÉVISUALISATION ===== */
-let previewFile = null;
+/* ===== HAMBURGER ===== */
+const hamburger = document.getElementById("hamburger");
+const menuOptions = document.getElementById("menuOptions");
+if(hamburger && menuOptions){
+    hamburger.onclick = () => {
+        menuOptions.style.display = (menuOptions.style.display === "flex") ? "none" : "flex";
+    };
+}
 
-document.getElementById("fileInput").addEventListener("change", e=>{
+/* ===== UPLOAD & PRÉVISUALISATION (Publier + Booster) ===== */
+let previewFile = null;
+document.getElementById("fileInput").addEventListener("change", e => {
     let file = e.target.files[0]; 
     if(!file) return;
-
     previewFile = file;
 
     let viewer = document.getElementById("viewer");
@@ -102,7 +109,6 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     el.style.maxHeight = "80vh";
     content.appendChild(el);
 
-    // Conteneur boutons Publier / Booster
     let controls = document.getElementById("progressControls");
     controls.innerHTML = "";
     controls.style.position = "absolute";
@@ -113,7 +119,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     controls.style.justifyContent = "space-between";
     controls.style.padding = "0 20px";
 
-    // Bouton Publier (gauche, jaune)
+    // Publier (jaune, gauche, actif)
     let publishBtn = document.createElement("button");
     publishBtn.innerText = "Publier";
     publishBtn.style.padding = "10px 20px";
@@ -124,7 +130,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     publishBtn.onclick = publishPreviewStory;
     controls.appendChild(publishBtn);
 
-    // Bouton Booster (droite, vert, désactivé)
+    // Booster (vert, droite, désactivé)
     let boostBtn = document.createElement("button");
     boostBtn.innerText = "🚀 Booster";
     boostBtn.style.padding = "10px 15px";
@@ -136,10 +142,9 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     controls.appendChild(boostBtn);
 });
 
-// ===== PUBLISH STORY =====
+/* ===== PUBLISH STORY ===== */
 function publishPreviewStory(){
     if(!previewFile) return;
-
     if(previewFile.type.startsWith("video")){
         users[currentProfile.username].stories.push({
             url: URL.createObjectURL(previewFile),
@@ -168,14 +173,13 @@ function publishPreviewStory(){
     closeViewer();
 }
 
-// ===== VIEWER =====
+/* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
     currentUser = u; currentIndex=0;
     document.getElementById("viewer").style.display="flex";
     showStory();
 }
-
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
@@ -185,7 +189,6 @@ function renderProgressBars(){
         bar.appendChild(inner); c.appendChild(bar);
     });
 }
-
 function startProgress(s){
     let bars=document.querySelectorAll(".progress-inner"); let w=0;
     let dur=s.type==="image"?5000:10000;
@@ -198,7 +201,6 @@ function startProgress(s){
         }
     },50);
 }
-
 function showStory(){
     clearInterval(timer);
     let s=users[currentUser].stories[currentIndex];
@@ -224,7 +226,7 @@ function showStory(){
     }
 }
 
-// ===== CADEAUX =====
+/* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
 function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
 function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
@@ -261,5 +263,59 @@ function sendGift(q){
     closeGiftQuantity();
 }
 
-// ===== INIT =====
+/* ===== KYC MODAL ===== */
+if(!document.getElementById("kycModal")){
+    let kycModalDiv = document.createElement("div");
+    kycModalDiv.id = "kycModal";
+    kycModalDiv.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+    kycModalDiv.innerHTML = `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
+            <h3>KYC - Vérification</h3>
+            <input type="text" id="kycFullName" placeholder="Nom complet" style="width:90%;margin-bottom:10px;"><br>
+            <input type="date" id="kycDOB" style="width:90%;margin-bottom:10px;"><br>
+            <input type="text" id="kycCountry" placeholder="Pays" style="width:90%;margin-bottom:10px;"><br>
+            <input type="file" id="kycDocument" style="width:90%;margin-bottom:10px;"><br>
+            <div id="kycMessage" style="margin-bottom:10px;color:#FFD700;"></div>
+            <button id="submitKYC" style="background:#FFD700;color:black;padding:10px 20px;border-radius:15px;margin-right:10px;">Envoyer</button>
+            <button id="closeKYC" style="background:#FF3B30;color:white;padding:10px 20px;border-radius:15px;">Fermer</button>
+        </div>
+    `;
+    document.body.appendChild(kycModalDiv);
+
+    const closeKYC = document.getElementById("closeKYC");
+    const submitKYC = document.getElementById("submitKYC");
+    const kycMessage = document.getElementById("kycMessage");
+
+    closeKYC.onclick = ()=> kycModalDiv.style.display="none";
+
+    submitKYC.onclick = ()=>{
+        const name = document.getElementById("kycFullName").value.trim();
+        const dob = document.getElementById("kycDOB").value;
+        const country = document.getElementById("kycCountry").value.trim();
+        const doc = document.getElementById("kycDocument").files[0];
+        if(!name || !dob || !country || !doc){
+            kycMessage.innerText = "Veuillez remplir tous les champs obligatoires";
+            return;
+        }
+        kycMessage.innerText = "✅ Vérification envoyée !";
+        setTimeout(()=>{
+            kycModalDiv.style.display="none";
+            kycDone = true;
+            document.getElementById("withdrawModal").style.display="flex";
+        },2000);
+    };
+}
+
+/* ===== RETRAIT ===== */
+withdrawBtn.onclick = ()=>{
+    if(kycDone){
+        walletOverlay.style.display="none";
+        document.getElementById("withdrawModal").style.display="flex";
+    } else {
+        document.getElementById("kycModal").style.display="flex";
+        document.getElementById("kycModal").style.zIndex="99999";
+    }
+};
+
+/* ===== INIT ===== */
 renderStories();
