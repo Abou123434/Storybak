@@ -82,7 +82,9 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     if(!file) return;
 
     previewFile = file; // garder le fichier pour publication
-/* ===== BOOSTER ===== */
+// Afficher viewer pour prévisualisation
+let viewer = document.getElementById("viewer");
+viewer.style.display = "flex";
 // Créer le modal booster si pas déjà présent
 if(!document.getElementById("boosterModal")){
     let boosterModal = document.createElement("div");
