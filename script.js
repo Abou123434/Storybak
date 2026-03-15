@@ -119,21 +119,117 @@ controls.style.display = "flex";
 controls.style.justifyContent = "space-between";
 controls.style.padding = "0 20px";
 
-// bouton BOOSTER (gauche)
-let boostBtn = document.createElement("button");
-boostBtn.innerText = "🚀 Booster";
+// /* ===== UPLOAD & PREVISUALISATION + BOOSTER ===== */
+let previewFile = null; // fichier en cours de prévisualisation
 
-boostBtn.style.background = "#ff9800";
-boostBtn.style.color = "white";
-boostBtn.style.border = "none";
-boostBtn.style.padding = "10px 18px";
-boostBtn.style.borderRadius = "25px";
-boostBtn.style.fontSize = "14px";
+document.getElementById("fileInput").addEventListener("change", e=>{
+    let file = e.target.files[0]; 
+    if(!file) return;
 
-// aucune action pour l'instant
-boostBtn.onclick = () => {};
+    previewFile = file; // garder le fichier pour publication
 
-controls.appendChild(boostBtn);
+    // Afficher viewer pour prévisualisation
+    let viewer = document.getElementById("viewer");
+    viewer.style.display = "flex";
+
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    // Créer l’élément media
+    let el;
+    if(file.type.startsWith("video")){
+        el = document.createElement("video");
+        el.src = URL.createObjectURL(file);
+        el.controls = true;
+    } else {
+        el = document.createElement("img");
+        let reader = new FileReader();
+        reader.onload = ev => { el.src = ev.target.result; }
+        reader.readAsDataURL(file);
+    }
+    el.style.maxWidth = "100%";
+    el.style.maxHeight = "80vh";
+    content.appendChild(el);
+
+    // Progress + boutons
+    let controls = document.getElementById("progressControls");
+    controls.innerHTML = "";
+
+    controls.style.position = "absolute";
+    controls.style.bottom = "20px";
+    controls.style.left = "0";
+    controls.style.right = "0";
+    controls.style.display = "flex";
+    controls.style.justifyContent = "space-between";
+    controls.style.padding = "0 20px";
+
+    // ===== BOUTON BOOSTER =====
+    let boostBtn = document.createElement("button");
+    boostBtn.innerText = "🚀 Booster";
+    boostBtn.style.background = "#ff9800";
+    boostBtn.style.color = "white";
+    boostBtn.style.border = "none";
+    boostBtn.style.padding = "10px 18px";
+    boostBtn.style.borderRadius = "25px";
+    boostBtn.style.fontSize = "14px";
+    boostBtn.onclick = openBoosterModal;
+    controls.appendChild(boostBtn);
+
+    // ===== BOUTON PUBLIER =====
+    let publishBtn = document.createElement("button");
+    publishBtn.innerText = "Publier";
+    publishBtn.style.background = "#25D366";
+    publishBtn.style.color = "white";
+    publishBtn.style.border = "none";
+    publishBtn.style.padding = "10px 18px";
+    publishBtn.style.borderRadius = "25px";
+    publishBtn.style.fontSize = "14px";
+    publishBtn.onclick = publishPreviewStory;
+    controls.appendChild(publishBtn);
+});
+
+// ===== FONCTION MODAL BOOSTER =====
+function openBoosterModal() {
+    let modal = document.createElement("div");
+    modal.id = "boosterModal";
+    modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:99999;";
+    
+    modal.innerHTML = `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
+            <h3>🚀 Booster ta story !</h3>
+            <p>Boostez pour plus de vues et restez dans le top !</p>
+            <div style="margin:15px 0;">
+                <h4>Montant (€) - Pièces</h4>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <button data-coins="50" data-amount="0.50">0,50 € → 50 pièces</button>
+                    <button data-coins="75" data-amount="0.75">0,75 € → 75 pièces</button>
+                    <button data-coins="100" data-amount="1">1 € → 100 pièces</button>
+                    <button data-coins="300" data-amount="3">3 € → 300 pièces</button>
+                    <button data-coins="500" data-amount="5">5 € → 500 pièces</button>
+                </div><br>
+                <button id="boosterPaypal" style="background:#ff9800;color:white;padding:10px 18px;border:none;border-radius:25px;font-size:14px;">Payer avec PayPal</button><br><br>
+                <button id="closeBooster" style="background:#f44336;color:white;padding:10px 18px;border:none;border-radius:25px;font-size:14px;">Fermer</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Fermer modal
+    document.getElementById("closeBooster").onclick = () => modal.remove();
+
+    // Cliquer sur PayPal
+    document.getElementById("boosterPaypal").onclick = () => window.open("about:blank","_blank");
+
+    // Cliquer sur un montant
+    modal.querySelectorAll("div button[data-coins]").forEach(b=>{
+        b.onclick = () => {
+            let coins = b.dataset.coins;
+            let amount = b.dataset.amount;
+            alert(`Vous allez acheter ${coins} pièces pour ${amount} €`);
+            window.open("about:blank","_blank");
+        };
+    });
+}
 
 // bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
