@@ -72,6 +72,10 @@ if(!document.getElementById("boosterModal")){
             modal.style.display = "none";
         };
     });
+}if(u===currentProfile.username){  
+    let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
+    plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
+    div.appendChild(plus);  
 }
 
 // ===== bouton Booster =====
