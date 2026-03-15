@@ -122,13 +122,27 @@
 <!-- MODAL RETRAIT PAYPAL -->
 <div id="withdrawModal">
   <div class="modal-content">
-    <h3>Retirer avec PayPal</h3>
-    <button id="withdrawPaypalBtn" class="green-btn">🅿️ PayPal</button>
-    <button id="closeWithdraw" class="red-btn">Fermer</button>
-    <p id="withdrawMin">Montant minimum : 15 €</p>
-  </div>
-</div>
 
-<script src="script.js"></script>
-</body>
-</html>
+    <h3>💸 Retirer</h3>
+
+    <p>Solde disponible : <span id="withdrawBalance">0</span> €</p>
+
+    <p style="color:#aaa;">Retrait minimum : 15€</p>
+
+    <input 
+      type="number" 
+      id="withdrawAmount"
+      placeholder="Entrer le montant"
+      style="width:90%;padding:10px;border-radius:10px;border:none;margin-top:10px;"
+    >
+
+    <br><br>
+
+    <button id="confirmWithdraw" class="green-btn">Retirer</button>
+
+    <br><br>
+
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
+
+  </div>
+  </div>
