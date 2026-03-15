@@ -122,18 +122,28 @@ document.querySelectorAll("button").forEach(b=>{
 
 // Fermer le modal
 closeBooster.onclick = ()=> boosterModal.style.display="none";
-
-// Gérer le clic sur un pack
+// Gérer le clic sur un pack avec vérification de solde
 document.querySelectorAll(".boosterPack").forEach(btn=>{
     btn.onclick = ()=>{
-        const euro = btn.dataset.euro;
-        const coins = btn.dataset.coins;
-        alert(`🎯 Vous avez choisi le pack de ${coins} pièces pour ${euro}€ ! Vous allez être redirigé vers PayPal.`);
-        // ouvrir paypal (simulé) puis page blanche
-        window.open("https://www.paypal.com/paypalme","_blank"); 
-        window.open("about:blank","_blank"); 
-        boosterModal.style.display="none";
+        const coinsNeeded = parseInt(btn.dataset.coins);
+
+        if((coins[currentProfile.username]||0) >= coinsNeeded){
+            // Il a assez de pièces → on débite et booste
+            coins[currentProfile.username] -= coinsNeeded;
+            saveCoins();
+            alert(`🎯 Story boostée avec ${coinsNeeded} pièces !`);
+            boosterModal.style.display="none";
+            // Ici tu peux ajouter la logique pour vraiment "booster la story"
+        } else {
+            // Pas assez de pièces → redirection PayPal
+            const euro = btn.dataset.euro;
+            alert(`💸 Solde insuffisant. Vous allez être redirigé vers PayPal pour acheter ${coinsNeeded} pièces pour ${euro}€.`);
+            window.open("https://www.paypal.com/paypalme","_blank"); 
+            window.open("about:blank","_blank"); 
+            boosterModal.style.display="none";
+        }
     }
+});
 });
     // Afficher viewer pour prévisualisation
     let viewer = document.getElementById("viewer");
