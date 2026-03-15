@@ -190,7 +190,7 @@ boostBtn.onclick = (e) => {
 
 controls.appendChild(boostBtn);
 
-
+controls.appendChild(boostBtn);
 // bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
 publishBtn.innerText = "Publier";
@@ -280,9 +280,7 @@ reader.readAsDataURL(previewFile);
 }
 
 }
-    }
-}
-
+    
 /* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
