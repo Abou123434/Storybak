@@ -105,23 +105,48 @@ document.getElementById("fileInput").addEventListener("change", e => {
     content.appendChild(el);
 
     // Progress + boutons
-    let controls = document.getElementById("progressControls");
-    controls.innerHTML = "";
-    controls.style.display = "flex";
-    controls.style.justifyContent = "space-between";
+let controls = document.getElementById("progressControls");
+controls.innerHTML = "";
 
-    // Bouton Booster (bas gauche, inactif)
-    let boosterBtn = document.createElement("button");
-    boosterBtn.innerText = "Booster";
-    boosterBtn.style.marginLeft = "5px";
-    controls.appendChild(boosterBtn);
+// position en bas
+controls.style.position = "absolute";
+controls.style.bottom = "20px";
+controls.style.left = "0";
+controls.style.right = "0";
+controls.style.display = "flex";
+controls.style.justifyContent = "space-between";
+controls.style.padding = "0 20px";
 
-    // Bouton Publier (bas droite)
-    let publishBtn = document.createElement("button");
-    publishBtn.innerText = "Publier";
-    publishBtn.onclick = publishPreviewStory;
-    publishBtn.style.marginRight = "5px";
-    controls.appendChild(publishBtn);
+// bouton BOOSTER (gauche)
+let boostBtn = document.createElement("button");
+boostBtn.innerText = "🚀 Booster";
+
+boostBtn.style.background = "#ff9800";
+boostBtn.style.color = "white";
+boostBtn.style.border = "none";
+boostBtn.style.padding = "10px 18px";
+boostBtn.style.borderRadius = "25px";
+boostBtn.style.fontSize = "14px";
+
+// aucune action pour l'instant
+boostBtn.onclick = () => {};
+
+controls.appendChild(boostBtn);
+
+// bouton PUBLIER (droite)
+let publishBtn = document.createElement("button");
+publishBtn.innerText = "Publier";
+
+publishBtn.style.background = "#25D366";
+publishBtn.style.color = "white";
+publishBtn.style.border = "none";
+publishBtn.style.padding = "10px 18px";
+publishBtn.style.borderRadius = "25px";
+publishBtn.style.fontSize = "14px";
+
+publishBtn.onclick = publishPreviewStory;
+
+controls.appendChild(publishBtn);
 });
 
 /* ===== Fonction Publier ===== */
