@@ -119,15 +119,15 @@ controls.style.display = "flex";
 controls.style.justifyContent = "space-between";
 controls.style.padding = "0 20px";
 
-/* ===== UPLOAD & PREVISUALISATION + BOOSTER corrigé ===== */
+/* ===== UPLOAD & PREVISUALISATION + BOOSTER AVEC PRIX ===== */
 let previewFile = null;
 
-document.getElementById("fileInput").addEventListener("change", e=>{
-    let file = e.target.files[0]; 
+document.getElementById("fileInput").addEventListener("change", e => {
+    let file = e.target.files[0];
     if(!file) return;
+
     previewFile = file;
 
-    // Afficher viewer
     let viewer = document.getElementById("viewer");
     viewer.style.display = "flex";
     let content = document.getElementById("content");
@@ -148,9 +148,9 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     el.style.maxHeight = "80vh";
     content.appendChild(el);
 
-    // Progress + boutons
+    // Boutons
     let controls = document.getElementById("progressControls");
-    controls.innerHTML = ""; // ok ici, avant de créer les boutons
+    controls.innerHTML = "";
     controls.style.position = "absolute";
     controls.style.bottom = "20px";
     controls.style.left = "0";
@@ -159,7 +159,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     controls.style.justifyContent = "space-between";
     controls.style.padding = "0 20px";
 
-    // ===== BOUTON BOOSTER =====
+    // BOOSTER
     let boostBtn = document.createElement("button");
     boostBtn.innerText = "🚀 Booster";
     boostBtn.style.background = "#ff9800";
@@ -171,7 +171,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     boostBtn.onclick = openBoosterModal;
     controls.appendChild(boostBtn);
 
-    // ===== BOUTON PUBLIER =====
+    // PUBLIER
     let publishBtn = document.createElement("button");
     publishBtn.innerText = "Publier";
     publishBtn.style.background = "#25D366";
@@ -180,11 +180,39 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     publishBtn.style.padding = "10px 18px";
     publishBtn.style.borderRadius = "25px";
     publishBtn.style.fontSize = "14px";
-    publishBtn.onclick = publishPreviewStory;
+    publishBtn.onclick = () => {
+        if(!previewFile) return;
+
+        if(previewFile.type.startsWith("video")){
+            users[currentProfile.username].stories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                views: {}
+            });
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer();
+        } else {
+            let reader = new FileReader();
+            reader.onload = ev => {
+                users[currentProfile.username].stories.push({
+                    url: ev.target.result,
+                    type: "image",
+                    views: {}
+                });
+                saveData();
+                renderStories();
+                previewFile = null;
+                closeViewer();
+            };
+            reader.readAsDataURL(previewFile);
+        }
+    };
     controls.appendChild(publishBtn);
 });
 
-// ===== FONCTION MODAL BOOSTER =====
+// ===== FONCTION BOOSTER AVEC PRIX =====
 function openBoosterModal() {
     let modal = document.createElement("div");
     modal.id = "boosterModal";
@@ -211,14 +239,20 @@ function openBoosterModal() {
     document.body.appendChild(modal);
 
     document.getElementById("closeBooster").onclick = () => modal.remove();
+
+    // Cliquer sur PayPal directement
     document.getElementById("boosterPaypal").onclick = () => window.open("about:blank","_blank");
 
+    // Cliquer sur un prix → simule PayPal et ajoute éventuellement les pièces
     modal.querySelectorAll("div button[data-coins]").forEach(b=>{
         b.onclick = () => {
-            let coins = b.dataset.coins;
+            let coinsToAdd = parseInt(b.dataset.coins);
             let amount = b.dataset.amount;
-            alert(`Vous allez acheter ${coins} pièces pour ${amount} €`);
-            window.open("about:blank","_blank");
+            alert(`Vous allez acheter ${coinsToAdd} pièces pour ${amount} €`);
+            coins[currentProfile.username] = (coins[currentProfile.username]||0) + coinsToAdd;
+            saveCoins();
+            updateCoinBalance();
+            window.open("about:blank","_blank"); // simule PayPal
         };
     });
 }
