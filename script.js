@@ -357,7 +357,6 @@ const closeKYC=document.getElementById("closeKYC");
 const submitKYC=document.getElementById("submitKYC");
 const kycMessage=document.getElementById("kycMessage");
 
-const withdrawPaypalBtn=document.getElementById("withdrawPaypalBtn");
 const closeWithdraw=document.getElementById("closeWithdraw");
 
 walletBtn.onclick=()=>{
