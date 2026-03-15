@@ -37,51 +37,6 @@ if(!users[currentProfile.username]){
 
 /* ===== STORIES ===== */
 function renderStories(){
-  // ===== BOOSTER MODAL ===== (mettre au début du script ou après INIT)
-if(!document.getElementById("boosterModal")){
-    let modal = document.createElement("div");
-    modal.id = "boosterModal";
-    modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
-    modal.innerHTML = `
-        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
-            <h3>🚀 Booster votre story !</h3>
-            <p>Motivation : Boostez votre story pour plus de vues et rester dans le top !</p>
-            <div style="margin:15px 0;">
-                <button class="boostOption" data-euros="0.50" data-coins="50">0,50 € - 50 pièces</button>
-                <button class="boostOption" data-euros="0.75" data-coins="75">0,75 € - 75 pièces</button>
-                <button class="boostOption" data-euros="1" data-coins="100">1 € - 100 pièces</button>
-                <button class="boostOption" data-euros="3" data-coins="300">3 € - 300 pièces</button>
-                <button class="boostOption" data-euros="5" data-coins="500">5 € - 500 pièces</button>
-            </div>
-            <button id="closeBoosterModal" style="background:red;color:white;padding:10px 18px;border:none;border-radius:10px;">Fermer</button>
-        </div>
-    `;
-    document.body.appendChild(modal);
-
-    // Fermer modal Booster
-    document.getElementById("closeBoosterModal").onclick = () => {
-        modal.style.display = "none";
-    };
-
-    // Gérer clic sur un prix
-    modal.querySelectorAll(".boostOption").forEach(btn => {
-        btn.onclick = () => {
-            let euros = btn.dataset.euros;
-            window.open("about:blank", "_blank"); // simulate PayPal
-            alert(`Vous avez choisi ${euros} € pour booster votre story !`);
-            modal.style.display = "none";
-        };
-    });
-}if(u===currentProfile.username){  
-    let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
-    plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
-    div.appendChild(plus);  
-}
-
-// ===== bouton Booster =====
-boostBtn.onclick = () => {
-    document.getElementById("boosterModal").style.display = "flex";
-};
     let container = document.getElementById("stories");
     container.innerHTML="";
 
@@ -176,9 +131,7 @@ boostBtn.style.borderRadius = "25px";
 boostBtn.style.fontSize = "14px";
 
 // aucune action pour l'instant
-boostBtn.onclick = () => {
-    document.getElementById("boosterModal").style.display = "flex";
-};
+boostBtn.onclick = () => {};
 
 controls.appendChild(boostBtn);
 
