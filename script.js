@@ -72,44 +72,6 @@ function renderStories(){
 
         div.onclick = ()=> openViewer(u);  
     });
-}/* ===== BOOSTER ===== */
-
-    boosterModal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
-    boosterModal.innerHTML = `
-        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
-            <h3>🚀 Booster votre story !</h3>
-            <p>Augmentez vos vues et restez dans le top ! Choisissez votre pack :</p>
-            <div style="display:flex;flex-direction:column;gap:10px;margin-top:15px;">
-                <button data-euro="0.50" data-coins="50" class="boosterPack">0,50€ - 50 pièces</button>
-                <button data-euro="0.75" data-coins="75" class="boosterPack">0,75€ - 75 pièces</button>
-                <button data-euro="1" data-coins="100" class="boosterPack">1€ - 100 pièces</button>
-                <button data-euro="3" data-coins="300" class="boosterPack">3€ - 300 pièces</button>
-                <button data-euro="5" data-coins="500" class="boosterPack">5€ - 500 pièces</button>
-            </div>
-            <br>
-            <button id="closeBooster" style="background:red;color:white;border:none;padding:10px 20px;border-radius:10px;">Fermer</button>
-        </div>
-    `;
-    document.body.appendChild(boosterModal);
-
-    const closeBooster = document.getElementById("closeBooster");
-    closeBooster.onclick = ()=> boosterModal.style.display="none";
-
-    
-            const coinsNeeded = parseInt(btn.dataset.coins);
-            if((coins[currentProfile.username]||0) >= coinsNeeded){
-                coins[currentProfile.username] -= coinsNeeded;
-                saveCoins();
-                alert(`🎯 Story boostée avec ${coinsNeeded} pièces !`);
-                boosterModal.style.display="none";
-            } else {
-                const euro = btn.dataset.euro;
-                alert(`💸 Solde insuffisant. Redirection PayPal pour ${coinsNeeded} pièces (${euro}€)`);
-                window.open("https://www.paypal.com/paypalme","_blank");
-                boosterModal.style.display="none";
-            }
-        }
-    });
 }
 
 /* ===== UPLOAD & PREVISUALISATION ===== */
@@ -162,15 +124,121 @@ document.querySelectorAll("button").forEach(b=>{
 closeBooster.onclick = ()=> boosterModal.style.display="none";
 
 // Gérer le clic sur un pack
-document.querySelectorAll(".boosterPack").forEach(btn=>{
-    btn.onclick = ()=>{
-        const euro = btn.dataset.euro;
-        const coins = btn.dataset.coins;
-        alert(`🎯 Vous avez choisi le pack de ${coins} pièces pour ${euro}€ ! Vous allez être redirigé vers PayPal.`);
-        // ouvrir paypal (simulé) puis page blanche
-        window.open("https://www.paypal.com/paypalme","_blank"); 
-        window.open("about:blank","_blank"); 
-        boosterModal.style.display="none";
+/* ===== BOOSTER COMPLET ===== */
+document.getElementById("fileInput").addEventListener("change", e => {
+    let file = e.target.files[0];
+    if (!file) return;
+    previewFile = file;
+
+    // Créer le modal booster s'il n'existe pas déjà
+    if (!document.getElementById("boosterModal")) {
+        let boosterModal = document.createElement("div");
+        boosterModal.id = "boosterModal";
+        boosterModal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+        boosterModal.innerHTML = `
+            <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
+                <h3>🚀 Booster votre story !</h3>
+                <p>Augmentez vos vues et restez dans le top ! Choisissez votre pack :</p>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:15px;">
+                    <button data-euro="0.50" data-coins="50" class="boosterPack">0,50€ - 50 pièces</button>
+                    <button data-euro="0.75" data-coins="75" class="boosterPack">0,75€ - 75 pièces</button>
+                    <button data-euro="1" data-coins="100" class="boosterPack">1€ - 100 pièces</button>
+                    <button data-euro="3" data-coins="300" class="boosterPack">3€ - 300 pièces</button>
+                    <button data-euro="5" data-coins="500" class="boosterPack">5€ - 500 pièces</button>
+                </div>
+                <br>
+                <button id="closeBooster" style="background:red;color:white;border:none;padding:10px 20px;border-radius:10px;">Fermer</button>
+            </div>
+        `;
+        document.body.appendChild(boosterModal);
+    }
+
+    const boosterModal = document.getElementById("boosterModal");
+    const closeBooster = document.getElementById("closeBooster");
+
+    // Fermer modal
+    closeBooster.onclick = () => boosterModal.style.display = "none";
+
+    // Gérer clic sur les packs
+    document.querySelectorAll(".boosterPack").forEach(btn => {
+        btn.onclick = () => {
+            const euro = parseFloat(btn.dataset.euro);   // Prix réel en €
+            const cost = parseInt(btn.dataset.coins);    // Prix en pièces
+            const username = currentProfile.username;
+
+            if ((coins[username] || 0) >= cost) {
+                // L'utilisateur a assez de pièces → booster appliqué
+                coins[username] -= cost;
+                saveCoins();
+                alert(`🚀 Votre story a été boostée pour ${cost} pièces !`);
+                boosterModal.style.display = "none";
+            } else {
+                // Pas assez → redirection PayPal pour payer le prix réel
+                alert(`💸 Solde insuffisant ! Vous allez être redirigé vers PayPal pour payer ${euro}€.`);
+                window.open("https://www.paypal.com/paypalme", "_blank");
+                window.open("about:blank", "_blank");
+                boosterModal.style.display = "none";
+            }
+        };
+    });
+
+    // Ouvrir viewer pour prévisualisation
+    let viewer = document.getElementById("viewer");
+    viewer.style.display = "flex";
+
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    let el;
+    if (file.type.startsWith("video")) {
+        el = document.createElement("video");
+        el.src = URL.createObjectURL(file);
+        el.controls = true;
+    } else {
+        el = document.createElement("img");
+        let reader = new FileReader();
+        reader.onload = ev => { el.src = ev.target.result; };
+        reader.readAsDataURL(file);
+    }
+    el.style.maxWidth = "100%";
+    el.style.maxHeight = "80vh";
+    content.appendChild(el);
+
+    // Ajouter boutons en bas
+    let controls = document.getElementById("progressControls");
+    controls.innerHTML = "";
+    controls.style.position = "absolute";
+    controls.style.bottom = "20px";
+    controls.style.left = "0";
+    controls.style.right = "0";
+    controls.style.display = "flex";
+    controls.style.justifyContent = "space-between";
+    controls.style.padding = "0 20px";
+
+    // Bouton BOOSTER (gauche)
+    let boostBtn = document.createElement("button");
+    boostBtn.innerText = "🚀 Booster";
+    boostBtn.style.background = "#ff9800";
+    boostBtn.style.color = "white";
+    boostBtn.style.border = "none";
+    boostBtn.style.padding = "10px 18px";
+    boostBtn.style.borderRadius = "25px";
+    boostBtn.style.fontSize = "14px";
+    boostBtn.onclick = e => { e.stopPropagation(); boosterModal.style.display = "flex"; };
+    controls.appendChild(boostBtn);
+
+    // Bouton PUBLIER (droite)
+    let publishBtn = document.createElement("button");
+    publishBtn.innerText = "Publier";
+    publishBtn.style.background = "#25D366";
+    publishBtn.style.color = "white";
+    publishBtn.style.border = "none";
+    publishBtn.style.padding = "10px 18px";
+    publishBtn.style.borderRadius = "25px";
+    publishBtn.style.fontSize = "14px";
+    publishBtn.onclick = publishPreviewStory;
+    controls.appendChild(publishBtn);
+});
     }
 });
     // Afficher viewer pour prévisualisation
