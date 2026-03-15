@@ -40,138 +40,153 @@ function renderStories(){
     let container = document.getElementById("stories");
     container.innerHTML="";
 
-    // Profil courant en premier  
-    let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);  
+    // Profil courant en premier
+    let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
-    allUsers.forEach(u=>{  
-        let div = document.createElement("div"); div.className="story";  
+    allUsers.forEach(u=>{
+        let div = document.createElement("div"); div.className="story";
 
-        let avatarDiv = document.createElement("div");     
-        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";    
-        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";    
-        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;    
-        avatarDiv.style.backgroundSize="cover";    
-        avatarDiv.style.backgroundPosition="center";  
-        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";    
-        avatarDiv.style.cursor="pointer";    
+        let avatarDiv = document.createElement("div");       
+        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";      
+        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";      
+        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;      
+        avatarDiv.style.backgroundSize="cover";      
+        avatarDiv.style.backgroundPosition="center";    
+        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";      
+        avatarDiv.style.cursor="pointer";      
 
-        // Nom + prénom côte à côte  
-        let label = document.createElement("div");    
-        label.style.textAlign="center"; label.style.marginTop="5px";    
-        label.style.color="white";   
-        label.innerText = u + " " + users[u].bio;  
+        // Nom + prénom côte à côte    
+        let label = document.createElement("div");      
+        label.style.textAlign="center"; label.style.marginTop="5px";      
+        label.style.color="white";     
+        label.innerText = u + " " + users[u].bio;    
 
-        div.appendChild(avatarDiv); div.appendChild(label);    
-        container.appendChild(div);    
+        div.appendChild(avatarDiv); div.appendChild(label);      
+        container.appendChild(div);      
 
-        if(u===currentProfile.username){    
-            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";    
-            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };    
-            div.appendChild(plus);    
-        }    
+        if(u===currentProfile.username){      
+            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";      
+            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };      
+            div.appendChild(plus);      
+        }      
 
-        div.onclick = ()=> openViewer(u);    
+        div.onclick = ()=> openViewer(u);
+
     });
 }
 
 /* ===== UPLOAD & PREVISUALISATION ===== */
-let previewFile = null;
+let previewFile = null; // fichier en cours de prévisualisation
 
 document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0];
     if(!file) return;
-    previewFile = file;
 
-    let viewer = document.getElementById("viewer");  
-    viewer.style.display = "flex";  
+    previewFile = file; // garder le fichier pour publication
 
-    let content = document.getElementById("content");  
-    content.innerHTML = "";  
+    // Afficher viewer pour prévisualisation
+    let viewer = document.getElementById("viewer");
+    viewer.style.display = "flex";
 
-    let el;  
-    if(file.type.startsWith("video")){  
-        el = document.createElement("video");  
-        el.src = URL.createObjectURL(file);  
-        el.controls = true;  
-    } else {  
-        el = document.createElement("img");  
-        let reader = new FileReader();  
-        reader.onload = ev => { el.src = ev.target.result; }  
-        reader.readAsDataURL(file);  
-    }  
-    el.style.maxWidth = "100%";  
-    el.style.maxHeight = "80vh";  
-    content.appendChild(el);  
+    let content = document.getElementById("content");
+    content.innerHTML = "";
 
-    // Boutons flottants
+    // Créer l’élément media
+    let el;
+    if(file.type.startsWith("video")){
+        el = document.createElement("video");
+        el.src = URL.createObjectURL(file);
+        el.controls = true;
+    } else {
+        el = document.createElement("img");
+        let reader = new FileReader();
+        reader.onload = ev => { el.src = ev.target.result; }
+        reader.readAsDataURL(file);
+    }
+    el.style.maxWidth = "100%";
+    el.style.maxHeight = "80vh";
+    content.appendChild(el);
+
+    // Progress + boutons flottants
     let controls = document.getElementById("progressControls");
     controls.innerHTML = "";
 
-    // Booster gauche
+    // Bouton Booster (bas gauche, visuel)
     let boosterBtn = document.createElement("button");
     boosterBtn.innerText = "Booster";
-    boosterBtn.style.position = "fixed";
-    boosterBtn.style.left = "20px";
-    boosterBtn.style.bottom = "20px";
-    boosterBtn.style.zIndex = "1000";
-    boosterBtn.style.padding = "10px 15px";
-    boosterBtn.style.borderRadius = "50px";
-    boosterBtn.style.background = "#f0ad4e";
-    boosterBtn.style.color = "white";
-    boosterBtn.style.border = "none";
-    boosterBtn.style.cursor = "pointer";
+    boosterBtn.style.cssText = `
+        position:fixed;
+        bottom:20px;
+        left:20px;
+        padding:15px 20px;
+        border-radius:50px;
+        background:#FF4500;
+        color:white;
+        border:none;
+        font-weight:bold;
+        cursor:pointer;
+        z-index:9999;
+    `;
     controls.appendChild(boosterBtn);
 
-    // Publier droite
+    // Bouton Publier (bas droite)
     let publishBtn = document.createElement("button");
     publishBtn.innerText = "Publier";
-    publishBtn.style.position = "fixed";
-    publishBtn.style.right = "20px";
-    publishBtn.style.bottom = "20px";
-    publishBtn.style.zIndex = "1000";
-    publishBtn.style.padding = "10px 15px";
-    publishBtn.style.borderRadius = "50px";
-    publishBtn.style.background = "#25D366";
-    publishBtn.style.color = "white";
-    publishBtn.style.border = "none";
-    publishBtn.style.cursor = "pointer";
+    publishBtn.style.cssText = `
+        position:fixed;
+        bottom:20px;
+        right:20px;
+        padding:15px 20px;
+        border-radius:50px;
+        background:#25D366;
+        color:white;
+        border:none;
+        font-weight:bold;
+        cursor:pointer;
+        z-index:9999;
+    `;
     publishBtn.onclick = publishPreviewStory;
     controls.appendChild(publishBtn);
 });
 
-// Publier story
+// Fonction pour publier la story depuis la prévisualisation
 function publishPreviewStory(){
     if(!previewFile) return;
 
-    if(previewFile.type.startsWith("video")){  
-        users[currentProfile.username].stories.push({  
-            url: URL.createObjectURL(previewFile),  
-            type: "video",  
-            views: {}  
-        });  
-        saveData(); renderStories(); previewFile=null; closeViewer();
-    } else {  
-        let reader = new FileReader();  
-        reader.onload = ev => {  
-            users[currentProfile.username].stories.push({  
-                url: ev.target.result,  
-                type: "image",  
-                views: {}  
-            });  
-            saveData(); renderStories(); previewFile=null; closeViewer();
-        };  
-        reader.readAsDataURL(previewFile);  
+    if(previewFile.type.startsWith("video")){
+        users[currentProfile.username].stories.push({
+            url: URL.createObjectURL(previewFile),
+            type: "video",
+            views: {}
+        });
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    } else {
+        let reader = new FileReader();
+        reader.onload = ev => {
+            users[currentProfile.username].stories.push({
+                url: ev.target.result,
+                type: "image",
+                views: {}
+            });
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer();
+        };
+        reader.readAsDataURL(previewFile);
     }
 }
 
 /* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
-    currentUser=u; currentIndex=0;
+    currentUser = u; currentIndex=0;
     document.getElementById("viewer").style.display="flex";
     showStory();
 }
-
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
@@ -181,7 +196,6 @@ function renderProgressBars(){
         bar.appendChild(inner); c.appendChild(bar);
     });
 }
-
 function startProgress(s){
     let bars=document.querySelectorAll(".progress-inner"); let w=0;
     let dur=s.type==="image"?5000:10000;
@@ -194,7 +208,6 @@ function startProgress(s){
         }
     },50);
 }
-
 function showStory(){
     clearInterval(timer);
     let s=users[currentUser].stories[currentIndex];
@@ -206,20 +219,19 @@ function showStory(){
     renderProgressBars(); startProgress(s);
 
     let controls=document.getElementById("progressControls"); controls.innerHTML="";
-    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;    
-    controls.appendChild(giftBtn);    
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;
+    controls.appendChild(giftBtn);
 
-    if(currentProfile.username===currentUser){    
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";    
-        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){    
-            users[currentUser].stories.splice(currentIndex,1); saveData();    
-            if(users[currentUser].stories.length===0){ closeViewer(); return; }    
-            showStory();    
-        }};    
-        controls.appendChild(delBtn);    
+    if(currentProfile.username===currentUser){
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";
+        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){
+            users[currentUser].stories.splice(currentIndex,1); saveData();
+            if(users[currentUser].stories.length===0){ closeViewer(); return; }
+            showStory();
+        }};
+        controls.appendChild(delBtn);
     }
 }
-
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
@@ -237,7 +249,8 @@ function openGiftQuantityModal(){
     m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
     let box=document.createElement("div");
     box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
-    box.innerHTML = `<h3>Quantité pour ${selectedGiftEmoji}</h3>
+    box.innerHTML = `
+        <h3>Quantité pour ${selectedGiftEmoji}</h3>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
             <button onclick="sendGift(1)">×1</button>
             <button onclick="sendGift(2)">×2</button>
@@ -245,7 +258,8 @@ function openGiftQuantityModal(){
             <button onclick="sendGift(7)">×7</button>
             <button onclick="sendGift(10)">×10</button>
         </div><br>
-        <button onclick="closeGiftQuantity()">Fermer</button>`;
+        <button onclick="closeGiftQuantity()">Fermer</button>
+    `;
     m.appendChild(box); document.body.appendChild(m);
 }
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
@@ -324,16 +338,17 @@ if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
     modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
-    modal.innerHTML= `<div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
-        <h3>Modifier le profil</h3>
-        <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
-        <input type="file" id="avatarInput" hidden>
-        <br><br>
-        <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
-        <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
-        <button id="saveProfile" class="green-btn">Sauvegarder</button>
-        <button id="closeProfileModal" class="red-btn">Fermer</button>
-    </div>`;
+    modal.innerHTML= `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
+            <h3>Modifier le profil</h3>
+            <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
+            <input type="file" id="avatarInput" hidden><br><br>
+            <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
+            <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
+            <button id="saveProfile" class="green-btn">Sauvegarder</button>
+            <button id="closeProfileModal" class="red-btn">Fermer</button>
+        </div>
+    `;
     document.body.appendChild(modal);
 }
 
@@ -345,25 +360,28 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
+// Ouvrir modal
 changeProfileBtn.addEventListener("click", ()=>{
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
 
-    avatarPreview.innerText = "";  
-    if(users[currentProfile.username]?.photo){  
-        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;  
-        avatarPreview.style.backgroundSize = "cover";  
-        avatarPreview.style.backgroundPosition = "center";  
-    } else {  
-        avatarPreview.style.backgroundImage = "";  
-        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;  
-        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";  
+    avatarPreview.innerText = "";
+    if(users[currentProfile.username]?.photo){
+        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+    } else {
+        avatarPreview.style.backgroundImage = "";
+        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
     }
 });
 
+// Fermer modal
 closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
+// Modifier avatar
 avatarPreview.addEventListener("click", ()=> avatarInput.click());
 avatarInput.addEventListener("change", e=>{
     let file = e.target.files[0];
@@ -378,4 +396,14 @@ avatarInput.addEventListener("change", e=>{
         saveData();
         renderStories();
     };
-    reader.readAsDataURL
+    reader.readAsDataURL(file);
+});
+
+// Sauvegarder profil
+saveProfile.addEventListener("click", ()=>{
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
+    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
+
+    let oldKey = currentProfile.username;
+    let userData = users[
