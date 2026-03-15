@@ -46,32 +46,31 @@ function renderStories(){
     allUsers.forEach(u=>{
         let div = document.createElement("div"); div.className="story";
 
-        let avatarDiv = document.createElement("div");       
-        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";      
-        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";      
-        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;      
-        avatarDiv.style.backgroundSize="cover";      
-        avatarDiv.style.backgroundPosition="center";    
-        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";      
-        avatarDiv.style.cursor="pointer";      
+        let avatarDiv = document.createElement("div");
+        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";
+        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";
+        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;
+        avatarDiv.style.backgroundSize="cover";
+        avatarDiv.style.backgroundPosition="center";
+        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";
+        avatarDiv.style.cursor="pointer";
 
-        // Nom + prénom côte à côte    
-        let label = document.createElement("div");      
-        label.style.textAlign="center"; label.style.marginTop="5px";      
-        label.style.color="white";     
-        label.innerText = u + " " + users[u].bio;    
+        // Nom + prénom côte à côte
+        let label = document.createElement("div");
+        label.style.textAlign="center"; label.style.marginTop="5px";
+        label.style.color="white";
+        label.innerText = u + " " + users[u].bio;
 
-        div.appendChild(avatarDiv); div.appendChild(label);      
-        container.appendChild(div);      
+        div.appendChild(avatarDiv); div.appendChild(label);
+        container.appendChild(div);
 
-        if(u===currentProfile.username){      
-            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";      
-            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };      
-            div.appendChild(plus);      
-        }      
+        if(u===currentProfile.username){
+            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";
+            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };
+            div.appendChild(plus);
+        }
 
         div.onclick = ()=> openViewer(u);
-
     });
 }
 
@@ -82,7 +81,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0];
     if(!file) return;
 
-    previewFile = file; // garder le fichier pour publication
+    previewFile = file;
 
     // Afficher viewer pour prévisualisation
     let viewer = document.getElementById("viewer");
@@ -91,7 +90,6 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     let content = document.getElementById("content");
     content.innerHTML = "";
 
-    // Créer l’élément media
     let el;
     if(file.type.startsWith("video")){
         el = document.createElement("video");
@@ -107,49 +105,41 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     el.style.maxHeight = "80vh";
     content.appendChild(el);
 
-    // Progress + boutons flottants
+    // Boutons flottants
     let controls = document.getElementById("progressControls");
     controls.innerHTML = "";
+    controls.style.position = "absolute";
+    controls.style.bottom = "20px";
+    controls.style.left = "0";
+    controls.style.right = "0";
+    controls.style.display = "flex";
+    controls.style.justifyContent = "space-between";
+    controls.style.padding = "0 20px";
 
-    // Bouton Booster (bas gauche, visuel)
+    // Booster gauche
     let boosterBtn = document.createElement("button");
     boosterBtn.innerText = "Booster";
-    boosterBtn.style.cssText = `
-        position:fixed;
-        bottom:20px;
-        left:20px;
-        padding:15px 20px;
-        border-radius:50px;
-        background:#FF4500;
-        color:white;
-        border:none;
-        font-weight:bold;
-        cursor:pointer;
-        z-index:9999;
-    `;
+    boosterBtn.style.background = "#ff9800";
+    boosterBtn.style.color = "white";
+    boosterBtn.style.border = "none";
+    boosterBtn.style.padding = "10px 15px";
+    boosterBtn.style.borderRadius = "10px";
+    boosterBtn.style.cursor = "default"; // pas d'action
     controls.appendChild(boosterBtn);
 
-    // Bouton Publier (bas droite)
+    // Publier droite
     let publishBtn = document.createElement("button");
     publishBtn.innerText = "Publier";
-    publishBtn.style.cssText = `
-        position:fixed;
-        bottom:20px;
-        right:20px;
-        padding:15px 20px;
-        border-radius:50px;
-        background:#25D366;
-        color:white;
-        border:none;
-        font-weight:bold;
-        cursor:pointer;
-        z-index:9999;
-    `;
+    publishBtn.style.background = "#25D366";
+    publishBtn.style.color = "white";
+    publishBtn.style.border = "none";
+    publishBtn.style.padding = "10px 15px";
+    publishBtn.style.borderRadius = "10px";
     publishBtn.onclick = publishPreviewStory;
     controls.appendChild(publishBtn);
 });
 
-// Fonction pour publier la story depuis la prévisualisation
+/* ===== PUBLISH STORY ===== */
 function publishPreviewStory(){
     if(!previewFile) return;
 
@@ -187,6 +177,7 @@ function openViewer(u){
     document.getElementById("viewer").style.display="flex";
     showStory();
 }
+
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
@@ -196,6 +187,7 @@ function renderProgressBars(){
         bar.appendChild(inner); c.appendChild(bar);
     });
 }
+
 function startProgress(s){
     let bars=document.querySelectorAll(".progress-inner"); let w=0;
     let dur=s.type==="image"?5000:10000;
@@ -208,6 +200,7 @@ function startProgress(s){
         }
     },50);
 }
+
 function showStory(){
     clearInterval(timer);
     let s=users[currentUser].stories[currentIndex];
@@ -232,6 +225,7 @@ function showStory(){
         controls.appendChild(delBtn);
     }
 }
+
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
@@ -258,8 +252,7 @@ function openGiftQuantityModal(){
             <button onclick="sendGift(7)">×7</button>
             <button onclick="sendGift(10)">×10</button>
         </div><br>
-        <button onclick="closeGiftQuantity()">Fermer</button>
-    `;
+        <button onclick="closeGiftQuantity()">Fermer</button>`;
     m.appendChild(box); document.body.appendChild(m);
 }
 function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
@@ -269,7 +262,7 @@ function sendGift(q){
         coins[currentProfile.username]-=t; saveCoins();
         document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`;
         updateCoinBalance();
-    }else document.getElementById("giftMessage").innerText="Solde insuffisant";
+    } else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
 }
 
@@ -342,13 +335,13 @@ if(!document.getElementById("profileModal")){
         <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
             <h3>Modifier le profil</h3>
             <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
-            <input type="file" id="avatarInput" hidden><br><br>
+            <input type="file" id="avatarInput" hidden>
+            <br><br>
             <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
             <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
             <button id="saveProfile" class="green-btn">Sauvegarder</button>
             <button id="closeProfileModal" class="red-btn">Fermer</button>
-        </div>
-    `;
+        </div>`;
     document.body.appendChild(modal);
 }
 
@@ -406,4 +399,6 @@ saveProfile.addEventListener("click", ()=>{
     if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
 
     let oldKey = currentProfile.username;
-    let userData = users[
+    let userData = users[oldKey];
+
+    userData.bio =
