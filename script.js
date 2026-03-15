@@ -77,7 +77,7 @@ function renderStories(){
 /* ===== UPLOAD & PREVISUALISATION ===== */
 let previewFile = null; // fichier en cours de prévisualisation
 
-document.getElementById("fileInput").addEventListener("change", e=>{
+document.getElementById("fileInput")("change", e=>{
     let file = e.target.files[0]; 
     if(!file) return;
 
