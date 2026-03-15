@@ -190,7 +190,6 @@ boostBtn.onclick = (e) => {
 
 controls.appendChild(boostBtn);
 
-controls.appendChild(boostBtn);
 
 // bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
