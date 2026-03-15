@@ -119,23 +119,20 @@ controls.style.display = "flex";
 controls.style.justifyContent = "space-between";
 controls.style.padding = "0 20px";
 
-// /* ===== UPLOAD & PREVISUALISATION + BOOSTER ===== */
-let previewFile = null; // fichier en cours de prévisualisation
+/* ===== UPLOAD & PREVISUALISATION + BOOSTER corrigé ===== */
+let previewFile = null;
 
 document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0]; 
     if(!file) return;
+    previewFile = file;
 
-    previewFile = file; // garder le fichier pour publication
-
-    // Afficher viewer pour prévisualisation
+    // Afficher viewer
     let viewer = document.getElementById("viewer");
     viewer.style.display = "flex";
-
     let content = document.getElementById("content");
     content.innerHTML = "";
 
-    // Créer l’élément media
     let el;
     if(file.type.startsWith("video")){
         el = document.createElement("video");
@@ -153,8 +150,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
 
     // Progress + boutons
     let controls = document.getElementById("progressControls");
-    controls.innerHTML = "";
-
+    controls.innerHTML = ""; // ok ici, avant de créer les boutons
     controls.style.position = "absolute";
     controls.style.bottom = "20px";
     controls.style.left = "0";
@@ -214,13 +210,9 @@ function openBoosterModal() {
     `;
     document.body.appendChild(modal);
 
-    // Fermer modal
     document.getElementById("closeBooster").onclick = () => modal.remove();
-
-    // Cliquer sur PayPal
     document.getElementById("boosterPaypal").onclick = () => window.open("about:blank","_blank");
 
-    // Cliquer sur un montant
     modal.querySelectorAll("div button[data-coins]").forEach(b=>{
         b.onclick = () => {
             let coins = b.dataset.coins;
