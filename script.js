@@ -109,7 +109,48 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     // // Progress + boutons
 let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
+// ===== BOOSTER MODAL =====
+if(boostBtn.onclick = () => {};){
+    let modal = document.createElement("div");
+    modal.id = "boosterModal";
+    modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+    modal.innerHTML = `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
+            <h3>🚀 Booster votre story !</h3>
+            <p>Motivation : Boostez votre story pour plus de vues et rester dans le top !</p>
+            <div style="margin:15px 0;">
+                <button class="boostOption" data-euros="0.50" data-coins="50">0,50 € - 50 pièces</button>
+                <button class="boostOption" data-euros="0.75" data-coins="75">0,75 € - 75 pièces</button>
+                <button class="boostOption" data-euros="1" data-coins="100">1 € - 100 pièces</button>
+                <button class="boostOption" data-euros="3" data-coins="300">3 € - 300 pièces</button>
+                <button class="boostOption" data-euros="5" data-coins="500">5 € - 500 pièces</button>
+            </div>
+            <button id="closeBoosterModal" style="background:red;color:white;padding:10px 18px;border:none;border-radius:10px;">Fermer</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
 
+// Ouvrir modal Booster
+boostBtn.onclick = () => {
+    document.getElementById("boosterModal").style.display = "flex";
+};
+
+// Fermer modal Booster
+document.getElementById("closeBoosterModal").onclick = () => {
+    document.getElementById("boosterModal").style.display = "none";
+};
+
+// Gérer clic sur un prix
+document.querySelectorAll("#boosterModal .boostOption").forEach(btn => {
+    btn.onclick = () => {
+        let euros = btn.dataset.euros;
+        // Redirection vers PayPal puis vers page blanche
+        window.open("about:blank", "_blank"); // simulate paiement PayPal
+        alert(`Vous avez choisi ${euros} € pour booster votre story !`);
+        document.getElementById("boosterModal").style.display = "none";
+    };
+});
 // position en bas
 controls.style.position = "absolute";
 controls.style.bottom = "20px";
@@ -122,6 +163,7 @@ controls.style.padding = "0 20px";
 // bouton BOOSTER (gauche)
 let boostBtn = document.createElement("button");
 boostBtn.innerText = "🚀 Booster";
+
 boostBtn.style.background = "#ff9800";
 boostBtn.style.color = "white";
 boostBtn.style.border = "none";
@@ -129,47 +171,8 @@ boostBtn.style.padding = "10px 18px";
 boostBtn.style.borderRadius = "25px";
 boostBtn.style.fontSize = "14px";
 
-// Fonctionnalité Booster
-boostBtn.onclick = () => {
-    // Création du modal si inexistant
-    if(!document.getElementById("boosterModal")){
-        let modal = document.createElement("div");
-        modal.id = "boosterModal";
-        modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
-        modal.innerHTML = `
-            <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
-                <h3>🚀 Booster ta story !</h3>
-                <p>Boost pour plus de vues et rester dans le top !</p>
-                <div id="boosterOptions" style="margin:15px 0; display:flex;flex-direction:column;gap:10px;"></div>
-                <button id="closeBooster" style="margin-top:15px;padding:10px 18px;border-radius:25px;border:none;background:#ff4444;color:white;">Fermer</button>
-            </div>
-        `;
-        document.body.appendChild(modal);
-
-        document.getElementById("closeBooster").onclick = () => modal.style.display = "none";
-
-        // Options de boost
-        const boosterData = [
-            {price:0.5, coins:50},
-            {price:0.75, coins:75},
-            {price:1, coins:100},
-            {price:3, coins:300},
-            {price:5, coins:500},
-        ];
-        let container = document.getElementById("boosterOptions");
-        boosterData.forEach(b=>{
-            let btn = document.createElement("button");
-            btn.innerText = `${b.price}€ → ${b.coins} pièces`;
-            btn.style.cssText = "padding:10px 18px;border-radius:25px;border:none;background:#25D366;color:white;font-size:14px;cursor:pointer;";
-            btn.onclick = () => {
-                alert(`Redirection vers PayPal pour ${b.price}€`);
-                window.open("about:blank","_blank");
-            };
-            container.appendChild(btn);
-        });
-    }
-    document.getElementById("boosterModal").style.display = "flex";
-};
+// aucune action pour l'instant
+boostBtn.onclick = () => {};
 
 controls.appendChild(boostBtn);
 
@@ -386,4 +389,85 @@ if(!document.getElementById("profileModal")){
             <br><br>
             <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
             <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
-            <button id="saveProfile" class="green-btn">Sauveg
+            <button id="saveProfile" class="green-btn">Sauvegarder</button>
+            <button id="closeProfileModal" class="red-btn">Fermer</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+const profileModal = document.getElementById("profileModal");
+const avatarPreview = document.getElementById("avatarPreview");
+const avatarInput = document.getElementById("avatarInput");
+const profileNom = document.getElementById("profileNom");
+const profilePrenom = document.getElementById("profilePrenom");
+const saveProfile = document.getElementById("saveProfile");
+const closeProfileModal = document.getElementById("closeProfileModal");
+
+// Ouvrir modal
+changeProfileBtn.addEventListener("click", ()=>{
+    profileModal.style.display = "flex";
+    profileNom.value = currentProfile.username;
+    profilePrenom.value = currentProfile.bio;
+
+    avatarPreview.innerText = "";
+    if(users[currentProfile.username]?.photo){
+        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+    } else {
+        avatarPreview.style.backgroundImage = "";
+        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
+    }
+});
+
+// Fermer modal
+closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
+
+// Modifier avatar
+avatarPreview.addEventListener("click", ()=> avatarInput.click());
+avatarInput.addEventListener("change", e=>{
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = ev => {
+        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+        avatarPreview.innerText = "";
+        users[currentProfile.username].photo = ev.target.result;
+        saveData();
+        renderStories();
+    };
+    reader.readAsDataURL(file);
+});
+
+// Sauvegarder profil (corrigé pour prénom et nom correctement)
+saveProfile.addEventListener("click", ()=>{
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
+    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
+
+    let oldKey = currentProfile.username;
+    let userData = users[oldKey];
+
+    userData.bio = prenom; // mettre à jour le prénom
+    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
+
+    // Renommer la clé si le nom change
+    if(oldKey !== nom){
+        users[nom] = userData;
+        delete users[oldKey];
+    }
+
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
+
+    saveData();
+    renderStories();
+    profileModal.style.display = "none";
+});
+
+/* ===== INIT ===== */
+renderStories();
