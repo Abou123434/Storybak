@@ -226,7 +226,7 @@ function publishPreviewStory(){
             let videoCount = userStories.filter(s => s.type === "video").length;
 
             if(videoCount + segments > 3){
-                alert("automatiquément 5 segments vidéo autorisés !");
+                alert(" 5 segments vidéo autorisés !");
                 return;
             }
 
