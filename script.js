@@ -192,7 +192,7 @@ controls.appendChild(boostBtn);
 
 
 // bouton PUBLIER (droite)
-let publishBtn = document.createElement("button");
+
 publishBtn.innerText = "Publier";
 
 publishBtn.style.background = "#25D366";
@@ -205,8 +205,8 @@ publishBtn.style.fontSize = "14px";
 publishBtn.onclick = publishPreviewStory;
 
 controls.appendChild(publishBtn);
-document.getElementById("fileInput"document.getElementById("fileInput"function publishPreviewStory(){
-
+});
+function publishPreviewStory(){
 if(!previewFile) return;
 
 let userStories = users[currentProfile.username].stories;
@@ -218,12 +218,11 @@ if(s.type==="video"){
 e.currentTime = s.start || 0;
 e.autoplay = true;
 
-e.ontimeupdate = ()=>{
+e.ontimeupdate = () => {
 if(s.end && e.currentTime >= s.end){
 nextStory();
 }
 };
-}
 
 let videoCount = userStories.filter(s => s.type === "video").length;
 
