@@ -211,93 +211,68 @@ publishBtn.onclick = (e) => {
 controls.appendChild(publishBtn);
 });
 function publishPreviewStory(){
-if(!previewFile) return;
+    if(!previewFile) return;
 
-let userStories = users[currentProfile.username].stories;
+    let userStories = users[currentProfile.username].stories;
 
-// ===== VIDEO =====
-e.src = s.url;
+    // ===== VIDEO =====
+    if(previewFile.type.startsWith("video")){
+        let video = document.createElement("video");
+        video.src = URL.createObjectURL(previewFile);
 
-if(s.type==="video"){
-e.currentTime = s.start || 0;
-e.autoplay = true;
+        video.onloadedmetadata = () => {
+            let duration = video.duration;
+            let segments = Math.ceil(duration / 30); // découper en segments de 30s
+            let videoCount = userStories.filter(s => s.type === "video").length;
 
-e.ontimeupdate = () => {
-if(s.end && e.currentTime >= s.end){
-nextStory();
-}
-};
+            if(videoCount + segments > 3){
+                alert("Maximum 3 segments vidéo autorisés !");
+                return;
+            }
 
-let videoCount = userStories.filter(s => s.type === "video").length;
+            for(let i=0;i<segments;i++){
+                let start = i * 30;
+                let end = Math.min(start + 30, duration);
 
-let video = document.createElement("video");
-video.src = URL.createObjectURL(previewFile);
+                userStories.push({
+                    url: URL.createObjectURL(previewFile),
+                    type: "video",
+                    start: start,
+                    end: end,
+                    views: {}
+                });
+            }
 
-video.onloadedmetadata = () => {
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer(); // ferme juste la prévisualisation
+        };
 
-let duration = video.duration;
-let segments = Math.ceil(duration / 30);
+    } 
+    // ===== IMAGE =====
+    else {
+        let imageCount = userStories.filter(s => s.type === "image").length;
 
-if(videoCount + segments > 3){
-alert("Maximum 3 segments vidéo autorisés !");
-return;
-}
+        if(imageCount >= 10){
+            alert("Maximum 10 images autorisées !");
+            return;
+        }
 
-for(let i=0;i<segments;i++){
-
-let start = i * 30;
-let end = Math.min(start + 30, duration);
-
-userStories.push({
-url: URL.createObjectURL(previewFile),
-type: "video",
-start:start,
-end:end,
-views:{}
-});
-
-}
-
-saveData();
-renderStories();
-previewFile=null;
-closeViewer();
-
-};
-
-}
-
-// ===== IMAGE =====
-else{
-
-let imageCount = userStories.filter(s => s.type === "image").length;
-
-if(imageCount >= 10){
-alert("Maximum 10 images autorisées !");
-return;
-}
-
-let reader = new FileReader();
-
-reader.onload = ev => {
-
-userStories.push({
-url: ev.target.result,
-type:"image",
-views:{}
-});
-
-saveData();
-renderStories();
-previewFile=null;
-closeViewer();
-
-};
-
-reader.readAsDataURL(previewFile);
-
-}
-
+        let reader = new FileReader();
+        reader.onload = ev => {
+            userStories.push({
+                url: ev.target.result,
+                type: "image",
+                views: {}
+            });
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer();
+        };
+        reader.readAsDataURL(previewFile);
+    }
 }
     
 /* ===== VIEWER ===== */
