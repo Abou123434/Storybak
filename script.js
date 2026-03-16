@@ -265,7 +265,7 @@ closeViewer();
 
 reader.readAsDataURL(previewFile);
 
-};
+}
 
 }
 
