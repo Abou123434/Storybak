@@ -205,23 +205,14 @@ publishBtn.style.fontSize = "14px";
 publishBtn.onclick = publishPreviewStory;
 
 controls.appendChild(publishBtn);
-function publishPreviewStory(){
+document.getElementById("fileInput"document.getElementById("fileInput"function publishPreviewStory(){
+
 if(!previewFile) return;
 
 let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-e.src = s.url;
-
-if(s.type==="video"){
-e.currentTime = s.start || 0;
-e.autoplay = true;
-
-e.ontimeupdate = () => {
-if(s.end && e.currentTime >= s.end){
-nextStory();
-}
-};
+if(previewFile.type.startsWith("video")){
 
 let videoCount = userStories.filter(s => s.type === "video").length;
 
