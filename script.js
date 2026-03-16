@@ -77,7 +77,7 @@ function renderStories(){
 /* ===== UPLOAD & PREVISUALISATION ===== */
 let previewFile = null; // fichier en cours de prévisualisation
 
-document.("fileInput")("change", e=>{
+document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0]; 
     if(!file) return;
 
@@ -190,7 +190,7 @@ boostBtn.onclick = (e) => {
 
 controls.appendChild(boostBtn);
 
-
+controls.appendChild(boostBtn);
 // bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
 publishBtn.innerText = "Publier";
@@ -216,54 +216,67 @@ if(previewFile.type.startsWith("video")){
 
 let videoCount = userStories.filter(s => s.type === "video").length;
 
-document.getElementById("fileInput").addEventListener("change", async function(e){
-  let file = e.target.files[0];
-  if(!file) return;
+if(videoCount >= 3){
+alert("Maximum 3 vidéos autorisées !");
+return;
+}
 
-  let userStories = users[currentLoggedUser].stories;
-  let videoCount = userStories.filter(s=>s.type==="video").length;
-  let imageCount = userStories.filter(s=>s.type==="image").length;
+let video = document.createElement("video");
+video.src = URL.createObjectURL(previewFile);
 
-  if(file.type.startsWith("video")){
-    if(videoCount >= 5){ alert("Vous ne pouvez avoir que 3 vidéos maximum."); return; }
+video.onloadedmetadata = () => {
 
-    const forbiddenKeywords = ["porn","xxx","sex"];
-    if(forbiddenKeywords.some(word => file.name.toLowerCase().includes(word))){
-      alert("Vidéo rejetée : contenu inapproprié."); return;
-    }
-    await addVideoWithSegments(file);
-  } else {
-    if(imageCount >= 10){ alert("Vous ne pouvez avoir que 10 images maximum."); return; }
-    await addImageStory(file);
-  }
+let duration = video.duration;
+
+if(duration > 30){
+alert("Chaque vidéo doit faire maximum 30 secondes !");
+return;
+}
+
+userStories.push({
+url: URL.createObjectURL(previewFile),
+type: "video",
+views: {}
 });
 
-/* Découpage vidéo en segments de 30s max */
-async function addVideoWithSegments(file){
-  let url = URL.createObjectURL(file);
-  let video = document.createElement("video");
-  video.src = url;
-  video.preload = "metadata";
+saveData();
+renderStories();
+previewFile = null;
+closeViewer();
 
-  await new Promise(res => video.onloadedmetadata = res);
-  let duration = video.duration;
-  let segments = Math.ceil(duration / 30);
+};
 
-  for(let i=0; i<segments; i++){
-    if(users[currentLoggedUser].stories.filter(s=>s.type==="video").length >= 5) break;
+}
 
-    users[currentLoggedUser].stories.push({
-      url: url,
-      type: "video",
-      startTime: i*30,
-      endTime: Math.min((i+1)*30,duration),
-      time: Date.now(),
-      views:{},
-      reactions:{}
-    });
-  }
-  saveData();
-  renderStories();
+// ===== IMAGE =====
+else {
+
+let imageCount = userStories.filter(s => s.type === "image").length;
+
+if(imageCount >= 10){
+alert("Maximum 10 images autorisées !");
+return;
+}
+
+let reader = new FileReader();
+
+reader.onload = ev => {
+
+userStories.push({
+url: ev.target.result,
+type: "image",
+views: {}
+});
+
+saveData();
+renderStories();
+previewFile = null;
+closeViewer();
+
+};
+
+reader.readAsDataURL(previewFile);
+
 }
 
 }
@@ -369,12 +382,9 @@ function closePayment(){ document.getElementById("paymentModal").style.display="
 function openBlank(){ window.open("about:blank","_blank"); }
 
 /* ===== HAMBURGER ===== */
-const hamburger = document.getElementById("hamburger");
-const menuOptions = document.getElementById("menuOptions");
-
-hamburger.addEventListener("click", () => {
-    menuOptions.classList.toggle("show");
-});
+document.getElementById("hamburger").onclick=()=>{
+    let m=document.getElementById("menuOptions");
+    m.style.display=(m.style.display==="flex")?"none":"flex";
 };
 
 /* ===== WALLET & KYC & RETRAIT ===== */
