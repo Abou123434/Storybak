@@ -212,9 +212,18 @@ if(!previewFile) return;
 let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-if(previewFile.type.startsWith("video"))
+e.src = s.url;
+
+if(s.type==="video"){
+    e.currentTime = s.start || 0;
+    e.autoplay = true;
+
+    e.ontimeupdate = () => {
+        if(s.end && e.currentTime >= s.end){
+            nextStory();
+        }
+    };
 }
-};
 
 let userStories = users[currentProfile.username].stories;
 let videoCount = userStories.filter(s => s.type === "video").length;
@@ -304,7 +313,11 @@ reader.readAsDataURL(previewFile);
 }
     
 /* ===== VIEWER ===== */
-if(previewFile.type.startsWith("video")){
+function openViewer(u){
+    if(users[u].stories.length===0) return;
+    currentUser = u; currentIndex=0;
+    document.getElementById("viewer").style.display="flex";
+    showStory();
 }
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
