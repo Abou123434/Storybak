@@ -225,15 +225,19 @@ function publishPreviewStory(){
 
             let duration = video.duration;
 
-            // durée d'un segment = 30 secondes
+            // si la vidéo est moins de 60s → publier seulement 30s
+            if(duration < 60){
+                duration = 30;
+            }
+
+            // durée d'un segment
             let segmentDuration = 30;
 
-            // calcul du nombre de segments
-            let segments = Math.ceil(duration / segmentDuration);
+            // calcul des segments
+            let segments = Math.floor(duration / segmentDuration);
 
             let videoCount = userStories.filter(s => s.type === "video").length;
 
-            // nombre de segments restant (max 5)
             let remaining = 5 - videoCount;
 
             if(remaining <= 0){
@@ -241,17 +245,12 @@ function publishPreviewStory(){
                 return;
             }
 
-            // nombre de segments à ajouter
             let segmentsToAdd = Math.min(segments, remaining);
 
             for(let i = 0; i < segmentsToAdd; i++){
 
-                let start = i * segmentDuration; // 0,30,60,90...
+                let start = i * segmentDuration;
                 let end = start + segmentDuration;
-
-                if(end > duration){
-                    end = duration;
-                }
 
                 userStories.push({
                     url: URL.createObjectURL(previewFile),
@@ -269,7 +268,7 @@ function publishPreviewStory(){
         };
     }
 
-    // ===== IMAGE (on ne touche pas) =====
+    // ===== IMAGE =====
     else {
 
         let imageCount = userStories.filter(s => s.type === "image").length;
