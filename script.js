@@ -215,43 +215,47 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-    // ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
-        let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
+// ===== VIDEO =====
+if(previewFile.type.startsWith("video")){
+    let video = document.createElement("video");
+    video.src = URL.createObjectURL(previewFile);
 
-        video.onloadedmetadata = () => {
-            let duration = video.duration;
-            let segments = Math.ceil(duration / 30); // découper en segments de 30s
-            let videoCount = userStories.filter(s => s.type === "video").length;
+    video.onloadedmetadata = () => {
+        let duration = video.duration;
+        let segments = Math.ceil(duration / 30);
+        let videoCount = userStories.filter(s => s.type === "video").length;
 
-            // maximum 5 segments vidéo
-            if(videoCount + segments > 5){
-                alert("Maximum 5 segments vidéo autorisés !");
-                return;
-            }
+        // nombre maximum de segments qu'on peut encore publier
+        let remaining = 5 - videoCount;
 
-            for(let i=0;i<segments;i++){
-                let start = i * 30;
-                let end = Math.min(start + 30, duration);
+        if(remaining <= 0){
+            alert("Maximum 5 segments vidéo atteints !");
+            return;
+        }
 
-                userStories.push({
-                    url: URL.createObjectURL(previewFile),
-                    type: "video",
-                    start: start,
-                    end: end,
-                    views: {}
-                });
-            }
+        // on limite juste le nombre de segments ajoutés
+        let segmentsToAdd = Math.min(segments, remaining);
 
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
+        for(let i=0;i<segmentsToAdd;i++){
+            let start = i * 30;
+            let end = Math.min(start + 30, duration);
 
-    } 
-    // ===== IMAGE (ON NE TOUCHE PAS) =====
+            userStories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                start: start,
+                end: end,
+                views: {}
+            });
+        }
+
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    };
+}
+    // ===== IMAGE =====
     else {
         let imageCount = userStories.filter(s => s.type === "image").length;
 
@@ -275,6 +279,7 @@ function publishPreviewStory(){
         reader.readAsDataURL(previewFile);
     }
 }
+    
 /* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
