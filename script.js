@@ -190,7 +190,7 @@ boostBtn.onclick = (e) => {
 
 controls.appendChild(boostBtn);
 
-controls.appendChild(boostBtn);
+
 // bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
 publishBtn.innerText = "Publier";
@@ -231,36 +231,23 @@ let videoCount = userStories.filter(s => s.type === "video").length;
 let video = document.createElement("video");
 video.src = URL.createObjectURL(previewFile);
 
-video.onloadedmetadata = async () => {
+video.onloadedmetadata = () => {
 
 let duration = video.duration;
-
-// nombre de segments de 30s
 let segments = Math.ceil(duration / 30);
 
-// vérifier limite totale
 if(videoCount + segments > 3){
 alert("Maximum 3 segments vidéo autorisés !");
 return;
 }
 
-// canvas pour capturer les frames
-let canvas = document.createElement("canvas");
-let ctx = canvas.getContext("2d");
-
-canvas.width = video.videoWidth;
-canvas.height = video.videoHeight;
-
-for(let i = 0; i < segments; i++){
+for(let i=0;i<segments;i++){
 
 let start = i * 30;
 let end = Math.min(start + 30, duration);
 
-// créer un blob simulé pour chaque segment
-let segmentURL = URL.createObjectURL(previewFile);
-
 userStories.push({
-url: segmentURL,
+url: URL.createObjectURL(previewFile),
 type: "video",
 start: start,
 end: end,
@@ -269,11 +256,14 @@ views: {}
 
 }
 
-// sauvegarder
 saveData();
 renderStories();
 previewFile = null;
 closeViewer();
+
+};
+
+}
 
 };
 
@@ -303,6 +293,10 @@ saveData();
 renderStories();
 previewFile = null;
 closeViewer();
+
+};
+
+reader.readAsDataURL(previewFile);
 
 }
 
