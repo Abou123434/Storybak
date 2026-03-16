@@ -212,7 +212,18 @@ if(!previewFile) return;
 let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-if(previewFile.type.startsWith("video")){
+e.src = s.url;
+
+if(s.type==="video"){
+e.currentTime = s.start || 0;
+e.autoplay = true;
+
+e.ontimeupdate = ()=>{
+if(s.end && e.currentTime >= s.end){
+nextStory();
+}
+};
+}
 
 let videoCount = userStories.filter(s => s.type === "video").length;
 
