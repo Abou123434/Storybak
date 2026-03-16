@@ -215,62 +215,48 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-    // ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
+// ===== VIDEO =====
+if(previewFile.type.startsWith("video")){
+    let video = document.createElement("video");
+    video.src = URL.createObjectURL(previewFile);
 
-        let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
+    video.onloadedmetadata = () => {
+        let duration = video.duration;
+        let segments = Math.ceil(duration / 30);
+        let videoCount = userStories.filter(s => s.type === "video").length;
 
-        video.onloadedmetadata = () => {
+        // nombre maximum de segments qu'on peut encore publier
+        let remaining = 5 - videoCount;
 
-            let duration = video.duration;
+        if(remaining <= 0){
+            alert("Maximum 5 segments vidéo atteints !");
+            return;
+        }
 
-            // si la vidéo est moins de 60s → publier seulement 30s
-            if(duration < 60){
-                duration = 30;
-            }
+        // on limite juste le nombre de segments ajoutés
+        let segmentsToAdd = Math.min(segments, remaining);
 
-            // durée d'un segment
-            let segmentDuration = 30;
+        for(let i=0;i<segmentsToAdd;i++){
+            let start = i * 30;
+            let end = Math.min(start + 30, duration);
 
-            // calcul des segments
-            let segments = Math.floor(duration / segmentDuration);
+            userStories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                start: start,
+                end: end,
+                views: {}
+            });
+        }
 
-            let videoCount = userStories.filter(s => s.type === "video").length;
-
-            let remaining = 5 - videoCount;
-
-            if(remaining <= 0){
-                alert("Maximum 5 segments vidéo atteints !");
-                return;
-            }
-
-            let segmentsToAdd = Math.min(segments, remaining);
-
-            for(let i = 0; i < segmentsToAdd; i++){
-
-                let start = i * segmentDuration;
-                let end = start + segmentDuration;
-
-                userStories.push({
-                    url: URL.createObjectURL(previewFile),
-                    type: "video",
-                    start: start,
-                    end: end,
-                    views: {}
-                });
-            }
-
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
-    }
-
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    };
+}
     // ===== IMAGE =====
     else {
-
         let imageCount = userStories.filter(s => s.type === "image").length;
 
         if(imageCount >= 10){
@@ -279,21 +265,17 @@ function publishPreviewStory(){
         }
 
         let reader = new FileReader();
-
         reader.onload = ev => {
-
             userStories.push({
                 url: ev.target.result,
                 type: "image",
                 views: {}
             });
-
             saveData();
             renderStories();
             previewFile = null;
             closeViewer();
         };
-
         reader.readAsDataURL(previewFile);
     }
 }
@@ -304,7 +286,37 @@ function openViewer(u){
     currentUser = u; currentIndex=0;
     document.getElementById("viewer").style.display="flex";
     showStory();
+if(s.type==="image"){
+    let img = document.createElement("img");
+    img.src = s.url;
+    c.appendChild(img);
+} else {
+    let video = document.createElement("video");
+    video.src = s.url;
+    video.autoplay = true;
+    video.controls = false;
+    c.appendChild(video);
+
+    video.onloadedmetadata = () => {
+        video.currentTime = s.start;
+        video.play();
+
+        let checkInterval = setInterval(() => {
+            if(video.currentTime >= s.end){
+                video.pause();
+                clearInterval(checkInterval);
+                if(currentIndex < users[currentUser].stories.length-1){
+                    currentIndex++;
+                    showStory();
+                } else {
+                    closeViewer();
+                }
+            }
+        }, 200);
+    };
+
 }
+
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
