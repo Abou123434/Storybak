@@ -191,8 +191,8 @@ boostBtn.onclick = (e) => {
 controls.appendChild(boostBtn);
 
 
-// bouton PUBLIER (droite)
-
+// bouton PUBLIER
+let publishBtn = document.createElement("button");
 publishBtn.innerText = "Publier";
 
 publishBtn.style.background = "#25D366";
@@ -202,14 +202,28 @@ publishBtn.style.padding = "10px 18px";
 publishBtn.style.borderRadius = "25px";
 publishBtn.style.fontSize = "14px";
 
+// Action au clic : publier la story
 publishBtn.onclick = publishPreviewStory;
 
-controls.appendChild(publishBtn);
-});
-function publishPreviewStory(){
-if(!previewFile) return;
+// Ajouter le bouton dans le container des contrôles
+let controls = document.getElementById("progressControls");
+// bouton PUBLIER
+let publishBtn = document.createElement("button");
+publishBtn.innerText = "Publier";
 
-let userStories = users[currentProfile.username].stories;
+publishBtn.style.background = "#25D366";
+publishBtn.style.color = "white";
+publishBtn.style.border = "none";
+publishBtn.style.padding = "10px 18px";
+publishBtn.style.borderRadius = "25px";
+publishBtn.style.fontSize = "14px";
+
+// Action au clic : publier la story
+publishBtn.onclick = publishPreviewStory;
+
+// Ajouter le bouton dans le container des contrôles
+let controls = document.getElementById("progressControls");
+controls.appendChild(publishBtn);
 
 // ===== VIDEO =====
 e.src = s.url;
