@@ -190,8 +190,8 @@ boostBtn.onclick = (e) => {
 
 controls.appendChild(boostBtn);
 
-
-// bouton PUBLIER
+controls.appendChild(boostBtn);
+// bouton PUBLIER (droite)
 let publishBtn = document.createElement("button");
 publishBtn.innerText = "Publier";
 
@@ -202,43 +202,24 @@ publishBtn.style.padding = "10px 18px";
 publishBtn.style.borderRadius = "25px";
 publishBtn.style.fontSize = "14px";
 
-// Action au clic : publier la story
 publishBtn.onclick = publishPreviewStory;
 
-// Ajouter le bouton dans le container des contrôles
-let controls = document.getElementById("progressControls");
-// bouton PUBLIER
-let publishBtn = document.createElement("button");
-publishBtn.innerText = "Publier";
-
-publishBtn.style.background = "#25D366";
-publishBtn.style.color = "white";
-publishBtn.style.border = "none";
-publishBtn.style.padding = "10px 18px";
-publishBtn.style.borderRadius = "25px";
-publishBtn.style.fontSize = "14px";
-
-// Action au clic : publier la story
-publishBtn.onclick = publishPreviewStory;
-
-// Ajouter le bouton dans le container des contrôles
-let controls = document.getElementById("progressControls");
 controls.appendChild(publishBtn);
+});
+function publishPreviewStory(){
+if(!previewFile) return;
+
+let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-e.src = s.url;
-
-if(s.type==="video"){
-e.currentTime = s.start || 0;
-e.autoplay = true;
-
-e.ontimeupdate = () => {
-if(s.end && e.currentTime >= s.end){
-nextStory();
-}
-};
+if(previewFile.type.startsWith("video")){
 
 let videoCount = userStories.filter(s => s.type === "video").length;
+
+if(videoCount >= 3){
+alert("Maximum 3 vidéos autorisées !");
+return;
+}
 
 let video = document.createElement("video");
 video.src = URL.createObjectURL(previewFile);
@@ -246,31 +227,21 @@ video.src = URL.createObjectURL(previewFile);
 video.onloadedmetadata = () => {
 
 let duration = video.duration;
-let segments = Math.ceil(duration / 30);
 
-if(videoCount + segments > 3){
-alert("Maximum 3 segments vidéo autorisés !");
+if(duration > 30){
+alert("Chaque vidéo doit faire maximum 30 secondes !");
 return;
 }
-
-for(let i=0;i<segments;i++){
-
-let start = i * 30;
-let end = Math.min(start + 30, duration);
 
 userStories.push({
 url: URL.createObjectURL(previewFile),
 type: "video",
-start:start,
-end:end,
-views:{}
+views: {}
 });
-
-}
 
 saveData();
 renderStories();
-previewFile=null;
+previewFile = null;
 closeViewer();
 
 };
@@ -278,7 +249,7 @@ closeViewer();
 }
 
 // ===== IMAGE =====
-else{
+else {
 
 let imageCount = userStories.filter(s => s.type === "image").length;
 
@@ -293,13 +264,13 @@ reader.onload = ev => {
 
 userStories.push({
 url: ev.target.result,
-type:"image",
-views:{}
+type: "image",
+views: {}
 });
 
 saveData();
 renderStories();
-previewFile=null;
+previewFile = null;
 closeViewer();
 
 };
