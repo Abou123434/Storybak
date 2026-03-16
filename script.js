@@ -215,48 +215,63 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-// ===== VIDEO =====
-if(previewFile.type.startsWith("video")){
-    let video = document.createElement("video");
-    video.src = URL.createObjectURL(previewFile);
+    // ===== VIDEO =====
+    if(previewFile.type.startsWith("video")){
 
-    video.onloadedmetadata = () => {
-        let duration = video.duration;
-        let segments = Math.ceil(duration / 30);
-        let videoCount = userStories.filter(s => s.type === "video").length;
+        let video = document.createElement("video");
+        video.src = URL.createObjectURL(previewFile);
 
-        // nombre maximum de segments qu'on peut encore publier
-        let remaining = 5 - videoCount;
+        video.onloadedmetadata = () => {
 
-        if(remaining <= 0){
-            alert("Maximum 5 segments vidéo atteints !");
-            return;
-        }
+            let duration = video.duration;
 
-        // on limite juste le nombre de segments ajoutés
-        let segmentsToAdd = Math.min(segments, remaining);
+            // durée d'un segment = 30 secondes
+            let segmentDuration = 30;
 
-        for(let i=0;i<segmentsToAdd;i++){
-            let start = i * 30;
-            let end = Math.min(start + 30, duration);
+            // calcul du nombre de segments
+            let segments = Math.ceil(duration / segmentDuration);
 
-            userStories.push({
-                url: URL.createObjectURL(previewFile),
-                type: "video",
-                start: start,
-                end: end,
-                views: {}
-            });
-        }
+            let videoCount = userStories.filter(s => s.type === "video").length;
 
-        saveData();
-        renderStories();
-        previewFile = null;
-        closeViewer();
-    };
-}
-    // ===== IMAGE =====
+            // nombre de segments restant (max 5)
+            let remaining = 5 - videoCount;
+
+            if(remaining <= 0){
+                alert("Maximum 5 segments vidéo atteints !");
+                return;
+            }
+
+            // nombre de segments à ajouter
+            let segmentsToAdd = Math.min(segments, remaining);
+
+            for(let i = 0; i < segmentsToAdd; i++){
+
+                let start = i * segmentDuration; // 0,30,60,90...
+                let end = start + segmentDuration;
+
+                if(end > duration){
+                    end = duration;
+                }
+
+                userStories.push({
+                    url: URL.createObjectURL(previewFile),
+                    type: "video",
+                    start: start,
+                    end: end,
+                    views: {}
+                });
+            }
+
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer();
+        };
+    }
+
+    // ===== IMAGE (on ne touche pas) =====
     else {
+
         let imageCount = userStories.filter(s => s.type === "image").length;
 
         if(imageCount >= 10){
@@ -265,17 +280,21 @@ if(previewFile.type.startsWith("video")){
         }
 
         let reader = new FileReader();
+
         reader.onload = ev => {
+
             userStories.push({
                 url: ev.target.result,
                 type: "image",
                 views: {}
             });
+
             saveData();
             renderStories();
             previewFile = null;
             closeViewer();
         };
+
         reader.readAsDataURL(previewFile);
     }
 }
