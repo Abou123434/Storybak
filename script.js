@@ -218,7 +218,7 @@ function publishPreviewStory(){
 
         video.onloadedmetadata = () => {
             let duration = video.duration;
-            let segments = Math.ceil(duration / 30); // découper automatiquément en segments de 30s
+            let segments = Math.ceil(duration / 30); // découper automatiquément les vidéos les plus long en segments de 30s
             let videoCount = userStories.filter(s => s.type === "video").length;
 
             if(videoCount + segments > 3){
