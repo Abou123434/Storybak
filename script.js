@@ -226,7 +226,7 @@ function publishPreviewStory(){
             let videoCount = userStories.filter(s => s.type === "video").length;
 
             if(videoCount + segments > 3){
-                alert(" 5 segments vidéo autorisés !");
+                alert(" Maximum 5 vidéo autorisés !");découper automatiquément les vidéos les plus long en segments de 30s
                 return;
             }
 
