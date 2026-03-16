@@ -202,7 +202,11 @@ publishBtn.style.padding = "10px 18px";
 publishBtn.style.borderRadius = "25px";
 publishBtn.style.fontSize = "14px";
 
-publishBtn.onclick = publishPreviewStory;
+publishBtn.onclick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    publishPreviewStory();
+};
 
 controls.appendChild(publishBtn);
 });
