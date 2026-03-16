@@ -261,7 +261,11 @@ renderStories();
 previewFile = null;
 closeViewer();
 
+};
 
+reader.readAsDataURL(previewFile);
+
+  
 };
 
 }
