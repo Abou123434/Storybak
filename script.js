@@ -223,7 +223,6 @@ if(s.end && e.currentTime >= s.end){
 nextStory();
 }
 };
-}
 
 let userStories = users[currentProfile.username].stories;
 let videoCount = userStories.filter(s => s.type === "video").length;
