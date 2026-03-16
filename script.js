@@ -212,33 +212,64 @@ if(!previewFile) return;
 let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-if(previewFile.type.startsWith("video")){
+e.src = s.url;
 
-let videoCount = userStories.filter(s => s.type === "video").length;
+if(s.type==="video"){
+e.currentTime = s.start || 0;
+e.autoplay = true;
 
-if(videoCount >= 3){
-alert("Maximum 3 vidéos autorisées !");
-return;
+e.ontimeupdate = () => {
+if(s.end && e.currentTime >= s.end){
+nextStory();
 }
+};
+}
+
+let userStories = users[currentProfile.username].stories;
+let videoCount = userStories.filter(s => s.type === "video").length;
 
 let video = document.createElement("video");
 video.src = URL.createObjectURL(previewFile);
 
-video.onloadedmetadata = () => {
+video.onloadedmetadata = async () => {
 
 let duration = video.duration;
 
-if(duration > 30){
-alert("Chaque vidéo doit faire maximum 30 secondes !");
+// nombre de segments de 30s
+let segments = Math.ceil(duration / 30);
+
+// vérifier limite totale
+if(videoCount + segments > 3){
+alert("Maximum 3 segments vidéo autorisés !");
 return;
 }
 
+// canvas pour capturer les frames
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.width = video.videoWidth;
+canvas.height = video.videoHeight;
+
+for(let i = 0; i < segments; i++){
+
+let start = i * 30;
+let end = Math.min(start + 30, duration);
+
+// créer un blob simulé pour chaque segment
+let segmentURL = URL.createObjectURL(previewFile);
+
 userStories.push({
-url: URL.createObjectURL(previewFile),
+url: segmentURL,
 type: "video",
+start: start,
+end: end,
 views: {}
 });
 
+}
+
+// sauvegarder
 saveData();
 renderStories();
 previewFile = null;
