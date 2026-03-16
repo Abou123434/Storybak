@@ -225,8 +225,9 @@ function publishPreviewStory(){
             let segments = Math.ceil(duration / 30); // découper en segments de 30s
             let videoCount = userStories.filter(s => s.type === "video").length;
 
-            if(videoCount + segments > 3){
-                alert("Maximum 3 segments vidéo autorisés !");
+            // maximum 5 segments vidéo
+            if(videoCount + segments > 5){
+                alert("Maximum 5 segments vidéo autorisés !");
                 return;
             }
 
@@ -246,11 +247,11 @@ function publishPreviewStory(){
             saveData();
             renderStories();
             previewFile = null;
-            closeViewer(); // ferme juste la prévisualisation
+            closeViewer();
         };
 
     } 
-    // ===== IMAGE =====
+    // ===== IMAGE (ON NE TOUCHE PAS) =====
     else {
         let imageCount = userStories.filter(s => s.type === "image").length;
 
@@ -274,7 +275,6 @@ function publishPreviewStory(){
         reader.readAsDataURL(previewFile);
     }
 }
-    
 /* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
