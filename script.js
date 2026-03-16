@@ -215,17 +215,16 @@ let userStories = users[currentProfile.username].stories;
 e.src = s.url;
 
 if(s.type==="video"){
-    e.currentTime = s.start || 0;
-    e.autoplay = true;
+e.currentTime = s.start || 0;
+e.autoplay = true;
 
-    e.ontimeupdate = () => {
-        if(s.end && e.currentTime >= s.end){
-            nextStory();
-        }
-    };
+e.ontimeupdate = () => {
+if(s.end && e.currentTime >= s.end){
+nextStory();
+}
+};
 }
 
-let userStories = users[currentProfile.username].stories;
 let videoCount = userStories.filter(s => s.type === "video").length;
 
 let video = document.createElement("video");
@@ -249,28 +248,24 @@ let end = Math.min(start + 30, duration);
 userStories.push({
 url: URL.createObjectURL(previewFile),
 type: "video",
-start: start,
-end: end,
-views: {}
+start:start,
+end:end,
+views:{}
 });
 
 }
 
 saveData();
 renderStories();
-previewFile = null;
+previewFile=null;
 closeViewer();
 
 };
 
-reader.readAsDataURL(previewFile);
-
-}
-
 }
 
 // ===== IMAGE =====
-else {
+else{
 
 let imageCount = userStories.filter(s => s.type === "image").length;
 
@@ -285,13 +280,13 @@ reader.onload = ev => {
 
 userStories.push({
 url: ev.target.result,
-type: "image",
-views: {}
+type:"image",
+views:{}
 });
 
 saveData();
 renderStories();
-previewFile = null;
+previewFile=null;
 closeViewer();
 
 };
