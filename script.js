@@ -205,7 +205,6 @@ publishBtn.style.fontSize = "14px";
 publishBtn.onclick = publishPreviewStory;
 
 controls.appendChild(publishBtn);
-});
 function publishPreviewStory(){
 if(!previewFile) return;
 
