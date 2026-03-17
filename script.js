@@ -399,6 +399,7 @@ else {
 let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
+// Récupérer les vues
 let views = s.views || {};
 
 // Bouton vues
@@ -414,6 +415,7 @@ viewBtn.style.borderRadius = "10px";
 
 // CLICK
 viewBtn.onclick = () => {
+
     let viewers = Object.values(views);
 
     if (viewers.length === 0) {
@@ -447,31 +449,56 @@ viewBtn.onclick = () => {
     // TITRE
     let title = document.createElement("h3");
     title.innerText = "👀 Vus par";
-    title.style.marginBottom = "10px";
     title.style.textAlign = "center";
+    title.style.marginBottom = "10px";
     box.appendChild(title);
 
-    // LISTE
+    // LISTE DES UTILISATEURS
     viewers.forEach(user => {
+
+        let username = user.name || "Utilisateur";
+
+        let avatar = (user.avatar && user.avatar.startsWith("http"))
+            ? user.avatar
+            : "https://i.pravatar.cc/150?u=" + username;
+
+        let time = user.time || "à l'instant";
+
         let row = document.createElement("div");
         row.style.display = "flex";
         row.style.alignItems = "center";
-        row.style.padding = "8px";
+        row.style.padding = "10px";
         row.style.borderBottom = "1px solid #eee";
 
         let img = document.createElement("img");
-        img.src = user.avatar || "https://via.placeholder.com/40";
-        img.style.width = "40px";
-        img.style.height = "40px";
+        img.src = avatar;
+        img.style.width = "45px";
+        img.style.height = "45px";
         img.style.borderRadius = "50%";
         img.style.marginRight = "10px";
 
-        let name = document.createElement("span");
-        name.innerText = user.name || "Utilisateur";
+        // Si image cassée
+        img.onerror = () => {
+            img.src = "https://i.pravatar.cc/150?u=" + username;
+        };
+
+        let textBox = document.createElement("div");
+
+        let name = document.createElement("div");
+        name.innerText = username;
         name.style.fontWeight = "bold";
 
+        let seenTime = document.createElement("div");
+        seenTime.innerText = "vu " + time;
+        seenTime.style.fontSize = "12px";
+        seenTime.style.color = "gray";
+
+        textBox.appendChild(name);
+        textBox.appendChild(seenTime);
+
         row.appendChild(img);
-        row.appendChild(name);
+        row.appendChild(textBox);
+
         box.appendChild(row);
     });
 
@@ -480,7 +507,7 @@ viewBtn.onclick = () => {
     closeBtn.innerText = "Fermer";
     closeBtn.style.marginTop = "10px";
     closeBtn.style.width = "100%";
-    closeBtn.style.padding = "8px";
+    closeBtn.style.padding = "10px";
     closeBtn.style.border = "none";
     closeBtn.style.borderRadius = "10px";
     closeBtn.style.background = "#25D366";
@@ -494,7 +521,7 @@ viewBtn.onclick = () => {
     document.body.appendChild(overlay);
 };
 
-// Ajouter le bouton au conteneur
+// Ajouter le bouton
 controls.appendChild(viewBtn);
 
 controls.appendChild(viewBtn);
