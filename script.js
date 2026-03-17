@@ -215,48 +215,50 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-    // ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
-        let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
+// ===== VIDEO =====
+if(previewFile.type.startsWith("video")){
+    let video = document.createElement("video");
+    video.src = URL.createObjectURL(previewFile);
 
-        video.onloadedmetadata = () => {
-            let duration = video.duration;
-            let segments = Math.ceil(duration / 30);
-            let videoCount = userStories.filter(s => s.type === "video").length;
+    video.onloadedmetadata = () => {
+        let duration = video.duration;
+        let segments = Math.ceil(duration / 30);
+        let videoCount = userStories.filter(s => s.type === "video").length;
 
-            // nombre maximum de segments qu'on peut encore publier
-            let remaining = 5 - videoCount;
-            if(remaining <= 0){
-                alert("Maximum 5 segments vidéo atteints !");
-                return;
-            }
+        // nombre maximum de segments qu'on peut encore publier
+        let remaining = 5 - videoCount;
 
-            let segmentsToAdd = Math.min(segments, remaining);
+        if(remaining <= 0){
+            alert("Maximum 5 segments vidéo atteints !");
+            return;
+        }
 
-            for(let i=0; i<segmentsToAdd; i++){
-                let start = i * 30;
-                let end = Math.min(start + 30, duration);
+        // on limite juste le nombre de segments ajoutés
+        let segmentsToAdd = Math.min(segments, remaining);
 
-                userStories.push({
-                    url: URL.createObjectURL(previewFile),
-                    type: "video",
-                    start: start,
-                    end: end,
-                    duration: (end - start) * 1000, // ✅ durée réelle pour la barre
-                    views: {}
-                });
-            }
+        for(let i=0;i<segmentsToAdd;i++){
+            let start = i * 30;
+            let end = Math.min(start + 30, duration);
 
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
-    }
+            userStories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                start: start,
+                end: end,
+                views: {}
+            });
+        }
+
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    };
+}
     // ===== IMAGE =====
     else {
         let imageCount = userStories.filter(s => s.type === "image").length;
+
         if(imageCount >= 10){
             alert("Maximum 10 images autorisées !");
             return;
@@ -277,100 +279,132 @@ function publishPreviewStory(){
         reader.readAsDataURL(previewFile);
     }
 }
+    
+/* ===== VIEWER ===== */
+function openViewer(u){
+    if(users[u].stories.length===0) return;
+    currentUser = u; currentIndex=0;
+    document.getElementById("viewer").style.display="flex";
+    showStory();
+}
+function renderProgressBars(){
+    let c=document.getElementById("progressContainer"); c.innerHTML="";
+    users[currentUser].stories.forEach((s,i)=>{
+        let bar=document.createElement("div"); bar.className="progress";
+        let inner=document.createElement("div"); inner.className="progress-inner";
+        if(i<currentIndex) inner.style.width="100%";
+        bar.appendChild(inner); c.appendChild(bar);
+    });
+}
+function startProgress(s){
+    let bars = document.querySelectorAll(".progress-inner");
+    if(!bars[currentIndex]) return; // 🔥 sécurité
 
+    let w = 0;
+
+    // ✅ durée correcte
+    let dur;
+    if(s.type === "image"){
+        dur = 5000;
+    } else {
+        dur = s.duration || 10000; // 🔥 prend la vraie durée du segment
+    }
+
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        w += 100 / (dur / 50);
+
+        if(bars[currentIndex]){
+            bars[currentIndex].style.width = Math.min(w, 100) + "%";
+        }
+
+        if(w >= 100){
+            clearInterval(timer);
+
+            if(currentIndex < users[currentUser].stories.length - 1){
+                currentIndex++;
+                showStory();
+            } else {
+                closeViewer();
+            }
+        }
+    }, 50);
+}
 function showStory(){
     clearInterval(timer);
-    let s = users[currentUser].stories[currentIndex];
-    let c = document.getElementById("content"); 
-    c.innerHTML = "";
+    let s=users[currentUser].stories[currentIndex];
+    let c=document.getElementById("content"); c.innerHTML="";
     let e;
 
-    if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
+if(s.type === "image"){
+    e = document.createElement("img");
+    e.src = s.url;
+    c.appendChild(e);
 
-        startProgress({type:"image", duration:5000});
-    } else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.controls = false;
+    startProgress(s);
+} 
+else {
+    e = document.createElement("video");
+    e.src = s.url;
+    e.autoplay = true;
+    e.controls = false;
+
+    // 🔊 son activé
+    e.muted = false;
+    e.volume = 1;
+    e.onclick = () => {
         e.muted = false;
-        e.volume = 1;
-        e.onclick = () => { e.muted = false; e.play(); };
-        c.appendChild(e);
+        e.play();
+    };
 
-        e.onloadedmetadata = () => {
-            e.currentTime = s.start;
-            e.play();
+    c.appendChild(e);
 
-            const onTimeUpdate = () => {
-                if(e.currentTime >= s.end){
-                    e.pause();
-                    e.removeEventListener("timeupdate", onTimeUpdate);
+    e.onloadedmetadata = () => {
+        e.currentTime = s.start;
+        e.play();
 
-                    if(currentIndex < users[currentUser].stories.length - 1){
-                        currentIndex++;
-                        showStory();
-                    } else {
-                        closeViewer();
-                    }
+        // utiliser timeupdate pour contrôler fin segment
+        const onTimeUpdate = () => {
+            if(e.currentTime >= s.end){
+                e.pause();
+                e.removeEventListener("timeupdate", onTimeUpdate);
+
+                if(currentIndex < users[currentUser].stories.length - 1){
+                    currentIndex++;
+                    showStory();
+                } else {
+                    closeViewer();
                 }
-            };
-            e.addEventListener("timeupdate", onTimeUpdate);
+            }
         };
 
-        // ✅ utiliser la durée du segment pour la barre de progression
-        startProgress({type:"video", duration: s.duration});
-    }
+        e.addEventListener("timeupdate", onTimeUpdate);
+    };
 
-    if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true; 
-        saveData();
-    }
-    // Créer le bouton compteur
-let viewBtn = document.createElement("button");
-viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
-viewBtn.style.background = "transparent";
-viewBtn.style.border = "none";
-viewBtn.style.color = "white";
-viewBtn.style.cursor = "pointer";
-viewBtn.style.fontSize = "14px";
-viewBtn.style.marginRight = "10px";
+    // durée réelle pour la barre
+    let fakeStory = {
+        type: "video",
+        duration: (s.end - s.start) * 1000
+    };
 
-// Au clic, afficher la liste des utilisateurs qui ont vu cette story
-viewBtn.onclick = () => {
-    let viewers = Object.keys(s.views);
-    if(viewers.length === 0){
-        alert("Aucune vue pour le moment 😢");
-    } else {
-        alert("👀 Vus par :\n" + viewers.join("\n"));
-    }
-};
+    startProgress(fakeStory);
+}
+    if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
+    document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
+    renderProgressBars(); startProgress(s);
 
-// Ajouter le bouton dans les contrôles
-controls.appendChild(viewBtn);
-
-    // boutons contrôles
-    let controls=document.getElementById("progressControls"); 
-    controls.innerHTML="";  
-    let giftBtn=document.createElement("button"); 
-    giftBtn.innerText="🎁 Envoyer un cadeau"; 
-    giftBtn.onclick=openGiftModal;  
+    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
     controls.appendChild(giftBtn);  
 
     if(currentProfile.username===currentUser){  
-        let delBtn=document.createElement("button"); 
-        delBtn.innerText="Supprimer";  
-        delBtn.onclick=()=>{ 
-            if(confirm("Supprimer cette story ?")){  
-                users[currentUser].stories.splice(currentIndex,1); 
-                saveData();  
-                if(users[currentUser].stories.length===0){ closeViewer(); return; }  
-                showStory();  
-            }
-        };  
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
+        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
+            users[currentUser].stories.splice(currentIndex,1); saveData();  
+            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
+            showStory();  
+        }};  
         controls.appendChild(delBtn);  
     }
 }
