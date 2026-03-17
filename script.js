@@ -457,7 +457,7 @@ viewBtn.onclick = () => {
     viewers.forEach(user => {
 
         // quand la story s'ouvre
-function openStory(s) {
+function openStory(s) {onclick = (e) => {
 
     let currentUser = {
         id: "uid123",
