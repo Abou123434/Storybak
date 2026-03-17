@@ -391,8 +391,28 @@ else {
     startProgress(fakeStory);
 }
     if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
-    document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
-    renderProgressBars(); startProgress(s);
+    // Créer le bouton compteur
+let viewBtn = document.createElement("button");
+viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
+viewBtn.style.background = "transparent";
+viewBtn.style.border = "none";
+viewBtn.style.color = "white";
+viewBtn.style.cursor = "pointer";
+viewBtn.style.fontSize = "14px";
+viewBtn.style.marginRight = "10px";
+
+// Au clic, afficher la liste des utilisateurs qui ont vu cette story
+viewBtn.onclick = () => {
+    let viewers = Object.keys(s.views);
+    if(viewers.length === 0){
+        alert("Aucune vue pour le moment 😢");
+    } else {
+        alert("👀 Vus par :\n" + viewers.join("\n"));
+    }
+};
+
+// Ajouter le bouton dans les contrôles
+controls.appendChild(viewBtn);
 
     let controls=document.getElementById("progressControls"); controls.innerHTML="";  
     let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
