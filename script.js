@@ -454,10 +454,8 @@ viewBtn.onclick = () => {
     box.appendChild(title);
 
     // LISTE DES UTILISATEURS
-    viewers.forEach(user => {
-
-        // quand la story s'ouvre
-function openStory(s) {onclick = (e) => {
+    // quand la story s'ouvre
+function openStory(s) {
 
     let currentUser = {
         id: "uid123",
