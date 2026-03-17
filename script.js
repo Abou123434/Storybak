@@ -333,14 +333,50 @@ function startProgress(s){
 }
 function showStory(){
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
-    let e;
+let s = users[currentUser].stories[currentIndex];
+let c = document.getElementById("content");
+c.innerHTML = "";
+let e;
 
 if(s.type === "image"){
     e = document.createElement("img");
     e.src = s.url;
     c.appendChild(e);
+    startProgress(s);
+} 
+else {
+    e = document.createElement("video");
+    e.src = s.url;
+    e.autoplay = true;
+    e.controls = false;
+    e.muted = false;
+    e.volume = 1;
+    c.appendChild(e);
+
+    e.onloadedmetadata = () => {
+        e.currentTime = s.start;
+        e.play();
+
+        const onTimeUpdate = () => {
+            if(e.currentTime >= s.end){
+                e.pause();
+                e.removeEventListener("timeupdate", onTimeUpdate);
+
+                if(currentIndex < users[currentUser].stories.length - 1){
+                    currentIndex++;
+                    showStory();
+                } else {
+                    closeViewer();
+                }
+            }
+        };
+
+        e.addEventListener("timeupdate", onTimeUpdate);
+    };
+
+    let fakeStory = { type: "video", duration: (s.end - s.start) * 1000 };
+    startProgress(fakeStory);
+}
 
     startProgress(s);
 } 
