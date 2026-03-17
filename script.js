@@ -402,57 +402,28 @@ controls.innerHTML = "";
 // Récupérer les vues
 let views = s.views || {};
 
-// =======================
-// AJOUTER UNE VUE (IMPORTANT)
-// =======================
-
-// currentUser = utilisateur connecté
-let currentUser = {
-    id: "uid123", // ID UNIQUE
-    name: "MonProfil",
-    avatar: "https://i.pravatar.cc/150?img=5"
-};
-
-// Initialiser views
-if (!s.views) s.views = {};
-
-// Ajouter la vue si pas déjà vue
-if (!s.views[currentUser.id]) {
-    s.views[currentUser.id] = {
-        name: currentUser.name,
-        avatar: currentUser.avatar,
-        time: new Date().toLocaleTimeString().slice(0,5)
-    };
-}
-
-
-// =======================
-// BOUTON VUES
-// =======================
-
-let controls = document.getElementById("progressControls");
-controls.innerHTML = "";
-
-let views = s.views || {};
-
+// Bouton vues
 let viewBtn = document.createElement("button");
 viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
 viewBtn.style.background = "#333";
-viewBtn.style.color = "white";
 viewBtn.style.border = "none";
+viewBtn.style.color = "white";
+viewBtn.style.cursor = "pointer";
+viewBtn.style.fontSize = "14px";
 viewBtn.style.padding = "5px 10px";
 viewBtn.style.borderRadius = "10px";
 
+// CLICK
 viewBtn.onclick = () => {
 
     let viewers = Object.values(views);
 
     if (viewers.length === 0) {
-        alert("Aucune vue 😢");
+        alert("Aucune vue pour le moment 😢");
         return;
     }
 
-    // OVERLAY
+    // OVERLAY (fond sombre)
     let overlay = document.createElement("div");
     overlay.style.position = "fixed";
     overlay.style.top = "0";
@@ -463,8 +434,9 @@ viewBtn.onclick = () => {
     overlay.style.display = "flex";
     overlay.style.justifyContent = "center";
     overlay.style.alignItems = "center";
+    overlay.style.zIndex = "9999";
 
-    // BOX
+    // BOITE
     let box = document.createElement("div");
     box.style.background = "#fff";
     box.style.borderRadius = "20px";
@@ -472,82 +444,63 @@ viewBtn.onclick = () => {
     box.style.width = "300px";
     box.style.maxHeight = "400px";
     box.style.overflowY = "auto";
+    box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
 
+    // TITRE
     let title = document.createElement("h3");
     title.innerText = "👀 Vus par";
     title.style.textAlign = "center";
+    title.style.marginBottom = "10px";
     box.appendChild(title);
 
+    // LISTE DES UTILISATEURS
     viewers.forEach(user => {
+
+        let username = user.name || "Utilisateur";
+
+        let avatar = (user.avatar && user.avatar.startsWith("http"))
+            ? user.avatar
+            : "https://i.pravatar.cc/150?u=" + username;
+
+        let time = user.time || "à l'instant";
 
         let row = document.createElement("div");
         row.style.display = "flex";
         row.style.alignItems = "center";
-        row.style.marginBottom = "10px";
+        row.style.padding = "10px";
+        row.style.borderBottom = "1px solid #eee";
 
         let img = document.createElement("img");
-        img.src = user.avatar;
+        img.src = avatar;
         img.style.width = "45px";
         img.style.height = "45px";
         img.style.borderRadius = "50%";
         img.style.marginRight = "10px";
 
-        let text = document.createElement("div");
+        // Si image cassée
+        img.onerror = () => {
+            img.src = "https://i.pravatar.cc/150?u=" + username;
+        };
+
+        let textBox = document.createElement("div");
 
         let name = document.createElement("div");
-        name.innerText = user.name;
+        name.innerText = username;
+        name.style.fontWeight = "bold";
 
-        let time = document.createElement("div");
-        time.innerText = "vu à " + user.time;
-        time.style.fontSize = "12px";
-        time.style.color = "gray";
+        let seenTime = document.createElement("div");
+        seenTime.innerText = "vu " + time;
+        seenTime.style.fontSize = "12px";
+        seenTime.style.color = "gray";
 
-        text.appendChild(name);
-        text.appendChild(time);
+        textBox.appendChild(name);
+        textBox.appendChild(seenTime);
 
         row.appendChild(img);
-        row.appendChild(text);
+        row.appendChild(textBox);
 
         box.appendChild(row);
     });
-
-    let closeBtn = document.createElement("button");
-    closeBtn.innerText = "Fermer";
-    closeBtn.style.width = "100%";
-    closeBtn.style.marginTop = "10px";
-    closeBtn.style.padding = "10px";
-    closeBtn.style.background = "#25D366";
-    closeBtn.style.color = "white";
-    closeBtn.style.border = "none";
-    closeBtn.style.borderRadius = "10px";
-
-    closeBtn.onclick = () => document.body.removeChild(overlay);
-
-    box.appendChild(closeBtn);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-};
-
-controls.appendChild(viewBtn);
-
-    // BOUTON FERMER
-    let closeBtn = document.createElement("button");
-    closeBtn.innerText = "Fermer";
-    closeBtn.style.marginTop = "10px";
-    closeBtn.style.width = "100%";
-    closeBtn.style.padding = "10px";
-    closeBtn.style.border = "none";
-    closeBtn.style.borderRadius = "10px";
-    closeBtn.style.background = "#25D366";
-    closeBtn.style.color = "white";
-    closeBtn.style.cursor = "pointer";
-
-    closeBtn.onclick = () => document.body.removeChild(overlay);
-
-    box.appendChild(closeBtn);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-};
 
 // Ajouter le bouton
 controls.appendChild(viewBtn);
