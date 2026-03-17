@@ -429,16 +429,27 @@ controls.appendChild(giftBtn);
 
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
+
+    // 🔥 Supprimer les anciens boutons "Supprimer"
+    let oldBtn = controls.querySelector(".delete-btn");
+    if(oldBtn) oldBtn.remove();
+
     let delBtn = document.createElement("button");
     delBtn.innerText = "Supprimer";
+    delBtn.classList.add("delete-btn");
+
     delBtn.onclick = () => {
         if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1);
             saveData();
-            if(users[currentUser].stories.length === 0){ closeViewer(); return; }
+            if(users[currentUser].stories.length === 0){ 
+                closeViewer(); 
+                return; 
+            }
             showStory();
         }
     };
+
     controls.appendChild(delBtn);
 }
 
