@@ -418,33 +418,33 @@ viewBtn.onclick = () => {
 };
 controls.appendChild(viewBtn);
 
+// ⚡ Nettoyer anciens boutons
+controls.querySelectorAll("button").forEach(btn => btn.remove());
+
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
-giftBtn.className = "story-btn"; // même style que le bouton supprimer
+giftBtn.className = "story-btn"; // même style que supprimer
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
-    // Vérifie si le bouton supprimer existe déjà
-    if(!controls.querySelector(".delete-btn")){
-        let delBtn = document.createElement("button");
-        delBtn.innerText = "Supprimer";
-        delBtn.className = "story-btn delete-btn"; // même style que cadeau + classe spécifique
-        delBtn.onclick = () => {
-            if(confirm("Supprimer cette story ?")){
-                users[currentUser].stories.splice(currentIndex,1);
-                saveData();
-                if(users[currentUser].stories.length === 0){ 
-                    closeViewer(); 
-                    return; 
-                }
-                showStory();
+    let delBtn = document.createElement("button");
+    delBtn.innerText = "Supprimer";
+    delBtn.className = "story-btn"; // même style que cadeau
+    delBtn.onclick = () => {
+        if(confirm("Supprimer cette story ?")){
+            users[currentUser].stories.splice(currentIndex,1);
+            saveData();
+            if(users[currentUser].stories.length === 0){ 
+                closeViewer(); 
+                return; 
             }
-        };
-        controls.appendChild(delBtn);
-    }
+            showStory();
+        }
+    };
+    controls.appendChild(delBtn);
 }
 
     if(currentProfile.username===currentUser){  
