@@ -454,27 +454,13 @@ viewBtn.onclick = () => {
     box.appendChild(title);
 
     // LISTE DES UTILISATEURS
-  
-function openStory(s) {
+    viewers.forEach(user => {
 
-    let currentUser = {
-        id: "uid123",
-        name: "MonProfil",
-        avatar: "https://i.pravatar.cc/150?img=5"
-    };
+        let username = user.name || "Utilisateur";
 
-    if (!s.views) s.views = {};
-
-    if (!s.views[currentUser.id]) {
-        s.views[currentUser.id] = {
-            name: currentUser.name,
-            avatar: currentUser.avatar,
-            time: new Date().toLocaleTimeString().slice(0,5)
-        };
-    }
-
-    // ton code existant...
-}
+        let avatar = (user.avatar && user.avatar.startsWith("http"))
+            ? user.avatar
+            : "https://i.pravatar.cc/150?u=" + username;
 
         let time = user.time || "à l'instant";
 
