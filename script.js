@@ -421,22 +421,30 @@ controls.appendChild(viewBtn);
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
+giftBtn.className = "story-btn"; // même style que le bouton supprimer
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
-    let delBtn = document.createElement("button");
-    delBtn.innerText = "Supprimer";
-    delBtn.onclick = () => {
-        if(confirm("Supprimer cette story ?")){
-            users[currentUser].stories.splice(currentIndex,1);
-            saveData();
-            if(users[currentUser].stories.length === 0){ closeViewer(); return; }
-            showStory();
-        }
-    };
-    controls.appendChild(delBtn);
+    // Vérifie si le bouton supprimer existe déjà
+    if(!controls.querySelector(".delete-btn")){
+        let delBtn = document.createElement("button");
+        delBtn.innerText = "Supprimer";
+        delBtn.className = "story-btn delete-btn"; // même style que cadeau + classe spécifique
+        delBtn.onclick = () => {
+            if(confirm("Supprimer cette story ?")){
+                users[currentUser].stories.splice(currentIndex,1);
+                saveData();
+                if(users[currentUser].stories.length === 0){ 
+                    closeViewer(); 
+                    return; 
+                }
+                showStory();
+            }
+        };
+        controls.appendChild(delBtn);
+    }
 }
 
     if(currentProfile.username===currentUser){  
