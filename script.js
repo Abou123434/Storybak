@@ -234,36 +234,20 @@ if(previewFile.type.startsWith("video")){
         }
 
         // on limite juste le nombre de segments ajoutés
-        // Chaque segment = 30 secondes
-let segmentDuration = 30; 
-let videoCount = userStories.filter(s => s.type === "video").length;
-let remaining = 5 - videoCount; // Max 5 segments par utilisateur
+        let segmentsToAdd = Math.min(segments, remaining);
 
-if(remaining <= 0){
-    alert("Maximum 5 segments vidéo atteints !");
-    return;
-}
+        for(let i=0;i<segmentsToAdd;i++){
+            let start = i * 30;
+            let end = Math.min(start + 30, duration);
 
-let segments = Math.ceil(duration / segmentDuration);
-
-// Limiter le nombre de segments pour ne pas dépasser 5
-let segmentsToAdd = Math.min(segments, remaining);
-
-for(let i = 0; i < segmentsToAdd; i++){
-    let start = i * segmentDuration;
-    let end = start + segmentDuration;
-
-    // Pour les vidéos plus courtes que 30s, on force end à start + 30
-    if(end > duration) end = start + segmentDuration;
-
-    userStories.push({
-        url: URL.createObjectURL(previewFile),
-        type: "video",
-        start: start,
-        end: end,
-        views: {}
-    });
-}
+            userStories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                start: start,
+                end: end,
+                views: {}
+            });
+        }
 
         saveData();
         renderStories();
@@ -364,11 +348,15 @@ else {
     e = document.createElement("video");
     e.src = s.url;
     e.autoplay = true;
-    e.controls = false; // pas de contrôles si tu veux style story
+    e.controls = false;
 
-    // 🔊 son activé par défaut
+    // 🔊 son activé
     e.muted = false;
     e.volume = 1;
+    e.onclick = () => {
+        e.muted = false;
+        e.play();
+    };
 
     c.appendChild(e);
 
@@ -376,7 +364,7 @@ else {
         e.currentTime = s.start;
         e.play();
 
-        // contrôle segment avec timeupdate
+        // utiliser timeupdate pour contrôler fin segment
         const onTimeUpdate = () => {
             if(e.currentTime >= s.end){
                 e.pause();
@@ -402,50 +390,13 @@ else {
 
     startProgress(fakeStory);
 }
-}
     if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
-    let controls = document.getElementById("progressControls");
-controls.innerHTML = "";
-
-// 🎁 bouton cadeau
-let giftBtn = document.createElement("button");
-giftBtn.innerText = "🎁 Envoyer un cadeau";
-giftBtn.onclick = openGiftModal;
-controls.appendChild(giftBtn);
-
-// 🔊 bouton son
-let soundBtn = document.createElement("button");
-soundBtn.innerText = "🔊 Son";
-soundBtn.onclick = () => {
-    let video = document.querySelector("#content video");
-    if(video){
-        video.muted = !video.muted;
-        soundBtn.innerText = video.muted ? "🔇 Muet" : "🔊 Son";
-    }
-};
-controls.appendChild(soundBtn);
-
-// 🗑 bouton supprimer
-if(currentProfile.username === currentUser){
-    let delBtn = document.createElement("button");
-    delBtn.innerText = "Supprimer";
-    delBtn.onclick = () => {
-        if(confirm("Supprimer cette story ?")){
-            users[currentUser].stories.splice(currentIndex,1);
-            saveData();
-
-            if(users[currentUser].stories.length === 0){
-                closeViewer();
-                return;
-            }
-            showStory();
-        }
-    };
-    controls.appendChild(delBtn);
-} 
+    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
+    controls.appendChild(giftBtn);  
 
     if(currentProfile.username===currentUser){  
         let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
