@@ -454,7 +454,7 @@ viewBtn.onclick = () => {
     box.appendChild(title);
 
     // LISTE DES UTILISATEURS
-    // quand la story s'ouvre
+  
 function openStory(s) {
 
     let currentUser = {
