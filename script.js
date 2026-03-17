@@ -396,6 +396,11 @@ else {
 }
 
 // Création du bouton compteur
+// Vider le conteneur des boutons
+let controls = document.getElementById("progressControls");
+controls.innerHTML = "";
+
+// ⚡ Bouton compteur de vues
 let viewBtn = document.createElement("button");
 viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
 viewBtn.style.background = "transparent";
@@ -403,8 +408,6 @@ viewBtn.style.border = "none";
 viewBtn.style.color = "white";
 viewBtn.style.cursor = "pointer";
 viewBtn.style.fontSize = "14px";
-
-// Au clic, afficher la liste des utilisateurs qui ont vu
 viewBtn.onclick = () => {
     let viewers = Object.keys(s.views);
     if(viewers.length === 0){
@@ -413,14 +416,28 @@ viewBtn.onclick = () => {
         alert("👀 Vus par :\n" + viewers.join("\n"));
     }
 };
-
-// ⚡ Ajouter le bouton dans ton conteneur des contrôles pour qu'il s'affiche
-let controls = document.getElementById("progressControls");
 controls.appendChild(viewBtn);
 
-    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
-    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
-    controls.appendChild(giftBtn);  
+// ⚡ Bouton cadeau
+let giftBtn = document.createElement("button");
+giftBtn.innerText = "🎁 Envoyer un cadeau";
+giftBtn.onclick = openGiftModal;
+controls.appendChild(giftBtn);
+
+// ⚡ Bouton supprimer (uniquement si c'est ton profil)
+if(currentProfile.username === currentUser){
+    let delBtn = document.createElement("button");
+    delBtn.innerText = "Supprimer";
+    delBtn.onclick = () => {
+        if(confirm("Supprimer cette story ?")){
+            users[currentUser].stories.splice(currentIndex,1);
+            saveData();
+            if(users[currentUser].stories.length === 0){ closeViewer(); return; }
+            showStory();
+        }
+    };
+    controls.appendChild(delBtn);
+}
 
     if(currentProfile.username===currentUser){  
         let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
