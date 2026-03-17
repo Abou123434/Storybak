@@ -395,33 +395,19 @@ else {
     saveData();
 }
 
-// ⚡ Position fixe des contrôles (IMPORTANT)
-controls.style.position = "fixed";
-controls.style.bottom = "80px"; // ajuste selon ta ligne verte
-controls.style.left = "0";
-controls.style.width = "100%";
-controls.style.display = "flex";
-controls.style.justifyContent = "space-between";
-controls.style.alignItems = "center";
-controls.style.padding = "0 10px";
-controls.style.zIndex = "1000";
+// Création du bouton compteur
+// Vider le conteneur des boutons
+let controls = document.getElementById("progressControls");
+controls.innerHTML = "";
 
-
-// ⚡ Bouton compteur de vues (toujours présent)
-let viewBtn = controls.querySelector(".view-btn");
-if(!viewBtn){
-    viewBtn = document.createElement("button");
-    viewBtn.className = "view-btn";
-    viewBtn.style.background = "transparent";
-    viewBtn.style.border = "none";
-    viewBtn.style.color = "white";
-    viewBtn.style.cursor = "pointer";
-    viewBtn.style.fontSize = "14px";
-    controls.appendChild(viewBtn);
-}
-
-// Mettre à jour le texte du bouton vues
+// ⚡ Bouton compteur de vues
+let viewBtn = document.createElement("button");
 viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
+viewBtn.style.background = "transparent";
+viewBtn.style.border = "none";
+viewBtn.style.color = "white";
+viewBtn.style.cursor = "pointer";
+viewBtn.style.fontSize = "14px";
 viewBtn.onclick = () => {
     let viewers = Object.keys(s.views);
     if(viewers.length === 0){
@@ -430,34 +416,38 @@ viewBtn.onclick = () => {
         alert("👀 Vus par :\n" + viewers.join("\n"));
     }
 };
-
-// ⚡ Supprimer les anciens boutons
-controls.querySelectorAll(".story-btn").forEach(btn => btn.remove());
+controls.appendChild(viewBtn);
 
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
-giftBtn.className = "story-btn";
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
-// ⚡ Bouton supprimer
+// ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
     let delBtn = document.createElement("button");
     delBtn.innerText = "Supprimer";
-    delBtn.className = "story-btn";
     delBtn.onclick = () => {
         if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1);
             saveData();
-            if(users[currentUser].stories.length === 0){ 
-                closeViewer(); 
-                return; 
-            }
+            if(users[currentUser].stories.length === 0){ closeViewer(); return; }
             showStory();
         }
     };
     controls.appendChild(delBtn);
+}
+
+    if(currentProfile.username===currentUser){  
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
+        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
+            users[currentUser].stories.splice(currentIndex,1); saveData();  
+            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
+            showStory();  
+        }};  
+        controls.appendChild(delBtn);  
+    }
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
