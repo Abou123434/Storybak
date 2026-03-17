@@ -400,14 +400,21 @@ else {
 let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
-// ⚡ Bouton compteur de vues
-let viewBtn = document.createElement("button");
+// ⚡ Bouton compteur de vues (toujours présent)
+let viewBtn = controls.querySelector(".view-btn");
+if(!viewBtn){
+    viewBtn = document.createElement("button");
+    viewBtn.className = "view-btn"; // pour le retrouver facilement
+    viewBtn.style.background = "transparent";
+    viewBtn.style.border = "none";
+    viewBtn.style.color = "white";
+    viewBtn.style.cursor = "pointer";
+    viewBtn.style.fontSize = "14px";
+    controls.appendChild(viewBtn);
+}
+
+// Mettre à jour le texte du bouton vues
 viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
-viewBtn.style.background = "transparent";
-viewBtn.style.border = "none";
-viewBtn.style.color = "white";
-viewBtn.style.cursor = "pointer";
-viewBtn.style.fontSize = "14px";
 viewBtn.onclick = () => {
     let viewers = Object.keys(s.views);
     if(viewers.length === 0){
@@ -416,10 +423,9 @@ viewBtn.onclick = () => {
         alert("👀 Vus par :\n" + viewers.join("\n"));
     }
 };
-controls.appendChild(viewBtn);
 
-// ⚡ Nettoyer anciens boutons
-controls.querySelectorAll("button").forEach(btn => btn.remove());
+// ⚡ Supprimer les anciens boutons cadeau/supprimer pour éviter les doublons
+controls.querySelectorAll(".story-btn").forEach(btn => btn.remove());
 
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
@@ -445,6 +451,7 @@ if(currentProfile.username === currentUser){
         }
     };
     controls.appendChild(delBtn);
+}
 }
 
     if(currentProfile.username===currentUser){  
