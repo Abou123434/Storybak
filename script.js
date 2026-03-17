@@ -364,15 +364,11 @@ else {
     e = document.createElement("video");
     e.src = s.url;
     e.autoplay = true;
-    e.controls = false;
+    e.controls = false; // pas de contrôles si tu veux style story
 
-    // 🔊 son activé
+    // 🔊 son activé par défaut
     e.muted = false;
     e.volume = 1;
-    e.onclick = () => {
-        e.muted = false;
-        e.play();
-    };
 
     c.appendChild(e);
 
@@ -380,7 +376,7 @@ else {
         e.currentTime = s.start;
         e.play();
 
-        // utiliser timeupdate pour contrôler fin segment
+        // contrôle segment avec timeupdate
         const onTimeUpdate = () => {
             if(e.currentTime >= s.end){
                 e.pause();
@@ -405,6 +401,7 @@ else {
     };
 
     startProgress(fakeStory);
+}
 }
     if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
