@@ -331,64 +331,97 @@ function startProgress(s){
         }
     }, 50);
 }
-function showStory(){
+ function showStory(){
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
+
+    let s = users[currentUser].stories[currentIndex];
+
+    let c = document.getElementById("content"); 
+    c.innerHTML = "";
+
+    let controls = document.getElementById("controls");
+    controls.innerHTML = ""; // 🔥 supprime anciens boutons
+
     let e;
 
-if(s.type === "image"){
-    e = document.createElement("img");
-    e.src = s.url;
-    c.appendChild(e);
+    if(s.type === "image"){
+        e = document.createElement("img");
+        e.src = s.url;
+        c.appendChild(e);
 
-    startProgress(s);
-} 
-else {
-    e = document.createElement("video");
-    e.src = s.url;
-    e.autoplay = true;
-    e.controls = false;
+        startProgress(s);
+    } 
+    else {
+        e = document.createElement("video");
+        e.src = s.url;
+        e.autoplay = true;
+        e.controls = false;
 
-    // 🔊 son activé
-    e.muted = false;
-    e.volume = 1;
-    e.onclick = () => {
+        // 🔊 son activé
         e.muted = false;
-        e.play();
-    };
+        e.volume = 1;
 
-    c.appendChild(e);
+        e.onclick = () => {
+            e.muted = false;
+            e.play();
+        };
 
-    e.onloadedmetadata = () => {
-        e.currentTime = s.start;
-        e.play();
+        c.appendChild(e);
 
-        // utiliser timeupdate pour contrôler fin segment
-        const onTimeUpdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                e.removeEventListener("timeupdate", onTimeUpdate);
+        e.onloadedmetadata = () => {
+            e.currentTime = s.start;
+            e.play();
 
-                if(currentIndex < users[currentUser].stories.length - 1){
-                    currentIndex++;
-                    showStory();
-                } else {
-                    closeViewer();
+            const onTimeUpdate = () => {
+                if(e.currentTime >= s.end){
+                    e.pause();
+                    e.removeEventListener("timeupdate", onTimeUpdate);
+
+                    if(currentIndex < users[currentUser].stories.length - 1){
+                        currentIndex++;
+                        showStory();
+                    } else {
+                        closeViewer();
+                    }
                 }
+            };
+
+            e.addEventListener("timeupdate", onTimeUpdate);
+        };
+
+        let fakeStory = {
+            type: "video",
+            duration: (s.end - s.start) * 1000
+        };
+
+        startProgress(fakeStory);
+    }
+
+    // ✅ BOUTON SUPPRIMER (AJOUTÉ UNE SEULE FOIS)
+    if(currentProfile.username === currentUser){
+        let delBtn = document.createElement("button");
+        delBtn.innerText = "Supprimer";
+
+        delBtn.onclick = () => {
+            if(confirm("Supprimer cette story ?")){
+                users[currentUser].stories.splice(currentIndex,1);
+                saveData();
+
+                if(users[currentUser].stories.length === 0){ 
+                    closeViewer(); 
+                    return; 
+                }
+
+                if(currentIndex >= users[currentUser].stories.length){
+                    currentIndex = users[currentUser].stories.length - 1;
+                }
+
+                showStory();
             }
         };
 
-        e.addEventListener("timeupdate", onTimeUpdate);
-    };
-
-    // durée réelle pour la barre
-    let fakeStory = {
-        type: "video",
-        duration: (s.end - s.start) * 1000
-    };
-
-    startProgress(fakeStory);
+        controls.appendChild(delBtn);
+    }
 }
     if(!s.views[currentProfile.username]){
     s.views[currentProfile.username] = true;
