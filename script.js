@@ -297,111 +297,113 @@ function renderProgressBars(){
     });
 }
 function startProgress(s){
-    let bars=document.querySelectorAll(".progress-inner"); let w=0;
-    let fakeStory = {
-    type: "video",
-    duration: (s.end - s.start) * 1000
-};
-    timer=setInterval(()=>{
-        w+=100/(dur/50); bars[currentIndex].style.width=Math.min(w,100)+"%";
-        if(w>=100){
-            clearInterval(timer);
-            if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); }
-            else closeViewer();
+    let bars = document.querySelectorAll(".progress-inner");
+    if(!bars[currentIndex]) return; // 🔥 sécurité
+
+    let w = 0;
+
+    // ✅ durée correcte
+    let dur;
+    if(s.type === "image"){
+        dur = 5000;
+    } else {
+        dur = s.duration || 10000; // 🔥 prend la vraie durée du segment
+    }
+
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        w += 100 / (dur / 50);
+
+        if(bars[currentIndex]){
+            bars[currentIndex].style.width = Math.min(w, 100) + "%";
         }
-    },50);
+
+        if(w >= 100){
+            clearInterval(timer);
+
+            if(currentIndex < users[currentUser].stories.length - 1){
+                currentIndex++;
+                showStory();
+            } else {
+                closeViewer();
+            }
+        }
+    }, 50);
 }
 function showStory(){
     clearInterval(timer);
-
-    let s = users[currentUser].stories[currentIndex];
-    let c = document.getElementById("content");
-    c.innerHTML = "";
-
+    let s=users[currentUser].stories[currentIndex];
+    let c=document.getElementById("content"); c.innerHTML="";
     let e;
 
-    // ===== IMAGE =====
-    if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
+if(s.type === "image"){
+    e = document.createElement("img");
+    e.src = s.url;
+    c.appendChild(e);
 
-        startProgress(s);
-    }
+    startProgress(s);
+} 
+else {
+    e = document.createElement("video");
+    e.src = s.url;
+    e.autoplay = true;
 
-    // ===== VIDEO (CORRIGÉ) =====
-    else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.muted = true;
+    // 🔊 son
+    e.muted = false;
+    e.volume = 1;
 
-        c.appendChild(e);
+    // 👉 permet d’activer le son sur mobile
+    e.onclick = () => {
+        e.muted = false;
+        e.play();
+    };
 
-        e.onloadedmetadata = () => {
-            e.currentTime = s.start;
+    c.appendChild(e);
 
-            let interval = setInterval(() => {
-                if(e.currentTime >= s.end){
-                    clearInterval(interval);
-                    e.pause();
+    // 🔥 lecture du segment
+    e.onloadedmetadata = () => {
+        e.currentTime = s.start;
 
-                    if(currentIndex < users[currentUser].stories.length - 1){
-                        currentIndex++;
-                        showStory();
-                    } else {
-                        closeViewer();
-                    }
-                }
-            }, 200);
-        };
+        let interval = setInterval(() => {
+            if(e.currentTime >= s.end){
+                clearInterval(interval);
+                e.pause();
 
-        // 🔥 durée réelle du segment
-        let fakeStory = {
-            type: "video",
-            duration: (s.end - s.start) * 1000
-        };
-
-        startProgress(fakeStory);
-    }
-
-    // 👁 vues
-    if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true;
-        saveData();
-    }
-
-    document.getElementById("viewCount").innerText =
-        "👁 " + Object.keys(s.views).length + " vues";
-
-    renderProgressBars();
-
-    // ===== 🎁 CONTROLS (inchangé) =====
-    let controls = document.getElementById("progressControls");
-    controls.innerHTML = "";
-
-    let giftBtn = document.createElement("button");
-    giftBtn.innerText = "🎁 Envoyer un cadeau";
-    giftBtn.onclick = openGiftModal;
-    controls.appendChild(giftBtn);
-
-    if(currentProfile.username === currentUser){
-        let delBtn = document.createElement("button");
-        delBtn.innerText = "Supprimer";
-        delBtn.onclick = () => {
-            if(confirm("Supprimer cette story ?")){
-                users[currentUser].stories.splice(currentIndex,1);
-                saveData();
-
-                if(users[currentUser].stories.length === 0){
+                if(currentIndex < users[currentUser].stories.length - 1){
+                    currentIndex++;
+                    showStory();
+                } else {
                     closeViewer();
-                    return;
                 }
-
-                showStory();
             }
-        };
-        controls.appendChild(delBtn);
+        }, 200);
+    };
+
+    // 🔥 durée réelle pour la barre
+    let fakeStory = {
+        type: "video",
+        duration: (s.end - s.start) * 1000
+    };
+
+    startProgress(fakeStory);
+}
+    if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
+    document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
+    renderProgressBars(); startProgress(s);
+
+    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
+    controls.appendChild(giftBtn);  
+
+    if(currentProfile.username===currentUser){  
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
+        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
+            users[currentUser].stories.splice(currentIndex,1); saveData();  
+            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
+            showStory();  
+        }};  
+        controls.appendChild(delBtn);  
     }
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
