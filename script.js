@@ -234,20 +234,22 @@ if(previewFile.type.startsWith("video")){
         }
 
         // on limite juste le nombre de segments ajoutés
-        let segmentsToAdd = Math.min(segments, remaining);
+        let segmentDuration = 30; // chaque segment = 30 secondes
+let segments = Math.ceil(duration / segmentDuration);
 
-        for(let i=0;i<segmentsToAdd;i++){
-            let start = i * 30;
-            let end = Math.min(start + 30, duration);
+for(let i = 0; i < segments; i++){
+    let start = i * segmentDuration;
+    let end = start + segmentDuration; // 30s fixe
+    if(end > duration) end = duration; // si on dépasse la fin de la vidéo
 
-            userStories.push({
-                url: URL.createObjectURL(previewFile),
-                type: "video",
-                start: start,
-                end: end,
-                views: {}
-            });
-        }
+    userStories.push({
+        url: URL.createObjectURL(previewFile),
+        type: "video",
+        start: start,
+        end: end,
+        views: {}
+    });
+}
 
         saveData();
         renderStories();
