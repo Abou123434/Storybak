@@ -234,20 +234,36 @@ if(previewFile.type.startsWith("video")){
         }
 
         // on limite juste le nombre de segments ajoutés
-        let segmentsToAdd = Math.min(segments, remaining);
+        // Chaque segment = 30 secondes
+let segmentDuration = 30; 
+let videoCount = userStories.filter(s => s.type === "video").length;
+let remaining = 5 - videoCount; // Max 5 segments par utilisateur
 
-        for(let i=0;i<segmentsToAdd;i++){
-            let start = i * 30;
-            let end = Math.min(start + 30, duration);
+if(remaining <= 0){
+    alert("Maximum 5 segments vidéo atteints !");
+    return;
+}
 
-            userStories.push({
-                url: URL.createObjectURL(previewFile),
-                type: "video",
-                start: start,
-                end: end,
-                views: {}
-            });
-        }
+let segments = Math.ceil(duration / segmentDuration);
+
+// Limiter le nombre de segments pour ne pas dépasser 5
+let segmentsToAdd = Math.min(segments, remaining);
+
+for(let i = 0; i < segmentsToAdd; i++){
+    let start = i * segmentDuration;
+    let end = start + segmentDuration;
+
+    // Pour les vidéos plus courtes que 30s, on force end à start + 30
+    if(end > duration) end = start + segmentDuration;
+
+    userStories.push({
+        url: URL.createObjectURL(previewFile),
+        type: "video",
+        start: start,
+        end: end,
+        views: {}
+    });
+}
 
         saveData();
         renderStories();
@@ -333,50 +349,14 @@ function startProgress(s){
 }
 function showStory(){
     clearInterval(timer);
-let s = users[currentUser].stories[currentIndex];
-let c = document.getElementById("content");
-c.innerHTML = "";
-let e;
+    let s=users[currentUser].stories[currentIndex];
+    let c=document.getElementById("content"); c.innerHTML="";
+    let e;
 
 if(s.type === "image"){
     e = document.createElement("img");
     e.src = s.url;
     c.appendChild(e);
-    startProgress(s);
-} 
-else {
-    e = document.createElement("video");
-    e.src = s.url;
-    e.autoplay = true;
-    e.controls = false;
-    e.muted = false;
-    e.volume = 1;
-    c.appendChild(e);
-
-    e.onloadedmetadata = () => {
-        e.currentTime = s.start;
-        e.play();
-
-        const onTimeUpdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                e.removeEventListener("timeupdate", onTimeUpdate);
-
-                if(currentIndex < users[currentUser].stories.length - 1){
-                    currentIndex++;
-                    showStory();
-                } else {
-                    closeViewer();
-                }
-            }
-        };
-
-        e.addEventListener("timeupdate", onTimeUpdate);
-    };
-
-    let fakeStory = { type: "video", duration: (s.end - s.start) * 1000 };
-    startProgress(fakeStory);
-}
 
     startProgress(s);
 } 
@@ -384,15 +364,11 @@ else {
     e = document.createElement("video");
     e.src = s.url;
     e.autoplay = true;
-    e.controls = false;
+    e.controls = false; // pas de contrôles si tu veux style story
 
-    // 🔊 son activé
+    // 🔊 son activé par défaut
     e.muted = false;
     e.volume = 1;
-    e.onclick = () => {
-        e.muted = false;
-        e.play();
-    };
 
     c.appendChild(e);
 
@@ -400,7 +376,7 @@ else {
         e.currentTime = s.start;
         e.play();
 
-        // utiliser timeupdate pour contrôler fin segment
+        // contrôle segment avec timeupdate
         const onTimeUpdate = () => {
             if(e.currentTime >= s.end){
                 e.pause();
@@ -426,11 +402,11 @@ else {
 
     startProgress(fakeStory);
 }
+}
     if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
-    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
     let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
@@ -440,16 +416,14 @@ giftBtn.innerText = "🎁 Envoyer un cadeau";
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
-// 🔊 bouton son (indépendant de la vidéo)
+// 🔊 bouton son
 let soundBtn = document.createElement("button");
-soundBtn.id = "soundBtn";
 soundBtn.innerText = "🔊 Son";
 soundBtn.onclick = () => {
     let video = document.querySelector("#content video");
     if(video){
         video.muted = !video.muted;
         soundBtn.innerText = video.muted ? "🔇 Muet" : "🔊 Son";
-        video.volume = 1;
     }
 };
 controls.appendChild(soundBtn);
