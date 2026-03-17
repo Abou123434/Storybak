@@ -427,13 +427,12 @@ giftBtn.innerText = "🎁 Envoyer un cadeau";
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
+// Supprimer ancien bouton s'il existe
+let oldBtn = controls.querySelector(".delete-btn");
+if(oldBtn) oldBtn.remove();
+
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
-
-    // 🔥 Supprimer les anciens boutons "Supprimer"
-    let oldBtn = controls.querySelector(".delete-btn");
-    if(oldBtn) oldBtn.remove();
-
     let delBtn = document.createElement("button");
     delBtn.innerText = "Supprimer";
     delBtn.classList.add("delete-btn");
