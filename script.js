@@ -390,8 +390,13 @@ else {
 
     startProgress(fakeStory);
 }
-    if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
-   let viewBtn = document.createElement("button");
+    if(!s.views[currentProfile.username]){
+    s.views[currentProfile.username] = true;
+    saveData();
+}
+
+// Création du bouton compteur
+let viewBtn = document.createElement("button");
 viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
 viewBtn.style.background = "transparent";
 viewBtn.style.border = "none";
@@ -399,7 +404,7 @@ viewBtn.style.color = "white";
 viewBtn.style.cursor = "pointer";
 viewBtn.style.fontSize = "14px";
 
-// Afficher la liste des utilisateurs qui ont vu
+// Au clic, afficher la liste des utilisateurs qui ont vu
 viewBtn.onclick = () => {
     let viewers = Object.keys(s.views);
     if(viewers.length === 0){
@@ -408,6 +413,10 @@ viewBtn.onclick = () => {
         alert("👀 Vus par :\n" + viewers.join("\n"));
     }
 };
+
+// ⚡ Ajouter le bouton dans ton conteneur des contrôles pour qu'il s'affiche
+let controls = document.getElementById("progressControls");
+controls.appendChild(viewBtn);
 
     let controls=document.getElementById("progressControls"); controls.innerHTML="";  
     let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
