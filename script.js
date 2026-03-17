@@ -355,42 +355,7 @@ else {
 
     // permet d’activer le son sur mobile
     e.onclick = () => {
-        e.muted = false;
-        e.play();
-    };
 
-    c.appendChild(e);
-
-    e.onloadedmetadata = () => {
-        e.currentTime = s.start;
-
-        let duration = (s.end - s.start) * 1000; // durée réelle du segment
-        let startTime = Date.now();
-
-        let interval = setInterval(() => {
-            let elapsed = Date.now() - startTime;
-
-            if(elapsed >= duration){
-                clearInterval(interval);
-                e.pause();
-
-                if(currentIndex < users[currentUser].stories.length - 1){
-                    currentIndex++;
-                    showStory();
-                } else {
-                    closeViewer();
-                }
-            }
-        }, 100);
-    };
-
-    // pour la barre de progression
-    let fakeStory = {
-        type: "video",
-        duration: (s.end - s.start) * 1000
-    };
-
-    startProgress(fakeStory);
 }
     // 🔥 lecture du segment
     e.onloadedmetadata = () => {
