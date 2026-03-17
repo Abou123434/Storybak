@@ -400,24 +400,27 @@ else {
 let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
-// ⚡ Bouton compteur de vues
+let views = s.views || {};
+
 let viewBtn = document.createElement("button");
-viewBtn.innerText = "👁 " + Object.keys(s.views).length + " vues";
-viewBtn.style.background = "transparent";
+viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
+viewBtn.style.background = "#333";
 viewBtn.style.border = "none";
 viewBtn.style.color = "white";
 viewBtn.style.cursor = "pointer";
 viewBtn.style.fontSize = "14px";
+viewBtn.style.padding = "5px 10px";
+
 viewBtn.onclick = () => {
-    let viewers = Object.keys(s.views);
+    let viewers = Object.keys(views);
     if(viewers.length === 0){
         alert("Aucune vue pour le moment 😢");
     } else {
         alert("👀 Vus par :\n" + viewers.join("\n"));
     }
 };
-controls.appendChild(viewBtn);
 
+controls.appendChild(viewBtn);
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
