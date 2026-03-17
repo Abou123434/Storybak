@@ -430,7 +430,7 @@ controls.querySelectorAll(".story-btn").forEach(btn => btn.remove());
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
-giftBtn.className = "story-btn"; // même style que supprimer
+giftBtn.className = "story-btn"; // style commun
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
@@ -451,7 +451,6 @@ if(currentProfile.username === currentUser){
         }
     };
     controls.appendChild(delBtn);
-}
 }
 
     if(currentProfile.username===currentUser){  
