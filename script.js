@@ -396,12 +396,12 @@ else {
 }
 
 // Création du bouton compteur
-// Vider le conteneur des boutons
 let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
 let views = s.views || {};
 
+// Bouton vues
 let viewBtn = document.createElement("button");
 viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
 viewBtn.style.background = "#333";
@@ -410,15 +410,92 @@ viewBtn.style.color = "white";
 viewBtn.style.cursor = "pointer";
 viewBtn.style.fontSize = "14px";
 viewBtn.style.padding = "5px 10px";
+viewBtn.style.borderRadius = "10px";
 
+// CLICK
 viewBtn.onclick = () => {
-    let viewers = Object.keys(views);
-    if(viewers.length === 0){
+    let viewers = Object.values(views);
+
+    if (viewers.length === 0) {
         alert("Aucune vue pour le moment 😢");
-    } else {
-        alert("👀 Vus par :\n" + viewers.join("\n"));
+        return;
     }
+
+    // OVERLAY (fond sombre)
+    let overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.6)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "9999";
+
+    // BOITE
+    let box = document.createElement("div");
+    box.style.background = "#fff";
+    box.style.borderRadius = "20px";
+    box.style.padding = "15px";
+    box.style.width = "300px";
+    box.style.maxHeight = "400px";
+    box.style.overflowY = "auto";
+    box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
+
+    // TITRE
+    let title = document.createElement("h3");
+    title.innerText = "👀 Vus par";
+    title.style.marginBottom = "10px";
+    title.style.textAlign = "center";
+    box.appendChild(title);
+
+    // LISTE
+    viewers.forEach(user => {
+        let row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.padding = "8px";
+        row.style.borderBottom = "1px solid #eee";
+
+        let img = document.createElement("img");
+        img.src = user.avatar || "https://via.placeholder.com/40";
+        img.style.width = "40px";
+        img.style.height = "40px";
+        img.style.borderRadius = "50%";
+        img.style.marginRight = "10px";
+
+        let name = document.createElement("span");
+        name.innerText = user.name || "Utilisateur";
+        name.style.fontWeight = "bold";
+
+        row.appendChild(img);
+        row.appendChild(name);
+        box.appendChild(row);
+    });
+
+    // BOUTON FERMER
+    let closeBtn = document.createElement("button");
+    closeBtn.innerText = "Fermer";
+    closeBtn.style.marginTop = "10px";
+    closeBtn.style.width = "100%";
+    closeBtn.style.padding = "8px";
+    closeBtn.style.border = "none";
+    closeBtn.style.borderRadius = "10px";
+    closeBtn.style.background = "#25D366";
+    closeBtn.style.color = "white";
+    closeBtn.style.cursor = "pointer";
+
+    closeBtn.onclick = () => document.body.removeChild(overlay);
+
+    box.appendChild(closeBtn);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
 };
+
+// Ajouter le bouton au conteneur
+controls.appendChild(viewBtn);
 
 controls.appendChild(viewBtn);
 // ⚡ Bouton cadeau
