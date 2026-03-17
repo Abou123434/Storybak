@@ -330,8 +330,6 @@ function startProgress(s){
             }
         }
     }, 50);
-}
-function showStory(){
 function showStory(){
     clearInterval(timer);
 
@@ -341,10 +339,7 @@ function showStory(){
     c.innerHTML = "";
 
     let controls = document.getElementById("controls");
-
-    // 🔥 Supprime seulement l'ancien bouton supprimer
-    let oldDeleteBtn = controls.querySelector(".delete-btn");
-    if(oldDeleteBtn) oldDeleteBtn.remove();
+    controls.innerHTML = ""; // 🔥 reset complet propre
 
     let e;
 
@@ -380,12 +375,7 @@ function showStory(){
                     e.pause();
                     e.removeEventListener("timeupdate", onTimeUpdate);
 
-                    if(currentIndex < users[currentUser].stories.length - 1){
-                        currentIndex++;
-                        showStory();
-                    } else {
-                        closeViewer();
-                    }
+                    nextStory();
                 }
             };
 
@@ -400,11 +390,29 @@ function showStory(){
         startProgress(fakeStory);
     }
 
-    // ✅ Bouton supprimer (UNE SEULE FOIS)
+    // 👉 BOUTON PREV
+    let prevBtn = document.createElement("button");
+    prevBtn.innerText = "◀";
+    prevBtn.onclick = () => {
+        if(currentIndex > 0){
+            currentIndex--;
+            showStory();
+        }
+    };
+    controls.appendChild(prevBtn);
+
+    // 👉 BOUTON NEXT
+    let nextBtn = document.createElement("button");
+    nextBtn.innerText = "▶";
+    nextBtn.onclick = () => {
+        nextStory();
+    };
+    controls.appendChild(nextBtn);
+
+    // 👉 BOUTON SUPPRIMER
     if(currentProfile.username === currentUser){
         let delBtn = document.createElement("button");
         delBtn.innerText = "Supprimer";
-        delBtn.classList.add("delete-btn");
 
         delBtn.onclick = () => {
             if(confirm("Supprimer cette story ?")){
@@ -428,13 +436,14 @@ function showStory(){
     }
 }
 
-    // durée réelle pour la barre
-    let fakeStory = {
-        type: "video",
-        duration: (s.end - s.start) * 1000
-    };
-
-    startProgress(fakeStory);
+// fonction next propre
+function nextStory(){
+    if(currentIndex < users[currentUser].stories.length - 1){
+        currentIndex++;
+        showStory();
+    } else {
+        closeViewer();
+    }
 }
     if(!s.views[currentProfile.username]){
     s.views[currentProfile.username] = true;
