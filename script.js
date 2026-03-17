@@ -234,13 +234,27 @@ if(previewFile.type.startsWith("video")){
         }
 
         // on limite juste le nombre de segments ajoutés
-        let segmentDuration = 30; // chaque segment = 30 secondes
+        // Chaque segment = 30 secondes
+let segmentDuration = 30; 
+let videoCount = userStories.filter(s => s.type === "video").length;
+let remaining = 5 - videoCount; // Max 5 segments par utilisateur
+
+if(remaining <= 0){
+    alert("Maximum 5 segments vidéo atteints !");
+    return;
+}
+
 let segments = Math.ceil(duration / segmentDuration);
 
-for(let i = 0; i < segments; i++){
+// Limiter le nombre de segments pour ne pas dépasser 5
+let segmentsToAdd = Math.min(segments, remaining);
+
+for(let i = 0; i < segmentsToAdd; i++){
     let start = i * segmentDuration;
-    let end = start + segmentDuration; // 30s fixe
-    if(end > duration) end = duration; // si on dépasse la fin de la vidéo
+    let end = start + segmentDuration;
+
+    // Pour les vidéos plus courtes que 30s, on force end à start + 30
+    if(end > duration) end = start + segmentDuration;
 
     userStories.push({
         url: URL.createObjectURL(previewFile),
