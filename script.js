@@ -395,137 +395,131 @@ else {
     saveData();
 }
 
-// ==============================
-// SÉCURITÉ : créer s si inexistant
-// ==============================
-if (typeof s === "undefined") {
-    var s = {};
-}
-
-// ==============================
-// IDENTITÉ UTILISATEUR (TOI)
-// ==============================
-let currentUser = {
-    name: "Ton Nom",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    time: "à l'instant"
-};
-
-// ==============================
-// INITIALISATION DES VUES
-// ==============================
-if (!s.views) s.views = {};
-
-// Ajouter ta vue UNE SEULE FOIS
-if (!s.views[currentUser.name]) {
-    s.views[currentUser.name] = currentUser;
-}
-
-// ==============================
-// BOUTON
-// ==============================
+// Création du bouton compteur
 let controls = document.getElementById("progressControls");
+controls.innerHTML = "";
 
-// ⚠️ Vérifier si l'élément existe
-if (!controls) {
-    console.error("❌ progressControls introuvable !");
-} else {
+// Récupérer les vues
+let views = s.views || {};
 
-    controls.innerHTML = "";
+// Bouton vues
+let viewBtn = document.createElement("button");
+viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
+viewBtn.style.background = "#333";
+viewBtn.style.border = "none";
+viewBtn.style.color = "white";
+viewBtn.style.cursor = "pointer";
+viewBtn.style.fontSize = "14px";
+viewBtn.style.padding = "5px 10px";
+viewBtn.style.borderRadius = "10px";
 
-    let views = s.views;
+// CLICK
+viewBtn.onclick = () => {
 
-    let viewBtn = document.createElement("button");
-    viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
+    let viewers = Object.values(views);
 
-    viewBtn.style.background = "#333";
-    viewBtn.style.border = "none";
-    viewBtn.style.color = "white";
-    viewBtn.style.cursor = "pointer";
-    viewBtn.style.fontSize = "14px";
-    viewBtn.style.padding = "6px 12px";
-    viewBtn.style.borderRadius = "20px";
+    if (viewers.length === 0) {
+        alert("Aucune vue pour le moment 😢");
+        return;
+    }
 
-    controls.appendChild(viewBtn);
+    // OVERLAY (fond sombre)
+    let overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.6)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "9999";
 
-    // ==============================
-    // CLICK
-    // ==============================
-    viewBtn.onclick = () => {
+    // BOITE
+    let box = document.createElement("div");
+    box.style.background = "#fff";
+    box.style.borderRadius = "20px";
+    box.style.padding = "15px";
+    box.style.width = "300px";
+    box.style.maxHeight = "400px";
+    box.style.overflowY = "auto";
+    box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
 
-        let viewers = Object.values(views);
+    // TITRE
+    let title = document.createElement("h3");
+    title.innerText = "👀 Vus par";
+    title.style.textAlign = "center";
+    title.style.marginBottom = "10px";
+    box.appendChild(title);
 
-        // OVERLAY
-        let overlay = document.createElement("div");
-        overlay.style.position = "fixed";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100%";
-        overlay.style.height = "100%";
-        overlay.style.background = "rgba(0,0,0,0.6)";
-        overlay.style.display = "flex";
-        overlay.style.justifyContent = "center";
-        overlay.style.alignItems = "center";
-        overlay.style.zIndex = "9999";
+    // LISTE DES UTILISATEURS
+    viewers.forEach(user => {
 
-        // BOX
-        let box = document.createElement("div");
-        box.style.background = "#f0f2f5";
-        box.style.borderRadius = "20px";
-        box.style.padding = "15px";
-        box.style.width = "320px";
-        box.style.maxHeight = "420px";
-        box.style.overflowY = "auto";
+        let username = user.name || "Utilisateur";
 
-        let title = document.createElement("h3");
-        title.innerText = "👀 Vus par";
-        title.style.textAlign = "center";
+        let avatar = (user.avatar && user.avatar.startsWith("http"))
+            ? user.avatar
+            : "https://i.pravatar.cc/150?u=" + username;
 
-        box.appendChild(title);
+        let time = user.time || "à l'instant";
 
-        viewers.forEach(user => {
+        let row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.padding = "10px";
+        row.style.borderBottom = "1px solid #eee";
 
-            let username = user.name || "Utilisateur";
+        let img = document.createElement("img");
+        img.src = avatar;
+        img.style.width = "45px";
+        img.style.height = "45px";
+        img.style.borderRadius = "50%";
+        img.style.marginRight = "10px";
 
-            let avatar = user.avatar 
-                ? user.avatar 
-                : "https://randomuser.me/api/portraits/lego/1.jpg";
-
-            let row = document.createElement("div");
-            row.style.display = "flex";
-            row.style.alignItems = "center";
-            row.style.padding = "10px";
-
-            let img = document.createElement("img");
-            img.src = avatar;
-            img.style.width = "40px";
-            img.style.height = "40px";
-            img.style.borderRadius = "50%";
-            img.style.marginRight = "10px";
-
-            img.onerror = () => {
-                img.src = "https://randomuser.me/api/portraits/lego/1.jpg";
-            };
-
-            let name = document.createElement("div");
-            name.innerText = username;
-
-            row.appendChild(img);
-            row.appendChild(name);
-
-            box.appendChild(row);
-        });
-
-        overlay.onclick = (e) => {
-            if (e.target === overlay) {
-                document.body.removeChild(overlay);
-            }
+        // Si image cassée
+        img.onerror = () => {
+            img.src = "https://i.pravatar.cc/150?u=" + username;
         };
 
-        overlay.appendChild(box);
-        document.body.appendChild(overlay);
-    };
-}
+        let textBox = document.createElement("div");
+
+        let name = document.createElement("div");
+        name.innerText = username;
+        name.style.fontWeight = "bold";
+
+        let seenTime = document.createElement("div");
+        seenTime.innerText = "vu " + time;
+        seenTime.style.fontSize = "12px";
+        seenTime.style.color = "gray";
+
+        textBox.appendChild(name);
+        textBox.appendChild(seenTime);
+
+        row.appendChild(img);
+        row.appendChild(textBox);
+
+        box.appendChild(row);
+    });
+
+    // BOUTON FERMER
+    let closeBtn = document.createElement("button");
+    closeBtn.innerText = "Fermer";
+    closeBtn.style.marginTop = "10px";
+    closeBtn.style.width = "100%";
+    closeBtn.style.padding = "10px";
+    closeBtn.style.border = "none";
+    closeBtn.style.borderRadius = "10px";
+    closeBtn.style.background = "#25D366";
+    closeBtn.style.color = "white";
+    closeBtn.style.cursor = "pointer";
+
+    closeBtn.onclick = () => document.body.removeChild(overlay);
+
+    box.appendChild(closeBtn);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+};
 
 // Ajouter le bouton
 controls.appendChild(viewBtn);
