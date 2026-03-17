@@ -395,16 +395,23 @@ else {
     saveData();
 }
 
-// Création du bouton compteur
-// Vider le conteneur des boutons
-let controls = document.getElementById("progressControls");
-controls.innerHTML = "";
+// ⚡ Position fixe des contrôles (IMPORTANT)
+controls.style.position = "fixed";
+controls.style.bottom = "80px"; // ajuste selon ta ligne verte
+controls.style.left = "0";
+controls.style.width = "100%";
+controls.style.display = "flex";
+controls.style.justifyContent = "space-between";
+controls.style.alignItems = "center";
+controls.style.padding = "0 10px";
+controls.style.zIndex = "1000";
+
 
 // ⚡ Bouton compteur de vues (toujours présent)
 let viewBtn = controls.querySelector(".view-btn");
 if(!viewBtn){
     viewBtn = document.createElement("button");
-    viewBtn.className = "view-btn"; // pour le retrouver facilement
+    viewBtn.className = "view-btn";
     viewBtn.style.background = "transparent";
     viewBtn.style.border = "none";
     viewBtn.style.color = "white";
@@ -424,21 +431,21 @@ viewBtn.onclick = () => {
     }
 };
 
-// ⚡ Supprimer les anciens boutons cadeau/supprimer pour éviter les doublons
+// ⚡ Supprimer les anciens boutons
 controls.querySelectorAll(".story-btn").forEach(btn => btn.remove());
 
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
-giftBtn.className = "story-btn"; // style commun
+giftBtn.className = "story-btn";
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
-// ⚡ Bouton supprimer (uniquement si c'est ton profil)
+// ⚡ Bouton supprimer
 if(currentProfile.username === currentUser){
     let delBtn = document.createElement("button");
     delBtn.innerText = "Supprimer";
-    delBtn.className = "story-btn"; // même style que cadeau
+    delBtn.className = "story-btn";
     delBtn.onclick = () => {
         if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1);
@@ -451,17 +458,6 @@ if(currentProfile.username === currentUser){
         }
     };
     controls.appendChild(delBtn);
-}
-
-    if(currentProfile.username===currentUser){  
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
-        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
-            users[currentUser].stories.splice(currentIndex,1); saveData();  
-            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
-            showStory();  
-        }};  
-        controls.appendChild(delBtn);  
-    }
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
