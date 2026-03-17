@@ -456,11 +456,27 @@ viewBtn.onclick = () => {
     // LISTE DES UTILISATEURS
     viewers.forEach(user => {
 
-        let username = user.name || "Utilisateur";
+        // quand la story s'ouvre
+function openStory(s) {
 
-        let avatar = (user.avatar && user.avatar.startsWith("http"))
-            ? user.avatar
-            : "https://i.pravatar.cc/150?u=" + username;
+    let currentUser = {
+        id: "uid123",
+        name: "MonProfil",
+        avatar: "https://i.pravatar.cc/150?img=5"
+    };
+
+    if (!s.views) s.views = {};
+
+    if (!s.views[currentUser.id]) {
+        s.views[currentUser.id] = {
+            name: currentUser.name,
+            avatar: currentUser.avatar,
+            time: new Date().toLocaleTimeString().slice(0,5)
+        };
+    }
+
+    // ton code existant...
+}
 
         let time = user.time || "à l'instant";
 
