@@ -286,37 +286,7 @@ function openViewer(u){
     currentUser = u; currentIndex=0;
     document.getElementById("viewer").style.display="flex";
     showStory();
-if(s.type==="image"){
-    let img = document.createElement("img");
-    img.src = s.url;
-    c.appendChild(img);
-} else {
-    let video = document.createElement("video");
-    video.src = s.url;
-    video.autoplay = true;
-    video.controls = false;
-    c.appendChild(video);
-
-    video.onloadedmetadata = () => {
-        video.currentTime = s.start;
-        video.play();
-
-        let checkInterval = setInterval(() => {
-            if(video.currentTime >= s.end){
-                video.pause();
-                clearInterval(checkInterval);
-                if(currentIndex < users[currentUser].stories.length-1){
-                    currentIndex++;
-                    showStory();
-                } else {
-                    closeViewer();
-                }
-            }
-        }, 200);
-    };
-
 }
-
 function renderProgressBars(){
     let c=document.getElementById("progressContainer"); c.innerHTML="";
     users[currentUser].stories.forEach((s,i)=>{
@@ -328,7 +298,10 @@ function renderProgressBars(){
 }
 function startProgress(s){
     let bars=document.querySelectorAll(".progress-inner"); let w=0;
-    let dur=s.type==="image"?5000:10000;
+    let fakeStory = {
+    type: "video",
+    duration: (s.end - s.start) * 1000
+};
     timer=setInterval(()=>{
         w+=100/(dur/50); bars[currentIndex].style.width=Math.min(w,100)+"%";
         if(w>=100){
@@ -340,26 +313,95 @@ function startProgress(s){
 }
 function showStory(){
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
-    let e=s.type==="image"?document.createElement("img"):document.createElement("video");
-    e.src=s.url; if(s.type==="video") e.autoplay=true; c.appendChild(e);
-    if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
-    document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
-    renderProgressBars(); startProgress(s);
 
-    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
-    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
-    controls.appendChild(giftBtn);  
+    let s = users[currentUser].stories[currentIndex];
+    let c = document.getElementById("content");
+    c.innerHTML = "";
 
-    if(currentProfile.username===currentUser){  
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
-        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
-            users[currentUser].stories.splice(currentIndex,1); saveData();  
-            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
-            showStory();  
-        }};  
-        controls.appendChild(delBtn);  
+    let e;
+
+    // ===== IMAGE =====
+    if(s.type === "image"){
+        e = document.createElement("img");
+        e.src = s.url;
+        c.appendChild(e);
+
+        startProgress(s);
+    }
+
+    // ===== VIDEO (CORRIGÉ) =====
+    else {
+        e = document.createElement("video");
+        e.src = s.url;
+        e.autoplay = true;
+        e.muted = true;
+
+        c.appendChild(e);
+
+        e.onloadedmetadata = () => {
+            e.currentTime = s.start;
+
+            let interval = setInterval(() => {
+                if(e.currentTime >= s.end){
+                    clearInterval(interval);
+                    e.pause();
+
+                    if(currentIndex < users[currentUser].stories.length - 1){
+                        currentIndex++;
+                        showStory();
+                    } else {
+                        closeViewer();
+                    }
+                }
+            }, 200);
+        };
+
+        // 🔥 durée réelle du segment
+        let fakeStory = {
+            type: "video",
+            duration: (s.end - s.start) * 1000
+        };
+
+        startProgress(fakeStory);
+    }
+
+    // 👁 vues
+    if(!s.views[currentProfile.username]){
+        s.views[currentProfile.username] = true;
+        saveData();
+    }
+
+    document.getElementById("viewCount").innerText =
+        "👁 " + Object.keys(s.views).length + " vues";
+
+    renderProgressBars();
+
+    // ===== 🎁 CONTROLS (inchangé) =====
+    let controls = document.getElementById("progressControls");
+    controls.innerHTML = "";
+
+    let giftBtn = document.createElement("button");
+    giftBtn.innerText = "🎁 Envoyer un cadeau";
+    giftBtn.onclick = openGiftModal;
+    controls.appendChild(giftBtn);
+
+    if(currentProfile.username === currentUser){
+        let delBtn = document.createElement("button");
+        delBtn.innerText = "Supprimer";
+        delBtn.onclick = () => {
+            if(confirm("Supprimer cette story ?")){
+                users[currentUser].stories.splice(currentIndex,1);
+                saveData();
+
+                if(users[currentUser].stories.length === 0){
+                    closeViewer();
+                    return;
+                }
+
+                showStory();
+            }
+        };
+        controls.appendChild(delBtn);
     }
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
