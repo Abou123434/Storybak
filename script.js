@@ -407,9 +407,45 @@ else {
     document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
     renderProgressBars(); startProgress(s);
 
-    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
-    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
-    controls.appendChild(giftBtn);  
+    let controls = document.getElementById("progressControls");
+controls.innerHTML = "";
+
+// 🎁 bouton cadeau
+let giftBtn = document.createElement("button");
+giftBtn.innerText = "🎁 Envoyer un cadeau";
+giftBtn.onclick = openGiftModal;
+controls.appendChild(giftBtn);
+
+// 🔊 bouton son
+let soundBtn = document.createElement("button");
+soundBtn.innerText = "🔊 Son";
+soundBtn.onclick = () => {
+    let video = document.querySelector("#content video");
+    if(video){
+        video.muted = !video.muted;
+        soundBtn.innerText = video.muted ? "🔇 Muet" : "🔊 Son";
+    }
+};
+controls.appendChild(soundBtn);
+
+// 🗑 bouton supprimer
+if(currentProfile.username === currentUser){
+    let delBtn = document.createElement("button");
+    delBtn.innerText = "Supprimer";
+    delBtn.onclick = () => {
+        if(confirm("Supprimer cette story ?")){
+            users[currentUser].stories.splice(currentIndex,1);
+            saveData();
+
+            if(users[currentUser].stories.length === 0){
+                closeViewer();
+                return;
+            }
+            showStory();
+        }
+    };
+    controls.appendChild(delBtn);
+} 
 
     if(currentProfile.username===currentUser){  
         let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
