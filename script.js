@@ -395,39 +395,50 @@ else {
     saveData();
 }
 
-// 🔥 nettoyer avant (TRÈS IMPORTANT)
+// Création du bouton compteur
+// Vider le conteneur des boutons
+let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
-// 👁 bouton vues
-let viewBtn = document.createElement("button");
-viewBtn.innerText = "👁 " + Object.keys(s.views || {}).length + " vues";
-controls.appendChild(viewBtn);
+let views = s.views || {};
 
-// 🎁 bouton cadeau
+let viewBtn = document.createElement("button");
+viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
+viewBtn.style.background = "#333";
+viewBtn.style.border = "none";
+viewBtn.style.color = "white";
+viewBtn.style.cursor = "pointer";
+viewBtn.style.fontSize = "14px";
+viewBtn.style.padding = "5px 10px";
+
+viewBtn.onclick = () => {
+    let viewers = Object.keys(views);
+    if(viewers.length === 0){
+        alert("Aucune vue pour le moment 😢");
+    } else {
+        alert("👀 Vus par :\n" + viewers.join("\n"));
+    }
+};
+
+controls.appendChild(viewBtn);
+// ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁 Envoyer un cadeau";
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
-// 🗑 bouton supprimer (corrigé)
+// ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
     let delBtn = document.createElement("button");
     delBtn.innerText = "Supprimer";
-
     delBtn.onclick = () => {
         if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1);
             saveData();
-
-            if(users[currentUser].stories.length === 0){ 
-                closeViewer(); 
-                return; 
-            }
-
-            showStory(); // 🔁 recharge propre
+            if(users[currentUser].stories.length === 0){ closeViewer(); return; }
+            showStory();
         }
     };
-
     controls.appendChild(delBtn);
 }
 
