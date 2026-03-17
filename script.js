@@ -339,26 +339,44 @@ function showStory(){
     c.innerHTML = "";
 
     let controls = document.getElementById("controls");
-    controls.innerHTML = ""; // 🔥 reset complet propre
+    controls.innerHTML = ""; // 🔥 on recrée tout proprement
 
     let e;
 
+    // =====================
+    // IMAGE
+    // =====================
     if(s.type === "image"){
         e = document.createElement("img");
         e.src = s.url;
+
+        e.style.width = "100%";
+        e.style.height = "100%";
+        e.style.objectFit = "cover";
+
         c.appendChild(e);
 
         startProgress(s);
     } 
+
+    // =====================
+    // VIDEO (FIX ÉCRAN NOIR)
+    // =====================
     else {
         e = document.createElement("video");
         e.src = s.url;
         e.autoplay = true;
         e.controls = false;
+        e.playsInline = true;
 
         e.muted = false;
         e.volume = 1;
 
+        e.style.width = "100%";
+        e.style.height = "100%";
+        e.style.objectFit = "cover";
+
+        // 👉 click pour forcer play (important mobile)
         e.onclick = () => {
             e.muted = false;
             e.play();
@@ -367,30 +385,43 @@ function showStory(){
         c.appendChild(e);
 
         e.onloadedmetadata = () => {
-            e.currentTime = s.start;
-            e.play();
+
+            // 🔥 sécurité anti bug écran noir
+            let start = s.start || 0;
+            let end = s.end || e.duration;
+
+            if(start >= e.duration) start = 0;
+            if(end > e.duration) end = e.duration;
+
+            e.currentTime = start;
+
+            e.play().catch(() => {
+                console.log("Autoplay bloqué");
+            });
 
             const onTimeUpdate = () => {
-                if(e.currentTime >= s.end){
+                if(e.currentTime >= end){
                     e.pause();
                     e.removeEventListener("timeupdate", onTimeUpdate);
-
                     nextStory();
                 }
             };
 
             e.addEventListener("timeupdate", onTimeUpdate);
-        };
 
-        let fakeStory = {
-            type: "video",
-            duration: (s.end - s.start) * 1000
+            // barre de progression correcte
+            startProgress({
+                type: "video",
+                duration: (end - start) * 1000
+            });
         };
-
-        startProgress(fakeStory);
     }
 
-    // 👉 BOUTON PREV
+    // =====================
+    // BOUTONS
+    // =====================
+
+    // ◀ PREV
     let prevBtn = document.createElement("button");
     prevBtn.innerText = "◀";
     prevBtn.onclick = () => {
@@ -401,7 +432,7 @@ function showStory(){
     };
     controls.appendChild(prevBtn);
 
-    // 👉 BOUTON NEXT
+    // ▶ NEXT
     let nextBtn = document.createElement("button");
     nextBtn.innerText = "▶";
     nextBtn.onclick = () => {
@@ -409,7 +440,7 @@ function showStory(){
     };
     controls.appendChild(nextBtn);
 
-    // 👉 BOUTON SUPPRIMER
+    // 🗑 SUPPRIMER (1 seul)
     if(currentProfile.username === currentUser){
         let delBtn = document.createElement("button");
         delBtn.innerText = "Supprimer";
@@ -436,7 +467,10 @@ function showStory(){
     }
 }
 
-// fonction next propre
+
+// =====================
+// NEXT STORY SAFE
+// =====================
 function nextStory(){
     if(currentIndex < users[currentUser].stories.length - 1){
         currentIndex++;
