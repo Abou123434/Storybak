@@ -348,12 +348,11 @@ else {
     e = document.createElement("video");
     e.src = s.url;
     e.autoplay = true;
+    e.controls = false;
 
     // 🔊 son activé
     e.muted = false;
     e.volume = 1;
-
-    // permet d’activer le son sur mobile
     e.onclick = () => {
         e.muted = false;
         e.play();
@@ -361,19 +360,15 @@ else {
 
     c.appendChild(e);
 
-    // 🔥 lecture du segment
     e.onloadedmetadata = () => {
         e.currentTime = s.start;
+        e.play();
 
-        let duration = (s.end - s.start) * 1000; // durée réelle du segment
-        let startTime = Date.now();
-
-        let interval = setInterval(() => {
-            let elapsed = Date.now() - startTime;
-
-            if(elapsed >= duration){
-                clearInterval(interval);
+        // utiliser timeupdate pour contrôler fin segment
+        const onTimeUpdate = () => {
+            if(e.currentTime >= s.end){
                 e.pause();
+                e.removeEventListener("timeupdate", onTimeUpdate);
 
                 if(currentIndex < users[currentUser].stories.length - 1){
                     currentIndex++;
@@ -382,10 +377,12 @@ else {
                     closeViewer();
                 }
             }
-        }, 100);
+        };
+
+        e.addEventListener("timeupdate", onTimeUpdate);
     };
 
-    // 🔥 durée réelle pour la barre
+    // durée réelle pour la barre
     let fakeStory = {
         type: "video",
         duration: (s.end - s.start) * 1000
