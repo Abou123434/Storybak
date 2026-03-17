@@ -349,20 +349,29 @@ else {
     e.src = s.url;
     e.autoplay = true;
 
-    // 🔊 son
+    // 🔊 son activé
     e.muted = false;
     e.volume = 1;
 
     // permet d’activer le son sur mobile
     e.onclick = () => {
+        e.muted = false;
+        e.play();
+    };
 
-}
+    c.appendChild(e);
+
     // 🔥 lecture du segment
     e.onloadedmetadata = () => {
         e.currentTime = s.start;
 
+        let duration = (s.end - s.start) * 1000; // durée réelle du segment
+        let startTime = Date.now();
+
         let interval = setInterval(() => {
-            if(e.currentTime >= s.end){
+            let elapsed = Date.now() - startTime;
+
+            if(elapsed >= duration){
                 clearInterval(interval);
                 e.pause();
 
@@ -373,7 +382,7 @@ else {
                     closeViewer();
                 }
             }
-        }, 200);
+        }, 100);
     };
 
     // 🔥 durée réelle pour la barre
