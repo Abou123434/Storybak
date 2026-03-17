@@ -359,18 +359,50 @@ function showStory(){
         startProgress(s);
     } 
 
-    // =====================
-    // VIDEO (FIX ÉCRAN NOIR)
-    // =====================
-    else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.controls = false;
-        e.playsInline = true;
+// =====================
+// VIDEO (CORRIGÉ)
+// =====================
+else {
+    e = document.createElement("video");
+    e.src = s.url;
+    e.autoplay = true;
+    e.muted = true;
+    e.playsInline = true;
 
+    e.style.width = "100%";
+    e.style.height = "100%";
+    e.style.objectFit = "cover";
+
+    // activer le son au clic
+    e.onclick = () => {
         e.muted = false;
-        e.volume = 1;
+        e.play();
+    };
+
+    c.appendChild(e);
+
+    e.onloadedmetadata = () => {
+        let start = s.start || 0;
+        let end = s.end || e.duration;
+
+        e.currentTime = start;
+
+        setTimeout(() => {
+            e.play().catch(()=>{});
+        }, 200);
+
+        e.addEventListener("timeupdate", () => {
+            if(e.currentTime >= end){
+                nextStory();
+            }
+        });
+
+        startProgress({
+            type: "video",
+            duration: (end - start) * 1000
+        });
+    };
+}
 
         e.style.width = "100%";
         e.style.height = "100%";
