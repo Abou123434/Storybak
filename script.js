@@ -554,21 +554,25 @@ viewBtn.onclick = () => {
     document.body.appendChild(overlay);
 };
 
-// Ajouter le bouton
-controls.appendChild(viewBtn);
+// Bouton cadeau 🎁
+let giftBtn = document.createElement("button");
+giftBtn.innerText = "🎁 Envoyer un cadeau";
 
-controls.appendChild(viewBtn);
-  // Bouton cadeau 🎁
-  let giftBtn = document.createElement("button");
-  giftBtn.innerText = "🎁 Envoyer un cadeau";
-  giftBtn.style.background="#FFD700";
-  giftBtn.style.color="#000";
-  giftBtn.style.border="none";
-  giftBtn.style.padding="5px 10px";
-  giftBtn.style.borderRadius="5px";
-  giftBtn.style.cursor="pointer";
-  giftBtn.onclick = ()=>openGiftModal();
-  progressControls.appendChild(giftBtn);
+giftBtn.style.position = "absolute";
+giftBtn.style.bottom = "60px";   // 🔥 monte le bouton (change valeur si besoin)
+giftBtn.style.right = "10px";    // 👉 à droite
+
+giftBtn.style.background = "#FFD700";
+giftBtn.style.color = "#000";
+giftBtn.style.border = "none";
+giftBtn.style.padding = "8px 12px";
+giftBtn.style.borderRadius = "8px";
+giftBtn.style.cursor = "pointer";
+
+giftBtn.onclick = () => openGiftModal();
+
+// IMPORTANT
+controls.appendChild(giftBtn);
 
   // Bouton Supprimer
   if(currentLoggedUser === currentUser){
