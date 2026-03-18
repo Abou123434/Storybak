@@ -397,16 +397,28 @@ else {
     };
 
     // durée réelle pour la barre
-    let fakeStory = {
-        type: "video",
-        duration: (s.end - s.start) * 1000
-    };
+function startProgress(story){
+  let bars = document.querySelectorAll(".progress-inner");
+  let width = 0;
+  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
 
-    startProgress(fakeStory);
-}
-    if(!s.views[currentProfile.username]){
-    s.views[currentProfile.username] = true;
-    saveData();
+  timer = setInterval(()=>{
+    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
+      clearInterval(timer);
+      closeViewer();
+      return;
+    }
+    width += 100/(duration/50);
+    bars[currentIndex].style.width = Math.min(width,100)+"%";
+
+    if(width >= 100){
+      clearInterval(timer);
+      if(currentIndex < users[currentUser].stories.length - 1){
+        currentIndex++;
+        showStory();
+      } else closeViewer();
+    }
+  },50);
 }
 
 // Création du bouton compteur
