@@ -564,7 +564,7 @@ giftBtn.innerText = "🎁 Envoyer un cadeau";
 giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
-// ⚡ Bouton supprimer (uniquement si c'est ton profil)
+  // Bouton Supprimer
   if(currentLoggedUser === currentUser){
     let deleteBtn = document.createElement("button");
     deleteBtn.innerText = "Supprimer";
