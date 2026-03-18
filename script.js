@@ -558,21 +558,25 @@ viewBtn.onclick = () => {
 
 controls.appendChild(viewBtn);
   // Bouton cadeau 🎁
-  let giftBtn = document.createElement("button");
+  let viewer = document.getElementById("viewer");
+
+let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁";
 
 giftBtn.style.position = "absolute";
-giftBtn.style.top = "10px";     // 🔼 monte vers la barre verte
-giftBtn.style.left = "10px";    // 👈 à gauche
+giftBtn.style.top = "60px";   // 🔥 ajuste pour coller à la barre verte
+giftBtn.style.left = "10px";  // 👈 à gauche
 
 giftBtn.style.background = "#FFD700";
 giftBtn.style.border = "none";
-giftBtn.style.padding = "6px";
+giftBtn.style.padding = "8px";
 giftBtn.style.borderRadius = "50%";
 giftBtn.style.cursor = "pointer";
+giftBtn.style.zIndex = "999"; // 🔥 toujours visible
 
 giftBtn.onclick = () => openGiftModal();
 
+viewer.appendChild(giftBtn);
 controls.appendChild(giftBtn);
   // Bouton Supprimer
   if(currentLoggedUser === currentUser){
