@@ -557,26 +557,24 @@ viewBtn.onclick = () => {
 // Ajouter le bouton
 
 controls.appendChild(viewBtn);
-  // Bouton cadeau 🎁
-  let viewer = document.getElementById("viewer");
-
+// Bouton cadeau 🎁
 let giftBtn = document.createElement("button");
 giftBtn.innerText = "🎁";
-
 giftBtn.style.position = "absolute";
-giftBtn.style.top = "60px";   // 🔥 ajuste pour coller à la barre verte
-giftBtn.style.left = "10px";  // 👈 à gauche
-
+giftBtn.style.top = "10px";      // hauteur (ajuste si besoin)
+giftBtn.style.right = "10px";    // à droite
 giftBtn.style.background = "#FFD700";
+giftBtn.style.color = "#000";
 giftBtn.style.border = "none";
 giftBtn.style.padding = "8px";
 giftBtn.style.borderRadius = "50%";
 giftBtn.style.cursor = "pointer";
-giftBtn.style.zIndex = "999"; // 🔥 toujours visible
+giftBtn.style.zIndex = "999";
 
 giftBtn.onclick = () => openGiftModal();
 
-viewer.appendChild(giftBtn);
+// IMPORTANT : ajouter au viewer (pas controls)
+document.getElementById("viewer").appendChild(giftBtn);
 controls.appendChild(giftBtn);
   // Bouton Supprimer
   if(currentLoggedUser === currentUser){
