@@ -565,46 +565,33 @@ giftBtn.onclick = openGiftModal;
 controls.appendChild(giftBtn);
 
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
-if(currentProfile.username === currentUser){
+  if(currentLoggedUser === currentUser){
+    let deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "Supprimer";
+    deleteBtn.style.background="red";
+    deleteBtn.style.color="white";
+    deleteBtn.style.border="none";
+    deleteBtn.style.padding="5px 10px";
+    deleteBtn.style.borderRadius="5px";
+    deleteBtn.style.cursor="pointer";
 
-    // Vérifier si le bouton existe déjà
-    let existingDelBtn = document.getElementById("deleteBtn");
+    deleteBtn.onclick = (e)=>{
+      e.stopPropagation();
+      if(confirm("Supprimer cette story ?")){
+        clearInterval(timer);
+        let video = document.getElementById("content").querySelector("video");
+        if(video){ video.pause(); video.src=""; video.load(); }
+        users[currentUser].stories.splice(currentIndex,1);
+        saveData();
+        if(users[currentUser].stories.length === 0){ closeViewer(); return; }
+        if(currentIndex >= users[currentUser].stories.length){ currentIndex = users[currentUser].stories.length -1; }
+        showStory();
+      }
+    };
+    progressControls.appendChild(deleteBtn);
+  }
 
-    if(!existingDelBtn){
-        let delBtn = document.createElement("button");
-        delBtn.id = "deleteBtn"; // 👈 ID UNIQUE
-        delBtn.innerText = "Supprimer";
-
-        delBtn.onclick = () => {
-            if(confirm("Supprimer cette story ?")){
-                users[currentUser].stories.splice(currentIndex,1);
-                saveData();
-
-                if(users[currentUser].stories.length === 0){
-                    closeViewer();
-                    return;
-                }
-
-                if(currentIndex >= users[currentUser].stories.length){
-                    currentIndex = users[currentUser].stories.length - 1;
-                }
-
-                showStory();
-            }
-        };
-
-        controls.appendChild(delBtn);
-    }
-}
-
-    if(currentProfile.username===currentUser){  
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
-        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
-            users[currentUser].stories.splice(currentIndex,1); saveData();  
-            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
-            showStory();  
-        }};  
-        controls.appendChild(delBtn);  
+  renderProgressBars(currentIndex);
     }
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
