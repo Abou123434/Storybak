@@ -305,10 +305,29 @@ function renderProgressBars(activeIndex){
   });
 }
   // Barre progression
-  let progressContainer = document.createElement("div");
-  progressContainer.id = "progressContainer";
-  progressContainer.style.flex="1"; progressContainer.style.margin="0 10px";
-  progressControls.appendChild(progressContainer);
+  function startProgress(story){
+  let bars = document.querySelectorAll(".progress-inner");
+  let width = 0;
+  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
+
+  timer = setInterval(()=>{
+    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
+      clearInterval(timer);
+      closeViewer();
+      return;
+    }
+    width += 100/(duration/50);
+    bars[currentIndex].style.width = Math.min(width,100)+"%";
+
+    if(width >= 100){
+      clearInterval(timer);
+      if(currentIndex < users[currentUser].stories.length - 1){
+        currentIndex++;
+        showStory();
+      } else closeViewer();
+    }
+  },50);
+}
 
 function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner");
@@ -397,28 +416,16 @@ else {
     };
 
     // durée réelle pour la barre
-function startProgress(story){
-  let bars = document.querySelectorAll(".progress-inner");
-  let width = 0;
-  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
+    let fakeStory = {
+        type: "video",
+        duration: (s.end - s.start) * 1000
+    };
 
-  timer = setInterval(()=>{
-    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-      clearInterval(timer);
-      closeViewer();
-      return;
-    }
-    width += 100/(duration/50);
-    bars[currentIndex].style.width = Math.min(width,100)+"%";
-
-    if(width >= 100){
-      clearInterval(timer);
-      if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-      } else closeViewer();
-    }
-  },50);
+    startProgress(fakeStory);
+}
+    if(!s.views[currentProfile.username]){
+    s.views[currentProfile.username] = true;
+    saveData();
 }
 
 // Création du bouton compteur
