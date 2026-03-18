@@ -304,6 +304,12 @@ function renderProgressBars(activeIndex){
     container.appendChild(bar);
   });
 }
+  // Barre progression
+  let progressContainer = document.createElement("div");
+  progressContainer.id = "progressContainer";
+  progressContainer.style.flex="1"; progressContainer.style.margin="0 10px";
+  progressControls.appendChild(progressContainer);
+
 function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner");
     if(!bars[currentIndex]) return; // 🔥 sécurité
