@@ -554,26 +554,26 @@ viewBtn.onclick = () => {
     document.body.appendChild(overlay);
 };
 
-// Bouton cadeau 🎁
-let giftBtn = document.createElement("button");
-giftBtn.innerText = "🎁 Envoyer un cadeau";
+// Ajouter le bouton
+
+controls.appendChild(viewBtn);
+  // Bouton cadeau 🎁
+  let giftBtn = document.createElement("button");
+giftBtn.innerText = "🎁";
 
 giftBtn.style.position = "absolute";
-giftBtn.style.bottom = "60px";   // 🔥 monte le bouton (change valeur si besoin)
-giftBtn.style.right = "10px";    // 👉 à droite
+giftBtn.style.top = "10px";     // 🔼 monte vers la barre verte
+giftBtn.style.left = "10px";    // 👈 à gauche
 
 giftBtn.style.background = "#FFD700";
-giftBtn.style.color = "#000";
 giftBtn.style.border = "none";
-giftBtn.style.padding = "8px 12px";
-giftBtn.style.borderRadius = "8px";
+giftBtn.style.padding = "6px";
+giftBtn.style.borderRadius = "50%";
 giftBtn.style.cursor = "pointer";
 
 giftBtn.onclick = () => openGiftModal();
 
-// IMPORTANT
 controls.appendChild(giftBtn);
-
   // Bouton Supprimer
   if(currentLoggedUser === currentUser){
     let deleteBtn = document.createElement("button");
