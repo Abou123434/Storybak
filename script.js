@@ -561,30 +561,33 @@ controls.appendChild(viewBtn);
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 
-// contenu
-giftBtn.innerHTML = "🎁 <span>Envoyer</span>";
+// ✅ texte complet
+giftBtn.innerHTML = "🎁 Envoyer un cadeau";
 
-// position
+// 📍 position en haut à droite
 giftBtn.style.position = "absolute";
 giftBtn.style.top = "15px";
-giftBtn.style.right = "15px";
+giftBtn.style.right = "10px";
 giftBtn.style.zIndex = "9999";
 
-// style bouton
-giftBtn.style.display = "flex";          // 🔥 IMPORTANT
-giftBtn.style.alignItems = "center";     // centre vertical
-giftBtn.style.gap = "5px";               // espace entre 🎁 et texte
+// 🔥 empêche que ça parte à gauche
+giftBtn.style.display = "flex";
+giftBtn.style.alignItems = "center";
+giftBtn.style.justifyContent = "center"; // centre le contenu
 
+// 🎨 style
 giftBtn.style.background = "#FFD700";
 giftBtn.style.color = "#000";
 giftBtn.style.border = "none";
-giftBtn.style.padding = "6px 10px";
+giftBtn.style.padding = "6px 12px";
 giftBtn.style.borderRadius = "20px";
 giftBtn.style.cursor = "pointer";
-giftBtn.style.fontSize = "14px";
+giftBtn.style.whiteSpace = "nowrap"; // 🔥 TRÈS IMPORTANT (empêche retour ligne)
 
+// action
 giftBtn.onclick = () => openGiftModal();
 
+// ajouter au viewer
 document.getElementById("viewer").appendChild(giftBtn);
 
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
