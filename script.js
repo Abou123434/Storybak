@@ -287,14 +287,22 @@ function openViewer(u){
     document.getElementById("viewer").style.display="flex";
     showStory();
 }
-function renderProgressBars(){
-    let c=document.getElementById("progressContainer"); c.innerHTML="";
-    users[currentUser].stories.forEach((s,i)=>{
-        let bar=document.createElement("div"); bar.className="progress";
-        let inner=document.createElement("div"); inner.className="progress-inner";
-        if(i<currentIndex) inner.style.width="100%";
-        bar.appendChild(inner); c.appendChild(bar);
-    });
+
+/* PROGRESS */
+function renderProgressBars(activeIndex){
+  let container = document.getElementById("progressContainer");
+  container.innerHTML = "";
+  let stories = users[currentUser].stories;
+  stories.forEach((s,i)=>{
+    let bar = document.createElement("div");
+    bar.className = "progress";
+    let inner = document.createElement("div");
+    inner.className = "progress-inner";
+    if(i<activeIndex) inner.style.width = "100%";
+    if(i>activeIndex) inner.style.width = "0%";
+    bar.appendChild(inner);
+    container.appendChild(bar);
+  });
 }
 function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner");
