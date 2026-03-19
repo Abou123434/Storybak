@@ -682,7 +682,7 @@ function closeViewer(){
     document.getElementById("viewer").style.display = "none";
 
     // 🔥 remettre le menu
-    document.getElementById("hamburger").style.display = "block";
+    document.querySelector("header").style.display = "block";
 }
 
 /* ===== CADEAUX ===== */
