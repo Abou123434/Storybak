@@ -21,10 +21,31 @@ header { padding: 15px; background: #111; text-align: center; }
 .tap-left { left: 0; }
 .tap-right { right: 0; }
 
-/* PROGRESS */
-.progress-container { position: absolute; top: 15px; left: 10px; right: 10px; height: 4px; display: flex; gap: 5px; z-index: 10; }
-.progress { flex: 1; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; }
-.progress-inner { height: 100%; width: 0%; background: white; transition: width 0.05s linear; }
+/* ✅ PROGRESS (CORRIGÉ ICI) */
+#progressContainer { 
+  position: absolute; 
+  top: 15px; 
+  left: 10px; 
+  right: 10px; 
+  height: 4px; 
+  display: flex; 
+  gap: 5px; 
+  z-index: 10; 
+}
+
+.progress { 
+  flex: 1; 
+  background: rgba(255,255,255,0.3); 
+  border-radius: 4px; 
+  overflow: hidden; 
+}
+
+.progress-inner { 
+  height: 100%; 
+  width: 0%; 
+  background: white; 
+  transition: width 0.05s linear; 
+}
 
 /* compteur vues */
 .view-count { position: absolute; bottom: 20px; left: 15px; font-size: 14px; background: rgba(0,0,0,0.6); padding: 6px 10px; border-radius: 20px; display: flex; align-items: center; }
