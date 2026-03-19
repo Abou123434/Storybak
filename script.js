@@ -372,7 +372,7 @@ function startProgress(s){
     if(s.type === "image"){
         dur = 5000;
     } else {
-        dur = s.duration || 10000; // 🔥 prend la vraie durée du segment
+        dur = s.duration || 10000;
     }
 
     clearInterval(timer);
