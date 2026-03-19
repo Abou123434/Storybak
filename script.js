@@ -588,18 +588,21 @@ document.getElementById("viewer").appendChild(giftBtn);
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
 
-    // 🔥 supprimer ancien bouton (évite doublon)
-    let oldBtn = document.getElementById("deleteBtn");
-    if(oldBtn) oldBtn.remove();
+// ⚡ Bouton supprimer (uniquement si c'est ton profil)
+if(currentProfile.username === currentUser){
 
+    // 🔥 supprimer TOUS les anciens boutons supprimer
+    document.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
+
+    // ✅ créer nouveau bouton
     let delBtn = document.createElement("button");
-    delBtn.id = "deleteBtn";
+    delBtn.className = "deleteBtn";
     delBtn.innerText = "Supprimer";
 
-    // 📍 position en haut à droite (descendu un peu)
+    // 📍 position (haut droite + descendu)
     delBtn.style.position = "absolute";
     delBtn.style.top = "45px";   // ajuste si besoin
-    delBtn.style.right = "10px"; // collé à droite
+    delBtn.style.right = "10px";
     delBtn.style.zIndex = "9999";
 
     // 🎨 style
@@ -611,6 +614,7 @@ if(currentProfile.username === currentUser){
     delBtn.style.cursor = "pointer";
     delBtn.style.whiteSpace = "nowrap";
 
+    // 🧠 action
     delBtn.onclick = () => {
         if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1);
