@@ -107,7 +107,7 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     el.style.maxWidth = "100%";
     el.style.maxHeight = "80vh";
     content.appendChild(el);
-}
+
     previewFile = file; // garder le fichier pour publication
 /* ===== BOOSTER ===== */
 // Créer le modal booster si pas déjà présent
