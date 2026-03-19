@@ -86,17 +86,22 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     // 👇 ouvrir viewer
     document.getElementById("viewer").style.display = "flex";
 
-    // 🔥 cacher le header (menu)
+    // 🔥 cacher le header
     document.querySelector("header").style.display = "none";
 
     let content = document.getElementById("content");
-    content.innerHTML = "";
+    content.innerHTML = ""; // OK car seulement image/video
+
+    let controls = document.getElementById("controls");
+    controls.innerHTML = ""; // reset boutons propre
 
     let el;
+
     if(file.type.startsWith("video")){
         el = document.createElement("video");
         el.src = URL.createObjectURL(file);
         el.controls = true;
+        el.autoplay = true;
     } else {
         el = document.createElement("img");
         let reader = new FileReader();
@@ -106,8 +111,27 @@ document.getElementById("fileInput").addEventListener("change", e=>{
 
     el.style.maxWidth = "100%";
     el.style.maxHeight = "80vh";
+
     content.appendChild(el);
 
+    // 🔥 recréer les boutons
+    let sendBtn = document.createElement("button");
+    sendBtn.innerText = "📤 Publier";
+    sendBtn.onclick = () => {
+        alert("Story publiée !");
+    };
+
+    let cancelBtn = document.createElement("button");
+    cancelBtn.innerText = "❌ Annuler";
+    cancelBtn.onclick = () => {
+        document.getElementById("viewer").style.display = "none";
+        document.querySelector("header").style.display = "block";
+    };
+
+    controls.appendChild(sendBtn);
+    controls.appendChild(cancelBtn);
+});
+    
     previewFile = file; // garder le fichier pour publication
 /* ===== BOOSTER ===== */
 // Créer le modal booster si pas déjà présent
