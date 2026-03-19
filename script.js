@@ -83,12 +83,31 @@ document.getElementById("fileInput").addEventListener("change", e=>{
 
     previewFile = file;
 
-    // 👇 ICI
+    // 👇 ouvrir viewer
     document.getElementById("viewer").style.display = "flex";
 
-    // 🔥 AJOUTE ÇA
+    // 🔥 cacher le header (menu)
     document.querySelector("header").style.display = "none";
 
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    let el;
+    if(file.type.startsWith("video")){
+        el = document.createElement("video");
+        el.src = URL.createObjectURL(file);
+        el.controls = true;
+    } else {
+        el = document.createElement("img");
+        let reader = new FileReader();
+        reader.onload = ev => { el.src = ev.target.result; }
+        reader.readAsDataURL(file);
+    }
+
+    el.style.maxWidth = "100%";
+    el.style.maxHeight = "80vh";
+    content.appendChild(el);
+});
     previewFile = file; // garder le fichier pour publication
 /* ===== BOOSTER ===== */
 // Créer le modal booster si pas déjà présent
