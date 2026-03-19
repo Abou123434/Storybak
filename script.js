@@ -305,7 +305,7 @@ function renderProgressBars(activeIndex){
   });
 }
   // Barre progression
-  function startProgress(s){
+function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner");
 
     // sécurité
@@ -341,7 +341,6 @@ function renderProgressBars(activeIndex){
             }
         }
     }, 50);
-}
 
   timer = setInterval(()=>{
     if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
