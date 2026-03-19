@@ -81,6 +81,14 @@ document.getElementById("fileInput").addEventListener("change", e=>{
     let file = e.target.files[0]; 
     if(!file) return;
 
+    previewFile = file;
+
+    // 👇 ICI
+    document.getElementById("viewer").style.display = "flex";
+
+    // 🔥 AJOUTE ÇA
+    document.querySelector("header").style.display = "none";
+
     previewFile = file; // garder le fichier pour publication
 /* ===== BOOSTER ===== */
 // Créer le modal booster si pas déjà présent
