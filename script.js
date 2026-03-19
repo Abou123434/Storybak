@@ -305,10 +305,43 @@ function renderProgressBars(activeIndex){
   });
 }
   // Barre progression
-  function startProgress(story){
-  let bars = document.querySelectorAll(".progress-inner");
-  let width = 0;
-  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
+  function startProgress(s){
+    let bars = document.querySelectorAll(".progress-inner");
+
+    // sécurité
+    if(!bars[currentIndex]) return;
+
+    let w = 0;
+
+    // durée correcte
+    let dur;
+    if(s.type === "image"){
+        dur = 5000; // 5 secondes
+    } else {
+        dur = s.duration || (s.end - s.start) * 1000;
+    }
+
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        w += 100 / (dur / 50);
+
+        if(bars[currentIndex]){
+            bars[currentIndex].style.width = Math.min(w, 100) + "%";
+        }
+
+        if(w >= 100){
+            clearInterval(timer);
+
+            if(currentIndex < users[currentUser].stories.length - 1){
+                currentIndex++;
+                showStory();
+            } else {
+                closeViewer();
+            }
+        }
+    }, 50);
+}
 
   timer = setInterval(()=>{
     if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
