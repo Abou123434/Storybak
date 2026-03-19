@@ -632,7 +632,6 @@ if(currentProfile.username === currentUser){
     // ✅ ajouter au viewer
     document.getElementById("viewer").appendChild(delBtn);
 }
-}
 
     if(currentProfile.username===currentUser){  
         let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
