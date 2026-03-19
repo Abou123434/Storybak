@@ -561,19 +561,18 @@ controls.appendChild(viewBtn);
 // ⚡ Bouton cadeau
 let giftBtn = document.createElement("button");
 
-// ✅ texte complet
 giftBtn.innerHTML = "🎁 Envoyer un cadeau";
 
-// 📍 position en haut à droite
+// 📍 position à gauche + descendu
 giftBtn.style.position = "absolute";
-giftBtn.style.top = "15px";
-giftBtn.style.right = "10px";
+giftBtn.style.top = "45px";   // 👈 descend (ajuste 40 / 50)
+giftBtn.style.left = "10px";  // 👈 à gauche
 giftBtn.style.zIndex = "9999";
 
-// 🔥 empêche que ça parte à gauche
+// 🔥 alignement texte
 giftBtn.style.display = "flex";
 giftBtn.style.alignItems = "center";
-giftBtn.style.justifyContent = "center"; // centre le contenu
+giftBtn.style.whiteSpace = "nowrap";
 
 // 🎨 style
 giftBtn.style.background = "#FFD700";
@@ -582,14 +581,10 @@ giftBtn.style.border = "none";
 giftBtn.style.padding = "6px 12px";
 giftBtn.style.borderRadius = "20px";
 giftBtn.style.cursor = "pointer";
-giftBtn.style.whiteSpace = "nowrap"; // 🔥 TRÈS IMPORTANT (empêche retour ligne)
 
-// action
 giftBtn.onclick = () => openGiftModal();
 
-// ajouter au viewer
 document.getElementById("viewer").appendChild(giftBtn);
-
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
 
