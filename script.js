@@ -588,9 +588,6 @@ document.getElementById("viewer").appendChild(giftBtn);
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
 
-// ⚡ Bouton supprimer (uniquement si c'est ton profil)
-if(currentProfile.username === currentUser){
-
     // 🔥 supprimer TOUS les anciens boutons supprimer
     document.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
 
@@ -636,6 +633,7 @@ if(currentProfile.username === currentUser){
     // ✅ ajouter au viewer
     document.getElementById("viewer").appendChild(delBtn);
 }
+
 
     if(currentProfile.username===currentUser){  
         let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
