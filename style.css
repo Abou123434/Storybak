@@ -38,8 +38,6 @@ header { padding: 15px; background: #111; text-align: center; }
 /* compteur vues */
 .view-count { position: absolute; bottom: 20px; left: 15px; font-size: 14px; background: rgba(0,0,0,0.6); padding: 6px 10px; border-radius: 20px; display: flex; align-items: center; }
 
-
-
 /* MODALES */
 #giftModal, #buyCoinsModal, #paymentModal, #kycModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1001; }
 .modal-content { background: #111; color: white; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
@@ -83,4 +81,4 @@ header { padding: 15px; background: #111; text-align: center; }
     .story img { width: 50px; height: 50px; }
     #progressControls button { padding: 8px 12px; font-size: 14px; }
     .content img, .content video { max-height: 70vh; }
-                }
+}
