@@ -283,8 +283,15 @@ if(previewFile.type.startsWith("video")){
 /* ===== VIEWER ===== */
 function openViewer(u){
     if(users[u].stories.length===0) return;
-    currentUser = u; currentIndex=0;
-    document.getElementById("viewer").style.display="flex";
+
+    currentUser = u;
+    currentIndex = 0;
+
+    document.getElementById("viewer").style.display = "flex";
+
+    // 🔥 cacher le menu
+    document.getElementById("hamburger").style.display = "none";
+
     showStory();
 }
 
