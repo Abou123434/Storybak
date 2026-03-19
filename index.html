@@ -18,27 +18,36 @@
 
 <!-- VIEWER -->
 <div class="viewer" id="viewer">
-  <!-- 🔥 BARRES PROGRESSION -->
+
+  <!-- BARRES PROGRESSION -->
   <div id="progressContainer"></div>
 
   <!-- CONTENU -->
   <div class="content" id="content"></div>
 
-  <!-- VUES -->
-  <div class="view-count" id="viewCount"></div>
+  <!-- INFOS BAS -->
+  <div class="bottom-bar">
+
+    <!-- VUES -->
+    <div class="view-count" id="viewCount"></div>
+
+    <!-- REACTIONS -->
     <div class="reactions">
       <span onclick="react('❤️')">❤️</span>
       <span onclick="react('😂')">😂</span>
       <span onclick="react('🔥')">🔥</span>
       <span onclick="react('😮')">😮</span>
     </div>
+
   </div>
+
   <!-- NAVIGATION -->
   <div class="tap-left" onclick="prevStory()"></div>
   <div class="tap-right" onclick="nextStory()"></div>
 
   <!-- BOUTONS -->
   <div id="progressControls"></div>
+
 </div>
 
 <!-- MODAL CADEAUX -->
@@ -177,4 +186,4 @@
 
 <script src="script.js"></script>
 </body>
-      </html>
+</html>
