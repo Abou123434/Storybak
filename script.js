@@ -588,34 +588,50 @@ document.getElementById("viewer").appendChild(giftBtn);
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
 
-    // Vérifier si le bouton existe déjà
-    let existingDelBtn = document.getElementById("deleteBtn");
+    // 🔥 supprimer ancien bouton (évite doublon)
+    let oldBtn = document.getElementById("deleteBtn");
+    if(oldBtn) oldBtn.remove();
 
-    if(!existingDelBtn){
-        let delBtn = document.createElement("button");
-        delBtn.id = "deleteBtn"; // 👈 ID UNIQUE
-        delBtn.innerText = "Supprimer";
+    let delBtn = document.createElement("button");
+    delBtn.id = "deleteBtn";
+    delBtn.innerText = "Supprimer";
 
-        delBtn.onclick = () => {
-            if(confirm("Supprimer cette story ?")){
-                users[currentUser].stories.splice(currentIndex,1);
-                saveData();
+    // 📍 position en haut à droite (descendu un peu)
+    delBtn.style.position = "absolute";
+    delBtn.style.top = "45px";   // ajuste si besoin
+    delBtn.style.right = "10px"; // collé à droite
+    delBtn.style.zIndex = "9999";
 
-                if(users[currentUser].stories.length === 0){
-                    closeViewer();
-                    return;
-                }
+    // 🎨 style
+    delBtn.style.background = "#ff4444";
+    delBtn.style.color = "#fff";
+    delBtn.style.border = "none";
+    delBtn.style.padding = "6px 12px";
+    delBtn.style.borderRadius = "20px";
+    delBtn.style.cursor = "pointer";
+    delBtn.style.whiteSpace = "nowrap";
 
-                if(currentIndex >= users[currentUser].stories.length){
-                    currentIndex = users[currentUser].stories.length - 1;
-                }
+    delBtn.onclick = () => {
+        if(confirm("Supprimer cette story ?")){
+            users[currentUser].stories.splice(currentIndex,1);
+            saveData();
 
-                showStory();
+            if(users[currentUser].stories.length === 0){
+                closeViewer();
+                return;
             }
-        };
 
-        controls.appendChild(delBtn);
-    }
+            if(currentIndex >= users[currentUser].stories.length){
+                currentIndex = users[currentUser].stories.length - 1;
+            }
+
+            showStory();
+        }
+    };
+
+    // ✅ ajouter au viewer
+    document.getElementById("viewer").appendChild(delBtn);
+}
 }
 
     if(currentProfile.username===currentUser){  
