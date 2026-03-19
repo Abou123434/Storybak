@@ -282,96 +282,51 @@ if(previewFile.type.startsWith("video")){
     
 /* ===== VIEWER ===== */
 function openViewer(u){
-    if(users[u].stories.length === 0) return;
-
-    currentUser = u;
-    currentIndex = 0;
-
-    document.getElementById("viewer").style.display = "flex";
-
+    if(users[u].stories.length===0) return;
+    currentUser = u; currentIndex=0;
+    document.getElementById("viewer").style.display="flex";
     showStory();
 }
 
-/* ===== SHOW STORY ===== */
-function showStory(){
-    clearInterval(timer);
-
-    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-        closeViewer();
-        return;
-    }
-
-    let s = users[currentUser].stories[currentIndex];
-
-    // 🔥 afficher les barres
-    renderProgressBars(currentIndex);
-
-    // 🔥 petit délai pour éviter bug visuel
-    setTimeout(()=>{
-        startProgress(s);
-    },100);
-}
-
-/* ===== PROGRESS BARS ===== */
+/* PROGRESS */
 function renderProgressBars(activeIndex){
-    let container = document.getElementById("progressContainer");
-    container.innerHTML = "";
-
-    let stories = users[currentUser].stories;
-
-    stories.forEach((s, i)=>{
-        let bar = document.createElement("div");
-        bar.className = "progress";
-
-        let inner = document.createElement("div");
-        inner.className = "progress-inner";
-
-        if(i < activeIndex) inner.style.width = "100%";
-        if(i > activeIndex) inner.style.width = "0%";
-
-        bar.appendChild(inner);
-        container.appendChild(bar);
-    });
+  let container = document.getElementById("progressContainer");
+  container.innerHTML = "";
+  let stories = users[currentUser].stories;
+  stories.forEach((s,i)=>{
+    let bar = document.createElement("div");
+    bar.className = "progress";
+    let inner = document.createElement("div");
+    inner.className = "progress-inner";
+    if(i<activeIndex) inner.style.width = "100%";
+    if(i>activeIndex) inner.style.width = "0%";
+    bar.appendChild(inner);
+    container.appendChild(bar);
+  });
 }
+  // Barre progression
+  function startProgress(story){
+  let bars = document.querySelectorAll(".progress-inner");
+  let width = 0;
+  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
 
-/* ===== START PROGRESS ===== */
-function startProgress(story){
-    let bars = document.querySelectorAll(".progress-inner");
+  timer = setInterval(()=>{
+    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
+      clearInterval(timer);
+      closeViewer();
+      return;
+    }
+    width += 100/(duration/50);
+    bars[currentIndex].style.width = Math.min(width,100)+"%";
 
-    if(!bars[currentIndex]) return;
-
-    let width = 0;
-
-    let duration = story.type === "image"
-        ? 5000
-        : (story.endTime - story.startTime) * 1000;
-
-    clearInterval(timer);
-
-    timer = setInterval(()=>{
-
-        if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-            clearInterval(timer);
-            closeViewer();
-            return;
-        }
-
-        width += 100 / (duration / 50);
-
-        bars[currentIndex].style.width = Math.min(width, 100) + "%";
-
-        if(width >= 100){
-            clearInterval(timer);
-
-            if(currentIndex < users[currentUser].stories.length - 1){
-                currentIndex++;
-                showStory();
-            } else {
-                closeViewer();
-            }
-        }
-
-    },50);
+    if(width >= 100){
+      clearInterval(timer);
+      if(currentIndex < users[currentUser].stories.length - 1){
+        currentIndex++;
+        showStory();
+      } else closeViewer();
+    }
+  },50);
 }
 
 function startProgress(s){
@@ -678,16 +633,6 @@ if(currentProfile.username === currentUser){
 }
 
 
-    if(currentProfile.username===currentUser){  
-        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
-        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
-            users[currentUser].stories.splice(currentIndex,1); saveData();  
-            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
-            showStory();  
-        }};  
-        controls.appendChild(delBtn);  
-    }
-}
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
