@@ -364,6 +364,12 @@ function startProgress(s){
         }
     }, 50);
 }
+let c=document.getElementById("content"); 
+c.innerHTML="";
+// 🔥 supprimer TOUS les boutons supprimer dans le viewer
+let viewer = document.getElementById("viewer");
+viewer.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
+
 function showStory(){
     clearInterval(timer);
     let s=users[currentUser].stories[currentIndex];
@@ -588,21 +594,15 @@ document.getElementById("viewer").appendChild(giftBtn);
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
 if(currentProfile.username === currentUser){
 
-    // 🔥 supprimer TOUS les anciens boutons supprimer
-    document.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
-
-    // ✅ créer nouveau bouton
     let delBtn = document.createElement("button");
     delBtn.className = "deleteBtn";
     delBtn.innerText = "Supprimer";
 
-    // 📍 position (haut droite + descendu)
     delBtn.style.position = "absolute";
-    delBtn.style.top = "45px";   // ajuste si besoin
+    delBtn.style.top = "45px";
     delBtn.style.right = "10px";
     delBtn.style.zIndex = "9999";
 
-    // 🎨 style
     delBtn.style.background = "#ff4444";
     delBtn.style.color = "#fff";
     delBtn.style.border = "none";
@@ -611,7 +611,6 @@ if(currentProfile.username === currentUser){
     delBtn.style.cursor = "pointer";
     delBtn.style.whiteSpace = "nowrap";
 
-    // 🧠 action
     delBtn.onclick = () => {
         if(confirm("Supprimer cette story ?")){
             users[currentUser].stories.splice(currentIndex,1);
@@ -630,8 +629,7 @@ if(currentProfile.username === currentUser){
         }
     };
 
-    // ✅ ajouter au viewer
-    document.getElementById("viewer").appendChild(delBtn);
+    viewer.appendChild(delBtn);
 }
 
 
