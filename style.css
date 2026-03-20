@@ -428,3 +428,29 @@ label {
   pointer-events: none; /* bouton inactif */
   opacity: 0.8;
 }
+
+/* BOUTONS ADMIN */
+.admin-actions {
+  display: flex;
+  flex-direction: column; /* 🔥 vertical */
+  gap: 12px;
+  padding: 20px;
+}
+
+/* STYLE DES BOUTONS */
+.admin-btn {
+  padding: 15px;
+  background: #1c1c1c;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.admin-btn:hover {
+  background: #25D366;
+  color: black;
+}
