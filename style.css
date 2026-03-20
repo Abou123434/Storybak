@@ -107,11 +107,11 @@ header {
   bottom: 90px;
   right: 20px;
   background: rgba(0,0,0,0.6);
-  padding: 12px 25px;
-  border-radius: 35px;
+  padding: 14px 28px;
+  border-radius: 40px;
   display: flex;
-  gap: 15px;
-  font-size: 18px;
+  gap: 18px;
+  font-size: 20px;
 }
 
 /* ===== PROGRESS ===== */
@@ -166,14 +166,13 @@ header {
   font-weight: bold;
 }
 
-/* ===== MODALES ===== */
+/* ===== MODALES GENERAL ===== */
 #giftModal,
 #buyCoinsModal,
 #paymentModal,
 #kycModal,
 #walletOverlay,
-#withdrawModal,
-#adminPanel {
+#withdrawModal {
   display: none;
   position: fixed;
   inset: 0;
@@ -183,13 +182,12 @@ header {
   z-index: 2000;
 }
 
-/* ===== BOITES ===== */
+/* ===== BOITE MODAL ===== */
 .modal-content,
-.wallet-content,
-.admin-content {
-  background: #111;
+.wallet-content {
+  background: #0f0f0f;
   padding: 25px;
-  border-radius: 20px;
+  border-radius: 25px;
   width: 90%;
   max-width: 380px;
   text-align: center;
@@ -197,8 +195,7 @@ header {
 
 /* ===== TITRES ===== */
 .modal-content h2,
-.wallet-content h2,
-.admin-content h2 {
+.wallet-content h2 {
   color: #25D366;
   margin-bottom: 15px;
 }
@@ -212,6 +209,14 @@ input, select {
   border: 1px solid #25D366;
   background: #0f0f0f;
   color: white;
+}
+
+/* ===== LABEL ===== */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #FFD700;
+  font-weight: bold;
 }
 
 /* ===== BOUTONS ===== */
@@ -236,7 +241,6 @@ input, select {
   margin-top: 10px;
 }
 
-/* ===== WALLET ===== */
 .wallet-buttons {
   display: flex;
   gap: 15px;
@@ -245,6 +249,7 @@ input, select {
 
 .wallet-buttons button {
   flex: 1;
+  background: #25D366;
   padding: 15px;
   border-radius: 14px;
   border: none;
@@ -267,10 +272,46 @@ input, select {
   color: black;
 }
 
-/* ===== GIFT ===== */
+.wallet-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+}
+
+/* ACHETER (JAUNE) */
+.buy-action {
+  background: #FFD700;
+  color: black;
+}
+
+/* RETRAIT (ROUGE) */
+.withdraw-action {
+  background: #ff3b3b;
+  color: white;
+}
+
+/* ===== GIFT MODAL ===== */
 .balance {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.buy-btn {
+  background: #FFD700;
+  color: black;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  border: none;
+  width: 100%;
+}
+
+.gift-title {
   font-size: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .gift-btn {
@@ -295,18 +336,7 @@ input, select {
   margin-top: 15px;
 }
 
-/* ===== ADMIN PANEL ===== */
-#adminPanel {
-  background: rgba(0,0,0,0.95);
-  z-index: 9999;
-}
-
-.admin-content button {
-  width: 100%;
-  margin-top: 10px;
-}
-
-/* ===== MENU ===== */
+/* ===== MENU (VERTICAL FIX) ===== */
 #hamburgerContainer {
   position: fixed;
   bottom: 20px;
@@ -351,4 +381,4 @@ input, select {
 @media(max-width:480px){
   .story img { width: 50px; height: 50px; }
   .content img, .content video { max-height: 70vh; }
-  }
+    }
