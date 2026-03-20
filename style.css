@@ -23,18 +23,18 @@ header { padding: 15px; background: #111; text-align: center; }
 
 /* 🔥 REACTIONS */
 .reactions {
-  position: mulieu; /* correction ici */
-  bottom: 90px; /* un peu plus haut */
+  position: absolute; /* corrigé */
+  bottom: 90px;
   right: 20px;
   background: rgba(0,0,0,0.6);
-  padding: 12px 25px; /* plus grand */
+  padding: 12px 25px;
   border-radius: 35px;
   display: flex;
-  gap: 15px; /* espace entre emojis */
+  gap: 15px;
   align-items: center;
 }
 
-/* ✅ PROGRESS */
+/* PROGRESS */
 #progressContainer { 
   position: absolute; 
   top: 15px; 
@@ -61,54 +61,207 @@ header { padding: 15px; background: #111; text-align: center; }
 }
 
 /* compteur vues */
-.view-count { position: absolute; bottom: 20px; left: 15px; font-size: 14px; background: rgba(0,0,0,0.6); padding: 6px 10px; border-radius: 20px; display: flex; align-items: center; }
+.view-count { 
+  position: absolute; 
+  bottom: 20px; 
+  left: 15px; 
+  font-size: 14px; 
+  background: rgba(0,0,0,0.6); 
+  padding: 6px 10px; 
+  border-radius: 20px; 
+  display: flex; 
+  align-items: center; 
+}
 
 /* PROGRESS CONTROLS */
-#progressControls { display: flex; align-items: center; justify-content: center; position: absolute; bottom: 60px; left: 0; width: 100%; gap: 10px; }
-#progressControls button { background: #25D366; border: none; padding: 10px 16px; border-radius: 10px; font-weight: bold; cursor: pointer; color: black; transition: 0.3s; }
+#progressControls { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  position: absolute; 
+  bottom: 60px; 
+  left: 0; 
+  width: 100%; 
+  gap: 10px; 
+}
+
+#progressControls button { 
+  background: #25D366; 
+  border: none; 
+  padding: 10px 16px; 
+  border-radius: 10px; 
+  font-weight: bold; 
+  cursor: pointer; 
+  color: black; 
+  transition: 0.3s; 
+}
+
 #progressControls button:hover { transform: scale(1.1); }
 
 /* MODALES */
-#giftModal, #buyCoinsModal, #paymentModal, #kycModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1001; }
-.modal-content { background: #111; color: white; padding: 25px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; }
-.gift-options button, .green-btn { margin: 5px; padding: 10px 15px; border: none; border-radius: 10px; background: #25D366; color: black; font-weight: bold; cursor: pointer; transition: 0.3s; }
+#giftModal, #buyCoinsModal, #paymentModal, #kycModal { 
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.9); 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 1001; 
+}
+
+.modal-content { 
+  background: #111; 
+  color: white; 
+  padding: 25px; 
+  border-radius: 15px; 
+  text-align: center; 
+  width: 90%; 
+  max-width: 400px; 
+}
+
+.gift-options button, .green-btn { 
+  margin: 5px; 
+  padding: 10px 15px; 
+  border: none; 
+  border-radius: 10px; 
+  background: #25D366; 
+  color: black; 
+  font-weight: bold; 
+  cursor: pointer; 
+  transition: 0.3s; 
+}
+
 .gift-options button:hover, .green-btn:hover { transform: scale(1.05); }
+
 #coinBalance { font-size: 18px; margin-bottom: 15px; }
-#buyCoins { margin-top: 5px; padding: 8px 12px; border-radius: 5px; border: none; background: #FFD700; color: black; cursor: pointer; }
+
+#buyCoins { 
+  margin-top: 5px; 
+  padding: 8px 12px; 
+  border-radius: 5px; 
+  border: none; 
+  background: #FFD700; 
+  color: black; 
+  cursor: pointer; 
+}
+
 #giftMessage { margin-top: 10px; color: #FFD700; font-weight: bold; }
-.red-btn { background: red; color: white; padding: 8px 12px; border: none; border-radius: 10px; margin-top: 10px; cursor: pointer; }
+
+.red-btn { 
+  background: red; 
+  color: white; 
+  padding: 8px 12px; 
+  border: none; 
+  border-radius: 10px; 
+  margin-top: 10px; 
+  cursor: pointer; 
+}
 
 /* HAMBURGER MENU */
 #hamburgerContainer { position: fixed; bottom: 20px; right: 20px; z-index: 1002; }
-#hamburger { font-size: 28px; cursor: pointer; background: #25D366; color: white; padding: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
-#menuOptions { display: none; flex-direction: column; background: #111; border: 1px solid #25D366; border-radius: 8px; margin-top: 5px; padding: 8px; position: absolute; bottom: 60px; right: 0; }
-#menuOptions p { margin: 5px 0; color: white; cursor: pointer; padding: 5px 8px; border-radius: 5px; transition: 0.2s; }
+
+#hamburger { 
+  font-size: 28px; 
+  cursor: pointer; 
+  background: #25D366; 
+  color: white; 
+  padding: 12px; 
+  border-radius: 50%; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+#menuOptions { 
+  display: none; 
+  flex-direction: column; 
+  background: #111; 
+  border: 1px solid #25D366; 
+  border-radius: 8px; 
+  margin-top: 5px; 
+  padding: 8px; 
+  position: absolute; 
+  bottom: 60px; 
+  right: 0; 
+}
+
+#menuOptions p { 
+  margin: 5px 0; 
+  color: white; 
+  cursor: pointer; 
+  padding: 5px 8px; 
+  border-radius: 5px; 
+  transition: 0.2s; 
+}
+
 #menuOptions p:hover { background: #25D366; color: black; }
 
-/* OVERLAY PORTEFEUILLE */
-#walletOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 2000; }
-.wallet-content { background: #111; padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; color: white; }
-.wallet-content h2 { margin-bottom: 20px; color: #25D366; }
-.wallet-content p { font-size: 18px; margin: 10px 0; }
-.wallet-buttons { margin-top: 15px; display: flex; gap: 15px; justify-content: center; }
-.wallet-buttons button { background: #25D366; color: black; font-weight: bold; padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; opacity: 0.7; }
+/* WALLET */
+#walletOverlay { 
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.95); 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 2000; 
+}
 
-/* MODAL RETRAIT */
-#withdrawModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; z-index: 3000; }
-#withdrawModal .modal-content { background: #111; padding: 30px 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 450px; color: white; }
-#withdrawModal h3 { margin-bottom: 15px; color: #25D366; }
-#withdrawModal .green-btn, #withdrawPaypalBtn { margin: 10px; padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer; background: #25D366; color: black; font-weight: bold; font-size: 18px; }
-#withdrawModal .red-btn, #closeWithdraw { margin: 10px; padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer; background: red; color: white; font-weight: bold; font-size: 18px; }
-#withdrawMin { margin-top: 20px; font-size: 16px; color: #FFD700; font-weight: bold; }
+.wallet-content { 
+  background: #111; 
+  padding: 30px; 
+  border-radius: 15px; 
+  text-align: center; 
+  width: 90%; 
+  max-width: 400px; 
+  color: white; 
+}
 
-/* KYC */
-#kycModal input, #kycModal select { width: 100%; padding: 8px; margin: 5px 0 15px 0; border-radius: 8px; border: 1px solid #25D366; background: #0f0f0f; color: white; }
-#kycModal label { display: block; margin-bottom: 5px; color: #FFD700; font-weight: bold; }
-#kycModal button { margin-top: 5px; }
+/* WITHDRAW */
+#withdrawModal { 
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.95); 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 3000; 
+}
+
+/* 🔥 ADMIN PANEL FULLSCREEN */
+#adminPanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.admin-content {
+  width: 90%;
+  max-width: 500px;
+  background: #111;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.admin-section p {
+  padding: 15px;
+  margin: 10px 0;
+  background: #222;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
 /* RESPONSIVE */
 @media(max-width: 480px){
-    .story img { width: 50px; height: 50px; }
-    #progressControls button { padding: 8px 12px; font-size: 14px; }
-    .content img, .content video { max-height: 70vh; }
+  .story img { width: 50px; height: 50px; }
+  #progressControls button { padding: 8px 12px; font-size: 14px; }
+  .content img, .content video { max-height: 70vh; }
 }
