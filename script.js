@@ -481,10 +481,16 @@ function react(emoji){
   story.reactions[currentLoggedUser]=emoji; saveData();
 }
 function showReaction(emoji){
-  let container=document.querySelector(".reactions-display");
-  if(!container){ container=document.createElement("div"); container.className="reactions-display"; document.getElementById("viewer").appendChild(container);}
-  container.innerText=emoji;
-  setTimeout(()=>{ container.innerText=""; },1200);
+    let story = users[currentUser].stories[currentIndex];
+
+    if(!story.reactions){
+        story.reactions = {};
+    }
+
+    story.reactions[currentProfile.username] = emoji;
+
+    saveData();
+    showReaction(emoji);
 }
 
 
