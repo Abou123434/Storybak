@@ -21,7 +21,20 @@ header { padding: 15px; background: #111; text-align: center; }
 .tap-left { left: 0; }
 .tap-right { right: 0; }
 
-/* ✅ PROGRESS (CORRIGÉ ICI) */
+/* 🔥 REACTIONS */
+.reactions {
+  position: absolute;
+  bottom: 60px;
+  right: 15px;
+  background: rgba(0,0,0,0.6);
+  padding: 8px 15px;
+  border-radius: 25px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ✅ PROGRESS */
 #progressContainer { 
   position: absolute; 
   top: 15px; 
