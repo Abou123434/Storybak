@@ -472,6 +472,21 @@ else {
     s.views[currentProfile.username] = true;
     saveData();
 }
+/* REACTIONS */
+function react(emoji){
+  let storyId = currentUser+"_"+currentIndex;
+  localReactions[storyId] = emoji; saveLocal();
+  showReaction(emoji);
+  let story = users[currentUser].stories[currentIndex];
+  story.reactions[currentLoggedUser]=emoji; saveData();
+}
+function showReaction(emoji){
+  let container=document.querySelector(".reactions-display");
+  if(!container){ container=document.createElement("div"); container.className="reactions-display"; document.getElementById("viewer").appendChild(container);}
+  container.innerText=emoji;
+  setTimeout(()=>{ container.innerText=""; },1200);
+}
+
 
 // Création du bouton compteur
 let controls = document.getElementById("progressControls");
