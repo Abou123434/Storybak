@@ -494,20 +494,17 @@ function react(emoji){
 
 
 // afficher animation à l'écran
-function showReaction(emoji){
-  let container = document.querySelector(".reactions-display");
+function react(emoji){
+    let story = users[currentUser].stories[currentIndex];
 
-  if(!container){
-    container = document.createElement("div");
-    container.className = "reactions-display";
-    document.getElementById("viewer").appendChild(container);
-  }
+    if(!story.reactions){
+        story.reactions = {};
+    }
 
-  container.innerText = emoji;
+    story.reactions[currentProfile.username] = emoji;
 
-  setTimeout(()=>{
-    container.innerText = "";
-  }, 1200);
+    saveData();
+    showReaction(emoji);
 }
 
 
