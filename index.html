@@ -136,7 +136,22 @@
   <div id="menuOptions">
     <p id="walletBtn">Solde</p>
     <p id="changeProfileBtn">Changer profil</p>
+    <p id="adminBtn">Admin Panel</p> <!-- 🔥 AJOUT -->
     <p id="logoutBtn">Déconnexion</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <div class="modal-content">
+    <h3>⚙️ Admin Panel</h3>
+
+    <button onclick="deleteAllStories()">🗑 Supprimer toutes les stories</button>
+    <button onclick="resetCoins()">💰 Reset coins utilisateurs</button>
+    <button onclick="showAllUsers()">👥 Voir utilisateurs</button>
+
+    <br><br>
+    <button onclick="closeAdmin()" class="red-btn">Fermer</button>
   </div>
 </div>
 
