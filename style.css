@@ -166,13 +166,14 @@ header {
   font-weight: bold;
 }
 
-/* ===== MODALES GENERAL ===== */
+/* ===== MODALES ===== */
 #giftModal,
 #buyCoinsModal,
 #paymentModal,
 #kycModal,
 #walletOverlay,
-#withdrawModal {
+#withdrawModal,
+#adminPanel {
   display: none;
   position: fixed;
   inset: 0;
@@ -182,9 +183,10 @@ header {
   z-index: 2000;
 }
 
-/* ===== BOITE MODAL ===== */
+/* ===== BOITES ===== */
 .modal-content,
-.wallet-content {
+.wallet-content,
+.admin-content {
   background: #0f0f0f;
   padding: 25px;
   border-radius: 25px;
@@ -195,7 +197,8 @@ header {
 
 /* ===== TITRES ===== */
 .modal-content h2,
-.wallet-content h2 {
+.wallet-content h2,
+.admin-content h2 {
   color: #25D366;
   margin-bottom: 15px;
 }
@@ -211,15 +214,7 @@ input, select {
   color: white;
 }
 
-/* ===== LABEL ===== */
-label {
-  display: block;
-  margin-bottom: 5px;
-  color: #FFD700;
-  font-weight: bold;
-}
-
-/* ===== BOUTONS ===== */
+/* ===== BOUTONS GLOBAL ===== */
 .green-btn {
   background: #25D366;
   color: black;
@@ -241,6 +236,7 @@ label {
   margin-top: 10px;
 }
 
+/* ===== WALLET ===== */
 .wallet-buttons {
   display: flex;
   gap: 15px;
@@ -249,7 +245,6 @@ label {
 
 .wallet-buttons button {
   flex: 1;
-  background: #25D366;
   padding: 15px;
   border-radius: 14px;
   border: none;
@@ -272,45 +267,9 @@ label {
   color: black;
 }
 
-.wallet-buttons button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-weight: bold;
-}
-
-/* ACHETER (JAUNE) */
-.buy-action {
-  background: #FFD700;
-  color: black;
-}
-
-/* RETRAIT (ROUGE) */
-.withdraw-action {
-  background: #ff3b3b;
-  color: white;
-}
-
-/* ===== GIFT MODAL ===== */
+/* ===== GIFT ===== */
 .balance {
   font-size: 22px;
-  margin-bottom: 15px;
-}
-
-.buy-btn {
-  background: #FFD700;
-  color: black;
-  padding: 12px;
-  border-radius: 12px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  border: none;
-  width: 100%;
-}
-
-.gift-title {
-  font-size: 20px;
   margin-bottom: 15px;
 }
 
@@ -336,7 +295,7 @@ label {
   margin-top: 15px;
 }
 
-/* ===== MENU (VERTICAL FIX) ===== */
+/* ===== MENU ===== */
 #hamburgerContainer {
   position: fixed;
   bottom: 20px;
