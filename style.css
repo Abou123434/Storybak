@@ -107,10 +107,11 @@ header {
   bottom: 90px;
   right: 20px;
   background: rgba(0,0,0,0.6);
-  padding: 12px 25px;
-  border-radius: 35px;
+  padding: 14px 28px;
+  border-radius: 40px;
   display: flex;
-  gap: 15px;
+  gap: 18px;
+  font-size: 20px;
 }
 
 /* ===== PROGRESS ===== */
@@ -178,14 +179,15 @@ header {
   background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
+  z-index: 2000;
 }
 
 /* ===== BOITE MODAL ===== */
 .modal-content,
 .wallet-content {
-  background: #111;
+  background: #0f0f0f;
   padding: 25px;
-  border-radius: 20px;
+  border-radius: 25px;
   width: 90%;
   max-width: 380px;
   text-align: center;
@@ -253,14 +255,69 @@ label {
 
 .wallet-buttons button {
   flex: 1;
-  background: #25D366;
   padding: 12px;
   border-radius: 12px;
   border: none;
   font-weight: bold;
 }
 
-/* ===== MENU ===== */
+/* ACHETER (JAUNE) */
+.buy-action {
+  background: #FFD700;
+  color: black;
+}
+
+/* RETRAIT (ROUGE) */
+.withdraw-action {
+  background: #ff3b3b;
+  color: white;
+}
+
+/* ===== GIFT MODAL ===== */
+.balance {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.buy-btn {
+  background: #FFD700;
+  color: black;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  border: none;
+  width: 100%;
+}
+
+.gift-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.gift-btn {
+  display: block;
+  width: 100%;
+  background: #25D366;
+  color: black;
+  padding: 12px;
+  border-radius: 20px;
+  margin: 8px 0;
+  font-weight: bold;
+  border: none;
+}
+
+.close-btn {
+  background: red;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* ===== MENU (VERTICAL FIX) ===== */
 #hamburgerContainer {
   position: fixed;
   bottom: 20px;
@@ -272,6 +329,7 @@ label {
   padding: 12px;
   border-radius: 50%;
   font-size: 24px;
+  cursor: pointer;
 }
 
 #menuOptions {
@@ -282,11 +340,17 @@ label {
   background: #111;
   border: 1px solid #25D366;
   border-radius: 10px;
-  padding: 8px;
+  padding: 10px;
+  min-width: 150px;
 }
 
 #menuOptions p {
-  padding: 6px;
+  padding: 10px;
+  border-bottom: 1px solid #222;
+}
+
+#menuOptions p:last-child {
+  border-bottom: none;
 }
 
 #menuOptions p:hover {
@@ -298,4 +362,4 @@ label {
 @media(max-width:480px){
   .story img { width: 50px; height: 50px; }
   .content img, .content video { max-height: 70vh; }
-}
+  }
