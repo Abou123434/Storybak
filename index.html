@@ -61,9 +61,7 @@
       <button class="gift-btn" data-cost="100000">🐉 Dragon – 100 000 pièces</button>
     </div>
 
-    <div id="giftMessage"></div>
-
-    <button id="closeGiftModal" class="red-btn">Fermer</button>
+    <button class="red-btn" onclick="closeGift()">Fermer</button>
 
   </div>
 </div>
@@ -114,8 +112,6 @@
     <input type="file" id="kycDocument">
     <input type="file" id="kycSelfie">
 
-    <div id="kycMessage"></div>
-
     <button id="submitKYC" class="green-btn">Envoyer</button>
     <button id="closeKYC" class="red-btn">Fermer</button>
 
@@ -144,7 +140,6 @@
     <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
     <p>💰 Valeur : <span id="walletValue">0 €</span></p>
 
-    <!-- ✅ BOUTONS CORRIGÉS -->
     <div class="wallet-buttons">
       <button id="walletBuyCoins" class="buy-btn">+ Acheter des coins</button>
       <button id="withdrawBtn" class="withdraw-btn">Retirer</button>
@@ -171,7 +166,23 @@
   </div>
 </div>
 
+<!-- ===== 👑 ADMIN PANEL ===== -->
+<div id="adminPanel">
+  <div class="admin-content">
+
+    <h2>Admin Panel</h2>
+    <p>Bienvenue Admin 👑</p>
+
+    <button class="green-btn">Gérer les utilisateurs</button>
+    <button class="green-btn">Voir les paiements</button>
+    <button class="green-btn">Statistiques</button>
+
+    <button onclick="closeAdmin()" class="red-btn">Fermer</button>
+
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 </body>
-      </html>
+  </html>
