@@ -19,19 +19,14 @@
 <!-- VIEWER -->
 <div class="viewer" id="viewer">
 
-  <!-- BARRES PROGRESSION -->
   <div id="progressContainer"></div>
 
-  <!-- CONTENU -->
   <div class="content" id="content"></div>
 
-  <!-- INFOS BAS -->
   <div class="bottom-bar">
 
-    <!-- VUES -->
     <div class="view-count" id="viewCount"></div>
 
-    <!-- REACTIONS -->
     <div class="reactions">
       <span onclick="react('❤️')">❤️</span>
       <span onclick="react('😂')">😂</span>
@@ -41,18 +36,17 @@
 
   </div>
 
-  <!-- NAVIGATION -->
   <div class="tap-left" onclick="prevStory()"></div>
   <div class="tap-right" onclick="nextStory()"></div>
 
-  <!-- BOUTONS -->
   <div id="progressControls"></div>
 
 </div>
 
-<!-- MODAL CADEAUX -->
+<!-- 🎁 MODAL CADEAUX -->
 <div id="giftModal">
   <div class="modal-content">
+
     <div id="coinBalance">💰 0</div>
     <button id="buyCoins">+ Acheter des coins</button>
 
@@ -69,10 +63,11 @@
     <div id="giftMessage"></div>
 
     <button id="closeGiftModal" class="red-btn">Fermer</button>
+
   </div>
 </div>
 
-<!-- MODAL ACHAT COINS -->
+<!-- 💰 ACHAT COINS -->
 <div id="buyCoinsModal">
   <div class="modal-content">
     <h3>Acheter des pièces</h3>
@@ -87,7 +82,7 @@
   </div>
 </div>
 
-<!-- MODAL PAIEMENT -->
+<!-- 💳 PAIEMENT -->
 <div id="paymentModal">
   <div class="modal-content">
     <h3>Payer avec PayPal</h3>
@@ -96,109 +91,96 @@
   </div>
 </div>
 
-<!-- MODAL KYC -->
+<!-- 🔐 KYC -->
 <div id="kycModal">
   <div class="modal-content">
+
     <h3>Vérification KYC</h3>
 
-    <label>Nom complet</label>
     <input type="text" id="kycFullName" placeholder="Nom complet">
-
-    <label>Date de naissance</label>
     <input type="date" id="kycDOB">
-
-    <label>Pays</label>
     <input type="text" id="kycCountry" placeholder="Pays">
 
-    <label>Type de document</label>
     <select id="kycDocumentType">
       <option>Carte d'identité</option>
       <option>Passeport</option>
       <option>Permis de conduire</option>
     </select>
 
-    <label>Télécharger document</label>
     <input type="file" id="kycDocument">
-
-    <label>Selfie avec document (optionnel)</label>
     <input type="file" id="kycSelfie">
 
-    <div id="kycMessage" style="margin:10px 0;color:#FFD700;"></div>
+    <div id="kycMessage"></div>
 
-    <button id="submitKYC" class="green-btn">Envoyer pour vérification</button>
+    <button id="submitKYC" class="green-btn">Envoyer</button>
     <button id="closeKYC" class="red-btn">Fermer</button>
+
   </div>
 </div>
 
-<!-- MENU -->
+<!-- 🍔 MENU -->
 <div id="hamburgerContainer">
   <div id="hamburger">&#9776;</div>
+
   <div id="menuOptions">
     <p id="walletBtn">Solde</p>
     <p id="changeProfileBtn">Changer profil</p>
-    <p id="adminBtn">Admin Panel</p> <!-- 🔥 AJOUT -->
+
+    <!-- 🔥 ADMIN PANEL -->
+    <p id="adminBtn">Admin Panel</p>
+
     <p id="logoutBtn">Déconnexion</p>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel">
-  <div class="modal-content">
-    <h3>⚙️ Admin Panel</h3>
-
-    <button onclick="deleteAllStories()">🗑 Supprimer toutes les stories</button>
-    <button onclick="resetCoins()">💰 Reset coins utilisateurs</button>
-    <button onclick="showAllUsers()">👥 Voir utilisateurs</button>
-
-    <br><br>
-    <button onclick="closeAdmin()" class="red-btn">Fermer</button>
-  </div>
-</div>
-
-<!-- PORTEFEUILLE -->
+<!-- 💼 WALLET -->
 <div id="walletOverlay">
   <div class="wallet-content">
     <h2>Mon portefeuille</h2>
+
     <p>🪙 Coins : <span id="walletCoins">0</span></p>
     <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
-    <p>💰 Valeur estimée : <span id="walletValue">0 €</span></p>
+    <p>💰 Valeur : <span id="walletValue">0 €</span></p>
 
-    <div class="wallet-buttons">
-      <button id="walletBuyCoins">+ Acheter des coins</button>
-      <button id="withdrawBtn">Retirer</button>
-    </div>
+    <button id="walletBuyCoins">+ Acheter</button>
+    <button id="withdrawBtn">Retirer</button>
 
     <button id="closeWallet" class="red-btn">Fermer</button>
   </div>
 </div>
 
-<!-- MODAL RETRAIT -->
+<!-- 💸 RETRAIT -->
 <div id="withdrawModal">
   <div class="modal-content">
 
-    <h3>💸 Retirer</h3>
+    <h3>Retirer</h3>
 
-    <p>Solde disponible : <span id="withdrawBalance">0</span> €</p>
-    <p style="color:#aaa;">Retrait minimum : 15€</p>
+    <p>Solde : <span id="withdrawBalance">0</span> €</p>
 
-    <input 
-      type="number" 
-      id="withdrawAmount"
-      placeholder="Entrer le montant"
-      style="width:90%;padding:10px;border-radius:10px;border:none;margin-top:10px;"
-    >
-
-    <br><br>
+    <input type="number" id="withdrawAmount" placeholder="Montant">
 
     <button id="confirmWithdraw" class="green-btn">Retirer</button>
-
-    <br><br>
-
     <button id="closeWithdraw" class="red-btn">Fermer</button>
 
   </div>
 </div>
 
+<!-- 🔥 ADMIN MODAL -->
+<div id="adminModal">
+  <div class="modal-content">
+
+    <h3>Admin Panel</h3>
+
+    <button onclick="resetAllData()">🗑️ Reset Data</button>
+    <button onclick="giveCoins()">💰 Give Coins</button>
+    <button onclick="banUser()">🚫 Ban User</button>
+
+    <button id="closeAdmin" class="red-btn">Fermer</button>
+
+  </div>
+</div>
+
 <script src="script.js"></script>
+
 </body>
 </html>
