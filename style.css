@@ -23,14 +23,14 @@ header { padding: 15px; background: #111; text-align: center; }
 
 /* 🔥 REACTIONS */
 .reactions {
-  position: absolute;
-  bottom: 60px;
-  right: 15px;
+  position: mulieu;
+  bottom: 70px;
+  right: 20px;
   background: rgba(0,0,0,0.6);
-  padding: 8px 15px;
-  border-radius: 25px;
+  padding: 10px 20px;
+  border-radius: 30px;
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -111,4 +111,4 @@ header { padding: 15px; background: #111; text-align: center; }
     .story img { width: 50px; height: 50px; }
     #progressControls button { padding: 8px 12px; font-size: 14px; }
     .content img, .content video { max-height: 70vh; }
-                }
+}
