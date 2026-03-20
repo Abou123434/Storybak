@@ -23,14 +23,14 @@ header { padding: 15px; background: #111; text-align: center; }
 
 /* 🔥 REACTIONS */
 .reactions {
-  position: mulieu;
-  bottom: 70px;
+  position: mulieu; /* correction ici */
+  bottom: 90px; /* un peu plus haut */
   right: 20px;
   background: rgba(0,0,0,0.6);
-  padding: 10px 20px;
-  border-radius: 30px;
+  padding: 12px 25px; /* plus grand */
+  border-radius: 35px;
   display: flex;
-  gap: 10px;
+  gap: 15px; /* espace entre emojis */
   align-items: center;
 }
 
