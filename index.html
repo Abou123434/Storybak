@@ -20,6 +20,7 @@
 
 <!-- ===== VIEWER ===== -->
 <div class="viewer" id="viewer">
+
   <div id="progressContainer"></div>
   <div class="content" id="content"></div>
 
@@ -38,6 +39,7 @@
   <div class="tap-right" onclick="nextStory()"></div>
 
   <div id="progressControls"></div>
+
 </div>
 
 <!-- ===== 🎁 GIFT ===== -->
@@ -61,6 +63,7 @@
     <div id="giftMessage"></div>
 
     <button id="closeGiftModal" class="red-btn">Fermer</button>
+
   </div>
 </div>
 
@@ -114,6 +117,7 @@
 
     <button id="submitKYC" class="green-btn">Envoyer</button>
     <button id="closeKYC" class="red-btn">Fermer</button>
+
   </div>
 </div>
 
@@ -140,7 +144,7 @@
     <p>🪙 Valeur : <span id="walletValue">0 €</span></p>
 
     <div class="wallet-buttons">
-      <!-- bouton acheter supprimé -->
+      <button id="walletBuyCoins" class="buy-btn">+ Acheter des coins</button>
       <button id="withdrawBtn" class="withdraw-btn">Retirer</button>
     </div>
 
@@ -159,27 +163,29 @@
 
     <input type="number" id="withdrawAmount" placeholder="Montant">
 
-    <button onclick="sendToPaypal()" class="withdraw-btn">
-      Confirmer retrait
-    </button>
-
+    <button id="confirmWithdraw" class="withdraw-btn">Retirer</button>
     <button id="closeWithdraw" class="red-btn">Fermer</button>
 
   </div>
 </div>
 
-<!-- ===== ⚙️ ADMIN PANEL ===== -->
+<!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
 <div id="adminPanel">
+
   <div class="admin-header">
     <h2>Admin Panel</h2>
     <button onclick="closeAdmin()" class="red-btn">Fermer</button>
   </div>
 
+  <!-- ✅ TON BOUTON ICI -->
   <div class="platform-balance">
-    Solde de la plateforme
+  Solde de la plateforme
   </div>
 
-  <div class="admin-body"></div>
+  <div class="admin-body">
+    <!-- VIDE (zone admin) -->
+  </div>
+
 </div>
 
 <script src="script.js"></script>
