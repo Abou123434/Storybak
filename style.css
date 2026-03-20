@@ -69,18 +69,9 @@ header {
   inset: 0;
   background: rgba(0,0,0,0.95);
   display: none;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-}
-
-.content {
-  width: 100%;
-  height: 85vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .content img,
@@ -89,17 +80,6 @@ header {
   max-height: 80vh;
   border-radius: 15px;
 }
-
-/* zones clic */
-.tap-left, .tap-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-}
-
-.tap-left { left: 0; }
-.tap-right { right: 0; }
 
 /* ===== REACTIONS ===== */
 .reactions {
@@ -136,69 +116,129 @@ header {
   background: white;
 }
 
-/* ===== VUES ===== */
-.view-count {
-  position: absolute;
+/* ===== MENU (HAMBURGER) ===== */
+#hamburgerContainer {
+  position: fixed;
   bottom: 20px;
-  left: 15px;
-  font-size: 14px;
-  background: rgba(0,0,0,0.6);
-  padding: 6px 10px;
-  border-radius: 20px;
+  right: 20px;
+  z-index: 2000;
 }
 
-/* ===== CONTROLES ===== */
-#progressControls {
-  position: absolute;
-  bottom: 60px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-#progressControls button {
+#hamburger {
   background: #25D366;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-weight: bold;
+  padding: 14px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
 }
 
-/* ===== MODALES GENERAL ===== */
-#giftModal,
-#buyCoinsModal,
-#paymentModal,
-#kycModal,
+/* MENU VERTICAL */
+#menuOptions {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  bottom: 65px;
+  right: 0;
+  background: #111;
+  border: 1px solid #25D366;
+  border-radius: 12px;
+  padding: 10px;
+  gap: 5px;
+  min-width: 150px;
+}
+
+#menuOptions p {
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#menuOptions p:hover {
+  background: #25D366;
+  color: black;
+}
+
+/* ===== MODALES ===== */
 #walletOverlay,
-#withdrawModal {
+#kycModal,
+#withdrawModal,
+#buyCoinsModal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.95);
   justify-content: center;
   align-items: center;
+  z-index: 3000;
 }
 
-/* ===== BOITE MODAL ===== */
-.modal-content,
-.wallet-content {
+/* ===== BOX ===== */
+.wallet-content,
+.modal-content {
   background: #111;
   padding: 25px;
   border-radius: 20px;
   width: 90%;
-  max-width: 380px;
+  max-width: 360px;
   text-align: center;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
 }
 
 /* ===== TITRES ===== */
-.modal-content h2,
-.wallet-content h2 {
+.wallet-content h2,
+.modal-content h2 {
   color: #25D366;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-/* ===== INPUT ===== */
+/* ===== TEXTE ===== */
+.wallet-content p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* ===== BOUTONS WALLET ===== */
+.wallet-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* ACHETER */
+.buy-btn {
+  flex: 1;
+  background: #25D366;
+  color: black;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+}
+
+/* RETIRER */
+.withdraw-btn {
+  flex: 1;
+  background: #1DB954;
+  color: black;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+}
+
+/* FERMER */
+.close-btn {
+  margin-top: 15px;
+  width: 100%;
+  background: red;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+}
+
+/* ===== INPUT KYC ===== */
 input, select {
   width: 100%;
   padding: 10px;
@@ -209,93 +249,15 @@ input, select {
   color: white;
 }
 
-/* ===== LABEL ===== */
 label {
-  display: block;
-  margin-bottom: 5px;
   color: #FFD700;
   font-weight: bold;
 }
 
-/* ===== BOUTONS ===== */
-.green-btn {
-  background: #25D366;
-  color: black;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-weight: bold;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.red-btn {
-  background: red;
-  color: white;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  width: 100%;
-  margin-top: 10px;
-}
-
-/* ===== WALLET ===== */
-.wallet-content p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-.wallet-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.wallet-buttons button {
-  flex: 1;
-  background: #25D366;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-weight: bold;
-}
-
-/* ===== MENU ===== */
-#hamburgerContainer {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-#hamburger {
-  background: #25D366;
-  padding: 12px;
-  border-radius: 50%;
-  font-size: 24px;
-}
-
-#menuOptions {
-  display: none;
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  background: #111;
-  border: 1px solid #25D366;
-  border-radius: 10px;
-  padding: 8px;
-}
-
-#menuOptions p {
-  padding: 6px;
-}
-
-#menuOptions p:hover {
-  background: #25D366;
-  color: black;
-}
-
 /* ===== RESPONSIVE ===== */
 @media(max-width:480px){
-  .story img { width: 50px; height: 50px; }
-  .content img, .content video { max-height: 70vh; }
+  .story img {
+    width: 50px;
+    height: 50px;
   }
+}
