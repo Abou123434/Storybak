@@ -241,16 +241,35 @@ label {
   margin-top: 10px;
 }
 
-/* ===== WALLET ===== */
-.wallet-content p {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
 .wallet-buttons {
   display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.wallet-buttons button {
+  flex: 1;
+  background: #25D366;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.wallet-buttons button:active {
+  transform: scale(0.95);
+}
+
+.buy-btn {
+  background: #25D366;
+  color: black;
+}
+
+.withdraw-btn {
+  background: #1faa52;
+  color: black;
 }
 
 .wallet-buttons button {
