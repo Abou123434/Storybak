@@ -1,29 +1,109 @@
-/* ==== GLOBAL ==== */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-body { background: #0f0f0f; color: white; overflow-x: hidden; }
+/* ===== GLOBAL ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
 
-/* HEADER */
-header { padding: 15px; background: #111; text-align: center; }
-.logo { font-size: 24px; color: white; }
-.highlight { color: #25D366; }
+body {
+  background: #0f0f0f;
+  color: white;
+  overflow-x: hidden;
+}
 
-/* STORIES */
-.stories { display: flex; gap: 12px; padding: 12px; overflow-x: auto; }
-.story { text-align: center; cursor: pointer; position: relative; }
-.story img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid #25D366; }
-.plus { position: absolute; bottom: 10px; right: 2px; background: #25D366; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; cursor: pointer; font-size: 16px; }
+/* ===== HEADER ===== */
+header {
+  padding: 15px;
+  background: #111;
+  text-align: center;
+}
 
-/* VIEWER */
-.viewer { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; }
-.content { width: 100%; height: 85vh; display: flex; justify-content: center; align-items: center; }
-.content img, .content video { max-width: 100%; max-height: 80vh; border-radius: 15px; }
-.tap-left, .tap-right { position: absolute; top: 0; bottom: 0; width: 50%; cursor: pointer; }
+.logo {
+  font-size: 24px;
+}
+
+.highlight {
+  color: #25D366;
+}
+
+/* ===== STORIES ===== */
+.stories {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.story {
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.story img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #25D366;
+  object-fit: cover;
+}
+
+.plus {
+  position: absolute;
+  bottom: 5px;
+  right: 2px;
+  background: #25D366;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* ===== VIEWER ===== */
+.viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.content {
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content img,
+.content video {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 15px;
+}
+
+/* zones clic */
+.tap-left, .tap-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+}
+
 .tap-left { left: 0; }
 .tap-right { right: 0; }
 
-/* 🔥 REACTIONS */
+/* ===== REACTIONS ===== */
 .reactions {
-  position: absolute; /* corrigé */
+  position: absolute;
   bottom: 90px;
   right: 20px;
   background: rgba(0,0,0,0.6);
@@ -31,237 +111,191 @@ header { padding: 15px; background: #111; text-align: center; }
   border-radius: 35px;
   display: flex;
   gap: 15px;
-  align-items: center;
 }
 
-/* PROGRESS */
-#progressContainer { 
-  position: absolute; 
-  top: 15px; 
-  left: 10px; 
-  right: 10px; 
-  height: 4px; 
-  display: flex; 
-  gap: 5px; 
-  z-index: 10; 
+/* ===== PROGRESS ===== */
+#progressContainer {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  display: flex;
+  gap: 5px;
 }
 
-.progress { 
-  flex: 1; 
-  background: rgba(255,255,255,0.3); 
-  border-radius: 4px; 
-  overflow: hidden; 
+.progress {
+  flex: 1;
+  background: rgba(255,255,255,0.3);
+  border-radius: 4px;
 }
 
-.progress-inner { 
-  height: 100%; 
-  width: 0%; 
-  background: white; 
-  transition: width 0.05s linear; 
-}
-
-/* compteur vues */
-.view-count { 
-  position: absolute; 
-  bottom: 20px; 
-  left: 15px; 
-  font-size: 14px; 
-  background: rgba(0,0,0,0.6); 
-  padding: 6px 10px; 
-  border-radius: 20px; 
-  display: flex; 
-  align-items: center; 
-}
-
-/* PROGRESS CONTROLS */
-#progressControls { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  position: absolute; 
-  bottom: 60px; 
-  left: 0; 
-  width: 100%; 
-  gap: 10px; 
-}
-
-#progressControls button { 
-  background: #25D366; 
-  border: none; 
-  padding: 10px 16px; 
-  border-radius: 10px; 
-  font-weight: bold; 
-  cursor: pointer; 
-  color: black; 
-  transition: 0.3s; 
-}
-
-#progressControls button:hover { transform: scale(1.1); }
-
-/* MODALES */
-#giftModal, #buyCoinsModal, #paymentModal, #kycModal { 
-  display: none; 
-  position: fixed; 
-  inset: 0; 
-  background: rgba(0,0,0,0.9); 
-  justify-content: center; 
-  align-items: center; 
-  z-index: 1001; 
-}
-
-.modal-content { 
-  background: #111; 
-  color: white; 
-  padding: 25px; 
-  border-radius: 15px; 
-  text-align: center; 
-  width: 90%; 
-  max-width: 400px; 
-}
-
-.gift-options button, .green-btn { 
-  margin: 5px; 
-  padding: 10px 15px; 
-  border: none; 
-  border-radius: 10px; 
-  background: #25D366; 
-  color: black; 
-  font-weight: bold; 
-  cursor: pointer; 
-  transition: 0.3s; 
-}
-
-.gift-options button:hover, .green-btn:hover { transform: scale(1.05); }
-
-#coinBalance { font-size: 18px; margin-bottom: 15px; }
-
-#buyCoins { 
-  margin-top: 5px; 
-  padding: 8px 12px; 
-  border-radius: 5px; 
-  border: none; 
-  background: #FFD700; 
-  color: black; 
-  cursor: pointer; 
-}
-
-#giftMessage { margin-top: 10px; color: #FFD700; font-weight: bold; }
-
-.red-btn { 
-  background: red; 
-  color: white; 
-  padding: 8px 12px; 
-  border: none; 
-  border-radius: 10px; 
-  margin-top: 10px; 
-  cursor: pointer; 
-}
-
-/* HAMBURGER MENU */
-#hamburgerContainer { position: fixed; bottom: 20px; right: 20px; z-index: 1002; }
-
-#hamburger { 
-  font-size: 28px; 
-  cursor: pointer; 
-  background: #25D366; 
-  color: white; 
-  padding: 12px; 
-  border-radius: 50%; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-}
-
-#menuOptions { 
-  display: none; 
-  flex-direction: column; 
-  background: #111; 
-  border: 1px solid #25D366; 
-  border-radius: 8px; 
-  margin-top: 5px; 
-  padding: 8px; 
-  position: absolute; 
-  bottom: 60px; 
-  right: 0; 
-}
-
-#menuOptions p { 
-  margin: 5px 0; 
-  color: white; 
-  cursor: pointer; 
-  padding: 5px 8px; 
-  border-radius: 5px; 
-  transition: 0.2s; 
-}
-
-#menuOptions p:hover { background: #25D366; color: black; }
-
-/* WALLET */
-#walletOverlay { 
-  display: none; 
-  position: fixed; 
-  inset: 0; 
-  background: rgba(0,0,0,0.95); 
-  justify-content: center; 
-  align-items: center; 
-  z-index: 2000; 
-}
-
-.wallet-content { 
-  background: #111; 
-  padding: 30px; 
-  border-radius: 15px; 
-  text-align: center; 
-  width: 90%; 
-  max-width: 400px; 
-  color: white; 
-}
-
-/* WITHDRAW */
-#withdrawModal { 
-  display: none; 
-  position: fixed; 
-  inset: 0; 
-  background: rgba(0,0,0,0.95); 
-  justify-content: center; 
-  align-items: center; 
-  z-index: 3000; 
-}
-
-/* 🔥 ADMIN PANEL FULLSCREEN */
-#adminPanel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+.progress-inner {
   height: 100%;
-  background: rgba(0,0,0,0.95);
+  width: 0%;
+  background: white;
+}
+
+/* ===== VUES ===== */
+.view-count {
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  font-size: 14px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 10px;
+  border-radius: 20px;
+}
+
+/* ===== CONTROLES ===== */
+#progressControls {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#progressControls button {
+  background: #25D366;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+/* ===== MODALES GENERAL ===== */
+#giftModal,
+#buyCoinsModal,
+#paymentModal,
+#kycModal,
+#walletOverlay,
+#withdrawModal {
   display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
-  z-index: 9999;
 }
 
-.admin-content {
-  width: 90%;
-  max-width: 500px;
+/* ===== BOITE MODAL ===== */
+.modal-content,
+.wallet-content {
   background: #111;
-  padding: 20px;
-  border-radius: 15px;
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 380px;
   text-align: center;
 }
 
-.admin-section p {
-  padding: 15px;
-  margin: 10px 0;
-  background: #222;
-  border-radius: 10px;
-  cursor: pointer;
+/* ===== TITRES ===== */
+.modal-content h2,
+.wallet-content h2 {
+  color: #25D366;
+  margin-bottom: 15px;
 }
 
-/* RESPONSIVE */
-@media(max-width: 480px){
-  .story img { width: 50px; height: 50px; }
-  #progressControls button { padding: 8px 12px; font-size: 14px; }
-  .content img, .content video { max-height: 70vh; }
+/* ===== INPUT ===== */
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px;
+  border-radius: 10px;
+  border: 1px solid #25D366;
+  background: #0f0f0f;
+  color: white;
 }
+
+/* ===== LABEL ===== */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #FFD700;
+  font-weight: bold;
+}
+
+/* ===== BOUTONS ===== */
+.green-btn {
+  background: #25D366;
+  color: black;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.red-btn {
+  background: red;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ===== WALLET ===== */
+.wallet-content p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.wallet-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.wallet-buttons button {
+  flex: 1;
+  background: #25D366;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+}
+
+/* ===== MENU ===== */
+#hamburgerContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#hamburger {
+  background: #25D366;
+  padding: 12px;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+#menuOptions {
+  display: none;
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  background: #111;
+  border: 1px solid #25D366;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+#menuOptions p {
+  padding: 6px;
+}
+
+#menuOptions p:hover {
+  background: #25D366;
+  color: black;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:480px){
+  .story img { width: 50px; height: 50px; }
+  .content img, .content video { max-height: 70vh; }
+  }
