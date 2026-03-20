@@ -172,31 +172,30 @@
 <!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
 <div id="adminPanel">
 
-  <div class="admin-header">
-    <h2>Admin Panel</h2>
-    <button onclick="closeAdmin()" class="red-btn">Fermer</button>
+  <div class="admin-header">  
+    <h2>Admin Panel</h2>  
+    <button onclick="closeAdmin()" class="red-btn">Fermer</button>  
+  </div>  
+
+  <!-- SOLDE -->
+  <div class="platform-balance">  
+    Solde de la plateforme  
+  </div>  
+
+  <!-- ✅ BOUTONS ADMIN (AJOUT ICI) -->
+  <div class="admin-actions">
+    <button class="admin-btn">Vérification KYC</button>
+    <button class="admin-btn">Bannir un utilisateur</button>
+    <button class="admin-btn">Voir les statistiques</button>
+    <button class="admin-btn">Gérer les utilisateurs</button>
   </div>
 
-  <div class="admin-content">
-
-    <!-- SOLDE -->
-    <div class="platform-balance">
-      Solde de la plateforme
-    </div>
-
-    <!-- BOUTONS -->
-    <div class="admin-actions">
-      <button class="admin-btn">Verification KYC</button>
-      <button class="admin-btn danger">Bannir utilisateur</button>
-      <button class="admin-btn">Voir les statistiques</button>
-      <button class="admin-btn">Gérer les utilisateurs</button>
-    </div>
-
-    <!-- ZONE CONTENU -->
-    <div class="admin-body">
-      <!-- contenu dynamique -->
-    </div>
-
-  </div>
+  <div class="admin-body">  
+    <!-- Zone admin -->
+  </div>  
 
 </div>
+
+<script src="script.js"></script>
+</body>
+</html>
