@@ -20,6 +20,7 @@
 
 <!-- ===== VIEWER ===== -->
 <div class="viewer" id="viewer">
+
   <div id="progressContainer"></div>
   <div class="content" id="content"></div>
 
@@ -38,6 +39,7 @@
   <div class="tap-right" onclick="nextStory()"></div>
 
   <div id="progressControls"></div>
+
 </div>
 
 <!-- ===== 🎁 GIFT ===== -->
@@ -70,7 +72,7 @@
   <div class="modal-content">
     <h3>Acheter des pièces</h3>
 
-    <ul class="buy-list">
+    <ul>
       <li onclick="openPayment()">1 pièce – 0,01€</li>
       <li onclick="openPayment()">10 pièces – 0,10€</li>
       <li onclick="openPayment()">100 pièces – 1€</li>
@@ -105,7 +107,7 @@
     <select id="kycDocumentType">
       <option>Carte d'identité</option>
       <option>Passeport</option>
-      <option>Permis</option>
+      <option>Permis de conduire</option>
     </select>
 
     <input type="file" id="kycDocument">
@@ -125,9 +127,8 @@
 
   <div id="menuOptions">
     <p id="walletBtn">🪙 Mon solde</p>
-    <p id="kycBtn">🔐 Vérification KYC</p>
-    <p id="changeProfileBtn">👤 Profil</p>
-    <p id="adminBtn">⚙️ Admin</p>
+    <p id="changeProfileBtn">👤 Changer profil</p>
+    <p id="adminBtn">⚙️ Admin Panel</p>
     <p id="logoutBtn">🚪 Déconnexion</p>
   </div>
 </div>
@@ -138,13 +139,13 @@
 
     <h2>Mon portefeuille</h2>
 
-    <p>Coins : <span id="walletCoins">0</span></p>
-    <p>Diamonds : <span id="walletDiamonds">0</span></p>
-    <p>Valeur : <span id="walletValue">0 €</span></p>
+    <p>🪙 Coins : <span id="walletCoins">0</span></p>
+    <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
+    <p>🪙 Valeur : <span id="walletValue">0 €</span></p>
 
     <div class="wallet-buttons">
-      <button id="walletBuyCoins" class="buy-action">Acheter</button>
-      <button id="withdrawBtn" class="withdraw-action">Retirer</button>
+      <button id="walletBuyCoins" class="buy-btn">+ Acheter des coins</button>
+      <button id="withdrawBtn" class="withdraw-btn">Retirer</button>
     </div>
 
     <button id="closeWallet" class="red-btn">Fermer</button>
@@ -162,26 +163,32 @@
 
     <input type="number" id="withdrawAmount" placeholder="Montant">
 
-    <button id="confirmWithdraw" class="withdraw-action">Retirer</button>
+    <button id="confirmWithdraw" class="withdraw-btn">Retirer</button>
     <button id="closeWithdraw" class="red-btn">Fermer</button>
 
   </div>
 </div>
 
-<!-- ===== ⚙️ ADMIN ===== -->
+<!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
 <div id="adminPanel">
+
   <div class="admin-header">
     <h2>Admin Panel</h2>
     <button onclick="closeAdmin()" class="red-btn">Fermer</button>
   </div>
 
+  <!-- ✅ TON BOUTON ICI -->
   <div class="platform-balance">
-    Solde plateforme
+  Solde de la plateforme
   </div>
 
-  <div class="admin-body"></div>
+  <div class="admin-body">
+    <!-- VIDE (zone admin) -->
+  </div>
+
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
