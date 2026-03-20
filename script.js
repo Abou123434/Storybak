@@ -951,3 +951,14 @@ document.getElementById("adminBtn").onclick = () => {
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
+
+function sendToPaypal() {
+  let amount = document.getElementById("withdrawAmount").value;
+
+  if (!amount || amount <= 0) {
+    alert("Entre un montant valide");
+    return;
+  }
+
+  window.open("https://www.paypal.com/paypalme/TON_USERNAME/" + amount, "_blank");
+}
