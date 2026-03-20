@@ -472,25 +472,42 @@ else {
     s.views[currentProfile.username] = true;
     saveData();
 }
-/* REACTIONS */
+/* ===== REACTIONS ===== */
+
+// quand on clique sur un emoji
 function react(emoji){
-  let storyId = currentUser+"_"+currentIndex;
-  localReactions[storyId] = emoji; saveLocal();
-  showReaction(emoji);
   let story = users[currentUser].stories[currentIndex];
-  story.reactions[currentLoggedUser]=emoji; saveData();
+
+  // créer reactions si ça existe pas
+  if(!story.reactions){
+    story.reactions = {};
+  }
+
+  // sauvegarder la réaction de l'utilisateur
+  story.reactions[currentProfile.username] = emoji;
+
+  saveData();
+
+  // afficher animation
+  showReaction(emoji);
 }
+
+
+// afficher animation à l'écran
 function showReaction(emoji){
-    let story = users[currentUser].stories[currentIndex];
+  let container = document.querySelector(".reactions-display");
 
-    if(!story.reactions){
-        story.reactions = {};
-    }
+  if(!container){
+    container = document.createElement("div");
+    container.className = "reactions-display";
+    document.getElementById("viewer").appendChild(container);
+  }
 
-    story.reactions[currentProfile.username] = emoji;
+  container.innerText = emoji;
 
-    saveData();
-    showReaction(emoji);
+  setTimeout(()=>{
+    container.innerText = "";
+  }, 1200);
 }
 
 
