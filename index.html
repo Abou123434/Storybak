@@ -211,7 +211,7 @@
     <p>🏦 Valeur : 0 €</p>
 
     <div class="modal-buttons">
-      <button onclick="goToPaypal()" class="green-btn">Retirer</button>
+      <button onclick="openWithdraw()" class="green-btn">Retirer</button>
     </div>
 
     <button onclick="closeBalance()" class="red-btn">Fermer</button>
@@ -219,7 +219,27 @@
 
 </div>
 
-<!-- JS DOIT RESTER ICI -->
+
+<!-- 💳 MODAL RETRAIT (METS-LE JUSTE ICI 👇) -->
+<div id="withdrawModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Retrait</h2>
+
+    <p>💰 Solde disponible : <span id="availableBalance">0 €</span></p>
+
+    <input type="number" id="withdrawAmount" placeholder="Entrer le montant" />
+
+    <div class="modal-buttons">
+      <button onclick="confirmWithdraw()" class="green-btn">Continuer</button>
+    </div>
+
+    <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
+  </div>
+
+</div>
+
+<!-- JS DOIT RESTER EN BAS -->
 <script src="script.js"></script>
 </body>
 </html>
