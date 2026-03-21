@@ -943,68 +943,76 @@ renderStories();
 // ===============================
 // 🔓 ADMIN PANEL
 // ===============================
-
-// attendre que le HTML charge (IMPORTANT)
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function(){
 
   const adminBtn = document.getElementById("adminBtn");
 
   if(adminBtn){
-    adminBtn.onclick = () => {
-      document.getElementById("adminPanel").style.display = "flex";
-    };
+    adminBtn.addEventListener("click", function(){
+      const panel = document.getElementById("adminPanel");
+      if(panel) panel.style.display = "flex";
+    });
   }
 
 });
 
 // fermer admin
 function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
+  const panel = document.getElementById("adminPanel");
+  if(panel) panel.style.display = "none";
 }
 
 // ===============================
 // 💰 MODAL SOLDE
 // ===============================
 function openBalance(){
-  document.getElementById("balanceModal").style.display = "flex";
+  const modal = document.getElementById("balanceModal");
+  if(modal) modal.style.display = "flex";
 }
 
 function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
+  const modal = document.getElementById("balanceModal");
+  if(modal) modal.style.display = "none";
 }
 
 // ===============================
 // 💸 MODAL RETRAIT
 // ===============================
 function openWithdraw(){
-  document.getElementById("withdrawModal").style.display = "flex";
+  const modal = document.getElementById("withdrawModal");
+  if(modal) modal.style.display = "flex";
 }
 
 function closeWithdraw(){
-  document.getElementById("withdrawModal").style.display = "none";
+  const modal = document.getElementById("withdrawModal");
+  if(modal) modal.style.display = "none";
 }
 
 // ===============================
 // 💳 CONFIRMATION RETRAIT
 // ===============================
 function confirmWithdraw(){
-  const amount = document.getElementById("withdrawAmount").value;
+  const input = document.getElementById("withdrawAmount");
 
-  if(amount === "" || amount <= 0){
+  if(!input) return;
+
+  const amount = parseFloat(input.value);
+
+  if(isNaN(amount) || amount <= 0){
     alert("Entre un montant valide !");
     return;
   }
 
   alert("Retrait de " + amount + "€ effectué !");
-  
-  document.getElementById("withdrawAmount").value = "";
+  input.value = "";
   closeWithdraw();
 }
 
 // ===============================
-// ❌ FERMER MODAL EN CLIQUANT DEHORS
+// ❌ CLICK EN DEHORS
 // ===============================
-window.onclick = function(event){
+window.addEventListener("click", function(event){
+
   const balanceModal = document.getElementById("balanceModal");
   const withdrawModal = document.getElementById("withdrawModal");
 
@@ -1015,5 +1023,6 @@ window.onclick = function(event){
   if(event.target === withdrawModal){
     withdrawModal.style.display = "none";
   }
-};
+
+});
 
