@@ -940,27 +940,75 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// ===== ADMIN PANEL =====
-
-// ouvrir admin
-document.getElementById("adminBtn").onclick = () => {
-  document.getElementById("adminPanel").style.display = "flex";
-};
-
-// fermer admin
+// =========================
+// 🔐 ADMIN PANEL
+// =========================
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
-function updateBalance(){
-  let coins = 1000;
-  let diamonds = 500;
-  let euros = diamonds * 0.01;
 
-  document.getElementById("coins").innerText = coins;
-  document.getElementById("diamonds").innerText = diamonds;
-  document.getElementById("euros").innerText = euros.toFixed(2);
+// =========================
+// 💰 MODAL SOLDE
+// =========================
+function openBalance(){
+  document.getElementById("balanceModal").style.display = "flex";
 }
 
-// appel automatique
-updateBalance();
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
+}
+
+
+// =========================
+// 💸 MODAL RETRAIT
+// =========================
+function openWithdraw(){
+  // fermer le solde
+  document.getElementById("balanceModal").style.display = "none";
+  
+  // ouvrir retrait
+  document.getElementById("withdrawModal").style.display = "flex";
+}
+
+function closeWithdraw(){
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+
+// =========================
+// ✅ CONFIRMER RETRAIT
+// =========================
+function confirmWithdraw(){
+  let amount = document.getElementById("withdrawAmount").value;
+
+  if(amount === "" || amount <= 0){
+    alert("Entre un montant valide");
+    return;
+  }
+
+  alert("Retrait de " + amount + "€ effectué !");
+  
+  // reset input
+  document.getElementById("withdrawAmount").value = "";
+
+  // fermer modal
+  closeWithdraw();
+}
+
+
+// =========================
+// ❌ FERMER SI CLICK EN DEHORS
+// =========================
+window.onclick = function(event){
+  let balanceModal = document.getElementById("balanceModal");
+  let withdrawModal = document.getElementById("withdrawModal");
+
+  if(event.target === balanceModal){
+    closeBalance();
+  }
+
+  if(event.target === withdrawModal){
+    closeWithdraw();
+  }
+}
