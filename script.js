@@ -940,54 +940,45 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// ===== ADMIN PANEL =====
+document.addEventListener("DOMContentLoaded", () => {
 
-// ouvrir admin
-document.getElementById("adminBtn").onclick = () => {
-  document.getElementById("adminPanel").style.display = "flex";
-};
+  // ===== ADMIN PANEL =====
+  document.getElementById("adminBtn").onclick = () => {
+    document.getElementById("adminPanel").style.display = "flex";
+  };
 
-// fermer admin
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
+});
+
+// ===== MODAL SOLDE =====
+function openBalance(){
+  document.getElementById("balanceModal").style.display = "flex";
 }
 
-// ===== OUVRIR SOLDE =====
-document.querySelector(".platform-balance").onclick = () => {
-  document.getElementById("balanceModal").style.display = "flex";
-};
-
-// fermer solde
 function closeBalance(){
   document.getElementById("balanceModal").style.display = "none";
 }
 
-// ===== RETRAIT =====
-
-// ouvrir modal retrait
+// ===== MODAL RETRAIT =====
 function openWithdraw(){
-  document.getElementById("balanceModal").style.display = "none";
   document.getElementById("withdrawModal").style.display = "flex";
-
-  // récupérer valeur €
-  const euros = document.getElementById("euros").innerText;
-  document.getElementById("withdrawBalance").innerText = euros;
 }
 
-// fermer retrait
 function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
 }
 
-// valider retrait
-function submitWithdraw(){
-  const amount = document.getElementById("withdrawAmount").value;
+// ===== RETRAIT PAYPAL =====
+function confirmWithdraw(){
 
-  if(amount <= 0){
+  let amount = document.getElementById("withdrawAmount").value;
+
+  if(amount === "" || amount <= 0){
     alert("Entre un montant valide");
     return;
   }
 
-  // 🔥 REDIRECTION PAYPAL (page blanche)
-  window.location.href = "https://www.paypal.com";
+  // 🔥 REDIRECTION PAYPAL (PAGE BLANCHE)
+  let paypalLink = `https://www.paypal.com/paypalme/TON_PSEUDO/${amount}`;
+
+  window.location.href = paypalLink;
 }
