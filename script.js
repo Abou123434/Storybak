@@ -1028,7 +1028,15 @@ function openBalance(){
   document.getElementById("balanceModal").style.display = "flex";
             }
 
+// ===== TES AUTRES FONCTIONS =====
+
 function openBalance(){
   alert("ça marche");
   document.getElementById("balanceModal").style.display = "flex";
 }
+
+
+// ===== DOMContentLoaded =====
+document.addEventListener("DOMContentLoaded", () => {
+  // ton code ici
+});
