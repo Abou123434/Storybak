@@ -940,55 +940,91 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// ===== ADMIN PANEL =====
+document.addEventListener("DOMContentLoaded", () => {
 
-// ouvrir admin
-document.getElementById("adminBtn").onclick = () => {
-  document.getElementById("adminPanel").style.display = "flex";
-};
+  // ===== ADMIN PANEL =====
+  const adminBtn = document.getElementById("adminBtn");
+  const adminPanel = document.getElementById("adminPanel");
 
-// fermer admin
+  if (adminBtn && adminPanel) {
+    adminBtn.onclick = () => {
+      adminPanel.style.display = "flex";
+    };
+  }
+
+  // ===== SOLDE =====
+  const balanceBtn = document.querySelector(".platform-balance");
+  const balanceModal = document.getElementById("balanceModal");
+
+  if (balanceBtn && balanceModal) {
+    balanceBtn.onclick = () => {
+      balanceModal.style.display = "flex";
+    };
+  }
+
+});
+
+
+// ===== FERMER ADMIN =====
 function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
+  const adminPanel = document.getElementById("adminPanel");
+  if(adminPanel){
+    adminPanel.style.display = "none";
+  }
 }
 
-// ===== OUVRIR SOLDE =====
-document.querySelector(".platform-balance").onclick = () => {
-  document.getElementById("balanceModal").style.display = "flex";
-};
 
-// fermer solde
+// ===== FERMER SOLDE =====
 function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
+  const balanceModal = document.getElementById("balanceModal");
+  if(balanceModal){
+    balanceModal.style.display = "none";
+  }
 }
+
 
 // ===== RETRAIT =====
 
 // ouvrir modal retrait
 function openWithdraw(){
-  document.getElementById("balanceModal").style.display = "none";
-  document.getElementById("withdrawModal").style.display = "flex";
+  const balanceModal = document.getElementById("balanceModal");
+  const withdrawModal = document.getElementById("withdrawModal");
+
+  if(balanceModal) balanceModal.style.display = "none";
+  if(withdrawModal) withdrawModal.style.display = "flex";
 
   // récupérer valeur €
-  const euros = document.getElementById("euros").innerText;
-  document.getElementById("withdrawBalance").innerText = euros;
+  const eurosEl = document.getElementById("euros");
+  const withdrawBalance = document.getElementById("withdrawBalance");
+
+  if(eurosEl && withdrawBalance){
+    withdrawBalance.innerText = eurosEl.innerText;
+  }
 }
+
 
 // fermer retrait
 function closeWithdraw(){
-  document.getElementById("withdrawModal").style.display = "none";
+  const withdrawModal = document.getElementById("withdrawModal");
+  if(withdrawModal){
+    withdrawModal.style.display = "none";
+  }
 }
+
 
 // valider retrait
 function submitWithdraw(){
-  const amount = document.getElementById("withdrawAmount").value;
+  const input = document.getElementById("withdrawAmount");
 
-  if(amount <= 0){
+  if(!input) return;
+
+  const amount = parseFloat(input.value);
+
+  if(isNaN(amount) || amount <= 0){
     alert("Entre un montant valide");
     return;
   }
 
-  // 🔥 REDIRECTION PAYPAL (page blanche)
+  // 🔥 REDIRECTION PAYPAL
   window.location.href = "https://www.paypal.com";
 }
-
