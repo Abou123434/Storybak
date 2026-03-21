@@ -942,77 +942,63 @@ renderStories();
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ===== ADMIN PANEL =====
-  const adminBtn = document.getElementById("adminBtn");
-  const adminPanel = document.getElementById("adminPanel");
+  // ===== ADMIN =====
+  document.addEventListener("click", (e) => {
 
-  if (adminBtn && adminPanel) {
-    adminBtn.onclick = () => {
-      adminPanel.style.display = "flex";
-    };
-  }
+    // OUVRIR ADMIN
+    if (e.target.id === "adminBtn") {
+      const panel = document.getElementById("adminPanel");
+      if (panel) panel.style.display = "flex";
+    }
 
-  // ===== SOLDE =====
-  const balanceBtn = document.querySelector(".platform-balance");
-  const balanceModal = document.getElementById("balanceModal");
+    // OUVRIR SOLDE
+    if (e.target.classList.contains("platform-balance")) {
+      const modal = document.getElementById("balanceModal");
+      if (modal) modal.style.display = "flex";
+    }
 
-  if (balanceBtn && balanceModal) {
-    balanceBtn.onclick = () => {
-      balanceModal.style.display = "flex";
-    };
-  }
+  });
 
 });
 
 
 // ===== FERMER ADMIN =====
 function closeAdmin(){
-  const adminPanel = document.getElementById("adminPanel");
-  if(adminPanel){
-    adminPanel.style.display = "none";
-  }
+  const panel = document.getElementById("adminPanel");
+  if(panel) panel.style.display = "none";
 }
 
 
 // ===== FERMER SOLDE =====
 function closeBalance(){
-  const balanceModal = document.getElementById("balanceModal");
-  if(balanceModal){
-    balanceModal.style.display = "none";
-  }
+  const modal = document.getElementById("balanceModal");
+  if(modal) modal.style.display = "none";
 }
 
 
 // ===== RETRAIT =====
-
-// ouvrir modal retrait
 function openWithdraw(){
-  const balanceModal = document.getElementById("balanceModal");
-  const withdrawModal = document.getElementById("withdrawModal");
+  const balance = document.getElementById("balanceModal");
+  const withdraw = document.getElementById("withdrawModal");
 
-  if(balanceModal) balanceModal.style.display = "none";
-  if(withdrawModal) withdrawModal.style.display = "flex";
+  if(balance) balance.style.display = "none";
+  if(withdraw) withdraw.style.display = "flex";
 
-  // récupérer valeur €
-  const eurosEl = document.getElementById("euros");
-  const withdrawBalance = document.getElementById("withdrawBalance");
+  const euros = document.getElementById("euros");
+  const output = document.getElementById("withdrawBalance");
 
-  if(eurosEl && withdrawBalance){
-    withdrawBalance.innerText = eurosEl.innerText;
+  if(euros && output){
+    output.innerText = euros.innerText;
   }
 }
 
 
-// fermer retrait
 function closeWithdraw(){
-  const withdrawModal = document.getElementById("withdrawModal");
-  if(withdrawModal){
-    withdrawModal.style.display = "none";
-  }
+  const withdraw = document.getElementById("withdrawModal");
+  if(withdraw) withdraw.style.display = "none";
 }
 
 
-// valider retrait
 function submitWithdraw(){
   const input = document.getElementById("withdrawAmount");
 
@@ -1025,6 +1011,5 @@ function submitWithdraw(){
     return;
   }
 
-  // 🔥 REDIRECTION PAYPAL
   window.location.href = "https://www.paypal.com";
 }
