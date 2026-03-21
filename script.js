@@ -956,6 +956,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+// ===============================
+// ⚙️ ADMIN PANEL
+// ===============================
+const adminBtn = document.getElementById("adminBtn");
+if(adminBtn){
+  adminBtn.onclick = () => {
+    document.getElementById("adminPanel").style.display = "flex";
+  };
+}
+
 // fermer admin
 function closeAdmin(){
   const panel = document.getElementById("adminPanel");
@@ -1025,4 +1035,3 @@ window.addEventListener("click", function(event){
   }
 
 });
-
