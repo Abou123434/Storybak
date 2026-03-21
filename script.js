@@ -940,92 +940,15 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// ===============================
-// 🔓 ADMIN PANEL
-// ===============================
-document.addEventListener("DOMContentLoaded", function(){
+// ===== ADMIN PANEL =====
 
-  const adminBtn = document.getElementById("adminBtn");
-
-  if(adminBtn){
-    adminBtn.addEventListener("click", function(){
-      const panel = document.getElementById("adminPanel");
-      if(panel) panel.style.display = "flex";
-    });
-  }
-
-});
-
-// ===============================
-// ⚙️ ADMIN PANEL
-// ===============================
-const adminBtn = document.getElementById("adminBtn");
-if(adminBtn){
-  adminBtn.onclick = () => {
-    document.getElementById("adminPanel").style.display = "flex";
-  };
-}
+// ouvrir admin
+document.getElementById("adminBtn").onclick = () => {
+  document.getElementById("adminPanel").style.display = "flex";
+};
 
 // fermer admin
 function closeAdmin(){
-  const panel = document.getElementById("adminPanel");
-  if(panel) panel.style.display = "none";
+  document.getElementById("adminPanel").style.display = "none";
 }
 
-// ===============================
-// 💰 MODAL SOLDE
-// ===============================
-function openBalance(){
-  const modal = document.getElementById("balanceModal");
-  if(modal) modal.style.display = "flex";
-}
-
-function closeBalance(){
-  const modal = document.getElementById("balanceModal");
-  if(modal) modal.style.display = "none";
-}
-
-// ===============================
-// 💸 MODAL RETRAIT
-// ===============================
-function openWithdraw(){
-  const modal = document.getElementById("withdrawModal");
-  if(modal) modal.style.display = "flex";
-}
-
-function closeWithdraw(){
-  const modal = document.getElementById("withdrawModal");
-  if(modal) modal.style.display = "none";
-}
-
-// ===============================
-// 💳 CONFIRMATION RETRAIT
-// ===============================
-function confirmWithdraw(){
-  const input = document.getElementById("withdrawAmount");
-
-  if(!input) return;
-
-  const amount = parseFloat(input.value);
-
-  if(isNaN(amount) || amount <= 0){
-    alert("Entre un montant valide !");
-    return;
-  }
-
-  alert("Retrait de " + amount + "€ effectué !");
-  input.value = "";
-  closeWithdraw();
-}
-
-// ===============================
-// ❌ CLICK EN DEHORS
-// ===============================
-window.addEventListener("click", function(event){
-
-  const balanceModal = document.getElementById("balanceModal");
-  const withdrawModal = document.getElementById("withdrawModal");
-
-  if(event.target === balanceModal){
-    balanceModal.style.display = "none";
-  }
