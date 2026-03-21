@@ -1001,19 +1001,8 @@ function publishPost(){
   alert("Publication envoyée 🚀");
 }
 
-
-// ===== DONNÉES =====
-let coins = 1000;
-let diamonds = 200;
-
-// conversion (100 coins = 1€)
-function convertToEuro(){
-  return Math.floor(coins / 100);
-}
-
-// ===== SOLDE =====
+// ===== MODAL SOLDE =====
 function openBalance(){
-  updateBalance();
   document.getElementById("balanceModal").style.display = "flex";
 }
 
@@ -1021,22 +1010,8 @@ function closeBalance(){
   document.getElementById("balanceModal").style.display = "none";
 }
 
-// ===== UPDATE =====
-function updateBalance(){
-  document.getElementById("coins").textContent = coins;
-  document.getElementById("diamonds").textContent = diamonds;
-
-  let euros = convertToEuro();
-  document.getElementById("euros").textContent = euros;
-
-  let available = document.getElementById("available");
-  if(available){
-    available.textContent = euros;
-  }
-
-// ===== RETRAIT =====
+// ===== MODAL RETRAIT =====
 function openWithdraw(){
-  updateBalance();
   document.getElementById("withdrawModal").style.display = "flex";
 }
 
@@ -1044,25 +1019,18 @@ function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
 }
 
+// ===== RETRAIT PAYPAL =====
 function confirmWithdraw(){
-  let amount = parseInt(document.getElementById("withdrawAmount").value);
-  let euros = convertToEuro();
 
-  if(!amount || amount <= 0){
+  let amount = document.getElementById("withdrawAmount").value;
+
+  if(amount === "" || amount <= 0){
     alert("Entre un montant valide");
     return;
   }
 
-  if(amount > euros){
-    alert("Solde insuffisant");
-    return;
-  }
+  // 🔥 REDIRECTION PAYPAL (PAGE BLANCHE)
+  let paypalLink = `https://www.paypal.com/paypalme/TON_PSEUDO/${amount}`;
 
-  // retirer
-  coins -= amount * 100;
-
-  alert("Retrait effectué ✅");
-
-  updateBalance();
-  closeWithdraw();
+  window.location.href = paypalLink;
 }
