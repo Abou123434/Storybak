@@ -1037,5 +1037,4 @@ window.onclick = function(event){
   if(event.target === admin){
     admin.style.display = "none";
   }
-}
 
