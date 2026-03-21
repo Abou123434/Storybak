@@ -941,8 +941,23 @@ renderStories();
 
 
 // ===============================
-// 🔓 OUVRIR / FERMER ADMIN
+// 🔓 ADMIN PANEL
 // ===============================
+
+// attendre que le HTML charge (IMPORTANT)
+document.addEventListener("DOMContentLoaded", () => {
+
+  const adminBtn = document.getElementById("adminBtn");
+
+  if(adminBtn){
+    adminBtn.onclick = () => {
+      document.getElementById("adminPanel").style.display = "flex";
+    };
+  }
+
+});
+
+// fermer admin
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
@@ -982,10 +997,7 @@ function confirmWithdraw(){
 
   alert("Retrait de " + amount + "€ effectué !");
   
-  // reset champ
   document.getElementById("withdrawAmount").value = "";
-
-  // fermer le modal
   closeWithdraw();
 }
 
