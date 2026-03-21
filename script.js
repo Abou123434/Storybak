@@ -1012,6 +1012,9 @@ function closeBalance(){
 
 // ===== MODAL RETRAIT =====
 function openWithdraw(){
+  // ferme la modal solde avant
+  closeBalance();
+
   document.getElementById("withdrawModal").style.display = "flex";
 }
 
@@ -1019,18 +1022,20 @@ function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
 }
 
-// ===== RETRAIT PAYPAL =====
+// ===== CONFIRM RETRAIT =====
 function confirmWithdraw(){
-
-  let amount = document.getElementById("withdrawAmount").value;
+  const amount = document.getElementById("withdrawAmount").value;
 
   if(amount === "" || amount <= 0){
     alert("Entre un montant valide");
     return;
   }
 
-  // 🔥 REDIRECTION PAYPAL (PAGE BLANCHE)
-  let paypalLink = `https://www.paypal.com/paypalme/TON_PSEUDO/${amount}`;
+  alert("Retrait de " + amount + "€ effectué !");
+  
+  // reset input
+  document.getElementById("withdrawAmount").value = "";
 
-  window.location.href = paypalLink;
+  // fermer la modal
+  closeWithdraw();
 }
