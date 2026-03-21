@@ -203,17 +203,14 @@
 <!-- 💰 MODAL SOLDE PLATEFORME -->
 <div id="balanceModal" class="modal">
 
-<button onclick="openBalance()">Solde plateforme</button>
-
   <div class="modal-content">
     <h2>Solde plateforme</h2>
 
-    <p>💰 Coins : 0</p>
-    <p>💎 Diamonds : 0</p>
-    <p>🏦 Valeur : 0 €</p>
+    <p id="coins">💰 Coins : 0</p>
+    <p id="diamonds">💎 Diamonds : 0</p>
+    <p id="euros">🏦 Valeur : 0 €</p>
 
     <div class="modal-buttons">
-      <!-- 🔥 ON CHANGE ICI -->
       <button onclick="openWithdraw()" class="green-btn">Retirer</button>
     </div>
 
@@ -229,7 +226,7 @@
   <div class="modal-content">
     <h2>Retrait</h2>
 
-    <p>💰 Solde disponible : 0 €</p>
+    <p id="available">💰 Solde disponible : 0 €</p>
 
     <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
 
