@@ -967,7 +967,7 @@ function closeBalance(){
 
 // RETIRER → PAGE BLANCHE (SANS 404)
 function goToPaypal(){
-  window.location.href = "withdraw.html";
+  document.body.innerHTML = ...
 }
     <div style="
       background:black;
@@ -981,4 +981,4 @@ function goToPaypal(){
       Page PayPal (à construire)
     </div>
   `;
-        }
+}
