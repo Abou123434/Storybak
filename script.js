@@ -973,37 +973,4 @@ function openWithdraw(){
 
 function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
-}
-
-
-// =========================
-// ✅ CONFIRMER RETRAIT
-// =========================
-function confirmWithdraw(){
-  let amount = document.getElementById("withdrawAmount").value;
-
-  if(amount === "" || amount <= 0){
-    alert("Entre un montant valide");
-    return;
-  }
-
-  alert("Retrait de " + amount + "€ effectué !");
-  
-  // reset input
-  document.getElementById("withdrawAmount").value = "";
-
-  // fermer modal
-  closeWithdraw();
-}
-
-
-// =========================
-// ❌ FERMER SI CLICK EN DEHORS
-// =========================
-window.onclick = function(event){
-  let balanceModal = document.getElementById("balanceModal");
-  let withdrawModal = document.getElementById("withdrawModal");
-
-  if(event.target === balanceModal){
-    closeBalance();
-  }
+        }
