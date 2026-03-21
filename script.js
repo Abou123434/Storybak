@@ -1017,6 +1017,4 @@ window.onclick = function(event){
 
   if(event.target === withdrawModal){
     closeWithdraw();
-  }
-}
-
+        }
