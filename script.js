@@ -952,20 +952,32 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
-// 🔥 ACTIVER LE CLIC SUR "Solde plateforme"
+// 🔥 ACTIVER LE CLIC SUR SOLDE
 document.querySelector(".platform-balance").style.pointerEvents = "auto";
 
-// OUVRIR LE MODAL
+// OUVRIR MODAL
 document.querySelector(".platform-balance").onclick = () => {
   document.getElementById("balanceModal").style.display = "flex";
 };
 
-// FERMER LE MODAL
+// FERMER MODAL
 function closeBalance(){
   document.getElementById("balanceModal").style.display = "none";
 }
 
-// BOUTON RETIRER → PAGE PAYPAL
+// RETIRER → PAGE BLANCHE (SANS 404)
 function goToPaypal(){
-  window.location.href = "paypal.html";
+  document.body.innerHTML = `
+    <div style="
+      background:black;
+      color:white;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:20px;
+    ">
+      Page PayPal (à construire)
+    </div>
+  `;
 }
