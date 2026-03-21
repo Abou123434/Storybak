@@ -961,13 +961,13 @@ document.querySelector(".platform-balance").onclick = () => {
 };
 
 // FERMER MODAL
-function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
+function goToPaypal(){
+  document.body.innerHTML = ...
 }
 
 // RETIRER → PAGE BLANCHE (SANS 404)
 function goToPaypal(){
-  window.location.href = "withdraw.html";
+  document.body.innerHTML = ...
 }
     <div style="
       background:black;
