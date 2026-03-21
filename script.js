@@ -1027,3 +1027,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function openBalance(){
   document.getElementById("balanceModal").style.display = "flex";
             }
+
+function openBalance(){
+  alert("ça marche");
+  document.getElementById("balanceModal").style.display = "flex";
+}
