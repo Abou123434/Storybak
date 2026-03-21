@@ -952,3 +952,6 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
+}
