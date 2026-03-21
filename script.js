@@ -1033,7 +1033,6 @@ function updateBalance(){
   if(available){
     available.textContent = euros;
   }
-}
 
 // ===== RETRAIT =====
 function openWithdraw(){
