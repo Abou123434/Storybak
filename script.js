@@ -1007,7 +1007,3 @@ window.onclick = function(event){
   if(event.target === balanceModal){
     closeBalance();
   }
-
-  if(event.target === withdrawModal){
-    closeWithdraw();
-        }
