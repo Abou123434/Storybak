@@ -955,52 +955,30 @@ function closeAdmin(){
 // 🔥 ACTIVER LE CLIC SUR SOLDE
 document.querySelector(".platform-balance").style.pointerEvents = "auto";
 
-// OUVRIR MODAL SOLDE
+// OUVRIR MODAL
 document.querySelector(".platform-balance").onclick = () => {
   document.getElementById("balanceModal").style.display = "flex";
 };
 
-// FERMER MODAL SOLDE
-function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
+// FERMER MODAL
+function goToPaypal(){
+  document.body.innerHTML = ...
 }
 
-// ouvrir retrait
-function openWithdraw() {
-  document.getElementById("withdrawModal").style.display = "flex";
-
-  // solde exemple
-  document.getElementById("availableBalance").innerText = "50 €";
+// RETIRER → PAGE BLANCHE (SANS 404)
+function goToPaypal(){
+  document.body.innerHTML = ...
 }
-
-// fermer retrait
-function closeWithdraw() {
-  document.getElementById("withdrawModal").style.display = "none";
-}
-
-// fermer solde
-function closeBalance() {
-  document.getElementById("balanceModal").style.display = "none";
-}
-
-// confirmer retrait
-function confirmWithdraw() {
-  const amount = document.getElementById("withdrawAmount").value;
-
-  if (amount === "" || amount <= 0) {
-    alert("Entre un montant valide");
-    return;
-  }
-
-  // fermer retrait
-  document.getElementById("withdrawModal").style.display = "none";
-
-  // ouvrir paypal
-  document.getElementById("paypalModal").style.display = "flex";
-  document.getElementById("paypalAmount").innerText = amount + " €";
-}
-
-// fermer paypal
-function closePaypal(){
-  document.getElementById("paypalModal").style.display = "none";
-                     }
+    <div style="
+      background:black;
+      color:white;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:20px;
+    ">
+      Page PayPal (à construire)
+    </div>
+  `;
+        }
