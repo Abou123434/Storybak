@@ -190,7 +190,7 @@
     <button class="admin-btn">Gérer les utilisateurs</button>  
 
     <!-- 🔥 NOUVEAUX BOUTONS -->
-    <button class="admin-btn">Publication globale</button>  
+    <button class="admin-btn" onclick="openGlobalPublish()">Publication globale</button>
     <button class="admin-btn">Signalement</button>  
   </div>  
 
@@ -240,8 +240,33 @@
 
 </div>
 
+<!-- 🌍 MODAL PUBLICATION GLOBALE -->
+<div id="publishModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Publication globale</h2>
+
+    <!-- input caché pour ouvrir la galerie -->
+    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
+
+    <!-- bouton pour choisir fichier -->
+    <button onclick="selectFile()" class="green-btn">
+      Choisir Image / Vidéo
+    </button>
+
+    <!-- preview -->
+    <div id="preview"></div>
+
+    <div class="modal-buttons">
+      <button onclick="publishPost()" class="green-btn">Publier</button>
+    </div>
+
+    <button onclick="closePublish()" class="red-btn">Fermer</button>
+  </div>
+
+</div>
 
 <!-- JS DOIT RESTER ICI -->
 <script src="script.js"></script>
 </body>
-  </html>
+</html>
