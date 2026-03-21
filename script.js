@@ -940,15 +940,68 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// ===== ADMIN PANEL =====
-
-// ouvrir admin
-document.getElementById("adminBtn").onclick = () => {
-  document.getElementById("adminPanel").style.display = "flex";
-};
-
-// fermer admin
+// ===============================
+// 🔓 OUVRIR / FERMER ADMIN
+// ===============================
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
+
+// ===============================
+// 💰 MODAL SOLDE
+// ===============================
+function openBalance(){
+  document.getElementById("balanceModal").style.display = "flex";
+}
+
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
+}
+
+// ===============================
+// 💸 MODAL RETRAIT
+// ===============================
+function openWithdraw(){
+  document.getElementById("withdrawModal").style.display = "flex";
+}
+
+function closeWithdraw(){
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+// ===============================
+// 💳 CONFIRMATION RETRAIT
+// ===============================
+function confirmWithdraw(){
+  const amount = document.getElementById("withdrawAmount").value;
+
+  if(amount === "" || amount <= 0){
+    alert("Entre un montant valide !");
+    return;
+  }
+
+  alert("Retrait de " + amount + "€ effectué !");
+  
+  // reset champ
+  document.getElementById("withdrawAmount").value = "";
+
+  // fermer le modal
+  closeWithdraw();
+}
+
+// ===============================
+// ❌ FERMER MODAL EN CLIQUANT DEHORS
+// ===============================
+window.onclick = function(event){
+  const balanceModal = document.getElementById("balanceModal");
+  const withdrawModal = document.getElementById("withdrawModal");
+
+  if(event.target === balanceModal){
+    balanceModal.style.display = "none";
+  }
+
+  if(event.target === withdrawModal){
+    withdrawModal.style.display = "none";
+  }
+};
 
