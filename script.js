@@ -1033,5 +1033,3 @@ window.addEventListener("click", function(event){
   if(event.target === withdrawModal){
     withdrawModal.style.display = "none";
   }
-
-});
