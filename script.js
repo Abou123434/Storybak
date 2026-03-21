@@ -952,33 +952,3 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
-// 🔥 ACTIVER LE CLIC SUR SOLDE
-document.querySelector(".platform-balance").style.pointerEvents = "auto";
-
-// OUVRIR MODAL
-document.querySelector(".platform-balance").onclick = () => {
-  document.getElementById("balanceModal").style.display = "flex";
-};
-
-// FERMER MODAL
-function goToPaypal(){
-  document.body.innerHTML = ...
-}
-
-// RETIRER → PAGE BLANCHE (SANS 404)
-function goToPaypal(){
-  document.body.innerHTML = ...
-}
-    <div style="
-      background:black;
-      color:white;
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      font-size:20px;
-    ">
-      Page PayPal (à construire)
-    </div>
-  `;
-        }
