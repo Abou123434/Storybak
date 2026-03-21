@@ -947,60 +947,45 @@ document.getElementById("adminBtn").onclick = () => {
   document.getElementById("adminPanel").style.display = "flex";
 };
 
-// fermer admin
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
-}
-
-// =======================
+// =========================
 // 🔐 ADMIN PANEL
-// =======================
-
-// Ouvrir admin
-function openAdmin(){
-  document.getElementById("adminPanel").style.display = "flex";
-}
-
-// Fermer admin
+// =========================
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
 
-// =======================
+// =========================
 // 💰 MODAL SOLDE
-// =======================
-
-// Ouvrir solde
+// =========================
 function openBalance(){
   document.getElementById("balanceModal").style.display = "flex";
 }
 
-// Fermer solde
 function closeBalance(){
   document.getElementById("balanceModal").style.display = "none";
 }
 
 
-// =======================
+// =========================
 // 💸 MODAL RETRAIT
-// =======================
-
-// Ouvrir retrait
+// =========================
 function openWithdraw(){
+  // fermer le solde
+  document.getElementById("balanceModal").style.display = "none";
+  
+  // ouvrir retrait
   document.getElementById("withdrawModal").style.display = "flex";
 }
 
-// Fermer retrait
 function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
 }
 
 
-// =======================
-// ✅ CONFIRMATION RETRAIT
-// =======================
-
+// =========================
+// ✅ CONFIRMER RETRAIT
+// =========================
 function confirmWithdraw(){
   let amount = document.getElementById("withdrawAmount").value;
 
@@ -1009,32 +994,29 @@ function confirmWithdraw(){
     return;
   }
 
-  // 🔥 Ici tu peux ajouter logique backend plus tard
+  alert("Retrait de " + amount + "€ effectué !");
+  
+  // reset input
+  document.getElementById("withdrawAmount").value = "";
 
-  // Redirection vers page PayPal
-  window.location.href = "paypal.html";
+  // fermer modal
+  closeWithdraw();
 }
 
 
-// =======================
-// 🔒 FERMETURE EN CLIQUANT À L’EXTÉRIEUR
-// =======================
-
+// =========================
+// ❌ FERMER SI CLICK EN DEHORS
+// =========================
 window.onclick = function(event){
+  let balanceModal = document.getElementById("balanceModal");
+  let withdrawModal = document.getElementById("withdrawModal");
 
-  let balance = document.getElementById("balanceModal");
-  let withdraw = document.getElementById("withdrawModal");
-  let admin = document.getElementById("adminPanel");
-
-  if(event.target === balance){
-    balance.style.display = "none";
+  if(event.target === balanceModal){
+    closeBalance();
   }
 
-  if(event.target === withdraw){
-    withdraw.style.display = "none";
+  if(event.target === withdrawModal){
+    closeWithdraw();
   }
-
-  if(event.target === admin){
-    admin.style.display = "none";
-  }
+}
 
