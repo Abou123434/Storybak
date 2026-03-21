@@ -952,58 +952,20 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
-function sendToPaypal() {
-  let amount = document.getElementById("withdrawAmount").value;
+// 🔥 ACTIVER LE CLIC SUR "Solde plateforme"
+document.querySelector(".platform-balance").style.pointerEvents = "auto";
 
-  if (!amount || amount <= 0) {
-    alert("Entre un montant valide");
-    return;
-  }
+// OUVRIR LE MODAL
+document.querySelector(".platform-balance").onclick = () => {
+  document.getElementById("balanceModal").style.display = "flex";
+};
 
-  window.open("https://www.paypal.com/paypalme/TON_USERNAME/" + amount, "_blank");
+// FERMER LE MODAL
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
 }
 
-// ===== MENU =====
-document.getElementById("hamburger").onclick = () => {
-  let menu = document.getElementById("menuOptions");
-  menu.style.display = menu.style.display === "block" ? "none" : "block";
-};
-
-// ===== WALLET =====
-document.getElementById("walletBtn").onclick = () => {
-  document.getElementById("walletOverlay").style.display = "flex";
-};
-
-document.getElementById("closeWallet").onclick = () => {
-  document.getElementById("walletOverlay").style.display = "none";
-};
-
-// ===== RETRAIT =====
-document.getElementById("withdrawBtn").onclick = () => {
-  document.getElementById("withdrawModal").style.display = "flex";
-};
-
-document.getElementById("closeWithdraw").onclick = () => {
-  document.getElementById("withdrawModal").style.display = "none";
-};
-
-// ===== ADMIN =====
-document.getElementById("adminBtn").onclick = () => {
-  document.getElementById("adminPanel").style.display = "flex";
-};
-
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
-}
-
-// ===== PAYPAL =====
-function sendToPaypal() {
-  let amount = document.getElementById("withdrawAmount").value;
-
-  if (!amount || amount <= 0) {
-    alert("Entre un montant valide");
-    return;
-  }
-
-  window.open("https://www.paypal.com/paypalme/TON_USERNAME/" + amount, "_blank");
+// BOUTON RETIRER → PAGE PAYPAL
+function goToPaypal(){
+  window.location.href = "paypal.html";
 }
