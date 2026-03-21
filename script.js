@@ -952,3 +952,71 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
+
+// ===== 💰 MODAL SOLDE =====
+
+// ouvrir le modal quand on clique sur "Solde de la plateforme"
+document.querySelector(".platform-balance").onclick = () => {
+  document.getElementById("balanceModal").style.display = "flex";
+};
+
+// fermer
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
+}
+
+
+// ===== 💸 MODAL RETRAIT =====
+
+// ouvrir retrait
+function openWithdraw(){
+  document.getElementById("balanceModal").style.display = "none";
+  document.getElementById("withdrawModal").style.display = "flex";
+}
+
+// fermer retrait
+function closeWithdraw(){
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+// confirmer retrait
+function confirmWithdraw(){
+  let amount = document.getElementById("withdrawAmount").value;
+
+  if(amount <= 0 || amount === ""){
+    alert("Entre un montant valide");
+    return;
+  }
+
+  alert("Retrait de " + amount + " € effectué !");
+  
+  // reset champ
+  document.getElementById("withdrawAmount").value = "";
+
+  closeWithdraw();
+}
+
+
+// ===== 🔥 BOUTONS ADMIN (PLEIN ÉCRAN) =====
+
+const adminButtons = document.querySelectorAll(".admin-btn");
+const adminBody = document.querySelector(".admin-body");
+
+adminButtons.forEach(button => {
+  button.onclick = () => {
+
+    let text = button.innerText;
+
+    // contenu vide + titre dynamique
+    adminBody.innerHTML = `
+      <div style="padding:20px;">
+        <h2>${text}</h2>
+        <p>Zone en cours de développement...</p>
+      </div>
+    `;
+
+    // scroll vers la zone
+    adminBody.scrollIntoView({ behavior: "smooth" });
+  };
+});
+
