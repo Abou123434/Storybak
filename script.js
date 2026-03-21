@@ -940,37 +940,15 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// =========================
-// 🔐 ADMIN PANEL
-// =========================
+// ===== ADMIN PANEL =====
+
+// ouvrir admin
+document.getElementById("adminBtn").onclick = () => {
+  document.getElementById("adminPanel").style.display = "flex";
+};
+
+// fermer admin
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
-
-// =========================
-// 💰 MODAL SOLDE
-// =========================
-function openBalance(){
-  document.getElementById("balanceModal").style.display = "flex";
-}
-
-function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
-}
-
-
-// =========================
-// 💸 MODAL RETRAIT
-// =========================
-function openWithdraw(){
-  // fermer le solde
-  document.getElementById("balanceModal").style.display = "none";
-  
-  // ouvrir retrait
-  document.getElementById("withdrawModal").style.display = "flex";
-}
-
-function closeWithdraw(){
-  document.getElementById("withdrawModal").style.display = "none";
-        }
