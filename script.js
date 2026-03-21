@@ -955,20 +955,44 @@ function closeAdmin(){
 // 🔥 ACTIVER LE CLIC SUR SOLDE
 document.querySelector(".platform-balance").style.pointerEvents = "auto";
 
-// OUVRIR MODAL
+// OUVRIR MODAL SOLDE
 document.querySelector(".platform-balance").onclick = () => {
   document.getElementById("balanceModal").style.display = "flex";
 };
 
-// FERMER MODAL
-function goToPaypal(){
-  document.body.innerHTML = ...
+// FERMER MODAL SOLDE
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
 }
 
-// RETIRER → PAGE BLANCHE (SANS 404)
-function goToPaypal(){
-  document.body.innerHTML = ...
+// =======================
+// 💳 MODAL RETRAIT
+// =======================
+
+// ouvrir retrait
+function openWithdraw() {
+  document.getElementById("withdrawModal").style.display = "flex";
+
+  // 💰 Exemple de solde (à remplacer plus tard)
+  document.getElementById("availableBalance").innerText = "50 €";
 }
+
+// fermer retrait
+function closeWithdraw() {
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+// confirmer retrait
+function confirmWithdraw() {
+  const amount = document.getElementById("withdrawAmount").value;
+
+  if (amount === "" || amount <= 0) {
+    alert("Entre un montant valide");
+    return;
+  }
+
+  // 👉 Simulation page PayPal (page blanche)
+  document.body.innerHTML = `
     <div style="
       background:black;
       color:white;
@@ -976,9 +1000,12 @@ function goToPaypal(){
       display:flex;
       justify-content:center;
       align-items:center;
+      flex-direction:column;
       font-size:20px;
     ">
-      Page PayPal (à construire)
+      <h2>💳 PayPal</h2>
+      <p>Montant : ${amount} €</p>
+      <p>Page en cours de construction...</p>
     </div>
   `;
-    }
+}
