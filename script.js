@@ -1029,7 +1029,3 @@ window.addEventListener("click", function(event){
   if(event.target === balanceModal){
     balanceModal.style.display = "none";
   }
-
-  if(event.target === withdrawModal){
-    withdrawModal.style.display = "none";
-  }
