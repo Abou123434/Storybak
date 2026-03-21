@@ -940,103 +940,15 @@ saveProfile.addEventListener("click", ()=>{
 renderStories();
 
 
-// attendre que le HTML soit chargé
-document.addEventListener("DOMContentLoaded", () => {
+// ===== ADMIN PANEL =====
 
-  // ===== ADMIN PANEL =====
+// ouvrir admin
+document.getElementById("adminBtn").onclick = () => {
+  document.getElementById("adminPanel").style.display = "flex";
+};
 
-  const adminBtn = document.getElementById("adminBtn");
-  const adminPanel = document.getElementById("adminPanel");
-
-  if(adminBtn){
-    adminBtn.onclick = () => {
-      adminPanel.style.display = "flex";
-    };
-  }
-
-  window.closeAdmin = function(){
-    adminPanel.style.display = "none";
-  };
-
-
-  // ===== 💰 MODAL SOLDE =====
-
-  const balanceBtn = document.querySelector(".platform-balance");
-  const balanceModal = document.getElementById("balanceModal");
-
-  if(balanceBtn){
-    balanceBtn.onclick = () => {
-      balanceModal.style.display = "flex";
-    };
-  }
-
-  window.closeBalance = function(){
-    balanceModal.style.display = "none";
-  };
-
-
-  // ===== 💸 MODAL RETRAIT =====
-
-  const withdrawModal = document.getElementById("withdrawModal");
-
-  window.openWithdraw = function(){
-    balanceModal.style.display = "none";
-    withdrawModal.style.display = "flex";
-  };
-
-  window.closeWithdraw = function(){
-    withdrawModal.style.display = "none";
-  };
-
-  window.confirmWithdraw = function(){
-    let amount = document.getElementById("withdrawAmount").value;
-
-    if(amount <= 0 || amount === ""){
-      alert("Entre un montant valide");
-      return;
-    }
-
-    alert("Retrait de " + amount + " € effectué !");
-    document.getElementById("withdrawAmount").value = "";
-    withdrawModal.style.display = "none";
-  };
-
-
-  // ===== 🔥 BOUTONS ADMIN =====
-
-  const adminButtons = document.querySelectorAll(".admin-btn");
-  const adminBody = document.querySelector(".admin-body");
-
-  adminButtons.forEach(button => {
-    button.addEventListener("click", () => {
-
-      let text = button.innerText;
-
-      adminBody.innerHTML = `
-        <div style="padding:20px;">
-          <h2>${text}</h2>
-          <p>Zone en cours de développement...</p>
-        </div>
-      `;
-
-    });
-  });
-
-});
-
-function openBalance(){
-  document.getElementById("balanceModal").style.display = "flex";
-            }
-
-// ===== TES AUTRES FONCTIONS =====
-
-function openBalance(){
-  alert("ça marche");
-  document.getElementById("balanceModal").style.display = "flex";
+// fermer admin
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display = "none";
 }
 
-
-// ===== DOMContentLoaded =====
-document.addEventListener("DOMContentLoaded", () => {
-  // ton code ici
-});
