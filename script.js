@@ -1001,12 +1001,12 @@ function publishPost(){
   alert("Publication envoyée 🚀");
 }
 
-// ===== VARIABLES =====
+// ===== DONNÉES =====
 let coins = 0;
 let diamonds = 0;
-let euros = 0;
+let euros = 100; // test avec 100€
 
-// ===== MODAL SOLDE =====
+// ===== OUVRIR / FERMER =====
 function openBalance(){
   document.getElementById("balanceModal").style.display = "flex";
 }
@@ -1015,7 +1015,6 @@ function closeBalance(){
   document.getElementById("balanceModal").style.display = "none";
 }
 
-// ===== MODAL RETRAIT =====
 function openWithdraw(){
   document.getElementById("withdrawModal").style.display = "flex";
 }
@@ -1024,55 +1023,48 @@ function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
 }
 
-// ===== CONFIRM RETRAIT =====
+// ===== RETRAIT =====
 function confirmWithdraw(){
-  const input = document.getElementById("withdrawAmount");
-  let amount = parseFloat(input.value);
+  let amount = parseFloat(document.getElementById("withdrawAmount").value);
 
   if(isNaN(amount) || amount <= 0){
-    alert("Entre un montant valide");
+    alert("Montant invalide");
     return;
   }
 
   if(amount > euros){
-    alert("Solde insuffisant !");
+    alert("Solde insuffisant");
     return;
   }
 
   euros -= amount;
 
-  alert("Retrait effectué : " + amount + " €");
+  alert("Retrait réussi : " + amount + " €");
 
-  input.value = "";
+  document.getElementById("withdrawAmount").value = "";
 
-  updateDisplay();
+  updateUI();
   closeWithdraw();
 }
 
-// ===== UPDATE AFFICHAGE =====
-function updateDisplay(){
-  const balanceModal = document.querySelector("#balanceModal");
+// ===== UPDATE =====
+function updateUI(){
+  document.getElementById("coins").innerText = "💰 Coins : " + coins;
+  document.getElementById("diamonds").innerText = "💎 Diamonds : " + diamonds;
+  document.getElementById("euros").innerText = "🏦 Valeur : " + euros + " €";
 
-  balanceModal.querySelector("p:nth-child(2)").innerText = "💰 Coins : " + coins;
-  balanceModal.querySelector("p:nth-child(3)").innerText = "💎 Diamonds : " + diamonds;
-  balanceModal.querySelector("p:nth-child(4)").innerText = "🏦 Valeur : " + euros + " €";
-
-  document.querySelector("#withdrawModal p").innerText = "💰 Solde disponible : " + euros + " €";
+  document.getElementById("available").innerText = "💰 Solde disponible : " + euros + " €";
 }
 
-// ===== FERMER EN CLIQUANT À L'EXTÉRIEUR =====
-window.onclick = function(event){
-  const balanceModal = document.getElementById("balanceModal");
-  const withdrawModal = document.getElementById("withdrawModal");
-
-  if(event.target === balanceModal){
+// ===== CLICK OUTSIDE =====
+window.onclick = function(e){
+  if(e.target.id === "balanceModal"){
     closeBalance();
   }
-
-  if(event.target === withdrawModal){
+  if(e.target.id === "withdrawModal"){
     closeWithdraw();
   }
 };
 
 // ===== INIT =====
-updateDisplay();
+updateUI();
