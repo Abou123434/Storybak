@@ -952,3 +952,42 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
+// ===== OUVRIR SOLDE =====
+document.querySelector(".platform-balance").onclick = () => {
+  document.getElementById("balanceModal").style.display = "flex";
+};
+
+// fermer solde
+function closeBalance(){
+  document.getElementById("balanceModal").style.display = "none";
+}
+
+// ===== RETRAIT =====
+
+// ouvrir modal retrait
+function openWithdraw(){
+  document.getElementById("balanceModal").style.display = "none";
+  document.getElementById("withdrawModal").style.display = "flex";
+
+  // récupérer valeur €
+  const euros = document.getElementById("euros").innerText;
+  document.getElementById("withdrawBalance").innerText = euros;
+}
+
+// fermer retrait
+function closeWithdraw(){
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+// valider retrait
+function submitWithdraw(){
+  const amount = document.getElementById("withdrawAmount").value;
+
+  if(amount <= 0){
+    alert("Entre un montant valide");
+    return;
+  }
+
+  // 🔥 REDIRECTION PAYPAL (page blanche)
+  window.location.href = "https://www.paypal.com";
+}
