@@ -965,21 +965,22 @@ function closeBalance(){
   document.getElementById("balanceModal").style.display = "none";
 }
 
-// =======================
-// 💳 MODAL RETRAIT
-// =======================
-
 // ouvrir retrait
 function openWithdraw() {
   document.getElementById("withdrawModal").style.display = "flex";
 
-  // 💰 Exemple de solde (à remplacer plus tard)
+  // solde exemple
   document.getElementById("availableBalance").innerText = "50 €";
 }
 
 // fermer retrait
 function closeWithdraw() {
   document.getElementById("withdrawModal").style.display = "none";
+}
+
+// fermer solde
+function closeBalance() {
+  document.getElementById("balanceModal").style.display = "none";
 }
 
 // confirmer retrait
@@ -991,21 +992,15 @@ function confirmWithdraw() {
     return;
   }
 
-  // 👉 Simulation page PayPal (page blanche)
-  document.body.innerHTML = `
-    <div style="
-      background:black;
-      color:white;
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-      font-size:20px;
-    ">
-      <h2>💳 PayPal</h2>
-      <p>Montant : ${amount} €</p>
-      <p>Page en cours de construction...</p>
-    </div>
-  `;
+  // fermer retrait
+  document.getElementById("withdrawModal").style.display = "none";
+
+  // ouvrir paypal
+  document.getElementById("paypalModal").style.display = "flex";
+  document.getElementById("paypalAmount").innerText = amount + " €";
 }
+
+// fermer paypal
+function closePaypal(){
+  document.getElementById("paypalModal").style.display = "none";
+                     }
