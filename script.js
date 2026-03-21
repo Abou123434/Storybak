@@ -1018,5 +1018,3 @@ adminButtons.forEach(button => {
     // scroll vers la zone
     adminBody.scrollIntoView({ behavior: "smooth" });
   };
-});
-
