@@ -247,12 +247,15 @@
   <div class="modal-content">
     <h2>Publication globale</h2>
 
+    <!-- input caché pour ouvrir la galerie -->
     <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
 
+    <!-- bouton pour choisir fichier -->
     <button onclick="selectFile()" class="green-btn">
       Choisir Image / Vidéo
     </button>
 
+    <!-- preview -->
     <div id="preview"></div>
 
     <div class="modal-buttons">
@@ -261,10 +264,6 @@
 
     <button onclick="closePublish()" class="red-btn">Fermer</button>
   </div>
-
-</div> <!-- ✅ fermeture modal -->
-
-
 
 <!-- ===== PAGE KYC FULLSCREEN ===== -->
 <div id="kycPage" class="kyc-page">
@@ -290,11 +289,11 @@
 
   </div>
 
-</div> <!-- ✅ fermeture KYC -->
+</div>
 
+</div>
 
-
-<!-- ===== PAGE BANNIR ===== -->
+<!-- PAGE BANNIR -->
 <div id="banPage" class="ban-page">
 
   <div class="ban-content">
@@ -312,10 +311,6 @@
     <button onclick="closeBanPage()">Fermer</button>
   </div>
 
-</div> <!-- ✅ fermeture banPage -->
-
-
-
 <!-- ===== PAGE UTILISATEURS ===== -->
 <div id="usersPage" class="users-page">
 
@@ -326,6 +321,7 @@
 
   <div class="users-list">
 
+    <!-- Exemple utilisateur -->
     <div class="user-card">
       <p>👤 Nom : Ali</p>
       <p>📧 Gmail : ali@gmail.com</p>
@@ -339,9 +335,9 @@
 
   </div>
 
-</div> <!-- ✅ fermeture usersPage -->
+</div>
 
-
+</div>
 
 <script src="script.js"></script>
 </body>
