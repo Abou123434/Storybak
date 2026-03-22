@@ -686,3 +686,6 @@ label {
 .modal-content {
   z-index: 10000;
 }
+* {
+  pointer-events: auto !important;
+}
