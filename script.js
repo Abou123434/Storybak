@@ -1059,7 +1059,3 @@ function closeBalance() {
 function openWithdraw() {
   document.getElementById("withdrawModal").style.display = "flex";
 }
-if (amount <= 0) {
-    alert("Entre un montant valide");
-    return;
-}
