@@ -1059,3 +1059,22 @@ function closeBalance() {
 function openWithdraw() {
   document.getElementById("withdrawModal").style.display = "flex";
 }
+function withdraw() {
+  let input = document.getElementById("amount");
+
+  if (!input) {
+    alert("Champ introuvable !");
+    return;
+  }
+
+  let amount = parseFloat(input.value);
+
+  if (isNaN(amount) || amount <= 0) {
+    alert("Entre un montant valide");
+    return;
+  }
+
+  alert("Redirection vers PayPal...");
+
+  window.location.href = "https://www.paypal.com";
+}
