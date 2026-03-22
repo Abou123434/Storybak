@@ -1010,12 +1010,10 @@ function closeKYCPage(){
   document.getElementById("kycPage").style.display = "none";
 }
 
-// simulation accepter
 function acceptKYC(){
   document.getElementById("kycStatus").innerText = "✅ KYC accepté";
 }
 
-// simulation refuser
 function refuseKYC(){
   document.getElementById("kycStatus").innerText = "❌ KYC refusé";
 }
