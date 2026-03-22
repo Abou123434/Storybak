@@ -1078,3 +1078,6 @@ function withdraw() {
 
   window.location.href = "https://www.paypal.com";
 }
+document.querySelectorAll("button").forEach(b => {
+  b.style.border = "3px solid red";
+});
