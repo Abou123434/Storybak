@@ -185,7 +185,7 @@
   <!-- ✅ BOUTONS ADMIN -->
 <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
 <button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
-    <button class="admin-btn">Voir les statistiques</button>  
+    <button class="admin-btn" onclick="openStatsPage()">Voir les statistiques</button> 
    <button class="admin-btn" onclick="openUsersPage()">Gérer les utilisateurs</button>
 
     <!-- 🔥 NOUVEAUX BOUTONS -->
@@ -366,5 +366,48 @@
 
 </div>
 
+<!-- 📊 PAGE STATISTIQUES -->
+<div id="statsPage" class="stats-page">
+
+  <h1>📊 Tableau de bord</h1>
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <h2>👤 Utilisateurs / jour</h2>
+      <p id="usersCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>📸 Stories publiées</h2>
+      <p id="storiesCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>👁️ Visiteurs / jour</h2>
+      <p id="visitorsCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>💰 Coins achetés</h2>
+      <p id="coinsBought">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>💸 Retraits effectués</h2>
+      <p id="withdrawCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>🎁 Cadeaux envoyés</h2>
+      <p id="giftsCount">0</p>
+    </div>
+
+  </div>
+
+  <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
+
+</div>
+
 <script src="script.js"></script>
-                                                                 </body>
+      </body>
