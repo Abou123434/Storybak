@@ -199,47 +199,7 @@
 
 </div>
 
-<!-- 💰 MODAL SOLDE PLATEFORME -->
-<div id="balanceModal" class="modal">
 
-<button onclick="openBalance()">Solde plateforme</button>
-
-  <div class="modal-content">
-    <h2>Solde plateforme</h2>
-
-    <p>💰 Coins : 0</p>
-    <p>💎 Diamonds : 0</p>
-    <p>🏦 Valeur : 0 €</p>
-
-    <div class="modal-buttons">
-      <!-- 🔥 ON CHANGE ICI -->
-      <button onclick="openWithdraw()" class="green-btn">Retirer</button>
-    </div>
-
-    <button onclick="closeBalance()" class="red-btn">Fermer</button>
-  </div>
-
-</div>
-
-
-<!-- 💸 MODAL RETRAIT -->
-<div id="withdrawModal" class="modal">
-
-  <div class="modal-content">
-    <h2>Retrait</h2>
-
-    <p>💰 Solde disponible : 0 €</p>
-
-    <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
-
-    <div class="modal-buttons">
-      <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
-    </div>
-
-    <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
-  </div>
-
-</div>
 
 <!-- 🌍 MODAL PUBLICATION GLOBALE -->
 <div id="publishModal" class="modal">
@@ -289,9 +249,6 @@
 
   </div>
 
-</div>
-
-</div>
 
 <!-- PAGE BANNIR -->
 <div id="banPage" class="ban-page">
@@ -366,5 +323,41 @@
 
 </div>
 
+<!-- 💰 MODAL SOLDE -->
+<div id="balanceModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Mon portefeuille</h2>
+
+    <p>💰 Coins : 0</p>
+    <p>💎 Diamonds : 0</p>
+    <p>🏦 Valeur : 0 €</p>
+
+    <div class="modal-buttons">
+      <button class="withdraw-btn" onclick="openWithdraw()">Retirer</button>
+      <button class="close-btn" onclick="closeBalance()">Fermer</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- 💸 MODAL RETRAIT -->
+<div id="withdrawModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Retrait</h2>
+
+    <p>Solde disponible : 0 €</p>
+
+    <input type="number" id="amount" placeholder="Montant à retirer">
+
+    <div class="modal-buttons">
+      <button onclick="withdraw()">Retirer</button>
+      <button onclick="closeWithdraw()">Annuler</button>
+    </div>
+
+  </div>
+</div>
+
 <script src="script.js"></script>
-</body>
+                    </body>
