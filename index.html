@@ -183,8 +183,9 @@
 </div>
 
   <!-- ✅ BOUTONS ADMIN -->
-  <div class="admin-actions">  
-    <button class="admin-btn">Vérification KYC</button>  
+<div class="admin-actions">  
+  <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>  
+</div>
     <button class="admin-btn">Bannir un utilisateur</button>  
     <button class="admin-btn">Voir les statistiques</button>  
     <button class="admin-btn">Gérer les utilisateurs</button>  
@@ -203,14 +204,17 @@
 <!-- 💰 MODAL SOLDE PLATEFORME -->
 <div id="balanceModal" class="modal">
 
+<button onclick="openBalance()">Solde plateforme</button>
+
   <div class="modal-content">
     <h2>Solde plateforme</h2>
 
-    <p id="coins">💰 Coins : 0</p>
-    <p id="diamonds">💎 Diamonds : 0</p>
-    <p id="euros">🏦 Valeur : 0 €</p>
+    <p>💰 Coins : 0</p>
+    <p>💎 Diamonds : 0</p>
+    <p>🏦 Valeur : 0 €</p>
 
     <div class="modal-buttons">
+      <!-- 🔥 ON CHANGE ICI -->
       <button onclick="openWithdraw()" class="green-btn">Retirer</button>
     </div>
 
@@ -226,7 +230,7 @@
   <div class="modal-content">
     <h2>Retrait</h2>
 
-    <p id="available">💰 Solde disponible : 0 €</p>
+    <p>💰 Solde disponible : 0 €</p>
 
     <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
 
@@ -262,6 +266,32 @@
 
     <button onclick="closePublish()" class="red-btn">Fermer</button>
   </div>
+
+<!-- ===== PAGE KYC FULLSCREEN ===== -->
+<div id="kycPage" class="kyc-page">
+
+  <div class="kyc-header">
+    <h2>Vérification KYC</h2>
+    <button onclick="closeKYCPage()">✖</button>
+  </div>
+
+  <div class="kyc-content">
+
+    <p id="kycStatus">📄 Demande en attente...</p>
+
+    <div class="kyc-user">
+      <p>👤 Nom : Utilisateur Test</p>
+      <p>🪪 Document : Carte d'identité</p>
+    </div>
+
+    <div class="kyc-actions">
+      <button onclick="acceptKYC()" class="accept-btn">✅ Accepter</button>
+      <button onclick="refuseKYC()" class="refuse-btn">❌ Refuser</button>
+    </div>
+
+  </div>
+
+</div>
 
 </div>
 
