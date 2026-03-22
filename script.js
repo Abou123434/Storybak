@@ -1021,3 +1021,32 @@ function refuseKYC(){
 function openBanPage(){
   document.getElementById("banPage").style.display = "flex";
 }
+
+function closeBanPage(){
+  document.getElementById("banPage").style.display = "none";
+}
+
+function confirmBan(){
+  let email = document.getElementById("banEmail").value;
+  let reason = document.getElementById("banReason").value;
+
+  alert("Utilisateur " + email + " banni pour : " + reason);
+
+  closeBanPage();
+}
+
+function openUsersPage(){
+  document.getElementById("usersPage").style.display = "flex";
+}
+
+function closeUsersPage(){
+  document.getElementById("usersPage").style.display = "none";
+}
+
+function openReportsPage() {
+  document.getElementById("reportsPage").style.display = "flex";
+}
+
+function closeReportsPage() {
+  document.getElementById("reportsPage").style.display = "none";
+}
