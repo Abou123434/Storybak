@@ -1034,3 +1034,11 @@ function confirmBan(){
 
   closeBanPage();
 }
+
+function openUsersPage(){
+  document.getElementById("usersPage").style.display = "flex";
+}
+
+function closeUsersPage(){
+  document.getElementById("usersPage").style.display = "none";
+      }
