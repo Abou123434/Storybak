@@ -1050,3 +1050,6 @@ function openReportsPage() {
 function closeReportsPage() {
   document.getElementById("reportsPage").style.display = "none";
 }
+function openBanPage(){
+  document.getElementById("banPage").style.display = "flex";
+      }
