@@ -183,9 +183,7 @@
 </div>
 
   <!-- ✅ BOUTONS ADMIN -->
-<div class="admin-actions">  
-  <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>  
-</div>
+<button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
     <button class="admin-btn">Bannir un utilisateur</button>  
     <button class="admin-btn">Voir les statistiques</button>  
     <button class="admin-btn">Gérer les utilisateurs</button>  
@@ -297,3 +295,37 @@
 
 <script src="script.js"></script>
 </body>
+
+
+  ... tout ton site ici ...
+
+  </div> <!-- dernier div de ton site -->
+
+  <!-- ✅ PAGE KYC ICI -->
+  <div id="kycPage" class="kyc-page">
+
+    <div class="kyc-header">
+      <h2>Vérification KYC</h2>
+      <button onclick="closeKYCPage()">✖</button>
+    </div>
+
+    <div class="kyc-content">
+      <p id="kycStatus">📄 Demande en attente...</p>
+
+      <div class="kyc-user">
+        <p>👤 Nom : Utilisateur Test</p>
+        <p>🪪 Document : Carte d'identité</p>
+      </div>
+
+      <div class="kyc-actions">
+        <button onclick="acceptKYC()" class="accept-btn">✅ Accepter</button>
+        <button onclick="refuseKYC()" class="refuse-btn">❌ Refuser</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS en dernier -->
+  <script src="script.js"></script>
+
+  </body>
