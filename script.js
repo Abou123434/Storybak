@@ -1050,3 +1050,31 @@ function openReportsPage() {
 function closeReportsPage() {
   document.getElementById("reportsPage").style.display = "none";
 }
+
+function openBalance() {
+  document.getElementById("balanceModal").style.display = "flex";
+}
+
+function closeBalance() {
+  document.getElementById("balanceModal").style.display = "none";
+}
+
+function openWithdraw() {
+  document.getElementById("withdrawModal").style.display = "flex";
+}
+
+function closeWithdraw() {
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+function withdraw() {
+  let amount = document.getElementById("amount").value;
+
+  if (amount <= 0) {
+    alert("Entre un montant valide");
+    return;
+  }
+
+  // 🔥 Redirection PayPal
+  window.location.href = "https://www.paypal.com";
+}
