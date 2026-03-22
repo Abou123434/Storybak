@@ -680,13 +680,22 @@ label {
   cursor: pointer;
 }
 .modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
   z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
+  background: #111;
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  text-align: center;
   z-index: 10000;
 }
-.modal-content button {
-  position: relative;
-  z-index: 10000;
-}  
