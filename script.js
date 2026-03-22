@@ -1001,70 +1001,21 @@ function publishPost(){
   alert("Publication envoyée 🚀");
 }
 
-// ===== DONNÉES =====
-let coins = 0;
-let diamonds = 0;
-let euros = 100; // test avec 100€
-
-// ===== OUVRIR / FERMER =====
-function openBalance(){
-  document.getElementById("balanceModal").style.display = "flex";
+// ===== PAGE KYC =====
+function openKYCPage(){
+  document.getElementById("kycPage").style.display = "block";
 }
 
-function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
+function closeKYCPage(){
+  document.getElementById("kycPage").style.display = "none";
 }
 
-function openWithdraw(){
-  document.getElementById("withdrawModal").style.display = "flex";
+// simulation accepter
+function acceptKYC(){
+  document.getElementById("kycStatus").innerText = "✅ KYC accepté";
 }
 
-function closeWithdraw(){
-  document.getElementById("withdrawModal").style.display = "none";
+// simulation refuser
+function refuseKYC(){
+  document.getElementById("kycStatus").innerText = "❌ KYC refusé";
 }
-
-// ===== RETRAIT =====
-function confirmWithdraw(){
-  let amount = parseFloat(document.getElementById("withdrawAmount").value);
-
-  if(isNaN(amount) || amount <= 0){
-    alert("Montant invalide");
-    return;
-  }
-
-  if(amount > euros){
-    alert("Solde insuffisant");
-    return;
-  }
-
-  euros -= amount;
-
-  alert("Retrait réussi : " + amount + " €");
-
-  document.getElementById("withdrawAmount").value = "";
-
-  updateUI();
-  closeWithdraw();
-}
-
-// ===== UPDATE =====
-function updateUI(){
-  document.getElementById("coins").innerText = "💰 Coins : " + coins;
-  document.getElementById("diamonds").innerText = "💎 Diamonds : " + diamonds;
-  document.getElementById("euros").innerText = "🏦 Valeur : " + euros + " €";
-
-  document.getElementById("available").innerText = "💰 Solde disponible : " + euros + " €";
-}
-
-// ===== CLICK OUTSIDE =====
-window.onclick = function(e){
-  if(e.target.id === "balanceModal"){
-    closeBalance();
-  }
-  if(e.target.id === "withdrawModal"){
-    closeWithdraw();
-  }
-};
-
-// ===== INIT =====
-updateUI();
