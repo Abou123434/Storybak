@@ -1041,4 +1041,12 @@ function openUsersPage(){
 
 function closeUsersPage(){
   document.getElementById("usersPage").style.display = "none";
-      }
+}
+
+function openReportsPage() {
+  document.getElementById("reportsPage").style.display = "flex";
+}
+
+function closeReportsPage() {
+  document.getElementById("reportsPage").style.display = "none";
+}
