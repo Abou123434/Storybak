@@ -186,7 +186,7 @@
 <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
 <button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
     <button class="admin-btn">Voir les statistiques</button>  
-    <button class="admin-btn">Gérer les utilisateurs</button>  
+   <button class="admin-btn" onclick="openUsersPage()">Gérer les utilisateurs</button>
 
     <!-- 🔥 NOUVEAUX BOUTONS -->
     <button class="admin-btn" onclick="openGlobalPublish()">Publication globale</button>
@@ -311,7 +311,33 @@
     <button onclick="closeBanPage()">Fermer</button>
   </div>
 
+<!-- ===== PAGE UTILISATEURS ===== -->
+<div id="usersPage" class="users-page">
+
+  <div class="users-header">
+    <h2>👥 Gestion des utilisateurs</h2>
+    <button onclick="closeUsersPage()">❌</button>
+  </div>
+
+  <div class="users-list">
+
+    <!-- Exemple utilisateur -->
+    <div class="user-card">
+      <p>👤 Nom : Ali</p>
+      <p>📧 Gmail : ali@gmail.com</p>
+
+      <div class="user-video">
+        🎥 Aucune vidéo
+      </div>
+
+      <button class="ban-btn">🚫 Bannir</button>
+    </div>
+
+  </div>
+
+</div>
+
 </div>
 
 <script src="script.js"></script>
-  </body>
+</body>
