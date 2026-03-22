@@ -184,7 +184,7 @@
 
   <!-- ✅ BOUTONS ADMIN -->
 <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
-    <button class="admin-btn">Bannir un utilisateur</button>  
+<button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
     <button class="admin-btn">Voir les statistiques</button>  
     <button class="admin-btn">Gérer les utilisateurs</button>  
 
@@ -293,5 +293,25 @@
 
 </div>
 
+<!-- PAGE BANNIR -->
+<div id="banPage" class="ban-page">
+
+  <div class="ban-content">
+    <h2>🚫 Bannir un utilisateur</h2>
+
+    <input type="text" placeholder="Email de l'utilisateur" id="banEmail">
+
+    <select id="banReason">
+      <option>Vidéo interdite</option>
+      <option>Injures</option>
+      <option>Spam</option>
+    </select>
+
+    <button onclick="confirmBan()">Confirmer le bannissement</button>
+    <button onclick="closeBanPage()">Fermer</button>
+  </div>
+
+</div>
+
 <script src="script.js"></script>
-</body>
+  </body>
