@@ -1018,3 +1018,6 @@ function refuseKYC(){
   document.getElementById("kycStatus").innerText = "❌ KYC refusé";
 }
 
+function openBanPage(){
+  document.getElementById("banPage").style.display = "flex";
+}
