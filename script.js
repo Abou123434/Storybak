@@ -1078,3 +1078,10 @@ function withdraw() {
 
   window.location.href = "https://www.paypal.com";
 }
+function openBalance() {
+  document.getElementById("balanceModal").style.display = "flex";
+}
+
+function closeBalance() {
+  document.getElementById("balanceModal").style.display = "none";
+}
