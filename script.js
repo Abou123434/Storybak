@@ -1050,38 +1050,18 @@ function openReportsPage() {
 function closeReportsPage() {
   document.getElementById("reportsPage").style.display = "none";
 }
-function openBanPage(){
-  document.getElementById("banPage").style.display = "flex";
-      }
-function closeBalance() {
-  document.getElementById("balanceModal").style.display = "none";
-}
-function openWithdraw() {
-  document.getElementById("withdrawModal").style.display = "flex";
-}
-function withdraw() {
-  let input = document.getElementById("amount");
+function openStatsPage() {
+  document.getElementById("statsPage").style.display = "flex";
 
-  if (!input) {
-    alert("Champ introuvable !");
-    return;
-  }
-
-  let amount = parseFloat(input.value);
-
-  if (isNaN(amount) || amount <= 0) {
-    alert("Entre un montant valide");
-    return;
-  }
-
-  alert("Redirection vers PayPal...");
-
-  window.location.href = "https://www.paypal.com";
-}
-function openBalance() {
-  document.getElementById("balanceModal").style.display = "flex";
+  // 🔥 Simulation (plus tard Django va remplacer ça)
+  document.getElementById("usersCount").innerText = 120;
+  document.getElementById("storiesCount").innerText = 45;
+  document.getElementById("visitorsCount").innerText = 300;
+  document.getElementById("coinsBought").innerText = 80;
+  document.getElementById("withdrawCount").innerText = 10;
+  document.getElementById("giftsCount").innerText = 60;
 }
 
-function closeBalance() {
-  document.getElementById("balanceModal").style.display = "none";
+function closeStatsPage() {
+  document.getElementById("statsPage").style.display = "none";
 }
