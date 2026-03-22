@@ -1056,3 +1056,6 @@ function openBanPage(){
 function closeBalance() {
   document.getElementById("balanceModal").style.display = "none";
 }
+function openWithdraw() {
+  document.getElementById("withdrawModal").style.display = "flex";
+}
