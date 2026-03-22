@@ -20,7 +20,6 @@
 
 <!-- ===== VIEWER ===== -->
 <div class="viewer" id="viewer">
-
   <div id="progressContainer"></div>
   <div class="content" id="content"></div>
 
@@ -37,88 +36,6 @@
 
   <div class="tap-left" onclick="prevStory()"></div>
   <div class="tap-right" onclick="nextStory()"></div>
-
-  <div id="progressControls"></div>
-
-</div>
-
-<!-- ===== 🎁 GIFT ===== -->
-<div id="giftModal">
-  <div class="modal-content">
-
-    <div id="coinBalance" class="balance">💰 0</div>
-
-    <button id="buyCoins" class="buy-btn">+ Acheter des coins</button>
-
-    <h3 class="gift-title">Envoyer un cadeau</h3>
-
-    <div class="gift-options">
-      <button class="gift-btn" data-cost="1">🌹 Rose – 1 pièce</button>
-      <button class="gift-btn" data-cost="10">🔥 Feu – 10 pièces</button>
-      <button class="gift-btn" data-cost="100">🚀 Fusée – 100 pièces</button>
-      <button class="gift-btn" data-cost="30000">🦁 Lion – 30 000 pièces</button>
-      <button class="gift-btn" data-cost="100000">🐉 Dragon – 100 000 pièces</button>
-    </div>
-
-    <div id="giftMessage"></div>
-
-    <button id="closeGiftModal" class="red-btn">Fermer</button>
-
-  </div>
-</div>
-
-<!-- ===== 💰 ACHAT ===== -->
-<div id="buyCoinsModal">
-  <div class="modal-content">
-    <h3>Acheter des pièces</h3>
-
-    <ul>
-      <li onclick="openPayment()">1 pièce – 0,01€</li>
-      <li onclick="openPayment()">10 pièces – 0,10€</li>
-      <li onclick="openPayment()">100 pièces – 1€</li>
-      <li onclick="openPayment()">30 000 pièces – 300€</li>
-      <li onclick="openPayment()">100 000 pièces – 1000€</li>
-    </ul>
-
-    <button class="red-btn" onclick="closeBuy()">Fermer</button>
-  </div>
-</div>
-
-<!-- ===== 💳 PAIEMENT ===== -->
-<div id="paymentModal">
-  <div class="modal-content">
-    <h3>Payer avec PayPal</h3>
-
-    <button onclick="openBlank()" class="green-btn">🅿️ PayPal</button>
-    <button onclick="closePayment()" class="red-btn">Fermer</button>
-  </div>
-</div>
-
-<!-- ===== 🔐 KYC ===== -->
-<div id="kycModal">
-  <div class="modal-content">
-
-    <h3>Vérification KYC</h3>
-
-    <input type="text" id="kycFullName" placeholder="Nom complet">
-    <input type="date" id="kycDOB">
-    <input type="text" id="kycCountry" placeholder="Pays">
-
-    <select id="kycDocumentType">
-      <option>Carte d'identité</option>
-      <option>Passeport</option>
-      <option>Permis de conduire</option>
-    </select>
-
-    <input type="file" id="kycDocument">
-    <input type="file" id="kycSelfie">
-
-    <div id="kycMessage"></div>
-
-    <button id="submitKYC" class="green-btn">Envoyer</button>
-    <button id="closeKYC" class="red-btn">Fermer</button>
-
-  </div>
 </div>
 
 <!-- ===== 🍔 MENU ===== -->
@@ -133,139 +50,73 @@
   </div>
 </div>
 
-<!-- ===== 💼 WALLET ===== -->
-<div id="walletOverlay">
-  <div class="wallet-content">
-
-    <h2>Mon portefeuille</h2>
-
-    <p>🪙 Coins : <span id="walletCoins">0</span></p>
-    <p>💎 Diamonds : <span id="walletDiamonds">0</span></p>
-    <p>🪙 Valeur : <span id="walletValue">0 €</span></p>
-
-    <div class="wallet-buttons">
-      <button id="walletBuyCoins" class="buy-btn">+ Acheter des coins</button>
-      <button id="withdrawBtn" class="withdraw-btn">Retirer</button>
-    </div>
-
-    <button id="closeWallet" class="red-btn">Fermer</button>
-
-  </div>
-</div>
-
-<!-- ===== 💸 RETRAIT ===== -->
-<div id="withdrawModal">
-  <div class="modal-content">
-
-    <h3>Retirer</h3>
-
-    <p>Solde : <span id="withdrawBalance">0</span> €</p>
-
-    <input type="number" id="withdrawAmount" placeholder="Montant">
-
-    <button id="confirmWithdraw" class="withdraw-btn">Retirer</button>
-    <button id="closeWithdraw" class="red-btn">Fermer</button>
-
-  </div>
-</div>
-
-<!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
+<!-- ===== ⚙️ ADMIN PANEL ===== -->
 <div id="adminPanel">
 
-  <div class="admin-header">    
-    <h2>Admin Panel</h2>    
-    <button onclick="closeAdmin()" class="red-btn">Fermer</button>    
-  </div>  
+  <div class="admin-header">
+    <h2>Admin Panel</h2>
+    <button onclick="closeAdmin()" class="red-btn">Fermer</button>
+  </div>
 
-  <!-- SOLDE -->
-<div class="platform-balance" onclick="openBalance()">    
-  Solde de la plateforme    
-</div>
+  <div class="admin-body">
 
-  <!-- ✅ BOUTONS ADMIN -->
-<button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
-<button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
-    <button class="admin-btn">Voir les statistiques</button>  
-   <button class="admin-btn" onclick="openUsersPage()">Gérer les utilisateurs</button>
+    <div class="platform-balance" onclick="openBalance()">
+      Solde de la plateforme
+    </div>
 
-    <!-- 🔥 NOUVEAUX BOUTONS -->
+    <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
+    <button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
+    <button class="admin-btn" onclick="openUsersPage()">Gérer les utilisateurs</button>
     <button class="admin-btn" onclick="openGlobalPublish()">Publication globale</button>
-    <button class="admin-btn">Signalement</button>  
-  </div>  
 
-  <div class="admin-body">    
-    <!-- Zone admin -->  
-  </div>  
+  </div>
 
 </div>
 
-<!-- 💰 MODAL SOLDE PLATEFORME -->
+<!-- ===== 💰 MODAL SOLDE ===== -->
 <div id="balanceModal" class="modal">
-
-<button onclick="openBalance()">Solde plateforme</button>
-
   <div class="modal-content">
     <h2>Solde plateforme</h2>
-
     <p>💰 Coins : 0</p>
     <p>💎 Diamonds : 0</p>
     <p>🏦 Valeur : 0 €</p>
 
-    <div class="modal-buttons">
-      <!-- 🔥 ON CHANGE ICI -->
-      <button onclick="openWithdraw()" class="green-btn">Retirer</button>
-    </div>
-
+    <button onclick="openWithdraw()" class="green-btn">Retirer</button>
     <button onclick="closeBalance()" class="red-btn">Fermer</button>
   </div>
-
 </div>
 
-
-<!-- 💸 MODAL RETRAIT -->
+<!-- ===== 💸 MODAL RETRAIT ===== -->
 <div id="withdrawModal" class="modal">
-
   <div class="modal-content">
     <h2>Retrait</h2>
-
-    <p>💰 Solde disponible : 0 €</p>
-
-    <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
-
-    <div class="modal-buttons">
-      <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
-    </div>
-
+    <input type="number" placeholder="Montant">
+    <button class="green-btn">Confirmer</button>
     <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
   </div>
-
 </div>
 
-<!-- 🌍 MODAL PUBLICATION GLOBALE -->
+<!-- ===== 🌍 PUBLICATION ===== -->
 <div id="publishModal" class="modal">
-
   <div class="modal-content">
+
     <h2>Publication globale</h2>
 
-    <!-- input caché pour ouvrir la galerie -->
-    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
+    <input type="file" id="fileInput2" hidden>
 
-    <!-- bouton pour choisir fichier -->
     <button onclick="selectFile()" class="green-btn">
       Choisir Image / Vidéo
     </button>
 
-    <!-- preview -->
     <div id="preview"></div>
 
-    <div class="modal-buttons">
-      <button onclick="publishPost()" class="green-btn">Publier</button>
-    </div>
-
+    <button onclick="publishPost()" class="green-btn">Publier</button>
     <button onclick="closePublish()" class="red-btn">Fermer</button>
-  </div>
 
-<!-- ===== PAGE KYC FULLSCREEN ===== -->
+  </div>
+</div>
+
+<!-- ===== PAGE KYC ===== -->
 <div id="kycPage" class="kyc-page">
 
   <div class="kyc-header">
@@ -274,44 +125,35 @@
   </div>
 
   <div class="kyc-content">
+    <p>📄 Demande en attente...</p>
 
-    <p id="kycStatus">📄 Demande en attente...</p>
-
-    <div class="kyc-user">
-      <p>👤 Nom : Utilisateur Test</p>
-      <p>🪪 Document : Carte d'identité</p>
-    </div>
-
-    <div class="kyc-actions">
-      <button onclick="acceptKYC()" class="accept-btn">✅ Accepter</button>
-      <button onclick="refuseKYC()" class="refuse-btn">❌ Refuser</button>
-    </div>
-
+    <button onclick="acceptKYC()" class="accept-btn">✅ Accepter</button>
+    <button onclick="refuseKYC()" class="refuse-btn">❌ Refuser</button>
   </div>
 
 </div>
 
-</div>
-
-<!-- PAGE BANNIR -->
+<!-- ===== PAGE BAN ===== -->
 <div id="banPage" class="ban-page">
 
   <div class="ban-content">
     <h2>🚫 Bannir un utilisateur</h2>
 
-    <input type="text" placeholder="Email de l'utilisateur" id="banEmail">
-
-    <select id="banReason">
+    <input type="text" placeholder="Email utilisateur">
+    
+    <select>
       <option>Vidéo interdite</option>
       <option>Injures</option>
       <option>Spam</option>
     </select>
 
-    <button onclick="confirmBan()">Confirmer le bannissement</button>
+    <button>Confirmer</button>
     <button onclick="closeBanPage()">Fermer</button>
   </div>
 
-<!-- ===== PAGE UTILISATEURS ===== -->
+</div>
+
+<!-- ===== PAGE USERS ===== -->
 <div id="usersPage" class="users-page">
 
   <div class="users-header">
@@ -321,13 +163,25 @@
 
   <div class="users-list">
 
-    <!-- Exemple utilisateur -->
+    <!-- USER 1 -->
     <div class="user-card">
       <p>👤 Nom : Ali</p>
-      <p>📧 Gmail : ali@gmail.com</p>
+      <p>📧 Email : ali@gmail.com</p>
 
       <div class="user-video">
         🎥 Aucune vidéo
+      </div>
+
+      <button class="ban-btn">🚫 Bannir</button>
+    </div>
+
+    <!-- USER 2 -->
+    <div class="user-card">
+      <p>👤 Nom : Jean</p>
+      <p>📧 Email : jean@gmail.com</p>
+
+      <div class="user-video">
+        🎥 Vidéo publiée
       </div>
 
       <button class="ban-btn">🚫 Bannir</button>
@@ -337,7 +191,6 @@
 
 </div>
 
-</div>
-
 <script src="script.js"></script>
 </body>
+</html>
