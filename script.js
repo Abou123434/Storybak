@@ -215,74 +215,63 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-// ===== VIDEO =====
+    // ===== VIDEO =====
     if(previewFile.type.startsWith("video")){
+        let video = document.createElement("video");
+        video.src = URL.createObjectURL(previewFile);
 
-        let reader = new FileReader();
+        video.onloadedmetadata = () => {
+            let duration = video.duration;
+            let segments = Math.ceil(duration / 30); // découpage 30s
+            let videoCount = userStories.filter(s => s.type === "video").length;
 
-        reader.onload = (e) => {
+            // 🔥 limite corrigée
+            if(videoCount + segments > 5){
+                alert("Maximum 5 vidéos autorisées !");
+                return;
+            }
 
-            let videoData = e.target.result;
+            for(let i = 0; i < segments; i++){
+                let start = i * 30;
+                let end = Math.min(start + 30, duration);
 
-            let video = document.createElement("video");
-            video.src = videoData;
+                userStories.push({
+                    url: URL.createObjectURL(previewFile),
+                    type: "video",
+                    start: start,
+                    end: end,
+                    views: {}
+                });
+            }
 
-            video.onloadedmetadata = () => {
-
-                let duration = video.duration;
-                if(!duration || isNaN(duration)) return;
-
-                let segments = Math.ceil(duration / 30);
-                let videoCount = userStories.filter(s => s.type === "video").length;
-                let remaining = 5 - videoCount;
-
-                if(remaining <= 0) return;
-
-                let segmentsToAdd = Math.min(segments, remaining);
-
-                for(let i = 0; i < segmentsToAdd; i++){
-                    userStories.push({
-                        url: videoData,
-                        type: "video",
-                        start: i * 30,
-                        end: Math.min((i+1)*30, duration),
-                        views: {}
-                    });
-                }
-
-                saveData();
-                renderStories();
-
-                previewFile = null;
-
-                // 🔥 ouvre direct
-                openViewer(currentProfile.username);
-            };
+            saveData();
+            renderStories();
+            previewFile = null;
+            closeViewer();
         };
 
-        reader.readAsDataURL(previewFile);
-    }
-
+    } 
     // ===== IMAGE =====
     else {
+        let imageCount = userStories.filter(s => s.type === "image").length;
+
+        if(imageCount >= 10){
+            alert("Maximum 10 images autorisées !");
+            return;
+        }
 
         let reader = new FileReader();
-
-        reader.onload = (e) => {
-
+        reader.onload = ev => {
             userStories.push({
-                url: e.target.result,
+                url: ev.target.result,
                 type: "image",
                 views: {}
             });
 
             saveData();
             renderStories();
-
             previewFile = null;
-
-            // 🔥 ouvre direct
-            openViewer(currentProfile.username);
+            closeViewer();
         };
 
         reader.readAsDataURL(previewFile);
@@ -317,28 +306,47 @@ function closeViewer(){
 }
 
 // ===== PROGRESS =====
-function startProgress(story){
-  let bars = document.querySelectorAll(".progress-inner");
-  let width = 0;
-  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
+function renderProgressBars(activeIndex){
+    let container = document.getElementById("progressContainer");
+    container.innerHTML = "";
 
-  timer = setInterval(()=>{
-    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-      clearInterval(timer);
-      closeViewer();
-      return;
-    }
-    width += 100/(duration/50);
-    bars[currentIndex].style.width = Math.min(width,100)+"%";
+    let stories = users[currentUser].stories;
 
-    if(width >= 100){
-      clearInterval(timer);
-      if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-      } else closeViewer();
-    }
-  },50);
+    stories.forEach((s, i) => {
+        let bar = document.createElement("div");
+        bar.className = "progress";
+
+        let inner = document.createElement("div");
+        inner.className = "progress-inner";
+
+        if(i < activeIndex) inner.style.width = "100%";
+        else inner.style.width = "0%";
+
+        bar.appendChild(inner);
+        container.appendChild(bar);
+    });
+}
+
+function startProgress(duration){
+    let bars = document.querySelectorAll(".progress-inner");
+
+    if(!bars[currentIndex]) return;
+
+    let width = 0;
+
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+        width += 100 / (duration / 50);
+
+        bars[currentIndex].style.width = Math.min(width, 100) + "%";
+
+        if(width >= 100){
+            clearInterval(timer);
+
+            nextStory();
+        }
+    }, 50);
 }
 
 // ===== STORY =====
@@ -389,69 +397,6 @@ function showStory(){
     }
 
     // ===== VUES =====
-    if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true;
-        saveData();
-    }
-}
-
-// ===== NEXT =====
-function nextStory(){
-    if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-    } else {
-        closeViewer();
-    }
-}
-
-function showStory(){
-    clearInterval(timer);
-
-    let s = users[currentUser].stories[currentIndex];
-
-    // 🔥 IMPORTANT (sinon pas de barres)
-    renderProgressBars(currentIndex);
-
-    let c = document.getElementById("content");
-    c.innerHTML = "";
-
-    let e;
-
-    // ===== IMAGE =====
-    if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
-
-        startProgress(5000);
-    }
-
-    // ===== VIDEO =====
-    else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.muted = false;
-
-        c.appendChild(e);
-
-        e.onloadedmetadata = () => {
-            e.currentTime = s.start;
-            e.play();
-        };
-
-        e.ontimeupdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                nextStory();
-            }
-        };
-
-        startProgress((s.end - s.start) * 1000);
-    }
-
-    // vues
     if(!s.views[currentProfile.username]){
         s.views[currentProfile.username] = true;
         saveData();
