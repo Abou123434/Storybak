@@ -27,13 +27,19 @@
   <div class="bottom-bar">
     <div class="view-count" id="viewCount"></div>
 
-    <div class="reactions">
-      <span onclick="react('❤️')">❤️</span>
-      <span onclick="react('😂')">😂</span>
-      <span onclick="react('🔥')">🔥</span>
-      <span onclick="react('😮')">😮</span>
-    </div>
+<div class="bottom-bar">
+  <div class="view-count" id="viewCount"></div>
+
+  <div class="reactions">
+    <span onclick="react('❤️')">❤️</span>
+    <span onclick="react('😂')">😂</span>
+    <span onclick="react('🔥')">🔥</span>
+    <span onclick="react('😮')">😮</span>
   </div>
+
+  <!-- 👉 zone d'affichage des réactions -->
+  <div id="reactionResult"></div>
+</div>
 
   <div class="tap-left" onclick="prevStory()"></div>
   <div class="tap-right" onclick="nextStory()"></div>
@@ -410,4 +416,4 @@
 </div>
 
 <script src="script.js"></script>
-      </body>
+  </body>
