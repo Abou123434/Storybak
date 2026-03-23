@@ -1057,4 +1057,3 @@ function stopAllVideos() {
   vids.forEach(v => {
     v.pause();
   });
-}
