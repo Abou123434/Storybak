@@ -1080,3 +1080,18 @@ function createBars(story) {
         container.appendChild(bar);
     });
       }
+function createProgressBars(stories) {
+  const container = document.getElementById("progressContainer");
+  container.innerHTML = "";
+
+  stories.forEach(() => {
+    const bar = document.createElement("div");
+    bar.className = "progress";
+
+    const inner = document.createElement("div");
+    inner.className = "progress-inner";
+
+    bar.appendChild(inner);
+    container.appendChild(bar);
+  });
+}
