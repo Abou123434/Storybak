@@ -1060,3 +1060,40 @@ function openStatsPage() {
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
+
+// ===== INSCRIPTION CLASSIQUE =====
+function register(){
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+
+  if(!email || !password){
+    alert("Remplis tous les champs");
+    return;
+  }
+
+  let user = {
+    email: email,
+    password: password,
+    provider: "email"
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  alert("Inscription réussie !");
+}
+
+
+// ===== GOOGLE FAKE LOGIN =====
+document.getElementById("googleBtn").onclick = () => {
+
+  // simulation utilisateur Google
+  let fakeUser = {
+    name: "User Google",
+    email: "user@gmail.com",
+    provider: "google"
+  };
+
+  localStorage.setItem("user", JSON.stringify(fakeUser));
+
+  alert("Connecté avec Google !");
+};
