@@ -349,6 +349,19 @@ function startProgress(s){
         }
     }, 50);
 
+    width += 100/(duration/50);
+    bars[currentIndex].style.width = Math.min(width,100)+"%";
+
+    if(width >= 100){
+      clearInterval(timer);
+      if(currentIndex < users[currentUser].stories.length - 1){
+        currentIndex++;
+        showStory();
+      } else closeViewer();
+    }
+  },50);
+}
+
 
 let c=document.getElementById("content"); 
 c.innerHTML="";
