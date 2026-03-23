@@ -487,10 +487,6 @@ function react(emoji){
     story.reactions = {};
   }
 
-  if(!story.reactions[emoji]){
-    story.reactions[emoji] = 0;
-  }
-
   story.reactions[emoji]++;
 
   displayReactions();
