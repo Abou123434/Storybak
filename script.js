@@ -475,13 +475,14 @@ else {
 /* ===== REACTIONS ===== */
 
 // quand on clique sur un emoji
-function react(emoji){
-  let story = users[currentUser].stories[currentIndex];
+function react(emoji) {
+    console.log("Réaction :", emoji);
 
-  // créer reactions si ça existe pas
-  if(!story.reactions){
-    story.reactions = {};
-  }
+    // Exemple : afficher à l'écran
+    alert("Tu as réagi avec " + emoji);
+
+    // Tu peux aussi stocker ou envoyer au serveur ici
+}
 
   // sauvegarder la réaction de l'utilisateur
   story.reactions[currentProfile.username] = emoji;
