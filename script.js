@@ -1053,9 +1053,8 @@ function closeStatsPage() {
                 }
 
 function stopAllVideos() {
-  let vids = document.querySelectorAll("video");
+  let vids = document.querySelectorAll("#viewer video"); // 🔥 uniquement dans le viewer
   vids.forEach(v => {
     v.pause();
-    v.currentTime = 0;
   });
-        }
+}
