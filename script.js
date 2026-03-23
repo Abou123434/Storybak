@@ -369,7 +369,6 @@ if(width >= 100){
   } else {
     closeViewer();
   }
-}
 
 function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner");
