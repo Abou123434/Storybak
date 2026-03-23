@@ -354,7 +354,6 @@ function startProgress(duration){
 
         if(width >= 100){
             clearInterval(timer);
-
             nextStory();
         }
     }, 50);
@@ -366,6 +365,7 @@ function showStory(){
 
     let s = users[currentUser].stories[currentIndex];
 
+    // 🔥 IMPORTANT (sinon pas de barres)
     renderProgressBars(currentIndex);
 
     let c = document.getElementById("content");
@@ -388,7 +388,6 @@ function showStory(){
         e.src = s.url;
         e.autoplay = true;
         e.muted = false;
-        e.controls = false;
 
         c.appendChild(e);
 
@@ -407,7 +406,7 @@ function showStory(){
         startProgress((s.end - s.start) * 1000);
     }
 
-    // ===== VUES =====
+    // vues
     if(!s.views[currentProfile.username]){
         s.views[currentProfile.username] = true;
         saveData();
