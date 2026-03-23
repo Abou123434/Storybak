@@ -1056,4 +1056,4 @@ function stopAllVideos() {
   let vids = document.querySelectorAll("#viewer video"); // 🔥 uniquement dans le viewer
   vids.forEach(v => {
     v.pause();
-  });
+  }
