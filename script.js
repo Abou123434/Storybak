@@ -488,7 +488,6 @@ function displayReactions(){
     span.style.marginRight = "10px";
     container.appendChild(span);
   }
-}
 
   // sauvegarder la réaction de l'utilisateur
   story.reactions[currentProfile.username] = emoji;
