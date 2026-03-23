@@ -328,39 +328,39 @@ function startProgress(s){
         dur = s.duration || (s.end - s.start) * 1000;
     }
 
+clearInterval(timer);
+
+let width = 0;
+
+timer = setInterval(() => {
+
+  // 🔒 sécurité
+  if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
+    clearInterval(timer);
+    closeViewer();
+    return;
+  }
+
+  // 📊 progression
+  width += 100 / (duration / 50);
+
+  if(bars[currentIndex]){
+    bars[currentIndex].style.width = Math.min(width, 100) + "%";
+  }
+
+  // ⏭ fin de story
+  if(width >= 100){
     clearInterval(timer);
 
-    timer = setInterval(() => {
-        w += 100 / (dur / 50);
-
-        if(bars[currentIndex]){
-            bars[currentIndex].style.width = Math.min(w, 100) + "%";
-        }
-
-        if(w >= 100){
-            clearInterval(timer);
-
-            if(currentIndex < users[currentUser].stories.length - 1){
-                currentIndex++;
-                showStory();
-            } else {
-                closeViewer();
-            }
-        }
-    }, 50);
-
-    width += 100/(duration/50);
-    bars[currentIndex].style.width = Math.min(width,100)+"%";
-
-    if(width >= 100){
-      clearInterval(timer);
-      if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-      } else closeViewer();
+    if(currentIndex < users[currentUser].stories.length - 1){
+      currentIndex++;
+      showStory();
+    } else {
+      closeViewer();
     }
-  },50);
-}
+  }
+
+}, 50);
 
 
 let c=document.getElementById("content"); 
@@ -370,16 +370,26 @@ let viewer = document.getElementById("viewer");
 viewer.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
 
 function showStory(){
+
+    // 🔥 STOP ancienne vidéo
+    let video = document.querySelector("video");
+    if(video){
+        video.pause();
+        video.currentTime = 0;
+    }
+
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
+
+    let s = users[currentUser].stories[currentIndex];
+    let c = document.getElementById("content");
+    c.innerHTML = "";
+
     let e;
 
-if(s.type === "image"){
-    e = document.createElement("img");
-    e.src = s.url;
-    c.appendChild(e);
-
+    if(s.type === "image"){
+        e = document.createElement("img");
+        e.src = s.url;
+        c.appendChild(e);
     startProgress(s);
 } 
 else {
