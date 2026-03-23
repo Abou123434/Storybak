@@ -408,21 +408,27 @@
 
   <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
 
-<div class="login-box">
-  <h2>Inscription</h2>
+<div class="container">
 
-  <!-- Google -->
-  <button id="googleBtn">Continuer avec Google</button>
+  <h2>Créer un compte</h2>
+
+  <!-- Bouton Google -->
+  <button id="googleBtn" class="google-btn">
+    Continuer avec Google
+  </button>
 
   <div class="separator">ou</div>
 
-  <!-- Form -->
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Mot de passe">
+  <!-- Formulaire email -->
+  <form id="registerForm">
+    <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
 
-  <button onclick="register()">S'inscrire</button>
+    <button type="submit">S'inscrire</button>
+  </form>
+
 </div>
-
 
 </div>
 
