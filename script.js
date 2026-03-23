@@ -339,6 +339,94 @@ function showStory(){
     }
 }
 
+function publishStory(){
+
+    if(!previewFile) return;
+
+    // ===== VIDEO =====
+    if(previewFile.type.startsWith("video")){
+
+        let video = document.createElement("video");
+        video.src = URL.createObjectURL(previewFile);
+
+        video.onloadedmetadata = () => {
+
+            let duration = video.duration;
+
+            if(!duration || isNaN(duration)){
+                alert("Erreur chargement vidéo");
+                return;
+            }
+
+            let segments = Math.ceil(duration / 30);
+            let videoCount = userStories.filter(s => s.type === "video").length;
+
+            let remaining = 5 - videoCount;
+
+            if(remaining <= 0){
+                alert("Maximum 5 vidéos atteint !");
+                return;
+            }
+
+            let segmentsToAdd = Math.min(segments, remaining);
+
+            let videoURL = URL.createObjectURL(previewFile);
+
+            for(let i = 0; i < segmentsToAdd; i++){
+
+                let start = i * 30;
+                let end = Math.min(start + 30, duration);
+
+                userStories.push({
+                    url: videoURL,
+                    type: "video",
+                    start: start,
+                    end: end,
+                    views: {}
+                });
+            }
+
+            saveData();
+            renderStories();
+
+            previewFile = null;
+
+            alert("Vidéo publiée ✅");
+        };
+    }
+
+    // ===== IMAGE =====
+    else {
+
+        let imageCount = userStories.filter(s => s.type === "image").length;
+
+        if(imageCount >= 10){
+            alert("Maximum 10 images !");
+            return;
+        }
+
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+
+            userStories.push({
+                url: e.target.result,
+                type: "image",
+                views: {}
+            });
+
+            saveData();
+            renderStories();
+
+            previewFile = null;
+
+            alert("Image publiée ✅");
+        };
+
+        reader.readAsDataURL(previewFile);
+    }
+}
+
 // ===== NEXT =====
 function nextStory(){
     if(currentIndex < users[currentUser].stories.length - 1){
