@@ -299,92 +299,139 @@ function publishPreviewStory(){
     }
 }
     
-/* ===== VIEWER ===== */
+
+// ===== VIEWER =====
 function openViewer(u){
-    if(users[u].stories.length===0) return;
+    if(users[u].stories.length === 0) return;
 
     currentUser = u;
     currentIndex = 0;
 
     document.getElementById("viewer").style.display = "flex";
-
-    // 🔥 cacher le menu
     document.getElementById("hamburger").style.display = "none";
 
     showStory();
 }
 
-/* PROGRESS */
-function renderProgressBars(activeIndex){
-  let container = document.getElementById("progressContainer");
-  container.innerHTML = "";
-  let stories = users[currentUser].stories;
-  stories.forEach((s,i)=>{
-    let bar = document.createElement("div");
-    bar.className = "progress";
-    let inner = document.createElement("div");
-    inner.className = "progress-inner";
-    if(i<activeIndex) inner.style.width = "100%";
-    if(i>activeIndex) inner.style.width = "0%";
-    bar.appendChild(inner);
-    container.appendChild(bar);
-  });
+function closeViewer(){
+    clearInterval(timer);
+
+    let video = document.querySelector("#content video");
+    if(video){
+        video.pause();
+        video.currentTime = 0;
+    }
+
+    document.getElementById("viewer").style.display = "none";
+    document.getElementById("hamburger").style.display = "block";
 }
-  // Barre progression
-function startProgress(s){
+
+// ===== PROGRESS =====
+function renderProgressBars(activeIndex){
+    let container = document.getElementById("progressContainer");
+    container.innerHTML = "";
+
+    let stories = users[currentUser].stories;
+
+    stories.forEach((s, i) => {
+        let bar = document.createElement("div");
+        bar.className = "progress";
+
+        let inner = document.createElement("div");
+        inner.className = "progress-inner";
+
+        if(i < activeIndex) inner.style.width = "100%";
+        else inner.style.width = "0%";
+
+        bar.appendChild(inner);
+        container.appendChild(bar);
+    });
+}
+
+function startProgress(duration){
     let bars = document.querySelectorAll(".progress-inner");
 
-    // sécurité
     if(!bars[currentIndex]) return;
 
-    let w = 0;
-
-    // durée correcte
-    let dur;
-    if(s.type === "image"){
-        dur = 5000; // 5 secondes
-    } else {
-        dur = s.duration || (s.end - s.start) * 1000;
-    }
+    let width = 0;
 
     clearInterval(timer);
 
     timer = setInterval(() => {
-        w += 100 / (dur / 50);
+        width += 100 / (duration / 50);
 
-        if(bars[currentIndex]){
-            bars[currentIndex].style.width = Math.min(w, 100) + "%";
-        }
+        bars[currentIndex].style.width = Math.min(width, 100) + "%";
 
-        if(w >= 100){
+        if(width >= 100){
             clearInterval(timer);
 
-            if(currentIndex < users[currentUser].stories.length - 1){
-                currentIndex++;
-                showStory();
-            } else {
-                closeViewer();
-            }
+            nextStory();
         }
     }, 50);
+}
 
-  timer = setInterval(()=>{
-    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-      clearInterval(timer);
-      closeViewer();
-      return;
+// ===== STORY =====
+function showStory(){
+    clearInterval(timer);
+
+    let s = users[currentUser].stories[currentIndex];
+
+    renderProgressBars(currentIndex);
+
+    let c = document.getElementById("content");
+    c.innerHTML = "";
+
+    let e;
+
+    // ===== IMAGE =====
+    if(s.type === "image"){
+        e = document.createElement("img");
+        e.src = s.url;
+        c.appendChild(e);
+
+        startProgress(5000);
     }
-    width += 100/(duration/50);
-    bars[currentIndex].style.width = Math.min(width,100)+"%";
 
-    if(width >= 100){
-      clearInterval(timer);
-      if(currentIndex < users[currentUser].stories.length - 1){
+    // ===== VIDEO =====
+    else {
+        e = document.createElement("video");
+        e.src = s.url;
+        e.autoplay = true;
+        e.muted = false;
+        e.controls = false;
+
+        c.appendChild(e);
+
+        e.onloadedmetadata = () => {
+            e.currentTime = s.start;
+            e.play();
+        };
+
+        e.ontimeupdate = () => {
+            if(e.currentTime >= s.end){
+                e.pause();
+                nextStory();
+            }
+        };
+
+        startProgress((s.end - s.start) * 1000);
+    }
+
+    // ===== VUES =====
+    if(!s.views[currentProfile.username]){
+        s.views[currentProfile.username] = true;
+        saveData();
+    }
+}
+
+// ===== NEXT =====
+function nextStory(){
+    if(currentIndex < users[currentUser].stories.length - 1){
         currentIndex++;
         showStory();
-      } else closeViewer();
+    } else {
+        closeViewer();
     }
-  },50);
 }
 
 
