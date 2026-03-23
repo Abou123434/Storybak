@@ -313,20 +313,18 @@ function renderProgressBars(activeIndex){
 }
   // Barre progression
 function startProgress(s){
-    let bars = document.querySelectorAll(".progress-inner");
+let bars = document.querySelectorAll(".progress-inner");
 
-    // sécurité
-    if(!bars[currentIndex]) return;
+// sécurité
+if(!bars[currentIndex]) return;
 
-    let w = 0;
-
-    // durée correcte
-    let dur;
-    if(s.type === "image"){
-        dur = 5000; // 5 secondes
-    } else {
-        dur = s.duration || (s.end - s.start) * 1000;
-    }
+// durée correcte
+let dur;
+if(s.type === "image"){
+    dur = 5000; // 5 secondes
+} else {
+    dur = s.duration || (s.end - s.start) * 1000 || 5000;
+}
 
 clearInterval(timer);
 
@@ -342,7 +340,7 @@ timer = setInterval(() => {
   }
 
   // 📊 progression
-  width += 100 / (duration / 50);
+  width += 100 / (dur / 50); // ✅ ICI corrigé
 
   if(bars[currentIndex]){
     bars[currentIndex].style.width = Math.min(width, 100) + "%";
