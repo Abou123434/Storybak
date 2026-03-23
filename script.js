@@ -213,81 +213,90 @@ controls.appendChild(publishBtn);
 function publishPreviewStory(){
     if(!previewFile) return;
 
-/* AJOUT STORY */
-document.getElementById("fileInput").addEventListener("change", async function(e){
-  let file = e.target.files[0];
-  if(!file) return;
+    let userStories = users[currentProfile.username].stories;
 
-  let userStories = users[currentLoggedUser].stories;
-  let videoCount = userStories.filter(s=>s.type==="video").length;
-  let imageCount = userStories.filter(s=>s.type==="image").length;
+// ===== VIDEO =====
+    if(previewFile.type.startsWith("video")){
 
-  if(file.type.startsWith("video")){
-    if(videoCount >= 5){ alert("Vous ne pouvez avoir que 5 vidéos maximum."); return; }
+        let video = document.createElement("video");
+        video.src = URL.createObjectURL(previewFile);
 
-    const forbiddenKeywords = ["porn","xxx","sex"];
-    if(forbiddenKeywords.some(word => file.name.toLowerCase().includes(word))){
-      alert("Vidéo rejetée : contenu inapproprié."); return;
-    }
-    await addVideoWithSegments(file);
-  } else {
-    if(imageCount >= 10){ alert("Vous ne pouvez avoir que 10 images maximum."); return; }
-    await addImageStory(file);
-  }
-});
+        video.onloadedmetadata = () => {
 
-/* Découpage vidéo en segments de 10s max */
-async function addVideoWithSegments(file){
-  let url = URL.createObjectURL(file);
-  let video = document.createElement("video");
-  video.src = url;
-  video.preload = "metadata";
+            let duration = video.duration;
 
-  await new Promise(res => video.onloadedmetadata = res);
-  let duration = video.duration;
-  let segments = Math.ceil(duration / 10);
+            if(!duration || isNaN(duration)){
+                alert("Erreur chargement vidéo");
+                return;
+            }
 
-  for(let i=0; i<segments; i++){
-    if(users[currentLoggedUser].stories.filter(s=>s.type==="video").length >= 5) break;
+            let segments = Math.ceil(duration / 30);
+            let videoCount = userStories.filter(s => s.type === "video").length;
 
-    users[currentLoggedUser].stories.push({
-      url: url,
-      type: "video",
-      startTime: i*10,
-      endTime: Math.min((i+1)*10,duration),
-      time: Date.now(),
-      views:{},
-      reactions:{}
-    });
-  }
-  saveData();
-  renderStories();
-}
+            let remaining = 5 - videoCount;
 
-/* Ajout image */
-function addImageStory(file){
-  return new Promise((resolve)=>{
-    if(users[currentLoggedUser].stories.filter(s=>s.type==="image").length >= 10){
-      alert("Vous ne pouvez avoir que 10 images maximum.");
-      resolve();
-      return;
+            if(remaining <= 0){
+                alert("Maximum 5 vidéos atteint !");
+                return;
+            }
+
+            let segmentsToAdd = Math.min(segments, remaining);
+
+            let videoURL = URL.createObjectURL(previewFile);
+
+            for(let i = 0; i < segmentsToAdd; i++){
+
+                let start = i * 30;
+                let end = Math.min(start + 30, duration);
+
+                userStories.push({
+                    url: videoURL,
+                    type: "video",
+                    start: start,
+                    end: end,
+                    views: {}
+                });
+            }
+
+            saveData();
+            renderStories();
+
+            previewFile = null;
+
+            alert("Vidéo publiée ✅");
+        };
     }
 
-    let reader = new FileReader();
-    reader.onload = function(e){
-      users[currentLoggedUser].stories.push({
-        url: e.target.result,
-        type: "image",
-        time: Date.now(),
-        views:{},
-        reactions:{}
-      });
-      saveData();
-      renderStories();
-      resolve();
-    };
-    reader.readAsDataURL(file);
-  });
+    // ===== IMAGE =====
+    else {
+
+        let imageCount = userStories.filter(s => s.type === "image").length;
+
+        if(imageCount >= 10){
+            alert("Maximum 10 images !");
+            return;
+        }
+
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+
+            userStories.push({
+                url: e.target.result,
+                type: "image",
+                views: {}
+            });
+
+            saveData();
+            renderStories();
+
+            previewFile = null;
+
+            alert("Image publiée ✅");
+        };
+
+        reader.readAsDataURL(previewFile);
+    }
 }
     
 
