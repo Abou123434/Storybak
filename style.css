@@ -114,20 +114,21 @@ header {
   font-size: 20px;
 }
 
+/* ===== PROGRESS ===== */
 #progressContainer {
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 10px;
   right: 10px;
   height: 4px;
   display: flex;
   gap: 5px;
-  z-index: 9999;
 }
 
 .progress {
   flex: 1;
   background: rgba(255,255,255,0.3);
+  border-radius: 4px;
 }
 
 .progress-inner {
@@ -736,3 +737,48 @@ label {
 .reactions span {
   cursor: pointer;
 }
+
+body{
+  font-family: Arial;
+  background: #111;
+  color: white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.login-box{
+  background:#222;
+  padding:20px;
+  border-radius:10px;
+  width:300px;
+  text-align:center;
+}
+
+input{
+  width:100%;
+  margin:10px 0;
+  padding:10px;
+  border:none;
+  border-radius:5px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+#googleBtn{
+  background:#fff;
+  color:#000;
+  font-weight:bold;
+}
+
+.separator{
+  margin:10px 0;
+  opacity:0.7;
+  }
