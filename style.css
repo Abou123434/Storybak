@@ -723,29 +723,17 @@ label {
   border-radius: 10px;
   color: white;
 }
-.viewer {
-  position: relative;
-}
-
-/* le contenu (image/vidéo) */
+/* empêcher le contenu de bloquer les clics */
 .content {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none; /* 🔥 TRÈS IMPORTANT */
+  pointer-events: none;
 }
 
-/* les réactions au-dessus */
+/* s'assurer que les réactions passent au-dessus */
 .reactions {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  text-align: center;
-  z-index: 10; /* 🔥 AU-DESSUS */
+  z-index: 9999;
 }
 
+/* rendre les emojis bien cliquables */
 .reactions span {
-  font-size: 24px;
-  margin: 0 10px;
   cursor: pointer;
-  }
+}
