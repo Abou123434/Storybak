@@ -475,21 +475,14 @@ else {
 /* ===== REACTIONS ===== */
 
 function react(emoji){
+  let container = document.getElementById("reactionResult");
 
-  if(!users || !users[currentUser] || !users[currentUser].stories[currentIndex]){
-    console.log("Erreur: story introuvable");
+  if(!container){
+    console.log("reactionResult introuvable");
     return;
   }
 
-  let story = users[currentUser].stories[currentIndex];
-
-  if(!story.reactions){
-    story.reactions = {};
-  }
-
-  story.reactions[emoji]++;
-
-  displayReactions();
+  container.innerHTML += emoji + " ";
 }
 
   // sauvegarder la réaction de l'utilisateur
