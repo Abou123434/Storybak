@@ -1061,39 +1061,27 @@ function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
 
-// ===== SIMULATION GOOGLE LOGIN =====
-document.getElementById("googleBtn").addEventListener("click", () => {
+// Bouton Google (simulation)
+document.getElementById("googleBtn").onclick = function(){
+    // simulation connexion réussie
+    window.location.href = "index.html";
+};
 
-  let fakeUser = {
-    username: "GoogleUser",
-    email: "user@gmail.com",
-    method: "google"
-  };
+// Formulaire Gmail
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    e.preventDefault();
 
-  localStorage.setItem("user", JSON.stringify(fakeUser));
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
 
-  alert("Connexion Google réussie (simulation)");
-  window.location.href = "home.html"; // redirection
-});
+    if(email === "" || password === ""){
+        alert("Remplis tous les champs !");
+        return;
+    }
 
+    // simulation sauvegarde
+    localStorage.setItem("userEmail", email);
 
-// ===== INSCRIPTION EMAIL =====
-document.getElementById("registerForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  let username = document.getElementById("username").value;
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-
-  let user = {
-    username,
-    email,
-    password,
-    method: "email"
-  };
-
-  localStorage.setItem("user", JSON.stringify(user));
-
-  alert("Compte créé !");
-  window.location.href = "home.html";
+    // redirection vers accueil
+    window.location.href = "index.html";
 });
