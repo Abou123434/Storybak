@@ -743,3 +743,8 @@ label {
 .reactions span {
   cursor: pointer;
 }
+/* nouveau code (le mien) */
+#progressContainer {
+  height: 6px;
+  z-index: 9999;
+}
