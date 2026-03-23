@@ -927,4 +927,3 @@ function nextStory(){
     } else {
         closeViewer();
     }
-}
