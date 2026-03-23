@@ -474,32 +474,20 @@ else {
 }
 /* ===== REACTIONS ===== */
 
-// quand on clique sur un emoji
-function displayReactions(){
-  let story = users[currentUser].stories[currentIndex];
-  if(!story || !story.reactions) return;
-
-  let container = document.getElementById("reactionResult");
-  if(!container) return;
-
-  container.innerHTML = "";
-
-  for(let emoji in story.reactions){
-    container.innerHTML += emoji + " " + story.reactions[emoji] + " ";
-  }
-
-
-// afficher animation à l'écran
 function react(emoji){
     let story = users[currentUser].stories[currentIndex];
 
+    // créer reactions si ça existe pas
     if(!story.reactions){
         story.reactions = {};
     }
 
+    // sauvegarder la réaction
     story.reactions[currentProfile.username] = emoji;
 
     saveData();
+
+    // animation
     showReaction(emoji);
 }
 
@@ -1060,4 +1048,4 @@ function openStatsPage() {
 
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
-                    }
+                }
