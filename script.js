@@ -475,14 +475,22 @@ else {
 /* ===== REACTIONS ===== */
 
 function react(emoji){
-  let container = document.getElementById("reactionResult");
+  let story = users[currentUser].stories[currentIndex];
 
-  if(!container){
-    console.log("reactionResult introuvable");
-    return;
+  // sécurité (important pour éviter crash)
+  if(!story) return;
+
+  if(!story.reactions){
+    story.reactions = {};
   }
 
-  container.innerHTML += emoji + " ";
+  if(!story.reactions[emoji]){
+    story.reactions[emoji] = 0;
+  }
+
+  story.reactions[emoji]++;
+
+  displayReactions();
 }
 
   // sauvegarder la réaction de l'utilisateur
@@ -1066,4 +1074,4 @@ function openStatsPage() {
 
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
-    }
+                }
