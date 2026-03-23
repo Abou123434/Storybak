@@ -432,6 +432,7 @@ function nextStory(){
         closeViewer();
     }
 }
+
 /* ===== REACTIONS ===== */
 
 function react(emoji){
