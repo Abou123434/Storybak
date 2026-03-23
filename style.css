@@ -114,21 +114,34 @@ header {
   font-size: 20px;
 }
 
-/* ===== PROGRESS ===== */
+/* ===== BARRES DE PROGRESSION ===== */
 #progressContainer {
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: 10px;
   right: 10px;
-  height: 4px;
   display: flex;
   gap: 5px;
+  z-index: 1000;
 }
 
-.progress {
+.progress-bar {
   flex: 1;
+  height: 4px;
   background: rgba(255,255,255,0.3);
-  border-radius: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  width: 0%;
+  background: white;
+}
+
+/* IMPORTANT */
+.viewer {
+  position: relative;
 }
 
 .progress-inner {
@@ -723,32 +736,3 @@ label {
   border-radius: 10px;
   color: white;
 }
-/* ===== BARRES DE PROGRESSION ===== */
-#progressContainer {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  display: flex;
-  gap: 5px;
-  z-index: 1000;
-}
-
-.progress-bar {
-  flex: 1;
-  height: 4px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-inner {
-  height: 100%;
-  width: 0%;
-  background: white;
-}
-
-/* IMPORTANT */
-.viewer {
-  position: relative;
-  }
