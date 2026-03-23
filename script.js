@@ -474,14 +474,20 @@ else {
 }
 /* ===== REACTIONS ===== */
 
-// quand on clique sur un emoji
-function react(emoji) {
-    console.log("Réaction :", emoji);
+function displayReactions(){
+  let story = users[currentUser].stories[currentIndex];
+  let container = document.getElementById("reactionResult");
 
-    // Exemple : afficher à l'écran
-    alert("Tu as réagi avec " + emoji);
+  container.innerHTML = "";
 
-    // Tu peux aussi stocker ou envoyer au serveur ici
+  if(!story.reactions) return;
+
+  for(let emoji in story.reactions){
+    let span = document.createElement("span");
+    span.innerText = emoji + " " + story.reactions[emoji];
+    span.style.marginRight = "10px";
+    container.appendChild(span);
+  }
 }
 
   // sauvegarder la réaction de l'utilisateur
@@ -1065,4 +1071,4 @@ function openStatsPage() {
 
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
-}
+        }
