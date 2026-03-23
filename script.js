@@ -474,20 +474,27 @@ else {
 }
 /* ===== REACTIONS ===== */
 
-function displayReactions(){
-  let story = users[currentUser].stories[currentIndex];
-  let container = document.getElementById("reactionResult");
+function react(emoji){
 
-  container.innerHTML = "";
-
-  if(!story.reactions) return;
-
-  for(let emoji in story.reactions){
-    let span = document.createElement("span");
-    span.innerText = emoji + " " + story.reactions[emoji];
-    span.style.marginRight = "10px";
-    container.appendChild(span);
+  if(!users || !users[currentUser] || !users[currentUser].stories[currentIndex]){
+    console.log("Erreur: story introuvable");
+    return;
   }
+
+  let story = users[currentUser].stories[currentIndex];
+
+  if(!story.reactions){
+    story.reactions = {};
+  }
+
+  if(!story.reactions[emoji]){
+    story.reactions[emoji] = 0;
+  }
+
+  story.reactions[emoji]++;
+
+  displayReactions();
+}
 
   // sauvegarder la réaction de l'utilisateur
   story.reactions[currentProfile.username] = emoji;
@@ -1070,4 +1077,4 @@ function openStatsPage() {
 
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
-        }
+    }
