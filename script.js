@@ -215,42 +215,27 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-// ===== VIDEO =====
+    // ===== VIDEO =====
     if(previewFile.type.startsWith("video")){
-
         let video = document.createElement("video");
         video.src = URL.createObjectURL(previewFile);
 
         video.onloadedmetadata = () => {
-
             let duration = video.duration;
-
-            if(!duration || isNaN(duration)){
-                alert("Erreur chargement vidéo");
-                return;
-            }
-
-            let segments = Math.ceil(duration / 30);
+            let segments = Math.ceil(duration / 30); // découper automatiquément les vidéos les plus long en segments de 30s
             let videoCount = userStories.filter(s => s.type === "video").length;
 
-            let remaining = 5 - videoCount;
-
-            if(remaining <= 0){
-                alert("Maximum 5 vidéos atteint !");
+            if(videoCount + segments > 3){
+                alert(" Maximum 5 vidéo autorisés !");découper automatiquément les vidéos les plus long en segments de 30s
                 return;
             }
 
-            let segmentsToAdd = Math.min(segments, remaining);
-
-            let videoURL = URL.createObjectURL(previewFile);
-
-            for(let i = 0; i < segmentsToAdd; i++){
-
+            for(let i=0;i<segments;i++){
                 let start = i * 30;
                 let end = Math.min(start + 30, duration);
 
                 userStories.push({
-                    url: videoURL,
+                    url: URL.createObjectURL(previewFile),
                     type: "video",
                     start: start,
                     end: end,
@@ -260,449 +245,91 @@ function publishPreviewStory(){
 
             saveData();
             renderStories();
-
             previewFile = null;
-
-            alert("Vidéo publiée ✅");
+            closeViewer();
         };
-    }
 
+    } 
     // ===== IMAGE =====
     else {
-
         let imageCount = userStories.filter(s => s.type === "image").length;
 
         if(imageCount >= 10){
-            alert("Maximum 10 images !");
+            alert("Maximum 10 images autorisées !");
             return;
         }
 
         let reader = new FileReader();
-
-        reader.onload = (e) => {
-
+        reader.onload = ev => {
             userStories.push({
-                url: e.target.result,
+                url: ev.target.result,
                 type: "image",
                 views: {}
             });
-
             saveData();
             renderStories();
-
             previewFile = null;
-
-            alert("Image publiée ✅");
+            closeViewer();
         };
-
         reader.readAsDataURL(previewFile);
     }
 }
     
-
-/* VIEWER */
-function openViewer(user){
-  if(users[user].stories.length === 0) return;
-  currentUser = user; currentIndex = 0;
-  document.getElementById("viewer").style.display = "flex";
-  showStory();
+/* ===== VIEWER ===== */
+function openViewer(u){
+    if(users[u].stories.length===0) return;
+    currentUser = u; currentIndex=0;
+    document.getElementById("viewer").style.display="flex";
+    showStory();
 }
-
-function closeViewer(){
-    clearInterval(timer);
-
-    let video = document.querySelector("#content video");
-    if(video){
-        video.pause();
-        video.currentTime = 0;
-    }
-
-    document.getElementById("viewer").style.display = "none";
-    document.getElementById("hamburger").style.display = "block";
+function renderProgressBars(){
+    let c=document.getElementById("progressContainer"); c.innerHTML="";
+    users[currentUser].stories.forEach((s,i)=>{
+        let bar=document.createElement("div"); bar.className="progress";
+        let inner=document.createElement("div"); inner.className="progress-inner";
+        if(i<currentIndex) inner.style.width="100%";
+        bar.appendChild(inner); c.appendChild(bar);
+    });
 }
-
-// ===== PROGRESS =====
-function renderProgressBars(activeIndex){
-  let container = document.getElementById("progressContainer");
-  container.innerHTML = "";
-  let stories = users[currentUser].stories;
-  stories.forEach((s,i)=>{
-    let bar = document.createElement("div");
-    bar.className = "progress";
-    let inner = document.createElement("div");
-    inner.className = "progress-inner";
-    if(i<activeIndex) inner.style.width = "100%";
-    if(i>activeIndex) inner.style.width = "0%";
-    bar.appendChild(inner);
-    container.appendChild(bar);
-  });
+function startProgress(s){
+    let bars=document.querySelectorAll(".progress-inner"); let w=0;
+    let dur=s.type==="image"?5000:10000;
+    timer=setInterval(()=>{
+        w+=100/(dur/50); bars[currentIndex].style.width=Math.min(w,100)+"%";
+        if(w>=100){
+            clearInterval(timer);
+            if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); }
+            else closeViewer();
+        }
+    },50);
 }
-
-function startProgress(story){
-  let bars = document.querySelectorAll(".progress-inner");
-  let width = 0;
-  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
-
-  timer = setInterval(()=>{
-    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-      clearInterval(timer);
-      closeViewer();
-      return;
-    }
-    width += 100/(duration/50);
-    bars[currentIndex].style.width = Math.min(width,100)+"%";
-
-    if(width >= 100){
-      clearInterval(timer);
-      if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-      } else closeViewer();
-    }
-  },50);
-}
-
-// ===== STORY =====
-function showStory(){
-  clearInterval(timer);
-
-  if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-    closeViewer(); return;
-  }
-
-  let story = users[currentUser].stories[currentIndex];
-  let content = document.getElementById("content");
-  content.innerHTML = "";
-
-  let element;
-  if(story.type==="image"){
-    element = document.createElement("img"); element.src = story.url;
-  } else {
-    element = document.createElement("video");
-    element.src = story.url;
-    element.autoplay = true;
-    element.muted = false;
-    element.currentTime = story.startTime;
-    element.ontimeupdate = ()=>{ if(element.currentTime>=story.endTime) nextStory(); };
-  }
-  content.appendChild(element);
-
-  // --- CONTROLS ---
-  let oldControls = document.getElementById("progressControls");
-  if(oldControls) oldControls.remove();
-
-  let progressControls = document.createElement("div");
-  progressControls.id = "progressControls";
-  document.getElementById("viewer").appendChild(progressControls)
-
-// ===== NEXT =====
-function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } else closeViewer(); }
-function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
-function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
-    }
-}
-
-
-let c=document.getElementById("content"); 
-c.innerHTML="";
-// 🔥 supprimer TOUS les boutons supprimer dans le viewer
-let viewer = document.getElementById("viewer");
-viewer.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
-
 function showStory(){
     clearInterval(timer);
     let s=users[currentUser].stories[currentIndex];
     let c=document.getElementById("content"); c.innerHTML="";
-    let e;
+    let e=s.type==="image"?document.createElement("img"):document.createElement("video");
+    e.src=s.url; if(s.type==="video") e.autoplay=true; c.appendChild(e);
+    if(!s.views[currentProfile.username]){ s.views[currentProfile.username]=true; saveData(); }
+    document.getElementById("viewCount").innerText="👁 "+Object.keys(s.views).length+" vues";
+    renderProgressBars(); startProgress(s);
 
-if(s.type === "image"){
-    e = document.createElement("img");
-    e.src = s.url;
-    c.appendChild(e);
+    let controls=document.getElementById("progressControls"); controls.innerHTML="";  
+    let giftBtn=document.createElement("button"); giftBtn.innerText="🎁 Envoyer un cadeau"; giftBtn.onclick=openGiftModal;  
+    controls.appendChild(giftBtn);  
 
-    startProgress(s);
-} 
-else {
-    e = document.createElement("video");
-    e.src = s.url;
-    e.autoplay = true;
-    e.controls = false;
-
-    // 🔊 son activé
-    e.muted = false;
-    e.volume = 1;
-    e.onclick = () => {
-        e.muted = false;
-        e.play();
-    };
-
-    c.appendChild(e);
-
-    e.onloadedmetadata = () => {
-        e.currentTime = s.start;
-        e.play();
-
-        // utiliser timeupdate pour contrôler fin segment
-        const onTimeUpdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                e.removeEventListener("timeupdate", onTimeUpdate);
-
-                if(currentIndex < users[currentUser].stories.length - 1){
-                    currentIndex++;
-                    showStory();
-                } else {
-                    closeViewer();
-                }
-            }
-        };
-
-        e.addEventListener("timeupdate", onTimeUpdate);
-    };
-
-    // durée réelle pour la barre
-    let fakeStory = {
-        type: "video",
-        duration: (s.end - s.start) * 1000
-    };
-
-    startProgress(fakeStory);
-}
-    if(!s.views[currentProfile.username]){
-    s.views[currentProfile.username] = true;
-    saveData();
-}
-/* ===== REACTIONS ===== */
-
-function react(emoji){
-    let story = users[currentUser].stories[currentIndex];
-
-    // créer reactions si ça existe pas
-    if(!story.reactions){
-        story.reactions = {};
+    if(currentProfile.username===currentUser){  
+        let delBtn=document.createElement("button"); delBtn.innerText="Supprimer";  
+        delBtn.onclick=()=>{ if(confirm("Supprimer cette story ?")){  
+            users[currentUser].stories.splice(currentIndex,1); saveData();  
+            if(users[currentUser].stories.length===0){ closeViewer(); return; }  
+            showStory();  
+        }};  
+        controls.appendChild(delBtn);  
     }
-
-    // sauvegarder la réaction
-    story.reactions[currentProfile.username] = emoji;
-
-    saveData();
-
-    // animation
-    showReaction(emoji);
-}
-
-
-// Création du bouton compteur
-let controls = document.getElementById("progressControls");
-controls.innerHTML = "";
-
-// Récupérer les vues
-let views = s.views || {};
-
-// Bouton vues
-let viewBtn = document.createElement("button");
-viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
-viewBtn.style.background = "#333";
-viewBtn.style.border = "none";
-viewBtn.style.color = "white";
-viewBtn.style.cursor = "pointer";
-viewBtn.style.fontSize = "14px";
-viewBtn.style.padding = "5px 10px";
-viewBtn.style.borderRadius = "10px";
-
-// CLICK
-viewBtn.onclick = () => {
-
-    let viewers = Object.values(views);
-
-    if (viewers.length === 0) {
-        alert("Aucune vue pour le moment 😢");
-        return;
-    }
-
-    // OVERLAY (fond sombre)
-    let overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.background = "rgba(0,0,0,0.6)";
-    overlay.style.display = "flex";
-    overlay.style.justifyContent = "center";
-    overlay.style.alignItems = "center";
-    overlay.style.zIndex = "9999";
-
-    // BOITE
-    let box = document.createElement("div");
-    box.style.background = "#fff";
-    box.style.borderRadius = "20px";
-    box.style.padding = "15px";
-    box.style.width = "300px";
-    box.style.maxHeight = "400px";
-    box.style.overflowY = "auto";
-    box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
-
-    // TITRE
-    let title = document.createElement("h3");
-    title.innerText = "👀 Vus par";
-    title.style.textAlign = "center";
-    title.style.marginBottom = "10px";
-    box.appendChild(title);
-
-    // LISTE DES UTILISATEURS
-    viewers.forEach(user => {
-
-        let username = user.name || "Utilisateur";
-
-        let avatar = (user.avatar && user.avatar.startsWith("http"))
-            ? user.avatar
-            : "https://i.pravatar.cc/150?u=" + username;
-
-        let time = user.time || "à l'instant";
-
-        let row = document.createElement("div");
-        row.style.display = "flex";
-        row.style.alignItems = "center";
-        row.style.padding = "10px";
-        row.style.borderBottom = "1px solid #eee";
-
-        let img = document.createElement("img");
-        img.src = avatar;
-        img.style.width = "45px";
-        img.style.height = "45px";
-        img.style.borderRadius = "50%";
-        img.style.marginRight = "10px";
-
-        // Si image cassée
-        img.onerror = () => {
-            img.src = "https://i.pravatar.cc/150?u=" + username;
-        };
-
-        let textBox = document.createElement("div");
-
-        let name = document.createElement("div");
-        name.innerText = username;
-        name.style.fontWeight = "bold";
-
-        let seenTime = document.createElement("div");
-        seenTime.innerText = "vu " + time;
-        seenTime.style.fontSize = "12px";
-        seenTime.style.color = "gray";
-
-        textBox.appendChild(name);
-        textBox.appendChild(seenTime);
-
-        row.appendChild(img);
-        row.appendChild(textBox);
-
-        box.appendChild(row);
-    });
-
-    // BOUTON FERMER
-    let closeBtn = document.createElement("button");
-    closeBtn.innerText = "Fermer";
-    closeBtn.style.marginTop = "10px";
-    closeBtn.style.width = "100%";
-    closeBtn.style.padding = "10px";
-    closeBtn.style.border = "none";
-    closeBtn.style.borderRadius = "10px";
-    closeBtn.style.background = "#25D366";
-    closeBtn.style.color = "white";
-    closeBtn.style.cursor = "pointer";
-
-    closeBtn.onclick = () => document.body.removeChild(overlay);
-
-    box.appendChild(closeBtn);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-};
-
-// Ajouter le bouton
-controls.appendChild(viewBtn);
-
-controls.appendChild(viewBtn);
-// ⚡ Bouton cadeau
-let giftBtn = document.createElement("button");
-
-giftBtn.innerHTML = "🎁 Envoyer un cadeau";
-
-// 📍 position à gauche + descendu
-giftBtn.style.position = "absolute";
-giftBtn.style.top = "45px";   // 👈 descend (ajuste 40 / 50)
-giftBtn.style.left = "10px";  // 👈 à gauche
-giftBtn.style.zIndex = "9999";
-
-// 🔥 alignement texte
-giftBtn.style.display = "flex";
-giftBtn.style.alignItems = "center";
-giftBtn.style.whiteSpace = "nowrap";
-
-// 🎨 style
-giftBtn.style.background = "#FFD700";
-giftBtn.style.color = "#000";
-giftBtn.style.border = "none";
-giftBtn.style.padding = "6px 12px";
-giftBtn.style.borderRadius = "20px";
-giftBtn.style.cursor = "pointer";
-
-giftBtn.onclick = () => openGiftModal();
-
-document.getElementById("viewer").appendChild(giftBtn);
-// ⚡ Bouton supprimer (uniquement si c'est ton profil)
-if(currentProfile.username === currentUser){
-
-    let delBtn = document.createElement("button");
-    delBtn.className = "deleteBtn";
-    delBtn.innerText = "Supprimer";
-
-    delBtn.style.position = "absolute";
-    delBtn.style.top = "45px";
-    delBtn.style.right = "10px";
-    delBtn.style.zIndex = "9999";
-
-    delBtn.style.background = "#ff4444";
-    delBtn.style.color = "#fff";
-    delBtn.style.border = "none";
-    delBtn.style.padding = "6px 12px";
-    delBtn.style.borderRadius = "20px";
-    delBtn.style.cursor = "pointer";
-    delBtn.style.whiteSpace = "nowrap";
-
-    delBtn.onclick = () => {
-        if(confirm("Supprimer cette story ?")){
-            users[currentUser].stories.splice(currentIndex,1);
-            saveData();
-
-            if(users[currentUser].stories.length === 0){
-                closeViewer();
-                return;
-            }
-
-            if(currentIndex >= users[currentUser].stories.length){
-                currentIndex = users[currentUser].stories.length - 1;
-            }
-
-            showStory();
-        }
-    };
-
-    viewer.appendChild(delBtn);
-}
-
-
-
 }
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
-function closeViewer(){
-    clearInterval(timer);
-
-    document.getElementById("viewer").style.display = "none";
-
-    // 🔥 remettre le menu
-    document.getElementById("hamburger").style.display = "block";
-}
+function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
 
 /* ===== CADEAUX ===== */
 let selectedGiftCost=0, selectedGiftEmoji="";
@@ -922,130 +549,3 @@ saveProfile.addEventListener("click", ()=>{
 
 /* ===== INIT ===== */
 renderStories();
-
-
-// ===== ADMIN PANEL =====
-
-// ouvrir admin
-document.getElementById("adminBtn").onclick = () => {
-  document.getElementById("adminPanel").style.display = "flex";
-};
-
-// fermer admin
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
-}
-
-// ===== MODAL PUBLICATION =====
-function openGlobalPublish(){
-  document.getElementById("publishModal").style.display = "flex";
-}
-
-function closePublish(){
-  document.getElementById("publishModal").style.display = "none";
-}
-
-// ouvrir galerie
-function selectFile(){
-  document.getElementById("fileInput").click();
-}
-
-// attendre que le DOM soit chargé
-document.addEventListener("DOMContentLoaded", () => {
-
-  const fileInput = document.getElementById("fileInput");
-
-  if(fileInput){
-    fileInput.addEventListener("change", function(){
-      const file = this.files[0];
-      const preview = document.getElementById("preview");
-
-      preview.innerHTML = "";
-
-      if(file){
-        const url = URL.createObjectURL(file);
-
-        if(file.type.startsWith("image")){
-          preview.innerHTML = `<img src="${url}" style="width:100%; border-radius:10px;">`;
-        }
-        else if(file.type.startsWith("video")){
-          preview.innerHTML = `
-            <video controls style="width:100%; border-radius:10px;">
-              <source src="${url}">
-            </video>`;
-        }
-      }
-    });
-  }
-
-});
-
-// publier
-function publishPost(){
-  alert("Publication envoyée 🚀");
-}
-
-// ===== PAGE KYC =====
-function openKYCPage(){
-  document.getElementById("kycPage").style.display = "block";
-}
-
-function closeKYCPage(){
-  document.getElementById("kycPage").style.display = "none";
-}
-
-function acceptKYC(){
-  document.getElementById("kycStatus").innerText = "✅ KYC accepté";
-}
-
-function refuseKYC(){
-  document.getElementById("kycStatus").innerText = "❌ KYC refusé";
-}
-
-function openBanPage(){
-  document.getElementById("banPage").style.display = "flex";
-}
-
-function closeBanPage(){
-  document.getElementById("banPage").style.display = "none";
-}
-
-function confirmBan(){
-  let email = document.getElementById("banEmail").value;
-  let reason = document.getElementById("banReason").value;
-
-  alert("Utilisateur " + email + " banni pour : " + reason);
-
-  closeBanPage();
-}
-
-function openUsersPage(){
-  document.getElementById("usersPage").style.display = "flex";
-}
-
-function closeUsersPage(){
-  document.getElementById("usersPage").style.display = "none";
-}
-
-function openReportsPage() {
-  document.getElementById("reportsPage").style.display = "flex";
-}
-
-function closeReportsPage() {
-  document.getElementById("reportsPage").style.display = "none";
-}
-function openStatsPage() {
-  document.getElementById("statsPage").style.display = "flex";
-
-  // 🔥 Simulation (plus tard Django va remplacer ça)
-  document.getElementById("usersCount").innerText = 120;
-  document.getElementById("storiesCount").innerText = 45;
-  document.getElementById("visitorsCount").innerText = 300;
-  document.getElementById("coinsBought").innerText = 80;
-  document.getElementById("withdrawCount").innerText = 10;
-  document.getElementById("giftsCount").innerText = 60;
-}
-
-function closeStatsPage() {
-  document.getElementById("statsPage").style.display = "none";
-                }
