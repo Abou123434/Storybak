@@ -114,27 +114,28 @@ header {
   font-size: 20px;
 }
 
-/* ===== PROGRESS ===== */
-#progressContainer {
-  position: absolute;
-  top: 15px;
-  left: 10px;
-  right: 10px;
-  height: 4px;
-  display: flex;
-  gap: 5px;
+/* PROGRESS */
+.progress-container{
+  position:absolute;
+  top:15px;
+  left:10px;
+  right:10px;
+  height:4px;
+  display:flex;
+  gap:5px;
+  z-index: 10;
 }
-
-.progress {
-  flex: 1;
-  background: rgba(255,255,255,0.3);
-  border-radius: 4px;
+.progress{
+  flex:1;
+  background:rgba(255,255,255,0.3);
+  border-radius:4px;
+  overflow:hidden;
 }
-
-.progress-inner {
-  height: 100%;
-  width: 0%;
-  background: white;
+.progress-inner{
+  height:100%;
+  width:0%;
+  background:white;
+  transition: width 0.05s linear;
 }
 
 /* ===== VUES ===== */
@@ -722,4 +723,4 @@ label {
   border: none;
   border-radius: 10px;
   color: white;
-}
+  }
