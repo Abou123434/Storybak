@@ -110,103 +110,30 @@ if(!document.getElementById("boosterModal")){
 const boosterModal = document.getElementById("boosterModal");
 const closeBooster = document.getElementById("closeBooster");
 
-// ===============================
-// 💰 GESTION DU SOLDE
-// ===============================
-
-// Charger le solde depuis le stockage (ou valeur par défaut)
-let userCoins = localStorage.getItem("coins")
-    ? parseInt(localStorage.getItem("coins"))
-    : 120;
-
-// Mettre à jour l'affichage du solde
-function updateBalance() {
-    const el = document.getElementById("balanceDisplay");
-    if (el) {
-        el.innerText = "💰 " + userCoins + " coins";
-    }
-}
-
-// Sauvegarder le solde
-function saveCoins() {
-    localStorage.setItem("coins", userCoins);
-}
-
-// Initialisation affichage
-updateBalance();
-
-
-// ===============================
-// 🚀 OUVRIR MODAL BOOSTER
-// ===============================
-
-const boosterModal = document.getElementById("boosterModal");
-const closeBooster = document.getElementById("closeBooster");
-
-// Ouvrir modal au clic sur bouton 🚀 Booster
-document.querySelectorAll("button").forEach(b => {
-    if (b.innerText.trim() === "🚀 Booster") {
-        b.onclick = (e) => {
+// Ouvrir modal booster au clic sur le bouton
+document.querySelectorAll("button").forEach(b=>{
+    if(b.innerText === "🚀 Booster") {
+        b.onclick = e=>{
             e.stopPropagation();
             boosterModal.style.display = "flex";
         }
     }
 });
 
+// Fermer le modal
+closeBooster.onclick = ()=> boosterModal.style.display="none";
 
-// ===============================
-// ❌ FERMER MODAL
-// ===============================
-
-if (closeBooster) {
-    closeBooster.onclick = () => {
-        boosterModal.style.display = "none";
-    };
-}
-
-
-// ===============================
-// 💳 GESTION DES PACKS BOOSTER
-// ===============================
-
-document.querySelectorAll(".boosterPack").forEach(btn => {
-
-    btn.onclick = () => {
-
-        const euro = parseFloat(btn.dataset.euro);
-        const coins = parseInt(btn.dataset.coins);
-
-        // 🔍 Vérifier solde
-        if (userCoins < coins) {
-
-            alert("❌ Solde insuffisant ! Redirection vers PayPal...");
-
-            // 👉 Redirection paiement
-            window.open("https://www.paypal.com/paypalme", "_blank");
-
-        } else {
-
-            // ✅ Déduire coins
-            userCoins -= coins;
-
-            // 💾 Sauvegarder
-            saveCoins();
-
-            // 🔄 Update affichage
-            updateBalance();
-
-            // 🚀 Boost vidéo
-            alert(`🚀 Vidéo boostée avec ${coins} pièces !`);
-
-            // 👉 Simulation boost
-            console.log("VIDEO BOOSTÉE");
-
-            // Fermer modal
-            boosterModal.style.display = "none";
-        }
-    };
-
-});
+// Gérer le clic sur un pack
+document.querySelectorAll(".boosterPack").forEach(btn=>{
+    btn.onclick = ()=>{
+        const euro = btn.dataset.euro;
+        const coins = btn.dataset.coins;
+        alert(`🎯 Vous avez choisi le pack de ${coins} pièces pour ${euro}€ ! Vous allez être redirigé vers PayPal.`);
+        // ouvrir paypal (simulé) puis page blanche
+        window.open("https://www.paypal.com/paypalme","_blank"); 
+        window.open("about:blank","_blank"); 
+        boosterModal.style.display="none";
+    }
 });
     // Afficher viewer pour prévisualisation
     let viewer = document.getElementById("viewer");
@@ -1137,4 +1064,4 @@ function openStatsPage() {
 
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
-            }
+                                                      }
