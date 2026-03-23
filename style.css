@@ -114,28 +114,27 @@ header {
   font-size: 20px;
 }
 
-/* PROGRESS */
-.progress-container{
-  position:absolute;
-  top:15px;
-  left:10px;
-  right:10px;
-  height:4px;
-  display:flex;
-  gap:5px;
-  z-index: 10;
+/* ===== PROGRESS ===== */
+#progressContainer {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  display: flex;
+  gap: 5px;
 }
-.progress{
-  flex:1;
-  background:rgba(255,255,255,0.3);
-  border-radius:4px;
-  overflow:hidden;
+
+.progress {
+  flex: 1;
+  background: rgba(255,255,255,0.3);
+  border-radius: 4px;
 }
-.progress-inner{
-  height:100%;
-  width:0%;
-  background:white;
-  transition: width 0.05s linear;
+
+.progress-inner {
+  height: 100%;
+  width: 0%;
+  background: white;
 }
 
 /* ===== VUES ===== */
@@ -723,4 +722,33 @@ label {
   border: none;
   border-radius: 10px;
   color: white;
+}
+/* ===== BARRES DE PROGRESSION ===== */
+#progressContainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+  z-index: 1000;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  width: 0%;
+  background: white;
+}
+
+/* IMPORTANT */
+.viewer {
+  position: relative;
   }
