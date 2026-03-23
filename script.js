@@ -216,73 +216,55 @@ function publishPreviewStory(){
     let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-if(previewFile.type.startsWith("video")){
+    if(previewFile.type.startsWith("video")){
 
-    let reader = new FileReader();
+        let reader = new FileReader();
 
-    reader.onload = (e) => {
+        reader.onload = (e) => {
 
-        let videoData = e.target.result;
+            let videoData = e.target.result;
 
-        let video = document.createElement("video");
-        video.src = videoData;
+            let video = document.createElement("video");
+            video.src = videoData;
 
-        video.onloadedmetadata = () => {
+            video.onloadedmetadata = () => {
 
-            let duration = video.duration;
+                let duration = video.duration;
+                if(!duration || isNaN(duration)) return;
 
-            if(!duration || isNaN(duration)){
-                alert("Erreur chargement vidéo");
-                return;
-            }
+                let segments = Math.ceil(duration / 30);
+                let videoCount = userStories.filter(s => s.type === "video").length;
+                let remaining = 5 - videoCount;
 
-            let segments = Math.ceil(duration / 30);
-            let videoCount = userStories.filter(s => s.type === "video").length;
+                if(remaining <= 0) return;
 
-            let remaining = 5 - videoCount;
+                let segmentsToAdd = Math.min(segments, remaining);
 
-            if(remaining <= 0){
-                alert("Maximum 5 vidéos atteint !");
-                return;
-            }
+                for(let i = 0; i < segmentsToAdd; i++){
+                    userStories.push({
+                        url: videoData,
+                        type: "video",
+                        start: i * 30,
+                        end: Math.min((i+1)*30, duration),
+                        views: {}
+                    });
+                }
 
-            let segmentsToAdd = Math.min(segments, remaining);
+                saveData();
+                renderStories();
 
-            for(let i = 0; i < segmentsToAdd; i++){
+                previewFile = null;
 
-                let start = i * 30;
-                let end = Math.min(start + 30, duration);
-
-                userStories.push({
-                    url: videoData, // 🔥 base64
-                    type: "video",
-                    start: start,
-                    end: end,
-                    views: {}
-                });
-            }
-
-            saveData();
-            renderStories();
-
-            previewFile = null;
-
-            alert("Vidéo publiée ✅");
+                // 🔥 ouvre direct
+                openViewer(currentProfile.username);
+            };
         };
-    };
 
-    reader.readAsDataURL(previewFile);
-}
+        reader.readAsDataURL(previewFile);
+    }
 
     // ===== IMAGE =====
     else {
-
-        let imageCount = userStories.filter(s => s.type === "image").length;
-
-        if(imageCount >= 10){
-            alert("Maximum 10 images !");
-            return;
-        }
 
         let reader = new FileReader();
 
@@ -299,7 +281,8 @@ if(previewFile.type.startsWith("video")){
 
             previewFile = null;
 
-            alert("Image publiée ✅");
+            // 🔥 ouvre direct
+            openViewer(currentProfile.username);
         };
 
         reader.readAsDataURL(previewFile);
