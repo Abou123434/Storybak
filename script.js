@@ -215,42 +215,28 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-// ===== VIDEO =====
+    // ===== VIDEO =====
     if(previewFile.type.startsWith("video")){
-
         let video = document.createElement("video");
         video.src = URL.createObjectURL(previewFile);
 
         video.onloadedmetadata = () => {
-
             let duration = video.duration;
-
-            if(!duration || isNaN(duration)){
-                alert("Erreur chargement vidéo");
-                return;
-            }
-
-            let segments = Math.ceil(duration / 30);
+            let segments = Math.ceil(duration / 30); // découpage 30s
             let videoCount = userStories.filter(s => s.type === "video").length;
 
-            let remaining = 5 - videoCount;
-
-            if(remaining <= 0){
-                alert("Maximum 5 vidéos atteint !");
+            // 🔥 limite corrigée
+            if(videoCount + segments > 5){
+                alert("Maximum 5 vidéos autorisées !");
                 return;
             }
 
-            let segmentsToAdd = Math.min(segments, remaining);
-
-            let videoURL = URL.createObjectURL(previewFile);
-
-            for(let i = 0; i < segmentsToAdd; i++){
-
+            for(let i = 0; i < segments; i++){
                 let start = i * 30;
                 let end = Math.min(start + 30, duration);
 
                 userStories.push({
-                    url: videoURL,
+                    url: URL.createObjectURL(previewFile),
                     type: "video",
                     start: start,
                     end: end,
@@ -260,39 +246,32 @@ function publishPreviewStory(){
 
             saveData();
             renderStories();
-
             previewFile = null;
-
-            alert("Vidéo publiée ✅");
+            closeViewer();
         };
-    }
 
+    } 
     // ===== IMAGE =====
     else {
-
         let imageCount = userStories.filter(s => s.type === "image").length;
 
         if(imageCount >= 10){
-            alert("Maximum 10 images !");
+            alert("Maximum 10 images autorisées !");
             return;
         }
 
         let reader = new FileReader();
-
-        reader.onload = (e) => {
-
+        reader.onload = ev => {
             userStories.push({
-                url: e.target.result,
+                url: ev.target.result,
                 type: "image",
                 views: {}
             });
 
             saveData();
             renderStories();
-
             previewFile = null;
-
-            alert("Image publiée ✅");
+            closeViewer();
         };
 
         reader.readAsDataURL(previewFile);
