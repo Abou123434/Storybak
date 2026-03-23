@@ -358,14 +358,17 @@ function startProgress(s){
     width += 100/(duration/50);
     bars[currentIndex].style.width = Math.min(width,100)+"%";
 
-    if(width >= 100){
-      clearInterval(timer);
-      if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-      } else closeViewer();
-    }
-  },50);
+if(width >= 100){
+  clearInterval(timer);
+
+  stopAllVideos(); // 🔥 très important
+
+  if(currentIndex < users[currentUser].stories.length - 1){
+    currentIndex++;
+    showStory();
+  } else {
+    closeViewer();
+  }
 }
 
 function startProgress(s){
@@ -1049,3 +1052,11 @@ function openStatsPage() {
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
+
+function stopAllVideos() {
+  let vids = document.querySelectorAll("video");
+  vids.forEach(v => {
+    v.pause();
+    v.currentTime = 0;
+  });
+        }
