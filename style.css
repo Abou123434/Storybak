@@ -114,25 +114,26 @@ header {
   font-size: 20px;
 }
 
+/* ===== PROGRESS ===== */
 #progressContainer {
   position: absolute;
   top: 15px;
   left: 10px;
   right: 10px;
-  height: 6px;
+  height: 4px;
   display: flex;
   gap: 5px;
-  z-index: 9999;
 }
 
 .progress {
   flex: 1;
-  background: red;
+  background: rgba(255,255,255,0.3);
+  border-radius: 4px;
 }
 
 .progress-inner {
   height: 100%;
-  width: 50%;
+  width: 0%;
   background: white;
 }
 
@@ -721,4 +722,30 @@ label {
   border: none;
   border-radius: 10px;
   color: white;
+}
+.viewer {
+  position: relative;
+}
+
+/* le contenu (image/vidéo) */
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none; /* 🔥 TRÈS IMPORTANT */
+}
+
+/* les réactions au-dessus */
+.reactions {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 10; /* 🔥 AU-DESSUS */
+}
+
+.reactions span {
+  font-size: 24px;
+  margin: 0 10px;
+  cursor: pointer;
   }
