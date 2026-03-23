@@ -407,29 +407,41 @@
   </div>
 
   <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
-
 <div class="container">
+
+<h1>Bienvenue 🎉</h1>
+
+<p id="user"></p>
+
+<script>
+let email = localStorage.getItem("userEmail");
+
+if(email){
+    document.getElementById("user").innerText = "Connecté avec : " + email;
+}else{
+    document.getElementById("user").innerText = "Utilisateur invité";
+}
 
   <h2>Créer un compte</h2>
 
-  <!-- Bouton Google -->
+  <!-- Google -->
   <button id="googleBtn" class="google-btn">
     Continuer avec Google
   </button>
 
   <div class="separator">ou</div>
 
-  <!-- Formulaire email -->
+  <!-- Formulaire -->
   <form id="registerForm">
-    <input type="text" id="username" placeholder="Nom d'utilisateur" required>
-    <input type="email" id="email" placeholder="Email" required>
+    <input type="email" id="email" placeholder="Email Gmail" required>
     <input type="password" id="password" placeholder="Mot de passe" required>
 
-    <button type="submit">S'inscrire</button>
+    <button type="submit" class="submit-btn">
+      S’inscrire
+    </button>
   </form>
 
 </div>
-
 </div>
 
 <script src="script.js"></script>
