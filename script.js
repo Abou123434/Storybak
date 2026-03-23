@@ -210,11 +210,12 @@ publishBtn.onclick = (e) => {
 
 controls.appendChild(publishBtn);
 });
-function publishStory(){
-
+function publishPreviewStory(){
     if(!previewFile) return;
 
-    // ===== VIDEO =====
+    let userStories = users[currentProfile.username].stories;
+
+// ===== VIDEO =====
     if(previewFile.type.startsWith("video")){
 
         let video = document.createElement("video");
