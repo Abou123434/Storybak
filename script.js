@@ -216,10 +216,16 @@ function publishPreviewStory(){
     let userStories = users[currentProfile.username].stories;
 
 // ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
+if(previewFile.type.startsWith("video")){
+
+    let reader = new FileReader();
+
+    reader.onload = (e) => {
+
+        let videoData = e.target.result;
 
         let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
+        video.src = videoData;
 
         video.onloadedmetadata = () => {
 
@@ -242,15 +248,13 @@ function publishPreviewStory(){
 
             let segmentsToAdd = Math.min(segments, remaining);
 
-            let videoURL = URL.createObjectURL(previewFile);
-
             for(let i = 0; i < segmentsToAdd; i++){
 
                 let start = i * 30;
                 let end = Math.min(start + 30, duration);
 
                 userStories.push({
-                    url: videoURL,
+                    url: videoData, // 🔥 base64
                     type: "video",
                     start: start,
                     end: end,
@@ -265,7 +269,10 @@ function publishPreviewStory(){
 
             alert("Vidéo publiée ✅");
         };
-    }
+    };
+
+    reader.readAsDataURL(previewFile);
+}
 
     // ===== IMAGE =====
     else {
