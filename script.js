@@ -1064,4 +1064,19 @@ function openStatsPage() {
 
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
-                                                      }
+}
+function createBars(story) {
+    let container = document.getElementById("progressContainer");
+    container.innerHTML = ""; // reset
+
+    story.forEach(() => {
+        let bar = document.createElement("div");
+        bar.classList.add("progress-bar");
+
+        let inner = document.createElement("div");
+        inner.classList.add("progress-inner");
+
+        bar.appendChild(inner);
+        container.appendChild(bar);
+    });
+      }
