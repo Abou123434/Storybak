@@ -215,185 +215,67 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-// ===== VIDEO =====
-if(previewFile.type.startsWith("video")){
-    let video = document.createElement("video");
-    video.src = URL.createObjectURL(previewFile);
+let timer;
+let currentUser;
+let currentIndex = 0;
 
-    video.onloadedmetadata = () => {
-        let duration = video.duration;
-        let segments = Math.ceil(duration / 30);
-        let videoCount = userStories.filter(s => s.type === "video").length;
-
-        // nombre maximum de segments qu'on peut encore publier
-        let remaining = 5 - videoCount;
-
-        if(remaining <= 0){
-            alert("Maximum 5 segments vidéo atteints !");
-            return;
-        }
-
-        // on limite juste le nombre de segments ajoutés
-        let segmentsToAdd = Math.min(segments, remaining);
-
-        for(let i=0;i<segmentsToAdd;i++){
-            let start = i * 30;
-            let end = Math.min(start + 30, duration);
-
-            userStories.push({
-                url: URL.createObjectURL(previewFile),
-                type: "video",
-                start: start,
-                end: end,
-                views: {}
-            });
-        }
-
-        saveData();
-        renderStories();
-        previewFile = null;
-        closeViewer();
-    };
-}
-    // ===== IMAGE =====
-    else {
-        let imageCount = userStories.filter(s => s.type === "image").length;
-
-        if(imageCount >= 10){
-            alert("Maximum 10 images autorisées !");
-            return;
-        }
-
-        let reader = new FileReader();
-        reader.onload = ev => {
-            userStories.push({
-                url: ev.target.result,
-                type: "image",
-                views: {}
-            });
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
-        reader.readAsDataURL(previewFile);
-    }
-}
-    
 /* ===== VIEWER ===== */
 function openViewer(u){
-    if(users[u].stories.length===0) return;
+    if(users[u].stories.length === 0) return;
 
     currentUser = u;
     currentIndex = 0;
 
     document.getElementById("viewer").style.display = "flex";
-
-    // 🔥 cacher le menu
     document.getElementById("hamburger").style.display = "none";
 
     showStory();
 }
 
-/* PROGRESS */
+/* ===== PROGRESS BARS ===== */
 function renderProgressBars(activeIndex){
-  let container = document.getElementById("progressContainer");
-  container.innerHTML = "";
-  let stories = users[currentUser].stories;
-  stories.forEach((s,i)=>{
-    let bar = document.createElement("div");
-    bar.className = "progress";
-    let inner = document.createElement("div");
-    inner.className = "progress-inner";
-    if(i<activeIndex) inner.style.width = "100%";
-    if(i>activeIndex) inner.style.width = "0%";
-    bar.appendChild(inner);
-    container.appendChild(bar);
-  });
+    let container = document.getElementById("progressContainer");
+    container.innerHTML = "";
+
+    let stories = users[currentUser].stories;
+
+    stories.forEach((s, i) => {
+        let bar = document.createElement("div");
+        bar.className = "progress";
+
+        let inner = document.createElement("div");
+        inner.className = "progress-inner";
+
+        if(i < activeIndex) inner.style.width = "100%";
+        else inner.style.width = "0%";
+
+        bar.appendChild(inner);
+        container.appendChild(bar);
+    });
 }
-  // Barre progression
+
+/* ===== PROGRESS ANIMATION ===== */
 function startProgress(s){
     let bars = document.querySelectorAll(".progress-inner");
-
-    // sécurité
     if(!bars[currentIndex]) return;
 
-    let w = 0;
+    let width = 0;
 
-    // durée correcte
-    let dur;
+    let duration;
     if(s.type === "image"){
-        dur = 5000; // 5 secondes
+        duration = 5000;
     } else {
-        dur = s.duration || (s.end - s.start) * 1000;
+        duration = (s.end - s.start) * 1000 || 10000;
     }
 
     clearInterval(timer);
 
     timer = setInterval(() => {
-        w += 100 / (dur / 50);
+        width += 100 / (duration / 50);
 
-        if(bars[currentIndex]){
-            bars[currentIndex].style.width = Math.min(w, 100) + "%";
-        }
+        bars[currentIndex].style.width = Math.min(width, 100) + "%";
 
-        if(w >= 100){
-            clearInterval(timer);
-
-            if(currentIndex < users[currentUser].stories.length - 1){
-                currentIndex++;
-                showStory();
-            } else {
-                closeViewer();
-            }
-        }
-    }, 50);
-
-  timer = setInterval(()=>{
-    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
-      clearInterval(timer);
-      closeViewer();
-      return;
-    }
-    width += 100/(duration/50);
-    bars[currentIndex].style.width = Math.min(width,100)+"%";
-
-if(width >= 100){
-  clearInterval(timer);
-
-  stopAllVideos(); // 🔥 très important
-
-  if(currentIndex < users[currentUser].stories.length - 1){
-    currentIndex++;
-    showStory();
-  } else {
-    closeViewer();
-  }
-
-function startProgress(s){
-    let bars = document.querySelectorAll(".progress-inner");
-    if(!bars[currentIndex]) return; // 🔥 sécurité
-
-    let w = 0;
-
-    // ✅ durée correcte
-    let dur;
-    if(s.type === "image"){
-        dur = 5000;
-    } else {
-        dur = s.duration || 10000;
-    }
-
-    clearInterval(timer);
-
-    timer = setInterval(() => {
-        w += 100 / (dur / 50);
-
-        if(bars[currentIndex]){
-            bars[currentIndex].style.width = Math.min(w, 100) + "%";
-        }
-
-        if(w >= 100){
+        if(width >= 100){
             clearInterval(timer);
 
             if(currentIndex < users[currentUser].stories.length - 1){
@@ -405,25 +287,71 @@ function startProgress(s){
         }
     }, 50);
 }
-let c=document.getElementById("content"); 
-c.innerHTML="";
-// 🔥 supprimer TOUS les boutons supprimer dans le viewer
-let viewer = document.getElementById("viewer");
-viewer.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
 
+/* ===== SHOW STORY ===== */
 function showStory(){
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
-    let e;
 
-if(s.type === "image"){
-    e = document.createElement("img");
-    e.src = s.url;
-    c.appendChild(e);
+    let s = users[currentUser].stories[currentIndex];
+    let content = document.getElementById("content");
 
-    startProgress(s);
-} 
+    content.innerHTML = "";
+
+    // 🔥 IMPORTANT
+    renderProgressBars(currentIndex);
+
+    let element;
+
+    if(s.type === "image"){
+        element = document.createElement("img");
+        element.src = s.url;
+        content.appendChild(element);
+
+        startProgress(s);
+    }
+
+    else if(s.type === "video"){
+        element = document.createElement("video");
+        element.src = s.url;
+        element.autoplay = true;
+        element.muted = true;
+
+        // 🔥 lire juste le segment
+        element.currentTime = s.start;
+
+        element.onloadedmetadata = () => {
+            element.play();
+        };
+
+        element.ontimeupdate = () => {
+            if(element.currentTime >= s.end){
+                element.pause();
+
+                if(currentIndex < users[currentUser].stories.length - 1){
+                    currentIndex++;
+                    showStory();
+                } else {
+                    closeViewer();
+                }
+            }
+        };
+
+        content.appendChild(element);
+
+        startProgress({
+            type: "video",
+            duration: (s.end - s.start) * 1000
+        });
+    }
+}
+
+/* ===== CLOSE ===== */
+function closeViewer(){
+    clearInterval(timer);
+
+    document.getElementById("viewer").style.display = "none";
+    document.getElementById("hamburger").style.display = "block";
+}
 else {
     e = document.createElement("video");
     e.src = s.url;
@@ -1051,9 +979,3 @@ function openStatsPage() {
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
-
-function stopAllVideos() {
-  let vids = document.querySelectorAll("#viewer video"); // 🔥 uniquement dans le viewer
-  vids.forEach(v => {
-    v.pause();
-  }
