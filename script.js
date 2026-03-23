@@ -215,63 +215,74 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-    // ===== VIDEO =====
+// ===== VIDEO =====
     if(previewFile.type.startsWith("video")){
-        let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
-
-        video.onloadedmetadata = () => {
-            let duration = video.duration;
-            let segments = Math.ceil(duration / 30); // découpage 30s
-            let videoCount = userStories.filter(s => s.type === "video").length;
-
-            // 🔥 limite corrigée
-            if(videoCount + segments > 5){
-                alert("Maximum 5 vidéos autorisées !");
-                return;
-            }
-
-            for(let i = 0; i < segments; i++){
-                let start = i * 30;
-                let end = Math.min(start + 30, duration);
-
-                userStories.push({
-                    url: URL.createObjectURL(previewFile),
-                    type: "video",
-                    start: start,
-                    end: end,
-                    views: {}
-                });
-            }
-
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
-
-    } 
-    // ===== IMAGE =====
-    else {
-        let imageCount = userStories.filter(s => s.type === "image").length;
-
-        if(imageCount >= 10){
-            alert("Maximum 10 images autorisées !");
-            return;
-        }
 
         let reader = new FileReader();
-        reader.onload = ev => {
+
+        reader.onload = (e) => {
+
+            let videoData = e.target.result;
+
+            let video = document.createElement("video");
+            video.src = videoData;
+
+            video.onloadedmetadata = () => {
+
+                let duration = video.duration;
+                if(!duration || isNaN(duration)) return;
+
+                let segments = Math.ceil(duration / 30);
+                let videoCount = userStories.filter(s => s.type === "video").length;
+                let remaining = 5 - videoCount;
+
+                if(remaining <= 0) return;
+
+                let segmentsToAdd = Math.min(segments, remaining);
+
+                for(let i = 0; i < segmentsToAdd; i++){
+                    userStories.push({
+                        url: videoData,
+                        type: "video",
+                        start: i * 30,
+                        end: Math.min((i+1)*30, duration),
+                        views: {}
+                    });
+                }
+
+                saveData();
+                renderStories();
+
+                previewFile = null;
+
+                // 🔥 ouvre direct
+                openViewer(currentProfile.username);
+            };
+        };
+
+        reader.readAsDataURL(previewFile);
+    }
+
+    // ===== IMAGE =====
+    else {
+
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+
             userStories.push({
-                url: ev.target.result,
+                url: e.target.result,
                 type: "image",
                 views: {}
             });
 
             saveData();
             renderStories();
+
             previewFile = null;
-            closeViewer();
+
+            // 🔥 ouvre direct
+            openViewer(currentProfile.username);
         };
 
         reader.readAsDataURL(previewFile);
@@ -394,12 +405,12 @@ function nextStory(){
     }
 }
 
-// ===== STORY =====
 function showStory(){
     clearInterval(timer);
 
     let s = users[currentUser].stories[currentIndex];
 
+    // 🔥 IMPORTANT (sinon pas de barres)
     renderProgressBars(currentIndex);
 
     let c = document.getElementById("content");
@@ -422,7 +433,6 @@ function showStory(){
         e.src = s.url;
         e.autoplay = true;
         e.muted = false;
-        e.controls = false;
 
         c.appendChild(e);
 
@@ -441,7 +451,7 @@ function showStory(){
         startProgress((s.end - s.start) * 1000);
     }
 
-    // ===== VUES =====
+    // vues
     if(!s.views[currentProfile.username]){
         s.views[currentProfile.username] = true;
         saveData();
