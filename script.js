@@ -213,94 +213,90 @@ controls.appendChild(publishBtn);
 function publishPreviewStory(){
     if(!previewFile) return;
 
-    let userStories = users[currentProfile.username].stories;
+/* AJOUT STORY */
+document.getElementById("fileInput").addEventListener("change", async function(e){
+  let file = e.target.files[0];
+  if(!file) return;
 
-// ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
+  let userStories = users[currentLoggedUser].stories;
+  let videoCount = userStories.filter(s=>s.type==="video").length;
+  let imageCount = userStories.filter(s=>s.type==="image").length;
 
-        let reader = new FileReader();
+  if(file.type.startsWith("video")){
+    if(videoCount >= 5){ alert("Vous ne pouvez avoir que 5 vidéos maximum."); return; }
 
-        reader.onload = (e) => {
+    const forbiddenKeywords = ["porn","xxx","sex"];
+    if(forbiddenKeywords.some(word => file.name.toLowerCase().includes(word))){
+      alert("Vidéo rejetée : contenu inapproprié."); return;
+    }
+    await addVideoWithSegments(file);
+  } else {
+    if(imageCount >= 10){ alert("Vous ne pouvez avoir que 10 images maximum."); return; }
+    await addImageStory(file);
+  }
+});
 
-            let videoData = e.target.result;
+/* Découpage vidéo en segments de 10s max */
+async function addVideoWithSegments(file){
+  let url = URL.createObjectURL(file);
+  let video = document.createElement("video");
+  video.src = url;
+  video.preload = "metadata";
 
-            let video = document.createElement("video");
-            video.src = videoData;
+  await new Promise(res => video.onloadedmetadata = res);
+  let duration = video.duration;
+  let segments = Math.ceil(duration / 10);
 
-            video.onloadedmetadata = () => {
+  for(let i=0; i<segments; i++){
+    if(users[currentLoggedUser].stories.filter(s=>s.type==="video").length >= 5) break;
 
-                let duration = video.duration;
-                if(!duration || isNaN(duration)) return;
+    users[currentLoggedUser].stories.push({
+      url: url,
+      type: "video",
+      startTime: i*10,
+      endTime: Math.min((i+1)*10,duration),
+      time: Date.now(),
+      views:{},
+      reactions:{}
+    });
+  }
+  saveData();
+  renderStories();
+}
 
-                let segments = Math.ceil(duration / 30);
-                let videoCount = userStories.filter(s => s.type === "video").length;
-                let remaining = 5 - videoCount;
-
-                if(remaining <= 0) return;
-
-                let segmentsToAdd = Math.min(segments, remaining);
-
-                for(let i = 0; i < segmentsToAdd; i++){
-                    userStories.push({
-                        url: videoData,
-                        type: "video",
-                        start: i * 30,
-                        end: Math.min((i+1)*30, duration),
-                        views: {}
-                    });
-                }
-
-                saveData();
-                renderStories();
-
-                previewFile = null;
-
-                // 🔥 ouvre direct
-                openViewer(currentProfile.username);
-            };
-        };
-
-        reader.readAsDataURL(previewFile);
+/* Ajout image */
+function addImageStory(file){
+  return new Promise((resolve)=>{
+    if(users[currentLoggedUser].stories.filter(s=>s.type==="image").length >= 10){
+      alert("Vous ne pouvez avoir que 10 images maximum.");
+      resolve();
+      return;
     }
 
-    // ===== IMAGE =====
-    else {
-
-        let reader = new FileReader();
-
-        reader.onload = (e) => {
-
-            userStories.push({
-                url: e.target.result,
-                type: "image",
-                views: {}
-            });
-
-            saveData();
-            renderStories();
-
-            previewFile = null;
-
-            // 🔥 ouvre direct
-            openViewer(currentProfile.username);
-        };
-
-        reader.readAsDataURL(previewFile);
-    }
+    let reader = new FileReader();
+    reader.onload = function(e){
+      users[currentLoggedUser].stories.push({
+        url: e.target.result,
+        type: "image",
+        time: Date.now(),
+        views:{},
+        reactions:{}
+      });
+      saveData();
+      renderStories();
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  });
 }
     
 
-// ===== VIEWER =====
-function openViewer(u){
-    if(users[u].stories.length === 0) return;
-
-    currentUser = u;
-    currentIndex = 0;
-
-    document.getElementById("viewer").style.display = "flex";
-    document.getElementById("hamburger").style.display = "none";
-
-    showStory();
+/* VIEWER */
+function openViewer(user){
+  if(users[user].stories.length === 0) return;
+  currentUser = user; currentIndex = 0;
+  document.getElementById("viewer").style.display = "flex";
+  showStory();
 }
 
 function closeViewer(){
@@ -318,108 +314,82 @@ function closeViewer(){
 
 // ===== PROGRESS =====
 function renderProgressBars(activeIndex){
-    let container = document.getElementById("progressContainer");
-    container.innerHTML = "";
-
-    let stories = users[currentUser].stories;
-
-    stories.forEach((s, i) => {
-        let bar = document.createElement("div");
-        bar.className = "progress";
-
-        let inner = document.createElement("div");
-        inner.className = "progress-inner";
-
-        if(i < activeIndex) inner.style.width = "100%";
-        else inner.style.width = "0%";
-
-        bar.appendChild(inner);
-        container.appendChild(bar);
-    });
+  let container = document.getElementById("progressContainer");
+  container.innerHTML = "";
+  let stories = users[currentUser].stories;
+  stories.forEach((s,i)=>{
+    let bar = document.createElement("div");
+    bar.className = "progress";
+    let inner = document.createElement("div");
+    inner.className = "progress-inner";
+    if(i<activeIndex) inner.style.width = "100%";
+    if(i>activeIndex) inner.style.width = "0%";
+    bar.appendChild(inner);
+    container.appendChild(bar);
+  });
 }
 
-function startProgress(duration){
-    let bars = document.querySelectorAll(".progress-inner");
+function startProgress(story){
+  let bars = document.querySelectorAll(".progress-inner");
+  let width = 0;
+  let duration = story.type==="image"?5000:(story.endTime - story.startTime)*1000;
 
-    if(!bars[currentIndex]) return;
+  timer = setInterval(()=>{
+    if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
+      clearInterval(timer);
+      closeViewer();
+      return;
+    }
+    width += 100/(duration/50);
+    bars[currentIndex].style.width = Math.min(width,100)+"%";
 
-    let width = 0;
-
-    clearInterval(timer);
-
-    timer = setInterval(() => {
-        width += 100 / (duration / 50);
-
-        bars[currentIndex].style.width = Math.min(width, 100) + "%";
-
-        if(width >= 100){
-            clearInterval(timer);
-            nextStory();
-        }
-    }, 50);
+    if(width >= 100){
+      clearInterval(timer);
+      if(currentIndex < users[currentUser].stories.length - 1){
+        currentIndex++;
+        showStory();
+      } else closeViewer();
+    }
+  },50);
 }
 
 // ===== STORY =====
 function showStory(){
-    clearInterval(timer);
+  clearInterval(timer);
 
-    let s = users[currentUser].stories[currentIndex];
+  if(!users[currentUser] || !users[currentUser].stories[currentIndex]){
+    closeViewer(); return;
+  }
 
-    // 🔥 IMPORTANT (sinon pas de barres)
-    renderProgressBars(currentIndex);
+  let story = users[currentUser].stories[currentIndex];
+  let content = document.getElementById("content");
+  content.innerHTML = "";
 
-    let c = document.getElementById("content");
-    c.innerHTML = "";
+  let element;
+  if(story.type==="image"){
+    element = document.createElement("img"); element.src = story.url;
+  } else {
+    element = document.createElement("video");
+    element.src = story.url;
+    element.autoplay = true;
+    element.muted = false;
+    element.currentTime = story.startTime;
+    element.ontimeupdate = ()=>{ if(element.currentTime>=story.endTime) nextStory(); };
+  }
+  content.appendChild(element);
 
-    let e;
+  // --- CONTROLS ---
+  let oldControls = document.getElementById("progressControls");
+  if(oldControls) oldControls.remove();
 
-    // ===== IMAGE =====
-    if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
-
-        startProgress(5000);
-    }
-
-    // ===== VIDEO =====
-    else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.muted = false;
-
-        c.appendChild(e);
-
-        e.onloadedmetadata = () => {
-            e.currentTime = s.start;
-            e.play();
-        };
-
-        e.ontimeupdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                nextStory();
-            }
-        };
-
-        startProgress((s.end - s.start) * 1000);
-    }
-
-    // vues
-    if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true;
-        saveData();
-    }
-}
+  let progressControls = document.createElement("div");
+  progressControls.id = "progressControls";
+  document.getElementById("viewer").appendChild(progressControls)
 
 // ===== NEXT =====
-function nextStory(){
-    if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-    } else {
-        closeViewer();
+function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } else closeViewer(); }
+function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
+function closeViewer(){ clearInterval(timer); document.getElementById("viewer").style.display="none"; }
     }
 }
 
