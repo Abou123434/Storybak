@@ -793,8 +793,8 @@ function openStatsPage() {
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
-                
-  
+
+
 // ===== VIEWER =====
 function openViewer(u){
     if(users[u].stories.length === 0) return;
