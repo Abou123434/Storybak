@@ -294,6 +294,24 @@
 
 </div>
 
+<!-- PAGE BANNIR -->
+<div id="banPage" class="ban-page">
+
+  <div class="ban-content">
+    <h2>🚫 Bannir un utilisateur</h2>
+
+    <input type="text" placeholder="Email de l'utilisateur" id="banEmail">
+
+    <select id="banReason">
+      <option>Vidéo interdite</option>
+      <option>Injures</option>
+      <option>Spam</option>
+    </select>
+
+    <button onclick="confirmBan()">Confirmer le bannissement</button>
+    <button onclick="closeBanPage()">Fermer</button>
+  </div>
+
 <!-- 🌍 MODAL PUBLICATION GLOBALE -->
 <div id="publishModal" class="modal">
 
@@ -319,23 +337,6 @@
   </div>
 
 
-<!-- PAGE BANNIR -->
-<div id="banPage" class="ban-page">
-
-  <div class="ban-content">
-    <h2>🚫 Bannir un utilisateur</h2>
-
-    <input type="text" placeholder="Email de l'utilisateur" id="banEmail">
-
-    <select id="banReason">
-      <option>Vidéo interdite</option>
-      <option>Injures</option>
-      <option>Spam</option>
-    </select>
-
-    <button onclick="confirmBan()">Confirmer le bannissement</button>
-    <button onclick="closeBanPage()">Fermer</button>
-  </div>
 
 <!-- ===== PAGE UTILISATEURS ===== -->
 <div id="usersPage" class="users-page">
