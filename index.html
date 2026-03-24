@@ -354,32 +354,6 @@
   <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
 
 
-<!-- 🌍 MODAL PUBLICATION GLOBALE -->
-<div id="publishModal" class="modal">
-
-  <div class="modal-content">
-    <h2>Publication globale</h2>
-
-    <!-- input caché pour ouvrir la galerie -->
-    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
-
-    <!-- bouton pour choisir fichier -->
-    <button onclick="selectFile()" class="green-btn">
-      Choisir Image / Vidéo
-    </button>
-
-    <!-- preview -->
-    <div id="preview"></div>
-
-    <div class="modal-buttons">
-      <button onclick="publishPost()" class="green-btn">Publier</button>
-    </div>
-
-    <button onclick="closePublish()" class="red-btn">Fermer</button>
-  </div>
-
-
-
 <!-- ===== PAGE UTILISATEURS ===== -->
 <div id="usersPage" class="users-page">
 
@@ -407,6 +381,32 @@
 </div>
 
 </div>
+
+
+<!-- 🌍 MODAL PUBLICATION GLOBALE -->
+<div id="publishModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Publication globale</h2>
+
+    <!-- input caché pour ouvrir la galerie -->
+    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
+
+    <!-- bouton pour choisir fichier -->
+    <button onclick="selectFile()" class="green-btn">
+      Choisir Image / Vidéo
+    </button>
+
+    <!-- preview -->
+    <div id="preview"></div>
+
+    <div class="modal-buttons">
+      <button onclick="publishPost()" class="green-btn">Publier</button>
+    </div>
+
+    <button onclick="closePublish()" class="red-btn">Fermer</button>
+  </div>
+
 
 <!-- 🚨 PAGE SIGNALEMENT -->
 <div id="reportsPage" class="reports-page">
@@ -440,4 +440,4 @@
 </div>
 
 <script src="script.js"></script>
-</body>
+      </body>
