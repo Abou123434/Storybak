@@ -1125,30 +1125,50 @@ function startSegments() {
   }, 3000);
 }
 
-// Vérifier si déjà connecté
-window.onload = () => {
+// ===== INITIALISATION =====
+document.addEventListener("DOMContentLoaded", () => {
+
+  const overlay = document.getElementById("authOverlay");
+  const googleBtn = document.getElementById("googleLogin");
+  const loginBtn = document.getElementById("loginBtn");
+
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+
+  // Vérifier connexion
   const user = localStorage.getItem("user");
 
-  if (user) {
-    document.getElementById("authOverlay").style.display = "none";
-  }
-};
-
-// Bouton Google (simulation directe)
-document.getElementById("googleLogin").onclick = () => {
-  localStorage.setItem("user", "google_user");
-  document.getElementById("authOverlay").style.display = "none";
-};
-
-// Login Gmail (simulation)
-document.getElementById("loginBtn").onclick = () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  if (email && password) {
-    localStorage.setItem("user", email);
-    document.getElementById("authOverlay").style.display = "none";
+  if (!user) {
+    overlay.style.display = "flex"; // afficher
+    document.body.style.overflow = "hidden"; // bloquer scroll
   } else {
-    alert("Remplis les champs");
+    overlay.style.display = "none"; // cacher
   }
-};
+
+  // ===== GOOGLE LOGIN (simulation) =====
+  googleBtn.addEventListener("click", () => {
+    localStorage.setItem("user", "google_user");
+
+    overlay.style.display = "none";
+    document.body.style.overflow = "auto";
+  });
+
+  // ===== LOGIN EMAIL =====
+  loginBtn.addEventListener("click", () => {
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (email === "" || password === "") {
+      alert("Remplis tous les champs");
+      return;
+    }
+
+    // simulation connexion
+    localStorage.setItem("user", email);
+
+    overlay.style.display = "none";
+    document.body.style.overflow = "auto";
+  });
+
+});
