@@ -1149,43 +1149,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
 
-  // Vérifier connexion
   const user = localStorage.getItem("user");
 
   if (!user) {
     overlay.style.display = "flex";
-    document.body.style.overflow = "hidden";
     mainPage.style.display = "none";
+    document.body.style.overflow = "hidden";
   } else {
     overlay.style.display = "none";
     mainPage.style.display = "block";
   }
 
-  // GOOGLE LOGIN
-  googleBtn.addEventListener("click", () => {
-    localStorage.setItem("user", "google_user");
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => {
+      localStorage.setItem("user", "google_user");
 
-    overlay.style.display = "none";
-    mainPage.style.display = "block";
-    document.body.style.overflow = "auto";
-  });
+      overlay.style.display = "none";
+      mainPage.style.display = "block";
+      document.body.style.overflow = "auto";
+    });
+  }
 
-  // LOGIN EMAIL
-  loginBtn.addEventListener("click", () => {
+  if (loginBtn) {
+    loginBtn.addEventListener("click", () => {
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
 
-    if (email === "" || password === "") {
-      alert("Remplis tous les champs");
-      return;
-    }
+      if (!email || !password) {
+        alert("Remplis tous les champs");
+        return;
+      }
 
-    localStorage.setItem("user", email);
+      localStorage.setItem("user", email);
 
-    overlay.style.display = "none";
-    mainPage.style.display = "block";
-    document.body.style.overflow = "auto";
-  });
+      overlay.style.display = "none";
+      mainPage.style.display = "block";
+      document.body.style.overflow = "auto";
+    });
+  }
 
 });
