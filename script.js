@@ -1081,34 +1081,36 @@ window.onclick = function(event){
   }
 }
 
-// ===== VARIABLES =====
-let withdrawModal = document.getElementById("withdrawModal");
-let withdrawBalance = document.getElementById("withdrawBalance");
-let withdrawAmount = document.getElementById("withdrawAmount");
+// ===== ELEMENTS =====
+const withdrawBtn = document.getElementById("withdrawBtn");
+const withdrawModal = document.getElementById("withdrawModal");
+const closeWithdraw = document.getElementById("closeWithdraw");
+const confirmWithdraw = document.getElementById("confirmWithdraw");
+const withdrawBalance = document.getElementById("withdrawBalance");
+const withdrawAmount = document.getElementById("withdrawAmount");
 
-// ⚠️ Simule ton solde (tu peux changer)
-let userBalance = 150; // exemple : 150€
+// ===== SOLDE (simulation) =====
+let userBalance = 150;
 
 
 // ===== OUVRIR MODAL =====
-function openWithdraw() {
+withdrawBtn.addEventListener("click", () => {
     withdrawModal.style.display = "flex";
     withdrawBalance.innerText = userBalance;
-}
+});
 
 
 // ===== FERMER MODAL =====
-document.getElementById("closeWithdraw").onclick = function () {
+closeWithdraw.addEventListener("click", () => {
     withdrawModal.style.display = "none";
-};
+});
 
 
 // ===== CONFIRMER RETRAIT =====
-document.getElementById("confirmWithdraw").onclick = function () {
+confirmWithdraw.addEventListener("click", () => {
 
     let amount = parseFloat(withdrawAmount.value);
 
-    // Vérification
     if (!amount || amount <= 0) {
         alert("Entre un montant valide");
         return;
@@ -1119,12 +1121,11 @@ document.getElementById("confirmWithdraw").onclick = function () {
         return;
     }
 
-    // Déduction du solde
+    // Déduction
     userBalance -= amount;
 
-    // 🔥 Redirection vers PayPal
-    // ⚠️ Remplace TON_EMAIL par ton vrai compte PayPal
+    // 🔥 REDIRECTION PAYPAL
     let paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL&amount=${amount}&currency_code=EUR`;
 
     window.location.href = paypalUrl;
-};
+});
