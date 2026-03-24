@@ -158,19 +158,25 @@
 <div id="withdrawModal" class="modal">
 
   <div class="modal-content">
-    <span class="close" onclick="closeWithdraw()">&times;</span>
+    <h2>Retrait</h2>
 
-    <h2>Retirer de l'argent</h2>
+    <p>💰 Solde disponible : <span id="withdrawBalance">50</span> €</p>
 
-    <p>💰 Solde disponible : <span id="withdrawBalance">0</span> €</p>
+    <input 
+      type="number" 
+      id="withdrawAmount" 
+      placeholder="Entrer le montant"
+      min="1"
+    >
 
-    <input type="number" id="withdrawAmount" placeholder="Montant à retirer">
+    <div class="modal-buttons">
+      <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
+    </div>
 
-    <button onclick="confirmWithdraw()">Confirmer le retrait</button>
+    <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
   </div>
 
 </div>
-
 
 <!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
 <div id="adminPanel">
