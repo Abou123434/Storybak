@@ -1085,3 +1085,41 @@ window.onclick = function(event){
 function openWithdraw(){
   alert("Fonction retrait bientôt disponible 💰");
 }
+let balance = 50; // 💰 ton solde (à connecter plus tard)
+
+// Ouvrir modal
+function openWithdraw(){
+  document.getElementById("withdrawModal").style.display = "flex";
+
+  // Mettre à jour le solde affiché
+  document.getElementById("withdrawBalance").innerText = balance;
+}
+
+// Fermer
+function closeWithdraw(){
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+// Confirmer retrait
+function confirmWithdraw(){
+  let amount = Number(document.getElementById("withdrawAmount").value);
+
+  // Vérifications
+  if(!amount || amount <= 0){
+    alert("Entre un montant valide ❌");
+    return;
+  }
+
+  if(amount > balance){
+    alert("Solde insuffisant ❌");
+    return;
+  }
+
+  // 🔥 SIMULATION RETRAIT
+  balance -= amount;
+
+  // ✅ REDIRECTION PAYPAL
+  let paypalLink = "https://www.paypal.com/paypalme/TonPseudo/" + amount;
+
+  window.location.href = paypalLink;
+}
