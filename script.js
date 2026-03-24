@@ -1162,7 +1162,11 @@ document.addEventListener("DOMContentLoaded", () => {
 googleBtn.addEventListener("click", () => {
   localStorage.setItem("user", "google_user");
 
-  window.location.href = "home.html"; // 🔥 redirection
+  overlay.style.display = "none";
+  document.body.style.overflow = "auto";
+
+  // 👉 REDIRECTION
+  window.location.href = "home.html"; // ou index.html
 });
 
 // ===== LOGIN EMAIL =====
@@ -1179,5 +1183,9 @@ loginBtn.addEventListener("click", () => {
   // simulation connexion
   localStorage.setItem("user", email);
 
-  window.location.href = "home.html"; // 🔥 redirection
+  overlay.style.display = "none";
+  document.body.style.overflow = "auto";
+
+  // 👉 REDIRECTION
+  window.location.href = "home.html"; // change avec ta page
 });
