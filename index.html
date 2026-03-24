@@ -200,11 +200,11 @@
 
 </div>
 
-<!-- 💰 MODAL SOLDE PLATEFORME -->
-<div id="balanceModal" class="modal">
-
+<!-- bouton OUTSIDE -->
 <button onclick="openBalance()">Solde plateforme</button>
 
+<!-- modal -->
+<div id="balanceModal" class="modal">
   <div class="modal-content">
     <h2>Solde plateforme</h2>
 
@@ -213,15 +213,12 @@
     <p>🏦 Valeur : 0 €</p>
 
     <div class="modal-buttons">
-      <!-- 🔥 ON CHANGE ICI -->
       <button onclick="openWithdraw()" class="green-btn">Retirer</button>
     </div>
 
     <button onclick="closeBalance()" class="red-btn">Fermer</button>
   </div>
-
 </div>
-
 
 <!-- 💸 MODAL RETRAIT -->
 <div id="withdrawModal" class="modal">
@@ -407,41 +404,7 @@
   </div>
 
   <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
-<div class="container">
 
-<h1>Bienvenue 🎉</h1>
-
-<p id="user"></p>
-
-<script>
-let email = localStorage.getItem("userEmail");
-
-if(email){
-    document.getElementById("user").innerText = "Connecté avec : " + email;
-}else{
-    document.getElementById("user").innerText = "Utilisateur invité";
-}
-
-  <h2>Créer un compte</h2>
-
-  <!-- Google -->
-  <button id="googleBtn" class="google-btn">
-    Continuer avec Google
-  </button>
-
-  <div class="separator">ou</div>
-
-  <!-- Formulaire -->
-  <form id="registerForm">
-    <input type="email" id="email" placeholder="Email Gmail" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-
-    <button type="submit" class="submit-btn">
-      S’inscrire
-    </button>
-  </form>
-
-</div>
 </div>
 
 <script src="script.js"></script>
