@@ -176,16 +176,14 @@
   <div class="admin-header">    
     <h2>Admin Panel</h2>    
     <button onclick="closeAdmin()" class="red-btn">Fermer</button>    
-</div>  
-<div class="platform-balance" onclick="openBalance()">    
-  Solde de la plateforme    
-</div>
-  
-  <!-- ✅ BOUTONS ADMIN -->
+  </div>  
+
+<!-- ✅ BOUTONS ADMIN -->
+<button class="admin-btn" onclick="openBalance()">Solde plateforme</button>
 <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
 <button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
-    <button class="admin-btn" onclick="openStatsPage()">Voir les statistiques</button> 
-   <button class="admin-btn" onclick="openUsersPage()">Gérer les utilisateurs</button>
+<button class="admin-btn" onclick="openStatsPage()">Voir les statistiques</button> 
+<button class="admin-btn" onclick="openUsersPage()">Gérer les utilisateurs</button>
 
     <!-- 🔥 NOUVEAUX BOUTONS -->
     <button class="admin-btn" onclick="openGlobalPublish()">Publication globale</button>
@@ -198,6 +196,7 @@
 
 </div>
 
+<!-- 💰 MODAL SOLDE PLATEFORME -->
 <div id="balanceModal" class="modal">
 
   <div class="modal-content">
@@ -208,10 +207,10 @@
     <p>🏦 Valeur : 0 €</p>
 
     <div class="modal-buttons">
-      <button id="withdrawBtn" class="green-btn">Retirer</button>
+      <button onclick="openWithdraw()" class="green-btn">Retirer</button>
     </div>
 
-    <button id="closeBalanceBtn" class="red-btn">Fermer</button>
+    <button onclick="closeBalance()" class="red-btn">Fermer</button>
   </div>
 
 </div>
@@ -404,6 +403,5 @@
 
 </div>
 
-</body>
 <script src="script.js"></script>
-</html>
+  </body>
