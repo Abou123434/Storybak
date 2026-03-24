@@ -1158,29 +1158,38 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.display = "none"; // cacher
   }
 
-// ===== GOOGLE LOGIN (simulation) =====
-googleBtn.addEventListener("click", () => {
-  localStorage.setItem("user", "google_user");
+document.addEventListener("DOMContentLoaded", () => {
 
-  overlay.style.display = "none";
-  mainPage.style.display = "block"; // 👈 ICI
-  document.body.style.overflow = "auto";
-});
+  const googleBtn = document.getElementById("googleLogin");
+  const loginBtn = document.getElementById("loginBtn");
+  const overlay = document.getElementById("authOverlay");
+  const mainPage = document.getElementById("mainPage");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
 
-// ===== LOGIN EMAIL =====
-loginBtn.addEventListener("click", () => {
+  // GOOGLE LOGIN
+  googleBtn.addEventListener("click", () => {
+    localStorage.setItem("user", "google_user");
 
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+    overlay.style.display = "none";
+    mainPage.style.display = "block";
+  });
 
-  if (email === "" || password === "") {
-    alert("Remplis tous les champs");
-    return;
-  }
+  // LOGIN EMAIL
+  loginBtn.addEventListener("click", () => {
 
-  localStorage.setItem("user", email);
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-  overlay.style.display = "none";
-  mainPage.style.display = "block"; // 👈 ICI
-  document.body.style.overflow = "auto";
+    if (email === "" || password === "") {
+      alert("Remplis tous les champs");
+      return;
+    }
+
+    localStorage.setItem("user", email);
+
+    overlay.style.display = "none";
+    mainPage.style.display = "block";
+  });
+
 });
