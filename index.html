@@ -354,30 +354,6 @@
   <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
 
 
-<!-- 🌍 MODAL PUBLICATION GLOBALE -->
-<div id="publishModal" class="modal">
-
-  <div class="modal-content">
-    <h2>Publication globale</h2>
-
-    <!-- input caché pour ouvrir la galerie -->
-    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
-
-    <!-- bouton pour choisir fichier -->
-    <button onclick="selectFile()" class="green-btn">
-      Choisir Image / Vidéo
-    </button>
-
-    <!-- preview -->
-    <div id="preview"></div>
-
-    <div class="modal-buttons">
-      <button onclick="publishPost()" class="green-btn">Publier</button>
-    </div>
-
-    <button onclick="closePublish()" class="red-btn">Fermer</button>
-  </div>
-
 
 
 <!-- 📊 PAGE STATISTIQUES -->
@@ -423,6 +399,30 @@
 
 </div>
 
+<!-- 👥 PAGE UTILISATEURS -->
+<div id="usersPage" class="users-page">
+
+  <div class="users-header">
+    <h2>👥 Gestion des utilisateurs</h2>
+    <button onclick="closeUsersPage()">❌</button>
+  </div>
+
+  <div class="users-list">
+
+    <div class="user-card">
+      <p>👤 Nom : Ali</p>
+      <p>📧 Gmail : ali@gmail.com</p>
+
+      <div class="user-video">
+        🎥 Aucune vidéo
+      </div>
+
+      <button class="ban-btn">🚫 Bannir</button>
+    </div>
+
+  </div>
+
+</div>
 
 <!-- 🌍 MODAL PUBLICATION GLOBALE -->
 <div id="publishModal" class="modal">
@@ -450,30 +450,7 @@
 </div>
 
 
-<!-- 👥 PAGE UTILISATEURS -->
-<div id="usersPage" class="users-page">
 
-  <div class="users-header">
-    <h2>👥 Gestion des utilisateurs</h2>
-    <button onclick="closeUsersPage()">❌</button>
-  </div>
-
-  <div class="users-list">
-
-    <div class="user-card">
-      <p>👤 Nom : Ali</p>
-      <p>📧 Gmail : ali@gmail.com</p>
-
-      <div class="user-video">
-        🎥 Aucune vidéo
-      </div>
-
-      <button class="ban-btn">🚫 Bannir</button>
-    </div>
-
-  </div>
-
-</div>
 
 
 <!-- 🚨 PAGE SIGNALEMENT -->
