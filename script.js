@@ -1144,6 +1144,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("authOverlay");
   const googleBtn = document.getElementById("googleLogin");
   const loginBtn = document.getElementById("loginBtn");
+  const mainPage = document.getElementById("mainPage");
 
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
@@ -1152,20 +1153,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const user = localStorage.getItem("user");
 
   if (!user) {
-    overlay.style.display = "flex"; // afficher
-    document.body.style.overflow = "hidden"; // bloquer scroll
+    overlay.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    mainPage.style.display = "none";
   } else {
-    overlay.style.display = "none"; // cacher
+    overlay.style.display = "none";
+    mainPage.style.display = "block";
   }
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const googleBtn = document.getElementById("googleLogin");
-  const loginBtn = document.getElementById("loginBtn");
-  const overlay = document.getElementById("authOverlay");
-  const mainPage = document.getElementById("mainPage");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
 
   // GOOGLE LOGIN
   googleBtn.addEventListener("click", () => {
@@ -1173,6 +1167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     overlay.style.display = "none";
     mainPage.style.display = "block";
+    document.body.style.overflow = "auto";
   });
 
   // LOGIN EMAIL
@@ -1190,6 +1185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     overlay.style.display = "none";
     mainPage.style.display = "block";
+    document.body.style.overflow = "auto";
   });
 
 });
