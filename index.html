@@ -222,9 +222,14 @@
   <div class="modal-content">
     <h2>Retrait</h2>
 
-    <p>💰 Solde disponible : 0 €</p>
+    <p>💰 Solde disponible : <span id="withdrawBalance">50</span> €</p>
 
-    <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
+    <input 
+      type="number" 
+      id="withdrawAmount" 
+      placeholder="Entrer le montant"
+      min="1"
+    >
 
     <div class="modal-buttons">
       <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
