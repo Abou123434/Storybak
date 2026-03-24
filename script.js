@@ -1163,10 +1163,8 @@ googleBtn.addEventListener("click", () => {
   localStorage.setItem("user", "google_user");
 
   overlay.style.display = "none";
+  mainPage.style.display = "block"; // 👈 ICI
   document.body.style.overflow = "auto";
-
-  // 👉 REDIRECTION
-  window.location.href = "home.html"; // ou index.html
 });
 
 // ===== LOGIN EMAIL =====
@@ -1180,12 +1178,9 @@ loginBtn.addEventListener("click", () => {
     return;
   }
 
-  // simulation connexion
   localStorage.setItem("user", email);
 
   overlay.style.display = "none";
+  mainPage.style.display = "block"; // 👈 ICI
   document.body.style.overflow = "auto";
-
-  // 👉 REDIRECTION
-  window.location.href = "home.html"; // change avec ta page
 });
