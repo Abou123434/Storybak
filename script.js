@@ -1061,76 +1061,70 @@ function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
 
-// 💰 SOLDE (exemple)
-let balance = 50;
-
-// =========================
-// ✅ MODAL SOLDE
-// =========================
+// Ouvrir le modal
 function openBalance(){
-  document.getElementById("balanceModal").style.display = "flex";
+  const modal = document.getElementById("balanceModal");
+  modal.style.display = "flex"; // mieux que block pour centrer
 }
 
+// Fermer le modal
 function closeBalance(){
-  document.getElementById("balanceModal").style.display = "none";
+  const modal = document.getElementById("balanceModal");
+  modal.style.display = "none";
 }
 
-// =========================
-// ✅ MODAL RETRAIT
-// =========================
-function openWithdraw(){
-  document.getElementById("withdrawModal").style.display = "flex";
-
-  // mettre à jour le solde affiché
-  document.getElementById("withdrawBalance").innerText = balance;
-}
-
-function closeWithdraw(){
-  document.getElementById("withdrawModal").style.display = "none";
-}
-
-// =========================
-// ✅ CONFIRM RETRAIT
-// =========================
-function confirmWithdraw(){
-  let amount = Number(document.getElementById("withdrawAmount").value);
-
-  if(!amount || amount <= 0){
-    alert("Entre un montant valide ❌");
-    return;
+// Fermer si on clique en dehors du contenu
+window.onclick = function(event){
+  const modal = document.getElementById("balanceModal");
+  if(event.target === modal){
+    modal.style.display = "none";
   }
-
-  if(amount > balance){
-    alert("Solde insuffisant ❌");
-    return;
-  }
-
-  // 🔥 déduction
-  balance -= amount;
-
-  // reset champ
-  document.getElementById("withdrawAmount").value = "";
-
-  // fermer modal
-  closeWithdraw();
-
-  // 💰 REDIRECTION PAYPAL
-  let paypalLink = "https://www.paypal.com/paypalme/TonPseudo/" + amount;
-  window.location.href = paypalLink;
 }
 
-// =========================
-// ✅ FERMER EN CLIQUANT DEHORS (FIX BUG)
-// =========================
-window.addEventListener("click", function(event){
-  let balanceModal = document.getElementById("balanceModal");
-  let withdrawModal = document.getElementById("withdrawModal");
+// ===== VARIABLES =====
+let withdrawModal = document.getElementById("withdrawModal");
+let withdrawBalance = document.getElementById("withdrawBalance");
+let withdrawAmount = document.getElementById("withdrawAmount");
 
-  if(event.target === balanceModal){
-    balanceModal.style.display = "none";
-  }
+// ⚠️ Simule ton solde (tu peux changer)
+let userBalance = 150; // exemple : 150€
 
-  if(event.target === withdrawModal){
+
+// ===== OUVRIR MODAL =====
+function openWithdraw() {
+    withdrawModal.style.display = "flex";
+    withdrawBalance.innerText = userBalance;
+}
+
+
+// ===== FERMER MODAL =====
+document.getElementById("closeWithdraw").onclick = function () {
     withdrawModal.style.display = "none";
-  }
-});
+};
+
+
+// ===== CONFIRMER RETRAIT =====
+document.getElementById("confirmWithdraw").onclick = function () {
+
+    let amount = parseFloat(withdrawAmount.value);
+
+    // Vérification
+    if (!amount || amount <= 0) {
+        alert("Entre un montant valide");
+        return;
+    }
+
+    if (amount > userBalance) {
+        alert("Solde insuffisant");
+        return;
+    }
+
+    // Déduction du solde
+    userBalance -= amount;
+
+    // 🔥 Redirection vers PayPal
+    // ⚠️ Remplace TON_EMAIL par ton vrai compte PayPal
+    let paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL&amount=${amount}&currency_code=EUR`;
+
+    window.location.href = paypalUrl;
+};
