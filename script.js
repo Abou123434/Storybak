@@ -1086,54 +1086,41 @@ function openWithdraw(){
   alert("Fonction retrait bientôt disponible 💰");
 }
 
-let segmentsPlayed = 0;
-let maxSegments = 9;
+let segmentCount = 0;
+const maxSegments = 9;
 
-// lancer au chargement
+// afficher pub
+function showAd(text) {
+  const ad = document.getElementById("adOverlay");
+  const adText = document.getElementById("adText");
+
+  adText.innerText = text;
+  ad.style.display = "flex";
+
+  setTimeout(() => {
+    ad.style.display = "none";
+  }, 3000);
+}
+
+// PUB au chargement
 window.onload = () => {
-    startAdSequence();
+  showAd("Publicité de chargement");
+
+  // lancer segments après 3s
+  setTimeout(startSegments, 3000);
 };
 
-function startAdSequence() {
-    segmentsPlayed = 0;
-    showAd("Publicité principale", () => {
-        playSegments();
-    });
-}
+function startSegments() {
+  let interval = setInterval(() => {
 
-function playSegments() {
-    if (segmentsPlayed >= maxSegments) {
-        console.log("Fin des pubs");
-        return;
+    if (segmentCount >= maxSegments) {
+      clearInterval(interval);
+      console.log("Fin des pubs");
+      return;
     }
 
-    segmentsPlayed++;
+    segmentCount++;
+    showAd("Segment pub " + segmentCount);
 
-    showAd("Segment " + segmentsPlayed, () => {
-        playSegments();
-    });
-}
-
-function showAd(text, callback) {
-    const overlay = document.getElementById("adOverlay");
-    const adText = document.getElementById("adText");
-    const adTimer = document.getElementById("adTimer");
-
-    overlay.classList.remove("hidden");
-    adText.innerText = text;
-
-    let time = 3;
-    adTimer.innerText = time;
-
-    let interval = setInterval(() => {
-        time--;
-        adTimer.innerText = time;
-
-        if (time <= 0) {
-            clearInterval(interval);
-            overlay.classList.add("hidden");
-
-            if (callback) callback();
-        }
-    }, 1000);
+  }, 3000);
 }
