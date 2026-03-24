@@ -184,6 +184,7 @@
 </div>
 
   <!-- ✅ BOUTONS ADMIN -->
+<button id="adminBalanceBtn">Solde plateforme</button>
 <button class="admin-btn" onclick="openKYCPage()">Vérification KYC</button>
 <button class="admin-btn" onclick="openBanPage()">Bannir un utilisateur</button>
     <button class="admin-btn" onclick="openStatsPage()">Voir les statistiques</button> 
@@ -200,11 +201,8 @@
 
 </div>
 
-<!-- bouton OUTSIDE -->
-<button onclick="openBalance()">Solde plateforme</button>
-
-<!-- modal -->
 <div id="balanceModal" class="modal">
+
   <div class="modal-content">
     <h2>Solde plateforme</h2>
 
@@ -213,12 +211,14 @@
     <p>🏦 Valeur : 0 €</p>
 
     <div class="modal-buttons">
-      <button onclick="openWithdraw()" class="green-btn">Retirer</button>
+      <button id="withdrawBtn" class="green-btn">Retirer</button>
     </div>
 
-    <button onclick="closeBalance()" class="red-btn">Fermer</button>
+    <button id="closeBalanceBtn" class="red-btn">Fermer</button>
   </div>
+
 </div>
+
 
 <!-- 💸 MODAL RETRAIT -->
 <div id="withdrawModal" class="modal">
