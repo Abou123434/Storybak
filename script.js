@@ -1068,23 +1068,24 @@ let closeBtn = document.getElementById("closeBalanceBtn");
 let withdrawBtn = document.getElementById("withdrawBtn");
 
 // ===== OUVRIR =====
-openBtn.addEventListener("click", () => {
-    modal.style.display = "block";
-});
+function openBalance(){
+    document.getElementById("balanceModal").style.display = "block";
+}
 
 // ===== FERMER =====
-closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-});
+function closeBalance(){
+    document.getElementById("balanceModal").style.display = "none";
+}
 
 // ===== CLIQUE DEHORS =====
 window.addEventListener("click", (e) => {
+    let modal = document.getElementById("balanceModal");
     if(e.target === modal){
         modal.style.display = "none";
     }
 });
 
 // ===== RETIRER =====
-withdrawBtn.addEventListener("click", () => {
+function openWithdraw(){
     alert("Retrait admin en cours 💳");
-});
+}
