@@ -737,70 +737,73 @@ label {
 .reactions span {
   cursor: pointer;
 }
-#adOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.ad-box {
-  color: white;
-  font-size: 24px;
-  text-align: center;
-}
+/* ===== OVERLAY LOGIN ===== */
 #authOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+
   background: white;
-  display: flex;
+
+  display: none; /* IMPORTANT */
+
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+
+  z-index: 999999; /* au-dessus de tout */
 }
 
+/* BOITE */
 .auth-box {
-  width: 300px;
+  width: 320px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
   text-align: center;
+
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
+/* TITRE */
 .auth-box h2 {
   margin-bottom: 20px;
 }
 
+/* GOOGLE BUTTON */
 .google-btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background: #fff;
   border: 1px solid #ccc;
   cursor: pointer;
+  border-radius: 6px;
 }
 
+/* SEPARATOR */
 .separator {
   margin: 15px 0;
   color: gray;
 }
 
-input {
+/* INPUT */
+.auth-box input {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 12px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
+/* LOGIN BUTTON */
 .login-btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  margin-top: 10px;
   background: black;
   color: white;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
 }
