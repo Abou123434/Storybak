@@ -1061,27 +1061,30 @@ function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
 
-// Bouton Google (simulation)
-document.getElementById("googleBtn").onclick = function(){
-    // simulation connexion réussie
-    window.location.href = "index.html";
+// ===== MODAL SOLDE =====
+let balanceModal = document.getElementById("balanceModal");
+
+// ouvrir le modal
+function openBalance() {
+    balanceModal.style.display = "flex";
+}
+
+// fermer le modal
+function closeBalance() {
+    balanceModal.style.display = "none";
+}
+
+// fermer si on clique en dehors
+window.onclick = function(e) {
+    if (e.target === balanceModal) {
+        closeBalance();
+    }
 };
 
-// Formulaire Gmail
-document.getElementById("registerForm").addEventListener("submit", function(e){
-    e.preventDefault();
+// ===== ACTION RETIRER =====
+function openWithdraw() {
+    alert("Fonction retrait bientôt disponible 💸");
 
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
-
-    if(email === "" || password === ""){
-        alert("Remplis tous les champs !");
-        return;
-    }
-
-    // simulation sauvegarde
-    localStorage.setItem("userEmail", email);
-
-    // redirection vers accueil
-    window.location.href = "index.html";
-});
+    // plus tard ici tu peux ouvrir un autre modal
+    // ou rediriger vers une page de paiement
+}
