@@ -266,72 +266,6 @@
 
 </div>
 
-<!-- 📊 PAGE STATISTIQUES -->
-<div id="statsPage" class="stats-page">
-
-  <h1>📊 Tableau de bord</h1>
-
-  <div class="stats-grid">
-
-    <div class="stat-card">
-      <h2>👤 Utilisateurs / jour</h2>
-      <p id="usersCount">0</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>📸 Stories publiées</h2>
-      <p id="storiesCount">0</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>👁️ Visiteurs / jour</h2>
-      <p id="visitorsCount">0</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>💰 Coins achetés</h2>
-      <p id="coinsBought">0</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>💸 Retraits effectués</h2>
-      <p id="withdrawCount">0</p>
-    </div>
-
-    <div class="stat-card">
-      <h2>🎁 Cadeaux envoyés</h2>
-      <p id="giftsCount">0</p>
-    </div>
-
-  </div>
-
-  <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
-
-
-<!-- 🌍 MODAL PUBLICATION GLOBALE -->
-<div id="publishModal" class="modal">
-
-  <div class="modal-content">
-    <h2>Publication globale</h2>
-
-    <!-- input caché pour ouvrir la galerie -->
-    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
-
-    <!-- bouton pour choisir fichier -->
-    <button onclick="selectFile()" class="green-btn">
-      Choisir Image / Vidéo
-    </button>
-
-    <!-- preview -->
-    <div id="preview"></div>
-
-    <div class="modal-buttons">
-      <button onclick="publishPost()" class="green-btn">Publier</button>
-    </div>
-
-    <button onclick="closePublish()" class="red-btn">Fermer</button>
-  </div>
-
 <!-- ===== PAGE KYC FULLSCREEN ===== -->
 <div id="kycPage" class="kyc-page">
 
@@ -377,6 +311,32 @@
     <button onclick="confirmBan()">Confirmer le bannissement</button>
     <button onclick="closeBanPage()">Fermer</button>
   </div>
+
+<!-- 🌍 MODAL PUBLICATION GLOBALE -->
+<div id="publishModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Publication globale</h2>
+
+    <!-- input caché pour ouvrir la galerie -->
+    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
+
+    <!-- bouton pour choisir fichier -->
+    <button onclick="selectFile()" class="green-btn">
+      Choisir Image / Vidéo
+    </button>
+
+    <!-- preview -->
+    <div id="preview"></div>
+
+    <div class="modal-buttons">
+      <button onclick="publishPost()" class="green-btn">Publier</button>
+    </div>
+
+    <button onclick="closePublish()" class="red-btn">Fermer</button>
+  </div>
+
+
 
 <!-- ===== PAGE UTILISATEURS ===== -->
 <div id="usersPage" class="users-page">
@@ -433,6 +393,46 @@
 
 </div>
 
+<!-- 📊 PAGE STATISTIQUES -->
+<div id="statsPage" class="stats-page">
+
+  <h1>📊 Tableau de bord</h1>
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <h2>👤 Utilisateurs / jour</h2>
+      <p id="usersCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>📸 Stories publiées</h2>
+      <p id="storiesCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>👁️ Visiteurs / jour</h2>
+      <p id="visitorsCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>💰 Coins achetés</h2>
+      <p id="coinsBought">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>💸 Retraits effectués</h2>
+      <p id="withdrawCount">0</p>
+    </div>
+
+    <div class="stat-card">
+      <h2>🎁 Cadeaux envoyés</h2>
+      <p id="giftsCount">0</p>
+    </div>
+
+  </div>
+
+  <button onclick="closeStatsPage()" class="close-btn">❌ Fermer</button>
 
 
 </div>
