@@ -1061,50 +1061,40 @@ function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
 
-// Ouvrir le modal
+// 💰 SOLDE (exemple)
+let balance = 50;
+
+// =========================
+// ✅ MODAL SOLDE
+// =========================
 function openBalance(){
-  const modal = document.getElementById("balanceModal");
-  modal.style.display = "flex"; // mieux que block pour centrer
+  document.getElementById("balanceModal").style.display = "flex";
 }
 
-// Fermer le modal
 function closeBalance(){
-  const modal = document.getElementById("balanceModal");
-  modal.style.display = "none";
+  document.getElementById("balanceModal").style.display = "none";
 }
 
-// Fermer si on clique en dehors du contenu
-window.onclick = function(event){
-  const modal = document.getElementById("balanceModal");
-  if(event.target === modal){
-    modal.style.display = "none";
-  }
-}
-
-// Bouton retirer (temporaire)
-function openWithdraw(){
-  alert("Fonction retrait bientôt disponible 💰");
-}
-let balance = 50; // 💰 ton solde (à connecter plus tard)
-
-// Ouvrir modal
+// =========================
+// ✅ MODAL RETRAIT
+// =========================
 function openWithdraw(){
   document.getElementById("withdrawModal").style.display = "flex";
 
-  // Mettre à jour le solde affiché
+  // mettre à jour le solde affiché
   document.getElementById("withdrawBalance").innerText = balance;
 }
 
-// Fermer
 function closeWithdraw(){
   document.getElementById("withdrawModal").style.display = "none";
 }
 
-// Confirmer retrait
+// =========================
+// ✅ CONFIRM RETRAIT
+// =========================
 function confirmWithdraw(){
   let amount = Number(document.getElementById("withdrawAmount").value);
 
-  // Vérifications
   if(!amount || amount <= 0){
     alert("Entre un montant valide ❌");
     return;
@@ -1115,11 +1105,32 @@ function confirmWithdraw(){
     return;
   }
 
-  // 🔥 SIMULATION RETRAIT
+  // 🔥 déduction
   balance -= amount;
 
-  // ✅ REDIRECTION PAYPAL
-  let paypalLink = "https://www.paypal.com/paypalme/TonPseudo/" + amount;
+  // reset champ
+  document.getElementById("withdrawAmount").value = "";
 
+  // fermer modal
+  closeWithdraw();
+
+  // 💰 REDIRECTION PAYPAL
+  let paypalLink = "https://www.paypal.com/paypalme/TonPseudo/" + amount;
   window.location.href = paypalLink;
 }
+
+// =========================
+// ✅ FERMER EN CLIQUANT DEHORS (FIX BUG)
+// =========================
+window.addEventListener("click", function(event){
+  let balanceModal = document.getElementById("balanceModal");
+  let withdrawModal = document.getElementById("withdrawModal");
+
+  if(event.target === balanceModal){
+    balanceModal.style.display = "none";
+  }
+
+  if(event.target === withdrawModal){
+    withdrawModal.style.display = "none";
+  }
+});
