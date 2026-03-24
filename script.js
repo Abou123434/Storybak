@@ -1124,3 +1124,31 @@ function startSegments() {
 
   }, 3000);
 }
+
+// Vérifier si déjà connecté
+window.onload = () => {
+  const user = localStorage.getItem("user");
+
+  if (user) {
+    document.getElementById("authOverlay").style.display = "none";
+  }
+};
+
+// Bouton Google (simulation directe)
+document.getElementById("googleLogin").onclick = () => {
+  localStorage.setItem("user", "google_user");
+  document.getElementById("authOverlay").style.display = "none";
+};
+
+// Login Gmail (simulation)
+document.getElementById("loginBtn").onclick = () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (email && password) {
+    localStorage.setItem("user", email);
+    document.getElementById("authOverlay").style.display = "none";
+  } else {
+    alert("Remplis les champs");
+  }
+};
