@@ -1081,36 +1081,7 @@ window.onclick = function(event){
   }
 }
 
-let userBalance = 150; // exemple
-
+// Bouton retirer (temporaire)
 function openWithdraw(){
-  document.getElementById("withdrawModal").style.display = "block";
-  document.getElementById("withdrawBalance").innerText = userBalance;
-}
-
-function closeWithdraw(){
-  document.getElementById("withdrawModal").style.display = "none";
-}
-
-function confirmWithdraw(){
-  let amount = parseFloat(document.getElementById("withdrawAmount").value);
-
-  if(!amount || amount <= 0){
-    alert("Entre un montant valide");
-    return;
-  }
-
-  if(amount > userBalance){
-    alert("Solde insuffisant");
-    return;
-  }
-
-  // déduction du solde
-  userBalance -= amount;
-
-  // fermer modal
-  closeWithdraw();
-
-  // redirection PayPal (simulation page blanche)
-  window.location.href = "https://www.paypal.com";
+  alert("Fonction retrait bientôt disponible 💰");
 }
