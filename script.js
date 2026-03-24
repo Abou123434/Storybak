@@ -1085,3 +1085,55 @@ window.onclick = function(event){
 function openWithdraw(){
   alert("Fonction retrait bientôt disponible 💰");
 }
+
+let segmentsPlayed = 0;
+let maxSegments = 9;
+
+// lancer au chargement
+window.onload = () => {
+    startAdSequence();
+};
+
+function startAdSequence() {
+    segmentsPlayed = 0;
+    showAd("Publicité principale", () => {
+        playSegments();
+    });
+}
+
+function playSegments() {
+    if (segmentsPlayed >= maxSegments) {
+        console.log("Fin des pubs");
+        return;
+    }
+
+    segmentsPlayed++;
+
+    showAd("Segment " + segmentsPlayed, () => {
+        playSegments();
+    });
+}
+
+function showAd(text, callback) {
+    const overlay = document.getElementById("adOverlay");
+    const adText = document.getElementById("adText");
+    const adTimer = document.getElementById("adTimer");
+
+    overlay.classList.remove("hidden");
+    adText.innerText = text;
+
+    let time = 3;
+    adTimer.innerText = time;
+
+    let interval = setInterval(() => {
+        time--;
+        adTimer.innerText = time;
+
+        if (time <= 0) {
+            clearInterval(interval);
+            overlay.classList.add("hidden");
+
+            if (callback) callback();
+        }
+    }, 1000);
+}
