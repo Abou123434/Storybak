@@ -154,28 +154,20 @@
   </div>
 </div>
 
-<!-- 💸 MODAL RETRAIT -->
-<div id="withdrawModal" class="modal">
-
+<!-- ===== 💸 RETRAIT ===== -->
+<div id="withdrawModal">
   <div class="modal-content">
-    <h2>Retrait</h2>
 
-    <p>💰 Solde disponible : <span id="withdrawBalance">50</span> €</p>
+    <h3>Retirer</h3>
 
-    <input 
-      type="number" 
-      id="withdrawAmount" 
-      placeholder="Entrer le montant"
-      min="1"
-    >
+    <p>Solde : <span id="withdrawBalance">0</span> €</p>
 
-    <div class="modal-buttons">
-      <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
-    </div>
+    <input type="number" id="withdrawAmount" placeholder="Montant">
 
-    <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
+    <button id="confirmWithdraw" class="withdraw-btn">Retirer</button>
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
+
   </div>
-
 </div>
 
 <!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
