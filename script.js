@@ -1061,30 +1061,30 @@ function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
 
-// ===== MODAL SOLDE =====
-let balanceModal = document.getElementById("balanceModal");
+// ===== ELEMENTS =====
+let modal = document.getElementById("balanceModal");
+let openBtn = document.getElementById("adminBalanceBtn");
+let closeBtn = document.getElementById("closeBalanceBtn");
+let withdrawBtn = document.getElementById("withdrawBtn");
 
-// ouvrir le modal
-function openBalance() {
-    balanceModal.style.display = "flex";
-}
+// ===== OUVRIR =====
+openBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+});
 
-// fermer le modal
-function closeBalance() {
-    balanceModal.style.display = "none";
-}
+// ===== FERMER =====
+closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+});
 
-// fermer si on clique en dehors
-window.onclick = function(e) {
-    if (e.target === balanceModal) {
-        closeBalance();
+// ===== CLIQUE DEHORS =====
+window.addEventListener("click", (e) => {
+    if(e.target === modal){
+        modal.style.display = "none";
     }
-};
+});
 
-// ===== ACTION RETIRER =====
-function openWithdraw() {
-    alert("Fonction retrait bientôt disponible 💸");
-
-    // plus tard ici tu peux ouvrir un autre modal
-    // ou rediriger vers une page de paiement
-}
+// ===== RETIRER =====
+withdrawBtn.addEventListener("click", () => {
+    alert("Retrait admin en cours 💳");
+});
