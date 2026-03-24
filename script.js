@@ -1061,31 +1061,27 @@ function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
 
-// ===== ELEMENTS =====
-let modal = document.getElementById("balanceModal");
-let openBtn = document.getElementById("adminBalanceBtn");
-let closeBtn = document.getElementById("closeBalanceBtn");
-let withdrawBtn = document.getElementById("withdrawBtn");
-
-// ===== OUVRIR =====
+// Ouvrir le modal
 function openBalance(){
-    document.getElementById("balanceModal").style.display = "block";
+  const modal = document.getElementById("balanceModal");
+  modal.style.display = "flex"; // mieux que block pour centrer
 }
 
-// ===== FERMER =====
+// Fermer le modal
 function closeBalance(){
-    document.getElementById("balanceModal").style.display = "none";
+  const modal = document.getElementById("balanceModal");
+  modal.style.display = "none";
 }
 
-// ===== CLIQUE DEHORS =====
-window.addEventListener("click", (e) => {
-    let modal = document.getElementById("balanceModal");
-    if(e.target === modal){
-        modal.style.display = "none";
-    }
-});
+// Fermer si on clique en dehors du contenu
+window.onclick = function(event){
+  const modal = document.getElementById("balanceModal");
+  if(event.target === modal){
+    modal.style.display = "none";
+  }
+}
 
-// ===== RETIRER =====
+// Bouton retirer (temporaire)
 function openWithdraw(){
-    alert("Retrait admin en cours 💳");
+  alert("Fonction retrait bientôt disponible 💰");
 }
