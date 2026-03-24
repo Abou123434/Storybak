@@ -1158,30 +1158,26 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.display = "none"; // cacher
   }
 
-  // ===== GOOGLE LOGIN (simulation) =====
-  googleBtn.addEventListener("click", () => {
-    localStorage.setItem("user", "google_user");
+// ===== GOOGLE LOGIN (simulation) =====
+googleBtn.addEventListener("click", () => {
+  localStorage.setItem("user", "google_user");
 
-    overlay.style.display = "none";
-    document.body.style.overflow = "auto";
-  });
+  window.location.href = "home.html"; // 🔥 redirection
+});
 
-  // ===== LOGIN EMAIL =====
-  loginBtn.addEventListener("click", () => {
+// ===== LOGIN EMAIL =====
+loginBtn.addEventListener("click", () => {
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
 
-    if (email === "" || password === "") {
-      alert("Remplis tous les champs");
-      return;
-    }
+  if (email === "" || password === "") {
+    alert("Remplis tous les champs");
+    return;
+  }
 
-    // simulation connexion
-    localStorage.setItem("user", email);
+  // simulation connexion
+  localStorage.setItem("user", email);
 
-    overlay.style.display = "none";
-    document.body.style.overflow = "auto";
-  });
-
+  window.location.href = "home.html"; // 🔥 redirection
 });
