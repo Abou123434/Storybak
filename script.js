@@ -1081,51 +1081,7 @@ window.onclick = function(event){
   }
 }
 
-// ===== ELEMENTS =====
-const withdrawBtn = document.getElementById("withdrawBtn");
-const withdrawModal = document.getElementById("withdrawModal");
-const closeWithdraw = document.getElementById("closeWithdraw");
-const confirmWithdraw = document.getElementById("confirmWithdraw");
-const withdrawBalance = document.getElementById("withdrawBalance");
-const withdrawAmount = document.getElementById("withdrawAmount");
-
-// ===== SOLDE (simulation) =====
-let userBalance = 150;
-
-
-// ===== OUVRIR MODAL =====
-withdrawBtn.addEventListener("click", () => {
-    withdrawModal.style.display = "flex";
-    withdrawBalance.innerText = userBalance;
-});
-
-
-// ===== FERMER MODAL =====
-closeWithdraw.addEventListener("click", () => {
-    withdrawModal.style.display = "none";
-});
-
-
-// ===== CONFIRMER RETRAIT =====
-confirmWithdraw.addEventListener("click", () => {
-
-    let amount = parseFloat(withdrawAmount.value);
-
-    if (!amount || amount <= 0) {
-        alert("Entre un montant valide");
-        return;
+// Bouton retirer (temporaire)
+function openWithdraw(){
+  alert("Fonction retrait bientôt disponible 💰");
     }
-
-    if (amount > userBalance) {
-        alert("Solde insuffisant");
-        return;
-    }
-
-    // Déduction
-    userBalance -= amount;
-
-    // 🔥 REDIRECTION PAYPAL
-    let paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=TON_EMAIL&amount=${amount}&currency_code=EUR`;
-
-    window.location.href = paypalUrl;
-});
