@@ -1085,9 +1085,10 @@ window.onclick = function(event){
 function openWithdraw(){
   alert("Fonction retrait bientôt disponible 💰");
 }
-// ===== VARIABLES =====
+// ===== VARIABLES RESET À CHAQUE LOAD =====
 let storyCount = 0;
-let adAlreadyShown = false;
+let storyAdShown = false;
+let isAdRunning = false; // 🔥 évite double pub
 
 // ===== ELEMENTS =====
 const adOverlay = document.getElementById("adOverlay");
@@ -1095,8 +1096,11 @@ const adTimer = document.getElementById("adTimer");
 
 // ===== FONCTION PUB =====
 function showAd() {
-  let timeLeft = 3;
+  if (isAdRunning) return; // 🔥 bloque double lancement
 
+  isAdRunning = true;
+
+  let timeLeft = 3;
   adOverlay.classList.add("active");
   adTimer.textContent = timeLeft;
 
@@ -1106,16 +1110,15 @@ function showAd() {
 
     if (timeLeft <= 0) {
       clearInterval(countdown);
-      adOverlay.classList.remove("active"); // 🔥 enlève le blocage
+      adOverlay.classList.remove("active");
+      isAdRunning = false;
     }
   }, 1000);
 }
 
-// ===== PUB AU CHARGEMENT =====
+// ===== PUB À CHAQUE CHARGEMENT (TOUJOURS) =====
 window.addEventListener("load", () => {
-  setTimeout(() => {
-    showAd();
-  }, 500); // petit délai safe
+  showAd(); // 🔥 TOUJOURS exécuté
 });
 
 // ===== STORY VIEW =====
@@ -1124,8 +1127,9 @@ function onStoryViewed() {
 
   console.log("Stories vues:", storyCount);
 
-  if (storyCount >= 9 && !adAlreadyShown) {
+  // 🔥 pub seulement UNE FOIS après 9 stories
+  if (storyCount === 9 && !storyAdShown) {
     showAd();
-    adAlreadyShown = true;
+    storyAdShown = true;
   }
-}
+                      }
