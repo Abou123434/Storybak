@@ -1085,3 +1085,44 @@ window.onclick = function(event){
 function openWithdraw(){
   alert("Fonction retrait bientôt disponible 💰");
 }
+// ===== VARIABLES =====
+let storyCount = 0;
+let adShownAfterStories = false;
+
+// ===== ELEMENTS =====
+const adOverlay = document.getElementById("adOverlay");
+const adTimer = document.getElementById("adTimer");
+
+// ===== FONCTION PUB =====
+function showAd() {
+  let timeLeft = 3;
+  adOverlay.style.display = "flex";
+  adTimer.textContent = timeLeft;
+
+  const countdown = setInterval(() => {
+    timeLeft--;
+    adTimer.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      adOverlay.style.display = "none";
+    }
+  }, 1000);
+}
+
+// ===== PUB AU CHARGEMENT =====
+window.addEventListener("load", () => {
+  showAd();
+});
+
+// ===== STORY VIEW =====
+// Appelle cette fonction à chaque story vue
+function onStoryViewed() {
+  storyCount++;
+
+  console.log("Stories vues:", storyCount);
+
+  if (storyCount >= 9 && !adShownAfterStories) {
+    showAd();
+    adShownAfterStories = true;
+                                           }
