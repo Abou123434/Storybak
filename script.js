@@ -1081,10 +1081,74 @@ window.onclick = function(event){
   }
 }
 
-// Bouton retirer (temporaire)
-function openWithdraw(){
-  alert("Fonction retrait bientôt disponible 💰");
-}
+// ===== INITIALISATION =====
+document.addEventListener("DOMContentLoaded", () => {
+
+  const withdrawModal = document.getElementById("withdrawModal");
+  const withdrawBalance = document.getElementById("withdrawBalance");
+  const withdrawAmount = document.getElementById("withdrawAmount");
+  const confirmWithdraw = document.getElementById("confirmWithdraw");
+  const closeWithdraw = document.getElementById("closeWithdraw");
+
+  // Bouton qui ouvre le retrait (crée un bouton si pas encore fait)
+  const openWithdrawBtn = document.getElementById("withdrawBtn");
+
+  // ===== CREATION SOLDE SI INEXISTANT =====
+  if (!localStorage.getItem("balance")) {
+    localStorage.setItem("balance", "0");
+  }
+
+  // ===== FONCTION ACTUALISER SOLDE =====
+  function updateWithdrawBalance() {
+    const balance = parseFloat(localStorage.getItem("balance")) || 0;
+    withdrawBalance.textContent = balance.toFixed(2);
+  }
+
+  // ===== OUVRIR MODAL =====
+  if (openWithdrawBtn) {
+    openWithdrawBtn.addEventListener("click", () => {
+      updateWithdrawBalance();
+      withdrawModal.style.display = "flex";
+    });
+  }
+
+  // ===== FERMER MODAL =====
+  closeWithdraw.addEventListener("click", () => {
+    withdrawModal.style.display = "none";
+  });
+
+  // ===== CONFIRMER RETRAIT =====
+  confirmWithdraw.addEventListener("click", () => {
+
+    let balance = parseFloat(localStorage.getItem("balance")) || 0;
+    let amount = parseFloat(withdrawAmount.value);
+
+    // Vérifications
+    if (isNaN(amount) || amount <= 0) {
+      alert("Entre un montant valide");
+      return;
+    }
+
+    if (amount > balance) {
+      alert("Solde insuffisant");
+      return;
+    }
+
+    // Soustraction du solde
+    balance -= amount;
+    localStorage.setItem("balance", balance.toFixed(2));
+
+    // Mise à jour affichage
+    updateWithdrawBalance();
+    withdrawAmount.value = "";
+
+    alert("Retrait effectué avec succès 💸");
+
+    // Fermer le modal après retrait
+    withdrawModal.style.display = "none";
+  });
+
+});
 // ===== VARIABLES RESET À CHAQUE LOAD =====
 let storyCount = 0;
 let storyAdShown = false;
@@ -1144,7 +1208,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
 
-  // ===== AUTO LOGIN =====
+  // ===== AUTO LOGIN (reste connecté) =====
   const user = localStorage.getItem("user");
 
   if (user) {
@@ -1187,7 +1251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showMainPage();
   });
 
-  // ===== AFFICHER PAGE =====
+  // ===== AFFICHER PAGE PRINCIPALE =====
   function showMainPage() {
     overlay.style.display = "none";
     mainPage.style.display = "block";
@@ -1196,7 +1260,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// ===== LOGOUT (à utiliser plus tard dans ton menu) =====
+// ===== LOGOUT =====
 function logout() {
   localStorage.removeItem("user");
   location.reload();
