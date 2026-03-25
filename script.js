@@ -1082,63 +1082,8 @@ window.onclick = function(event){
 }
 
 // Bouton retirer (temporaire)
-document.addEventListener("DOMContentLoaded", () => {
-
-  const withdrawModal = document.getElementById("withdrawModal");
-  const withdrawBalance = document.getElementById("withdrawBalance");
-  const withdrawAmount = document.getElementById("withdrawAmount");
-
-  const confirmWithdraw = document.getElementById("confirmWithdraw");
-  const closeWithdraw = document.getElementById("closeWithdraw");
-
-  // 👉 TON PSEUDO PAYPAL ICI
-  const PAYPAL_USERNAME = "TON_PSEUDO_PAYPAL";
-
-  // ===== Charger le solde depuis localStorage =====
-  let balance = localStorage.getItem("balance");
-
-  if (!balance) {
-    balance = 0;
-    localStorage.setItem("balance", balance);
-  }
-
-  withdrawBalance.textContent = balance;
-
-  // ===== Bouton fermer =====
-  closeWithdraw.addEventListener("click", () => {
-    withdrawModal.style.display = "none";
-  });
-
-  // ===== RETRAIT =====
-  confirmWithdraw.addEventListener("click", () => {
-
-    let amount = parseFloat(withdrawAmount.value);
-    let currentBalance = parseFloat(localStorage.getItem("balance"));
-
-    // Vérifications
-    if (isNaN(amount) || amount <= 0) {
-      alert("Entre un montant valide");
-      return;
-    }
-
-    if (amount > currentBalance) {
-      alert("Solde insuffisant !");
-      return;
-    }
-
-    // Retirer du solde
-    currentBalance -= amount;
-    localStorage.setItem("balance", currentBalance);
-
-    alert("Redirection vers PayPal...");
-
-    // ===== REDIRECTION PAYPAL =====
-    const paypalURL = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${amount}`;
-    window.location.href = paypalURL;
-
-  });
-
-});
+function openWithdraw(){
+  alert("Fonction retrait bientôt disponible 💰");
 }
 // ===== VARIABLES RESET À CHAQUE LOAD =====
 let storyCount = 0;
@@ -1255,4 +1200,4 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
   localStorage.removeItem("user");
   location.reload();
-      }
+}
