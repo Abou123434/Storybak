@@ -1081,47 +1081,39 @@ window.onclick = function(event){
   }
 }
 
-// ===== INITIALISATION =====
+// Bouton retirer (temporaire)
 document.addEventListener("DOMContentLoaded", () => {
 
   const withdrawModal = document.getElementById("withdrawModal");
   const withdrawBalance = document.getElementById("withdrawBalance");
   const withdrawAmount = document.getElementById("withdrawAmount");
+
   const confirmWithdraw = document.getElementById("confirmWithdraw");
   const closeWithdraw = document.getElementById("closeWithdraw");
 
-  // Bouton qui ouvre le retrait (crée un bouton si pas encore fait)
-  const openWithdrawBtn = document.getElementById("withdrawBtn");
+  // 👉 TON PSEUDO PAYPAL ICI
+  const PAYPAL_USERNAME = "TON_PSEUDO_PAYPAL";
 
-  // ===== CREATION SOLDE SI INEXISTANT =====
-  if (!localStorage.getItem("balance")) {
-    localStorage.setItem("balance", "0");
+  // ===== Charger le solde depuis localStorage =====
+  let balance = localStorage.getItem("balance");
+
+  if (!balance) {
+    balance = 0;
+    localStorage.setItem("balance", balance);
   }
 
-  // ===== FONCTION ACTUALISER SOLDE =====
-  function updateWithdrawBalance() {
-    const balance = parseFloat(localStorage.getItem("balance")) || 0;
-    withdrawBalance.textContent = balance.toFixed(2);
-  }
+  withdrawBalance.textContent = balance;
 
-  // ===== OUVRIR MODAL =====
-  if (openWithdrawBtn) {
-    openWithdrawBtn.addEventListener("click", () => {
-      updateWithdrawBalance();
-      withdrawModal.style.display = "flex";
-    });
-  }
-
-  // ===== FERMER MODAL =====
+  // ===== Bouton fermer =====
   closeWithdraw.addEventListener("click", () => {
     withdrawModal.style.display = "none";
   });
 
-  // ===== CONFIRMER RETRAIT =====
+  // ===== RETRAIT =====
   confirmWithdraw.addEventListener("click", () => {
 
-    let balance = parseFloat(localStorage.getItem("balance")) || 0;
     let amount = parseFloat(withdrawAmount.value);
+    let currentBalance = parseFloat(localStorage.getItem("balance"));
 
     // Vérifications
     if (isNaN(amount) || amount <= 0) {
@@ -1129,26 +1121,25 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (amount > balance) {
-      alert("Solde insuffisant");
+    if (amount > currentBalance) {
+      alert("Solde insuffisant !");
       return;
     }
 
-    // Soustraction du solde
-    balance -= amount;
-    localStorage.setItem("balance", balance.toFixed(2));
+    // Retirer du solde
+    currentBalance -= amount;
+    localStorage.setItem("balance", currentBalance);
 
-    // Mise à jour affichage
-    updateWithdrawBalance();
-    withdrawAmount.value = "";
+    alert("Redirection vers PayPal...");
 
-    alert("Retrait effectué avec succès 💸");
+    // ===== REDIRECTION PAYPAL =====
+    const paypalURL = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${amount}`;
+    window.location.href = paypalURL;
 
-    // Fermer le modal après retrait
-    withdrawModal.style.display = "none";
   });
 
 });
+}
 // ===== VARIABLES RESET À CHAQUE LOAD =====
 let storyCount = 0;
 let storyAdShown = false;
@@ -1264,4 +1255,4 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
   localStorage.removeItem("user");
   location.reload();
-}
+      }
