@@ -1087,7 +1087,7 @@ function openWithdraw(){
 }
 // ===== VARIABLES =====
 let storyCount = 0;
-let adShownAfterStories = false;
+let adAlreadyShown = false;
 
 // ===== ELEMENTS =====
 const adOverlay = document.getElementById("adOverlay");
@@ -1096,7 +1096,8 @@ const adTimer = document.getElementById("adTimer");
 // ===== FONCTION PUB =====
 function showAd() {
   let timeLeft = 3;
-  adOverlay.style.display = "flex";
+
+  adOverlay.classList.add("active");
   adTimer.textContent = timeLeft;
 
   const countdown = setInterval(() => {
@@ -1105,50 +1106,26 @@ function showAd() {
 
     if (timeLeft <= 0) {
       clearInterval(countdown);
-      adOverlay.style.display = "none";
-    }
-  }, 1000);
-}
-
-// ===== VARIABLES =====
-let storyCount = 0;
-let adShownAfterStories = false;
-
-// ===== ELEMENTS =====
-const adOverlay = document.getElementById("adOverlay");
-const adTimer = document.getElementById("adTimer");
-
-// ===== FONCTION PUB =====
-function showAd() {
-  let timeLeft = 3;
-  adOverlay.style.display = "flex";
-  adTimer.textContent = timeLeft;
-
-  const countdown = setInterval(() => {
-    timeLeft--;
-    adTimer.textContent = timeLeft;
-
-    if (timeLeft <= 0) {
-      clearInterval(countdown);
-      adOverlay.style.display = "none";
+      adOverlay.classList.remove("active"); // 🔥 enlève le blocage
     }
   }, 1000);
 }
 
 // ===== PUB AU CHARGEMENT =====
 window.addEventListener("load", () => {
-  showAd();
+  setTimeout(() => {
+    showAd();
+  }, 500); // petit délai safe
 });
 
 // ===== STORY VIEW =====
-// Appelle cette fonction à chaque story vue
 function onStoryViewed() {
   storyCount++;
 
   console.log("Stories vues:", storyCount);
 
-  if (storyCount >= 9 && !adShownAfterStories) {
+  if (storyCount >= 9 && !adAlreadyShown) {
     showAd();
-    adShownAfterStories = true;
+    adAlreadyShown = true;
   }
 }
