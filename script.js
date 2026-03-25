@@ -1201,3 +1201,19 @@ function logout() {
   localStorage.removeItem("user");
   location.reload();
 }
+function handleCredentialResponse(response) {
+  const data = parseJwt(response.credential);
+
+  console.log(data);
+
+  const user = {
+    name: data.name,
+    email: data.email,
+    picture: data.picture
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  // cacher login
+  document.getElementById("authOverlay").style.display = "none";
+}
