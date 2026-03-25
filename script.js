@@ -1144,7 +1144,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
 
-  // ===== AUTO LOGIN (reste connecté) =====
+  // ===== AUTO LOGIN =====
   const user = localStorage.getItem("user");
 
   if (user) {
@@ -1187,7 +1187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showMainPage();
   });
 
-  // ===== AFFICHER PAGE PRINCIPALE =====
+  // ===== AFFICHER PAGE =====
   function showMainPage() {
     overlay.style.display = "none";
     mainPage.style.display = "block";
@@ -1196,24 +1196,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// ===== LOGOUT =====
+// ===== LOGOUT (à utiliser plus tard dans ton menu) =====
 function logout() {
   localStorage.removeItem("user");
   location.reload();
-}
-function handleCredentialResponse(response) {
-  const data = parseJwt(response.credential);
-
-  console.log(data);
-
-  const user = {
-    name: data.name,
-    email: data.email,
-    picture: data.picture
-  };
-
-  localStorage.setItem("user", JSON.stringify(user));
-
-  // cacher login
-  document.getElementById("authOverlay").style.display = "none";
 }
