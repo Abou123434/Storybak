@@ -250,29 +250,20 @@
 </div>
 
 
-<!-- ===== 💸 MODAL RETRAIT ===== -->
-<div id="withdrawModal" class="modal">
-
+<!-- ===== 💸 RETRAIT ===== -->
+<div id="withdrawModal">
   <div class="modal-content">
 
-    <h3>💸 Retirer de l'argent</h3>
+    <h3>Retirer</h3>
 
-    <p>Solde disponible : <strong><span id="withdrawBalance">0</span> €</strong></p>
+    <p>Solde : <span id="withdrawBalance">0</span> €</p>
 
-    <input 
-      type="number" 
-      id="withdrawAmount" 
-      placeholder="Entrer le montant à retirer"
-      min="1"
-    >
+    <input type="number" id="withdrawAmount" placeholder="Montant">
 
-    <div class="modal-buttons">
-      <button id="confirmWithdraw" class="withdraw-btn">Confirmer le retrait</button>
-      <button id="closeWithdraw" class="red-btn">Fermer</button>
-    </div>
+    <button id="confirmWithdraw" class="withdraw-btn">Retirer</button>
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
 
   </div>
-
 </div>
 
 
@@ -447,4 +438,4 @@
 </div>
 
 <script src="script.js"></script>
-</body>
+      </body>
