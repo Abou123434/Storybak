@@ -235,6 +235,32 @@
 
 </div>
 
+
+
+<!-- 🌍 MODAL PUBLICATION GLOBALE -->
+<div id="publishModal" class="modal">
+
+  <div class="modal-content">
+    <h2>Publication globale</h2>
+
+    <!-- input caché pour ouvrir la galerie -->
+    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
+
+    <!-- bouton pour choisir fichier -->
+    <button onclick="selectFile()" class="green-btn">
+      Choisir Image / Vidéo
+    </button>
+
+    <!-- preview -->
+    <div id="preview"></div>
+
+    <div class="modal-buttons">
+      <button onclick="publishPost()" class="green-btn">Publier</button>
+    </div>
+
+    <button onclick="closePublish()" class="red-btn">Fermer</button>
+  </div>
+
 <!-- ===== PAGE KYC FULLSCREEN ===== -->
 <div id="kycPage" class="kyc-page">
 
@@ -262,32 +288,6 @@
 </div>
 
 </div>
-
-<!-- 🌍 MODAL PUBLICATION GLOBALE -->
-<div id="publishModal" class="modal">
-
-  <div class="modal-content">
-    <h2>Publication globale</h2>
-
-    <!-- input caché pour ouvrir la galerie -->
-    <input type="file" id="fileInput" accept="image/*,video/*" style="display:none">
-
-    <!-- bouton pour choisir fichier -->
-    <button onclick="selectFile()" class="green-btn">
-      Choisir Image / Vidéo
-    </button>
-
-    <!-- preview -->
-    <div id="preview"></div>
-
-    <div class="modal-buttons">
-      <button onclick="publishPost()" class="green-btn">Publier</button>
-    </div>
-
-    <button onclick="closePublish()" class="red-btn">Fermer</button>
-  </div>
-
-
 
 <!-- PAGE BANNIR -->
 <div id="banPage" class="ban-page">
