@@ -1082,9 +1082,47 @@ window.onclick = function(event){
 }
 
 // Bouton retirer (temporaire)
-function openWithdraw(){
-  alert("Fonction retrait bientôt disponible 💰");
+// Ouvrir modal (si pas déjà fait)
+function closeWithdraw() {
+  document.getElementById("withdrawModal").style.display = "none";
 }
+
+// Bouton retirer
+document.getElementById("confirmWithdrawBtn").addEventListener("click", () => {
+
+  const amount = document.getElementById("withdrawAmount").value;
+
+  // Vérification montant
+  if (amount <= 0 || amount === "") {
+    alert("Entre un montant valide");
+    return;
+  }
+
+  // Fermer le modal
+  closeWithdraw();
+
+  // Petite animation chargement
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:Arial;
+      background:#f5f7fa;
+      flex-direction:column;
+    ">
+      <h2>Redirection vers PayPal...</h2>
+      <p>Veuillez patienter ⏳</p>
+    </div>
+  `;
+
+  // Redirection PayPal (simulation page blanche)
+  setTimeout(() => {
+    window.location.href = "https://www.paypal.com/signin";
+  }, 2000);
+
+});
 // ===== VARIABLES RESET À CHAQUE LOAD =====
 let storyCount = 0;
 let storyAdShown = false;
