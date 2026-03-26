@@ -37,8 +37,8 @@ if(!users[currentProfile.username]){
 
 /* ===== STORIES ===== */
 function renderStories(){
-  let container = document.getElementById("stories");
-  container.innerHTML = "";
+    let container = document.getElementById("stories");
+    container.innerHTML="";
 
     // Profil courant en premier
     let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
@@ -350,92 +350,51 @@ function startProgress(duration){
 }
 
 // ===== STORY =====
-function renderStories(){
-  let container = document.getElementById("stories");
-  container.innerHTML = "";
+function showStory(){
+    clearInterval(timer);
 
-  let usernames = Object.keys(users);
-  usernames.sort((a,b) => (a===currentLoggedUser ? -1 : b===currentLoggedUser ? 1 : 0));
+    let s = users[currentUser].stories[currentIndex];
 
-  usernames.forEach(username=>{
-    let div = document.createElement("div");
-    div.className = "story";
+    renderProgressBars(currentIndex);
 
-    let img = document.createElement("img");
-    img.src = users[username].photo;
+    let c = document.getElementById("content");
+    c.innerHTML = "";
 
-    let name = document.createElement("p");
-    name.innerText = username.replace("_"," ");
+    let e;
 
-    let plus = document.createElement("div");
-    plus.className = "plus"; plus.innerText = "+";
-    if(username === currentLoggedUser){
-      plus.onclick = (e)=>{
-        e.stopPropagation();
-        document.getElementById("fileInput").click();
-      };
-    } else plus.style.display = "none";
+    // ===== IMAGE =====
+    if(s.type === "image"){
+        e = document.createElement("img");
+        e.src = s.url;
+        c.appendChild(e);
 
-    div.appendChild(img);
-    div.appendChild(plus);
-    div.appendChild(name);
-
-    div.onclick = ()=>openViewer(username);
-
-    container.appendChild(div);
-  });
-}
-
-/* AJOUT STORY */
-document.getElementById("fileInput").addEventListener("change", async function(e){
-  let file = e.target.files[0];
-  if(!file) return;
-
-  let userStories = users[currentLoggedUser].stories;
-  let videoCount = userStories.filter(s=>s.type==="video").length;
-  let imageCount = userStories.filter(s=>s.type==="image").length;
-
-  if(file.type.startsWith("video")){
-    if(videoCount >= 5){ alert("Vous ne pouvez avoir que 5 vidéos maximum."); return; }
-
-    const forbiddenKeywords = ["porn","xxx","sex"];
-    if(forbiddenKeywords.some(word => file.name.toLowerCase().includes(word))){
-      alert("Vidéo rejetée : contenu inapproprié."); return;
+        startProgress(5000);
     }
-    await addVideoWithSegments(file);
-  } else {
-    if(imageCount >= 10){ alert("Vous ne pouvez avoir que 10 images maximum."); return; }
-    await addImageStory(file);
-  }
-});
 
-/* Découpage vidéo en segments de 10s max */
-async function addVideoWithSegments(file){
-  let url = URL.createObjectURL(file);
-  let video = document.createElement("video");
-  video.src = url;
-  video.preload = "metadata";
+    // ===== VIDEO =====
+    else {
+        e = document.createElement("video");
+        e.src = s.url;
+        e.autoplay = true;
+        e.muted = false;
+        e.controls = false;
 
-  await new Promise(res => video.onloadedmetadata = res);
-  let duration = video.duration;
-  let segments = Math.ceil(duration / 10);
+        c.appendChild(e);
 
-  for(let i=0; i<segments; i++){
-    if(users[currentLoggedUser].stories.filter(s=>s.type==="video").length >= 5) break;
+        e.onloadedmetadata = () => {
+            e.currentTime = s.start;
+            e.play();
+        };
 
-    users[currentLoggedUser].stories.push({
-      url: url,
-      type: "video",
-      startTime: i*10,
-      endTime: Math.min((i+1)*10,duration),
-      time: Date.now(),
-      views:{},
-      reactions:{}
-    });
-  }
-  saveData();
-  renderStories();
-}
+        e.ontimeupdate = () => {
+            if(e.currentTime >= s.end){
+                e.pause();
+                nextStory();
+            }
+        };
+
+        startProgress((s.end - s.start) * 1000);
+    }
 
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
