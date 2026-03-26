@@ -254,21 +254,23 @@
 <div id="withdrawModal" class="modal">
 
   <div class="modal-content">
-    <h2>Retrait</h2>
 
+    <h2>Retrait</h2>
     <p>💰 Solde disponible : 0 €</p>
 
     <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
 
     <div class="modal-buttons">
-      <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
+      <!-- bouton RETIRER -->
+      <button id="confirmWithdrawBtn" class="green-btn">Retirer</button>
     </div>
 
+    <!-- bouton ANNULER -->
     <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
+
   </div>
 
 </div>
-
 
 
 <!-- 🌍 MODAL PUBLICATION GLOBALE -->
