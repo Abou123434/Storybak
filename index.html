@@ -465,5 +465,44 @@
 <script src="stories.js"></script>
 <script src="admin.js"></script>
 <script src="main.js"></script>
+<!-- SCRIPT RETRAIT PAYPAL -->
+<script>
+function closeWithdraw() {
+  document.getElementById("withdrawModal").style.display = "none";
+}
+
+document.getElementById("confirmWithdrawBtn").addEventListener("click", () => {
+
+  const amount = document.getElementById("withdrawAmount").value;
+
+  if (amount <= 0 || amount === "") {
+    alert("Entre un montant valide");
+    return;
+  }
+
+  closeWithdraw();
+
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:Arial;
+      background:#f5f7fa;
+      flex-direction:column;
+    ">
+      <h2>Redirection vers PayPal...</h2>
+      <p>Veuillez patienter ⏳</p>
+    </div>
+  `;
+
+  setTimeout(() => {
+    window.location.href = "https://www.paypal.com/signin";
+  }, 2000);
+
+});
+</script>
+
 </body>
 </html>
