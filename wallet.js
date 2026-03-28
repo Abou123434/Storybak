@@ -117,13 +117,22 @@ closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display
 
 
 /* ===== CHANGER PROFIL ===== */
+document.addEventListener("DOMContentLoaded", () => {
+
+/* ===== CHANGER PROFIL ===== */
 const changeProfileBtn = document.getElementById("changeProfileBtn");
+
+if(!changeProfileBtn){
+    console.error("Bouton changeProfileBtn introuvable");
+    return;
+}
 
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
     modal.id="profileModal";
     modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
     modal.innerHTML= `
+        <div
         <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
             <h3>Modifier le profil</h3>
             <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
