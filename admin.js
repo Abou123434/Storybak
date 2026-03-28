@@ -144,37 +144,49 @@ window.onclick = function(event){
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ===== MODAL RETRAIT ===== */
 
-// ===== MODAL RETRAIT =====
 const withdrawModal = document.getElementById("withdrawModal");
-const withdrawInput = document.getElementById("withdrawAmount");
-const confirmWithdrawBtn = document.getElementById("confirmWithdrawBtn");
+const withdrawBalance = document.getElementById("withdrawBalance");
+const withdrawAmount = document.getElementById("withdrawAmount");
+const confirmWithdrawBtn = document.getElementById("confirmWithdraw");
+const closeWithdrawBtn = document.getElementById("closeWithdraw");
 
-let balance = 0;
+let withdrawLocked = false; // 🔒 bloque double clic
 
 // ouvrir modal
-window.openWithdraw = function(){
+function openWithdraw(){
   withdrawModal.style.display = "flex";
+
+  // récupérer solde depuis localStorage
+  let balance = localStorage.getItem("balance") || 0;
+  withdrawBalance.textContent = balance;
+
+  withdrawAmount.value = "";
+  withdrawLocked = false;
+  confirmWithdrawBtn.disabled = false;
 }
 
 // fermer modal
-window.closeWithdraw = function(){
+function closeWithdraw(){
   withdrawModal.style.display = "none";
-  withdrawInput.value = "";
+
+  // reset sécurité
+  withdrawLocked = false;
+  confirmWithdrawBtn.disabled = false;
+  withdrawAmount.value = "";
 }
 
-// fermer si clique dehors
-window.addEventListener("click", (e)=>{
-  if(e.target === withdrawModal){
-    closeWithdraw();
-  }
-});
+closeWithdrawBtn.onclick = closeWithdraw;
+
 
 // confirmer retrait
-confirmWithdrawBtn.addEventListener("click", ()=>{
+confirmWithdrawBtn.onclick = () => {
 
-  let amount = parseFloat(withdrawInput.value);
+  if(withdrawLocked) return; // 🔒 sécurité anti double clic
+
+  let balance = parseFloat(localStorage.getItem("balance")) || 0;
+  let amount = parseFloat(withdrawAmount.value);
 
   if(!amount || amount <= 0){
     alert("Entre un montant valide");
@@ -182,14 +194,25 @@ confirmWithdrawBtn.addEventListener("click", ()=>{
   }
 
   if(amount > balance){
-    alert("Solde insuffisant");
+    alert("Solde insuffisant ❌");
     return;
   }
 
-  balance -= amount;
-  alert("Retrait demandé ✅\nMontant: " + amount + "€");
+  // 🔒 bloque le bouton immédiatement
+  withdrawLocked = true;
+  confirmWithdrawBtn.disabled = true;
+  confirmWithdrawBtn.innerText = "Traitement...";
 
-  closeWithdraw();
-});
+  // simulation traitement (plus tard PayPal)
+  setTimeout(() => {
 
-});
+    balance -= amount;
+    localStorage.setItem("balance", balance);
+
+    alert("Retrait effectué ✅");
+
+    closeWithdraw();
+
+  }, 1500);
+
+};
