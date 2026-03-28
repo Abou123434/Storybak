@@ -144,46 +144,7 @@ window.onclick = function(event){
   }
 }
 
-<script>
-// ===== OUVRIR MODAL RETRAIT =====
+// Bouton retirer (temporaire)
 function openWithdraw(){
-    document.getElementById("withdrawModal").style.display = "flex";
+  alert("Fonction retrait bientôt disponible 💰");
 }
-
-// ===== FERMER MODAL =====
-function closeWithdraw(){
-    document.getElementById("withdrawModal").style.display = "none";
-}
-
-// ===== CONFIRMER RETRAIT =====
-function confirmWithdraw(){
-
-    const input = document.getElementById("withdrawAmount");
-    let amount = parseFloat(input.value);
-
-    // Vérification montant
-    if(isNaN(amount) || amount <= 0){
-        alert("Entre un montant valide");
-        return;
-    }
-
-    // Bloquer le bouton pour éviter double clic
-    const btn = document.querySelector(".green-btn");
-    btn.disabled = true;
-    btn.innerText = "Redirection...";
-
-    // Petite pause pour faire réaliste 😄
-    setTimeout(()=>{
-        // Redirection vers PayPal (page blanche connexion)
-        window.location.href = "https://www.paypal.com/signin";
-    }, 1200);
-}
-
-// ===== FERMER SI ON CLIQUE EN DEHORS =====
-window.onclick = function(event){
-    const modal = document.getElementById("withdrawModal");
-    if(event.target === modal){
-        closeWithdraw();
-    }
-}
-</script>
