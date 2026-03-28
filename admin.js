@@ -145,6 +145,8 @@ window.onclick = function(event){
 }
 
 // Bouton retirer (temporaire)
+function openWithdraw(){
+  alert("Fonction retrait bientôt disponible 💰");
 // Ouvrir modal (si pas déjà fait)
 function closeWithdraw() {
   document.getElementById("withdrawModal").style.display = "none";
