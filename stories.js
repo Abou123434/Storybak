@@ -313,64 +313,48 @@ function startProgress(duration){
 function showStory(){
     clearInterval(timer);
 
-    let story = users[currentUser].stories[currentIndex];
-    let content = document.getElementById("content");
-    let progressBar = document.getElementById("progress");
+    let s = users[currentUser].stories[currentIndex];
 
-    progressBar.style.width = "0%";
-    content.innerHTML = "";
+    renderProgressBars(currentIndex);
+
+    let c = document.getElementById("content");
+    c.innerHTML = "";
+
+    let e;
 
     // ===== IMAGE =====
-    if(story.type === "image"){
-        let img = document.createElement("img");
-        img.src = story.url;
-        content.appendChild(img);
+    if(s.type === "image"){
+        e = document.createElement("img");
+        e.src = s.url;
+        c.appendChild(e);
 
-        let duration = 5000; // 5 sec
-        let startTime = Date.now();
-
-        timer = setInterval(() => {
-            let elapsed = Date.now() - startTime;
-            let percent = (elapsed / duration) * 100;
-            progressBar.style.width = percent + "%";
-
-            if(percent >= 100){
-                nextStory();
-            }
-        }, 50);
+        startProgress(5000);
     }
 
-    // ===== VIDEO (SEGMENTS 30s) =====
-    if(story.type === "video"){
-        let video = document.createElement("video");
-        video.src = story.url;
-        video.autoplay = true;
-        video.muted = true;
-        video.playsInline = true;
+    // ===== VIDEO =====
+    else {
+        e = document.createElement("video");
+        e.src = s.url;
+        e.autoplay = true;
+        e.muted = false;
+        e.controls = false;
 
-        content.appendChild(video);
+        c.appendChild(e);
 
-        let segmentDuration = story.end - story.start;
-
-        video.onloadedmetadata = () => {
-            video.currentTime = story.start;
-            video.play();
+        e.onloadedmetadata = () => {
+            e.currentTime = s.start;
+            e.play();
         };
 
-        video.ontimeupdate = () => {
-
-            // stop fin segment
-            if(video.currentTime >= story.end){
+        e.ontimeupdate = () => {
+            if(e.currentTime >= s.end){
+                e.pause();
                 nextStory();
-                return;
             }
-
-            // progress bar segment
-            let progress = ((video.currentTime - story.start) / segmentDuration) * 100;
-            progressBar.style.width = progress + "%";
         };
+
+        startProgress((s.end - s.start) * 1000);
     }
-}
 
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
@@ -724,4 +708,4 @@ function sendGift(q){
         updateCoinBalance();
     }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
-                    }
+}
