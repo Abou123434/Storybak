@@ -1,12 +1,14 @@
-// ===== STORY =====
 function showStory(){
     clearInterval(timer);
 
     let story = users[currentUser].stories[currentIndex];
     let content = document.getElementById("content");
-    let progressBar = document.getElementById("progress");
 
-    progressBar.style.width = "0%";
+    renderProgressBars();
+
+    let fills = document.querySelectorAll(".progress-fill");
+    let progressBar = fills[currentIndex];
+
     content.innerHTML = "";
 
     // ===== IMAGE =====
@@ -15,7 +17,7 @@ function showStory(){
         img.src = story.url;
         content.appendChild(img);
 
-        let duration = 5000; // 5 sec
+        let duration = 5000;
         let startTime = Date.now();
 
         timer = setInterval(() => {
@@ -29,7 +31,7 @@ function showStory(){
         }, 50);
     }
 
-    // ===== VIDEO (SEGMENTS 30s) =====
+    // ===== VIDEO =====
     if(story.type === "video"){
         let video = document.createElement("video");
         video.src = story.url;
@@ -47,14 +49,11 @@ function showStory(){
         };
 
         video.ontimeupdate = () => {
-
-            // stop fin segment
             if(video.currentTime >= story.end){
                 nextStory();
                 return;
             }
 
-            // progress bar segment
             let progress = ((video.currentTime - story.start) / segmentDuration) * 100;
             progressBar.style.width = progress + "%";
         };
