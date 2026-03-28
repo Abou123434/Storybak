@@ -144,37 +144,92 @@ window.onclick = function(event){
   }
 }
 
-// fermer modal
-closeWithdrawBtn.addEventListener("click", closeWithdraw);
+/* ================================
+   💸 MODAL RETRAIT
+================================ */
 
-// confirmer retrait
-confirmWithdrawBtn.addEventListener("click", () => {
+// éléments
+const withdrawModal = document.getElementById("withdrawModal");
+const withdrawBtn = document.getElementById("withdrawBtn"); // bouton ouvrir retrait
+const closeWithdrawBtn = document.getElementById("closeWithdraw");
+const confirmWithdrawBtn = document.getElementById("confirmWithdraw");
+const withdrawAmountInput = document.getElementById("withdrawAmount");
+const withdrawBalanceText = document.getElementById("withdrawBalance");
 
-  if(withdrawLocked) return;
+let withdrawProcessing = false; // bloque les clics pendant action
 
-  let balance = parseFloat(localStorage.getItem("balance")) || 0;
-  let amount = parseFloat(withdrawAmount.value);
 
-  if(!amount || amount <= 0){
-    alert("Entre un montant valide");
-    return;
-  }
+/* ===== OUVRIR MODAL ===== */
+function openWithdraw(){
 
-  if(amount > balance){
-    alert("Solde insuffisant ❌");
-    return;
-  }
+    if(withdrawProcessing) return;
 
-  withdrawLocked = true;
-  confirmWithdrawBtn.disabled = true;
-  confirmWithdrawBtn.innerText = "Traitement...";
+    // récupérer solde depuis localStorage
+    let balance = parseFloat(localStorage.getItem("balance")) || 0;
+    withdrawBalanceText.textContent = balance.toFixed(2);
 
-  setTimeout(() => {
-    balance -= amount;
-    localStorage.setItem("balance", balance);
+    withdrawModal.style.display = "flex";
+}
 
-    alert("Retrait effectué ✅");
-    closeWithdraw();
-  }, 1500);
 
-});
+/* ===== FERMER MODAL ===== */
+function closeWithdraw(){
+    withdrawModal.style.display = "none";
+    withdrawProcessing = false;
+    confirmWithdrawBtn.disabled = false;
+    confirmWithdrawBtn.innerText = "Retirer";
+    withdrawAmountInput.value = "";
+}
+
+closeWithdrawBtn.onclick = closeWithdraw;
+
+
+/* ===== CONFIRMER RETRAIT ===== */
+confirmWithdrawBtn.onclick = () => {
+
+    if(withdrawProcessing) return;
+
+    let amount = parseFloat(withdrawAmountInput.value);
+    let balance = parseFloat(localStorage.getItem("balance")) || 0;
+
+    // vérifications
+    if(!amount || amount <= 0){
+        alert("Entre un montant valide");
+        return;
+    }
+
+    if(amount > balance){
+        alert("Solde insuffisant ❌");
+        return;
+    }
+
+    // 🔒 BLOQUE LES CLICS
+    withdrawProcessing = true;
+    confirmWithdrawBtn.disabled = true;
+    confirmWithdrawBtn.innerText = "Traitement...";
+
+    // simulation traitement (API / PayPal plus tard)
+    setTimeout(()=>{
+
+        balance -= amount;
+        localStorage.setItem("balance", balance);
+
+        alert("Retrait envoyé ✅");
+
+        closeWithdraw();
+
+        // si tu as un affichage du solde ailleurs :
+        if(window.updateBalanceDisplay){
+            updateBalanceDisplay();
+        }
+
+    }, 2000);
+};
+
+
+/* ===== FERMER EN CLIQUANT EN DEHORS ===== */
+window.onclick = (e) => {
+    if(e.target === withdrawModal){
+        closeWithdraw();
+    }
+};
