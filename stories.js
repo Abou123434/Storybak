@@ -508,6 +508,19 @@ function showStory(){
     }
 }
 
+function openViewer(userIndex = 0){
+    currentUser = userIndex;
+    currentIndex = 0;
+
+    document.getElementById("viewer").style.display = "block";
+    showStory();
+}
+
+function closeViewer(){
+    document.getElementById("viewer").style.display = "none";
+    clearInterval(timer);
+}
+
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
         s.views[currentProfile.username] = true;
