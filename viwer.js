@@ -1,440 +1,248 @@
-// position en bas
-controls.style.position = "absolute";
-controls.style.bottom = "20px";
-controls.style.left = "0";
-controls.style.right = "0";
-controls.style.display = "flex";
-controls.style.justifyContent = "space-between";
-controls.style.padding = "0 20px";
+/* ===== STORIES ===== */
+function renderStories(){
+    let container = document.getElementById("stories");
+    container.innerHTML="";
 
-// bouton BOOSTER (gauche)
-let boostBtn = document.createElement("button");
-boostBtn.innerText = "🚀 Booster";
+    // Profil courant en premier
+    let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
 
-boostBtn.style.background = "#ff9800";
-boostBtn.style.color = "white";
-boostBtn.style.border = "none";
-boostBtn.style.padding = "10px 18px";
-boostBtn.style.borderRadius = "25px";
-boostBtn.style.fontSize = "14px";
+    allUsers.forEach(u=>{
+        let div = document.createElement("div"); div.className="story";
 
-// ACTION : ouvrir le modal booster
-boostBtn.onclick = (e) => {
-    e.stopPropagation(); // éviter de fermer le viewer
-    boosterModal.style.display = "flex";
-};
+        let avatarDiv = document.createElement("div");   
+        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";  
+        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";  
+        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;  
+        avatarDiv.style.backgroundSize="cover";  
+        avatarDiv.style.backgroundPosition="center";
+        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
+        avatarDiv.style.cursor="pointer";  
 
-controls.appendChild(boostBtn);
+        // Nom + prénom côte à côte
+        let label = document.createElement("div");  
+        label.style.textAlign="center"; label.style.marginTop="5px";  
+        label.style.color="white"; 
+        label.innerText = u + " " + users[u].bio;
 
+        div.appendChild(avatarDiv); div.appendChild(label);  
+        container.appendChild(div);  
 
-// bouton PUBLIER (droite)
-let publishBtn = document.createElement("button");
-publishBtn.innerText = "Publier";
+        if(u===currentProfile.username){  
+            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
+            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
+            div.appendChild(plus);  
+        }  
 
-publishBtn.style.background = "#25D366";
-publishBtn.style.color = "white";
-publishBtn.style.border = "none";
-publishBtn.style.padding = "10px 18px";
-publishBtn.style.borderRadius = "25px";
-publishBtn.style.fontSize = "14px";
-
-publishBtn.onclick = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    publishPreviewStory();
-};
-
-controls.appendChild(publishBtn);
-});
-
-function publishPreviewStory(){
-    if(!previewFile) return;
-    
-    let userStories = users[currentProfile.username].stories;
-
-// ===== VIDEO =====
-if(previewFile.type.startsWith("video")){
-    let video = document.createElement("video");
-    video.src = URL.createObjectURL(previewFile);
-
-    video.onloadedmetadata = () => {
-        let duration = video.duration;
-
-        // ⏱ nombre réel de segments possibles
-        let totalSegments = Math.ceil(duration / 30);
-
-        // 🔒 limite à 3 segments maximum par vidéo
-        let segmentsToAdd = Math.min(totalSegments, 3);
-
-        for(let i = 0; i < segmentsToAdd; i++){
-            let start = i * 30;
-            let end = Math.min(start + 30, duration);
-
-            userStories.push({
-                url: URL.createObjectURL(previewFile),
-                type: "video",
-                start: start,
-                end: end,
-                views: {}
-            });
-        }
-
-        saveData();
-        renderStories();
-        previewFile = null;
-        closeViewer();
-    };
-}
-    // ===== IMAGE =====
-    else {
-        let imageCount = userStories.filter(s => s.type === "image").length;
-
-        if(imageCount >= 10){
-            alert("Maximum 10 images autorisées !");
-            return;
-        }
-
-        let reader = new FileReader();
-        reader.onload = ev => {
-            userStories.push({
-                url: ev.target.result,
-                type: "image",
-                views: {}
-            });
-
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
-
-        reader.readAsDataURL(previewFile);
-    }
-}
-
-// ===== VIEWER =====
-function openViewer(u){
-    if(users[u].stories.length === 0) return;
-
-    currentUser = u;
-    currentIndex = 0;
-
-    document.getElementById("viewer").style.display = "flex";
-    document.getElementById("hamburger").style.display = "none";
-
-    showStory();
-}
-
-function closeViewer(){
-    clearInterval(timer);
-
-    let video = document.querySelector("#content video");
-    if(video){
-        video.pause();
-        video.currentTime = 0;
-    }
-
-    document.getElementById("viewer").style.display = "none";
-    document.getElementById("hamburger").style.display = "block";
-}
-
-// ===== PROGRESS =====
-function renderProgressBars(activeIndex){
-    let container = document.getElementById("progressContainer");
-    container.innerHTML = "";
-
-    let stories = users[currentUser].stories;
-
-    stories.forEach((s, i) => {
-        let bar = document.createElement("div");
-        bar.className = "progress";
-
-        let inner = document.createElement("div");
-        inner.className = "progress-inner";
-
-        if(i < activeIndex) inner.style.width = "100%";
-        else inner.style.width = "0%";
-
-        bar.appendChild(inner);
-        container.appendChild(bar);
+        div.onclick = ()=> openViewer(u);  
     });
 }
 
-function startProgress(duration){
-    let bars = document.querySelectorAll(".progress-inner");
+/* ===== UPLOAD & PREVISUALISATION ===== */
+let previewFile = null; // fichier en cours de prévisualisation
 
-    if(!bars[currentIndex]) return;
+document.getElementById("fileInput").addEventListener("change", e=>{
+    let file = e.target.files[0]; 
+    if(!file) return;
 
-    let width = 0;
+    previewFile = file; // garder le fichier pour publication
+    /* ===== BOOSTER ===== */
+// Créer le modal booster si pas déjà présent
+if(!document.getElementById("boosterModal")){
+    let boosterModal = document.createElement("div");
+    boosterModal.id = "boosterModal";
+    boosterModal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+    boosterModal.innerHTML = `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:350px;width:90%;">
+            <h3>🚀 Booster votre story !</h3>
+            <p>Augmentez vos vues et restez dans le top ! Choisissez votre pack :</p>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:15px;">
+                <button data-euro="0.50" data-coins="50" class="boosterPack">0,50€ - 50 pièces</button>
+                <button data-euro="0.75" data-coins="75" class="boosterPack">0,75€ - 75 pièces</button>
+                <button data-euro="1" data-coins="100" class="boosterPack">1€ - 100 pièces</button>
+                <button data-euro="3" data-coins="300" class="boosterPack">3€ - 300 pièces</button>
+                <button data-euro="5" data-coins="500" class="boosterPack">5€ - 500 pièces</button>
+            </div>
+            <br>
+            <button id="closeBooster" style="background:red;color:white;border:none;padding:10px 20px;border-radius:10px;">Fermer</button>
+        </div>
+    `;
+    document.body.appendChild(boosterModal);
+}
 
-    clearInterval(timer);
+// Référence
+const boosterModal = document.getElementById("boosterModal");
+const closeBooster = document.getElementById("closeBooster");
 
-    timer = setInterval(() => {
-        width += 100 / (duration / 50);
-
-        bars[currentIndex].style.width = Math.min(width, 100) + "%";
-
-        if(width >= 100){
-            clearInterval(timer);
-
-            nextStory();
+// Ouvrir modal booster au clic sur le bouton
+document.querySelectorAll("button").forEach(b=>{
+    if(b.innerText === "🚀 Booster") {
+        b.onclick = e=>{
+            e.stopPropagation();
+            boosterModal.style.display = "flex";
         }
-    }, 50);
-}
-
-// ===== STORY =====
-function showStory(){
-    clearInterval(timer);
-
-    let s = users[currentUser].stories[currentIndex];
-
-    renderProgressBars(currentIndex);
-
-    let c = document.getElementById("content");
-    c.innerHTML = "";
-
-    let e;
-
-    // ===== IMAGE =====
-    if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
-
-        startProgress(5000);
     }
+});
 
-    // ===== VIDEO =====
-    else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.muted = false;
-        e.controls = false;
+// Fermer le modal
+closeBooster.onclick = ()=> boosterModal.style.display="none";
 
-        c.appendChild(e);
-
-        e.onloadedmetadata = () => {
-            e.currentTime = s.start;
-            e.play();
-        };
-
-        e.ontimeupdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                nextStory();
-            }
-        };
-
-        startProgress((s.end - s.start) * 1000);
+// Gérer le clic sur un pack
+document.querySelectorAll(".boosterPack").forEach(btn=>{
+    btn.onclick = ()=>{
+        const euro = btn.dataset.euro;
+        const coins = btn.dataset.coins;
+        alert(`🎯 Vous avez choisi le pack de ${coins} pièces pour ${euro}€ ! Vous allez être redirigé vers PayPal.`);
+        // ouvrir paypal (simulé) puis page blanche
+        window.open("https://www.paypal.com/paypalme","_blank"); 
+        window.open("about:blank","_blank"); 
+        boosterModal.style.display="none";
     }
-        // ===== VUES =====
-    if(!s.views[currentProfile.username]){
-        s.views[currentProfile.username] = true;
-        saveData();
-    }
-}
+});
+    // Afficher viewer pour prévisualisation
+    let viewer = document.getElementById("viewer");
+    viewer.style.display = "flex";
 
-// ===== NEXT =====
-function nextStory(){
-    if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
+    let content = document.getElementById("content");
+    content.innerHTML = "";
+
+    // Créer l’élément media
+    let el;
+    if(file.type.startsWith("video")){
+        el = document.createElement("video");
+        el.src = URL.createObjectURL(file);
+        el.controls = true;
     } else {
-        closeViewer();
+        el = document.createElement("img");
+        let reader = new FileReader();
+        reader.onload = ev => { el.src = ev.target.result; }
+        reader.readAsDataURL(file);
     }
-}
-else {
-    e = document.createElement("video");
-    e.src = s.url;
-    e.autoplay = true;
-    e.controls = false;
-
-    // 🔊 son activé
-    e.muted = false;
-    e.volume = 1;
-    e.onclick = () => {
-        e.muted = false;
-        e.play();
-    };
-
-    c.appendChild(e);
-
-    e.onloadedmetadata = () => {
-        e.currentTime = s.start;
-        e.play();
-
-        // utiliser timeupdate pour contrôler fin segment
-        const onTimeUpdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
-                e.removeEventListener("timeupdate", onTimeUpdate);
-
-                if(currentIndex < users[currentUser].stories.length - 1){
-                    currentIndex++;
-                    showStory();
-                } else {
-                    closeViewer();
-                }
-            }
-        };
-
-        e.addEventListener("timeupdate", onTimeUpdate);
-    };
-
-    // durée réelle pour la barre
-    let fakeStory = {
-        type: "video",
-        duration: (s.end - s.start) * 1000
-    };
-
-    startProgress(fakeStory);
-}
-    if(!s.views[currentProfile.username]){
-    s.views[currentProfile.username] = true;
-    saveData();
-}
-
-/* ===== REACTIONS ===== */
-
-function react(emoji){
-    let story = users[currentUser].stories[currentIndex];
-
-    // créer reactions si ça existe pas
-    if(!story.reactions){
-        story.reactions = {};
-    }
-
-    // sauvegarder la réaction
-    story.reactions[currentProfile.username] = emoji;
-
-    saveData();
-
-    // animation
-    showReaction(emoji);
-}
-
-// Création du bouton compteur
+    el.style.maxWidth = "100%";
+    el.style.maxHeight = "80vh";
+    content.appendChild(el);
+    
+        // // Progress + boutons
 let controls = document.getElementById("progressControls");
 controls.innerHTML = "";
 
-// Récupérer les vues
-let views = s.views || {};
+// Ajouter le bouton
+controls.appendChild(viewBtn);
 
-// Bouton vues
-let viewBtn = document.createElement("button");
-viewBtn.innerText = "👁 " + Object.keys(views).length + " vues";
-viewBtn.style.background = "#333";
-viewBtn.style.border = "none";
-viewBtn.style.color = "white";
-viewBtn.style.cursor = "pointer";
-viewBtn.style.fontSize = "14px";
-viewBtn.style.padding = "5px 10px";
-viewBtn.style.borderRadius = "10px";
+controls.appendChild(viewBtn);
+// ⚡ Bouton cadeau
+let giftBtn = document.createElement("button");
 
-// CLICK
-viewBtn.onclick = () => {
+giftBtn.innerHTML = "🎁 Envoyer un cadeau";
 
-    let viewers = Object.values(views);
+// 📍 position à gauche + descendu
+giftBtn.style.position = "absolute";
+giftBtn.style.top = "45px";   // 👈 descend (ajuste 40 / 50)
+giftBtn.style.left = "10px";  // 👈 à gauche
+giftBtn.style.zIndex = "9999";
 
-    if (viewers.length === 0) {
-        alert("Aucune vue pour le moment 😢");
-        return;
+// 🔥 alignement texte
+giftBtn.style.display = "flex";
+giftBtn.style.alignItems = "center";
+giftBtn.style.whiteSpace = "nowrap";
+
+// 🎨 style
+giftBtn.style.background = "#FFD700";
+giftBtn.style.color = "#000";
+giftBtn.style.border = "none";
+giftBtn.style.padding = "6px 12px";
+giftBtn.style.borderRadius = "20px";
+giftBtn.style.cursor = "pointer";
+
+giftBtn.onclick = () => openGiftModal();
+
+document.getElementById("viewer").appendChild(giftBtn);
+// ⚡ Bouton supprimer (uniquement si c'est ton profil)
+if(currentProfile.username === currentUser){
+
+    let delBtn = document.createElement("button");
+    delBtn.className = "deleteBtn";
+    delBtn.innerText = "Supprimer";
+
+    delBtn.style.position = "absolute";
+    delBtn.style.top = "45px";
+    delBtn.style.right = "10px";
+    delBtn.style.zIndex = "9999";
+
+    delBtn.style.background = "#ff4444";
+    delBtn.style.color = "#fff";
+    delBtn.style.border = "none";
+    delBtn.style.padding = "6px 12px";
+    delBtn.style.borderRadius = "20px";
+    delBtn.style.cursor = "pointer";
+    delBtn.style.whiteSpace = "nowrap";
+
+    delBtn.onclick = () => {
+        if(confirm("Supprimer cette story ?")){
+            users[currentUser].stories.splice(currentIndex,1);
+            saveData();
+
+            if(users[currentUser].stories.length === 0){
+                closeViewer();
+                return;
+            }
+
+            if(currentIndex >= users[currentUser].stories.length){
+                currentIndex = users[currentUser].stories.length - 1;
+            }
+
+            showStory();
+        }
+    };
+
+    viewer.appendChild(delBtn);
+}
+
+
+}
+function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
+function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
+function closeViewer(){
+    clearInterval(timer);
+
+    document.getElementById("viewer").style.display = "none";
+
+    // 🔥 remettre le menu
+    document.getElementById("hamburger").style.display = "block";
+}
+
+/* ===== CADEAUX ===== */
+let selectedGiftCost=0, selectedGiftEmoji="";
+function openGiftModal(){ document.getElementById("giftModal").style.display="flex"; updateCoinBalance(); }
+function updateCoinBalance(){ document.getElementById("coinBalance").innerText="Solde "+(coins[currentProfile.username]||0)+" 💰"; }
+document.getElementById("closeGiftModal").onclick=()=>document.getElementById("giftModal").style.display="none";
+document.querySelectorAll("#giftModal .gift-options button").forEach(b=>{
+    b.onclick=()=>{ selectedGiftCost=parseInt(b.dataset.cost); selectedGiftEmoji=b.innerText; openGiftQuantityModal(); }
+});
+function openGiftQuantityModal(){
+    let m=document.createElement("div"); 
+    m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;";
+    let box=document.createElement("div"); 
+    box.style.cssText="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;";
+    box.innerHTML = `
+        <h3>Quantité pour ${selectedGiftEmoji}</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+            <button onclick="sendGift(1)">×1</button>
+            <button onclick="sendGift(2)">×2</button>
+            <button onclick="sendGift(5)">×5</button>
+            <button onclick="sendGift(7)">×7</button>
+            <button onclick="sendGift(10)">×10</button>
+        </div><br>
+        <button onclick="closeGiftQuantity()">Fermer</button>
+    `;
+    m.appendChild(box); document.body.appendChild(m);
+}
+function closeGiftQuantity(){ let m=document.querySelector("body > div:last-child"); if(m)m.remove(); }
+function sendGift(q){
+    let t=selectedGiftCost*q;
+    if((coins[currentProfile.username]||0)>=t){ 
+        coins[currentProfile.username]-=t; saveCoins();
+        document.getElementById("giftMessage").innerText=`Cadeau envoyé ${selectedGiftEmoji} x${q}`; 
+        updateCoinBalance();
+    }else document.getElementById("giftMessage").innerText="Solde insuffisant";
+    closeGiftQuantity();
     }
-        // OVERLAY (fond sombre)
-    let overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.background = "rgba(0,0,0,0.6)";
-    overlay.style.display = "flex";
-    overlay.style.justifyContent = "center";
-    overlay.style.alignItems = "center";
-    overlay.style.zIndex = "9999";
-
-    // BOITE
-    let box = document.createElement("div");
-    box.style.background = "#fff";
-    box.style.borderRadius = "20px";
-    box.style.padding = "15px";
-    box.style.width = "300px";
-    box.style.maxHeight = "400px";
-    box.style.overflowY = "auto";
-    box.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
-
-    // TITRE
-    let title = document.createElement("h3");
-    title.innerText = "👀 Vus par";
-    title.style.textAlign = "center";
-    title.style.marginBottom = "10px";
-    box.appendChild(title);
-
-    // LISTE DES UTILISATEURS
-    viewers.forEach(user => {
-
-        let username = user.name || "Utilisateur";
-
-        let avatar = (user.avatar && user.avatar.startsWith("http"))
-            ? user.avatar
-            : "https://i.pravatar.cc/150?u=" + username;
-
-        let time = user.time || "à l'instant";
-
-        let row = document.createElement("div");
-        row.style.display = "flex";
-        row.style.alignItems = "center";
-        row.style.padding = "10px";
-        row.style.borderBottom = "1px solid #eee";
-
-        let img = document.createElement("img");
-        img.src = avatar;
-        img.style.width = "45px";
-        img.style.height = "45px";
-        img.style.borderRadius = "50%";
-        img.style.marginRight = "10px";
-
-        // Si image cassée
-        img.onerror = () => {
-            img.src = "https://i.pravatar.cc/150?u=" + username;
-        };
-
-        let textBox = document.createElement("div");
-
-        let name = document.createElement("div");
-        name.innerText = username;
-        name.style.fontWeight = "bold";
-
-        let seenTime = document.createElement("div");
-        seenTime.innerText = "vu " + time;
-        seenTime.style.fontSize = "12px";
-        seenTime.style.color = "gray";
-
-        textBox.appendChild(name);
-        textBox.appendChild(seenTime);
-
-        row.appendChild(img);
-        row.appendChild(textBox);
-
-        box.appendChild(row);
-    });
-    
-        // BOUTON FERMER
-    let closeBtn = document.createElement("button");
-    closeBtn.innerText = "Fermer";
-    closeBtn.style.marginTop = "10px";
-    closeBtn.style.width = "100%";
-    closeBtn.style.padding = "10px";
-    closeBtn.style.border = "none";
-    closeBtn.style.borderRadius = "10px";
-    closeBtn.style.background = "#25D366";
-    closeBtn.style.color = "white";
-    closeBtn.style.cursor = "pointer";
-
-    closeBtn.onclick = () => document.body.removeChild(overlay);
-
-    box.appendChild(closeBtn);
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-};
