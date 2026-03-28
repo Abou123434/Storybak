@@ -178,42 +178,39 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-    // ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
-        let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
+// ===== VIDEO =====
+if(previewFile.type.startsWith("video")){
+    let video = document.createElement("video");
+    video.src = URL.createObjectURL(previewFile);
 
-        video.onloadedmetadata = () => {
-            let duration = video.duration;
-            let segments = Math.ceil(duration / 30); // découpage 30s
-            let videoCount = userStories.filter(s => s.type === "video").length;
+    video.onloadedmetadata = () => {
+        let duration = video.duration;
 
-            // 🔥 limite corrigée
-            if(videoCount + segments > 5){
-                alert("Maximum 5 vidéos autorisées !");
-                return;
-            }
+        // ⏱ nombre réel de segments possibles
+        let totalSegments = Math.ceil(duration / 30);
 
-            for(let i = 0; i < segments; i++){
-                let start = i * 30;
-                let end = Math.min(start + 30, duration);
+        // 🔒 limite à 3 segments maximum par vidéo
+        let segmentsToAdd = Math.min(totalSegments, 3);
 
-                userStories.push({
-                    url: URL.createObjectURL(previewFile),
-                    type: "video",
-                    start: start,
-                    end: end,
-                    views: {}
-                });
-            }
+        for(let i = 0; i < segmentsToAdd; i++){
+            let start = i * 30;
+            let end = Math.min(start + 30, duration);
 
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
+            userStories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                start: start,
+                end: end,
+                views: {}
+            });
+        }
 
-    } 
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    };
+}
     // ===== IMAGE =====
     else {
         let imageCount = userStories.filter(s => s.type === "image").length;
