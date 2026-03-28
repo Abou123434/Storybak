@@ -101,6 +101,7 @@ header {
 .tap-left { left: 0; }
 .tap-right { right: 0; }
 
+
 /* ===== REACTIONS ===== */
 .reactions {
   position: absolute;
@@ -832,11 +833,4 @@ body {
   justify-content:center;
   align-items:center;
   z-index:9999;
-}
-.viewer{
-  position: fixed;
-  inset: 0;
-  background: black;
-  z-index: 9999;
-  display: none;
 }
