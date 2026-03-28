@@ -116,7 +116,6 @@ confirmWithdraw.onclick = () => {
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 
-/* ===== CHANGER PROFIL ===== */
 document.addEventListener("DOMContentLoaded", () => {
 
 /* ===== CHANGER PROFIL ===== */
@@ -132,7 +131,6 @@ if(!document.getElementById("profileModal")){
     modal.id="profileModal";
     modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
     modal.innerHTML= `
-        <div
         <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
             <h3>Modifier le profil</h3>
             <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
@@ -155,70 +153,17 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
-// Ouvrir modal
+
+// 🔥 OUVRIR MODAL
 changeProfileBtn.addEventListener("click", ()=>{
+    console.log("CLICK OK"); // pour tester
+
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
-
-    avatarPreview.innerText = "";
-    if(users[currentProfile.username]?.photo){
-        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
-        avatarPreview.style.backgroundSize = "cover";
-        avatarPreview.style.backgroundPosition = "center";
-    } else {
-        avatarPreview.style.backgroundImage = "";
-        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
-        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
-    }
 });
 
-// Fermer modal
+// 🔥 FERMER MODAL
 closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
-// Modifier avatar
-avatarPreview.addEventListener("click", ()=> avatarInput.click());
-avatarInput.addEventListener("change", e=>{
-    let file = e.target.files[0];
-    if(!file) return;
-    let reader = new FileReader();
-    reader.onload = ev => {
-        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
-        avatarPreview.style.backgroundSize = "cover";
-        avatarPreview.style.backgroundPosition = "center";
-        avatarPreview.innerText = "";
-        users[currentProfile.username].photo = ev.target.result;
-        saveData();
-        renderStories();
-    };
-    reader.readAsDataURL(file);
 });
-
-// Sauvegarder profil (corrigé pour prénom et nom correctement)
-saveProfile.addEventListener("click", ()=>{
-    let nom = profileNom.value.trim();
-    let prenom = profilePrenom.value.trim();
-    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
-
-    let oldKey = currentProfile.username;
-    let userData = users[oldKey];
-
-    userData.bio = prenom; // mettre à jour le prénom
-    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
-
-    // Renommer la clé si le nom change
-    if(oldKey !== nom){
-        users[nom] = userData;
-        delete users[oldKey];
-    }
-
-    currentProfile.username = nom;
-    currentProfile.bio = prenom;
-
-    saveData();
-    renderStories();
-    profileModal.style.display = "none";
-});
-
-/* ===== INIT ===== */
-renderStories();
