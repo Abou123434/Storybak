@@ -144,40 +144,38 @@ window.onclick = function(event){
   }
 }
 
-// ===== MODAL RETRAIT =====
+document.addEventListener("DOMContentLoaded", () => {
 
-// éléments
+// ===== MODAL RETRAIT =====
 const withdrawModal = document.getElementById("withdrawModal");
 const withdrawInput = document.getElementById("withdrawAmount");
 const confirmWithdrawBtn = document.getElementById("confirmWithdrawBtn");
 
-// simulation solde (temporaire)
 let balance = 0;
 
-// Ouvrir le modal
-function openWithdraw(){
+// ouvrir modal
+window.openWithdraw = function(){
   withdrawModal.style.display = "flex";
 }
 
-// Fermer le modal
-function closeWithdraw(){
+// fermer modal
+window.closeWithdraw = function(){
   withdrawModal.style.display = "none";
   withdrawInput.value = "";
 }
 
-// Fermer si clique hors du modal
+// fermer si clique dehors
 window.addEventListener("click", (e)=>{
   if(e.target === withdrawModal){
     closeWithdraw();
   }
 });
 
-// ===== CONFIRMER RETRAIT =====
+// confirmer retrait
 confirmWithdrawBtn.addEventListener("click", ()=>{
 
   let amount = parseFloat(withdrawInput.value);
 
-  // sécurité
   if(!amount || amount <= 0){
     alert("Entre un montant valide");
     return;
@@ -188,10 +186,10 @@ confirmWithdrawBtn.addEventListener("click", ()=>{
     return;
   }
 
-  // simulation retrait
   balance -= amount;
-
   alert("Retrait demandé ✅\nMontant: " + amount + "€");
 
   closeWithdraw();
+});
+
 });
