@@ -203,6 +203,7 @@ confirmWithdraw.onclick = () => {
 
 };
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
+}
 
 /* ===== ACHAT COINS ===== */
 document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
