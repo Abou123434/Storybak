@@ -414,7 +414,7 @@ function openViewer(userIndex = 0){
 function closeViewer(){
     document.getElementById("viewer").classList.remove("active");
     clearInterval(timer);
-}
+
 
 // ===== PROGRESS =====
 function renderProgressBars(activeIndex){
