@@ -35,6 +35,105 @@ if(!users[currentProfile.username]){
     saveData(); saveCoins();
 }
 
+/* ===== CHANGER PROFIL ===== */
+const changeProfileBtn = document.getElementById("changeProfileBtn");
+
+if(!document.getElementById("profileModal")){
+    let modal = document.createElement("div");
+    modal.id="profileModal";
+    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:9999;";
+    modal.innerHTML= `
+        <div style="background:#111;padding:25px;border-radius:15px;text-align:center;color:white;max-width:300px;width:90%;">
+            <h3>Modifier le profil</h3>
+            <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;margin:0 auto;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;"></div>
+            <input type="file" id="avatarInput" hidden>
+            <br><br>
+            <input type="text" id="profileNom" placeholder="Nom" style="margin-bottom:10px;width:90%;"><br>
+            <input type="text" id="profilePrenom" placeholder="Prénom" style="margin-bottom:10px;width:90%;"><br>
+            <button id="saveProfile" class="green-btn">Sauvegarder</button>
+            <button id="closeProfileModal" class="red-btn">Fermer</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+const profileModal = document.getElementById("profileModal");
+const avatarPreview = document.getElementById("avatarPreview");
+const avatarInput = document.getElementById("avatarInput");
+const profileNom = document.getElementById("profileNom");
+const profilePrenom = document.getElementById("profilePrenom");
+const saveProfile = document.getElementById("saveProfile");
+const closeProfileModal = document.getElementById("closeProfileModal");
+
+// Ouvrir modal
+changeProfileBtn.addEventListener("click", ()=>{
+    profileModal.style.display = "flex";
+    profileNom.value = currentProfile.username;
+    profilePrenom.value = currentProfile.bio;
+
+    avatarPreview.innerText = "";
+    if(users[currentProfile.username]?.photo){
+        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+    } else {
+        avatarPreview.style.backgroundImage = "";
+        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
+    }
+});
+
+// Fermer modal
+closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
+
+// Modifier avatar
+avatarPreview.addEventListener("click", ()=> avatarInput.click());
+avatarInput.addEventListener("change", e=>{
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = ev => {
+        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+        avatarPreview.innerText = "";
+        users[currentProfile.username].photo = ev.target.result;
+        saveData();
+        renderStories();
+    };
+    reader.readAsDataURL(file);
+});
+
+// Sauvegarder profil (corrigé pour prénom et nom correctement)
+saveProfile.addEventListener("click", ()=>{
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
+    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
+
+    let oldKey = currentProfile.username;
+    let userData = users[oldKey];
+
+    userData.bio = prenom; // mettre à jour le prénom
+    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
+
+    // Renommer la clé si le nom change
+    if(oldKey !== nom){
+        users[nom] = userData;
+        delete users[oldKey];
+    }
+
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
+
+    saveData();
+    renderStories();
+    profileModal.style.display = "none";
+});
+
+/* ===== INIT ===== */
+renderStories();
+
+
 /* ===== STORIES ===== */
 function renderStories(){
     let container = document.getElementById("stories");
@@ -215,42 +314,39 @@ function publishPreviewStory(){
 
     let userStories = users[currentProfile.username].stories;
 
-    // ===== VIDEO =====
-    if(previewFile.type.startsWith("video")){
-        let video = document.createElement("video");
-        video.src = URL.createObjectURL(previewFile);
+// ===== VIDEO =====
+if(previewFile.type.startsWith("video")){
+    let video = document.createElement("video");
+    video.src = URL.createObjectURL(previewFile);
 
-        video.onloadedmetadata = () => {
-            let duration = video.duration;
-            let segments = Math.ceil(duration / 30); // découpage 30s
-            let videoCount = userStories.filter(s => s.type === "video").length;
+    video.onloadedmetadata = () => {
+        let duration = video.duration;
 
-            // 🔥 limite corrigée
-            if(videoCount + segments > 5){
-                alert("Maximum 5 vidéos autorisées !");
-                return;
-            }
+        // ⏱ nombre réel de segments possibles
+        let totalSegments = Math.ceil(duration / 30);
 
-            for(let i = 0; i < segments; i++){
-                let start = i * 30;
-                let end = Math.min(start + 30, duration);
+        // 🔒 limite à 3 segments maximum par vidéo
+        let segmentsToAdd = Math.min(totalSegments, 3);
 
-                userStories.push({
-                    url: URL.createObjectURL(previewFile),
-                    type: "video",
-                    start: start,
-                    end: end,
-                    views: {}
-                });
-            }
+        for(let i = 0; i < segmentsToAdd; i++){
+            let start = i * 30;
+            let end = Math.min(start + 30, duration);
 
-            saveData();
-            renderStories();
-            previewFile = null;
-            closeViewer();
-        };
+            userStories.push({
+                url: URL.createObjectURL(previewFile),
+                type: "video",
+                start: start,
+                end: end,
+                views: {}
+            });
+        }
 
-    } 
+        saveData();
+        renderStories();
+        previewFile = null;
+        closeViewer();
+    };
+}
     // ===== IMAGE =====
     else {
         let imageCount = userStories.filter(s => s.type === "image").length;
@@ -750,4 +846,4 @@ function sendGift(q){
         updateCoinBalance();
     }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
-        }
+       }
