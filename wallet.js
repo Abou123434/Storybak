@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", () => {
 /* ===== GLOBAL ===== */
 let currentProfile = { username: "MonProfil", bio: "Prenom" };
 let currentUser = null;
@@ -42,7 +43,7 @@ function closeBuy(){ document.getElementById("buyCoinsModal").style.display="non
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
 function openBlank(){ window.open("about:blank","_blank"); }
-};
+}
 
 /* ===== WALLET & KYC & RETRAIT ===== */
 const walletBtn=document.getElementById("walletBtn");
@@ -116,15 +117,8 @@ confirmWithdraw.onclick = () => {
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
 
 
-document.addEventListener("DOMContentLoaded", () => {
-
 /* ===== CHANGER PROFIL ===== */
 const changeProfileBtn = document.getElementById("changeProfileBtn");
-
-if(!changeProfileBtn){
-    console.error("Bouton changeProfileBtn introuvable");
-    return;
-}
 
 if(!document.getElementById("profileModal")){
     let modal = document.createElement("div");
@@ -153,17 +147,71 @@ const profilePrenom = document.getElementById("profilePrenom");
 const saveProfile = document.getElementById("saveProfile");
 const closeProfileModal = document.getElementById("closeProfileModal");
 
-
-// 🔥 OUVRIR MODAL
+// Ouvrir modal
 changeProfileBtn.addEventListener("click", ()=>{
-    console.log("CLICK OK"); // pour tester
-
     profileModal.style.display = "flex";
     profileNom.value = currentProfile.username;
     profilePrenom.value = currentProfile.bio;
+
+    avatarPreview.innerText = "";
+    if(users[currentProfile.username]?.photo){
+        avatarPreview.style.backgroundImage = `url(${users[currentProfile.username].photo})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+    } else {
+        avatarPreview.style.backgroundImage = "";
+        avatarPreview.innerText = currentProfile.username + " " + currentProfile.bio;
+        avatarPreview.style.fontSize = (currentProfile.username.length + currentProfile.bio.length > 10) ? "12px" : "20px";
+    }
 });
 
-// 🔥 FERMER MODAL
+// Fermer modal
 closeProfileModal.addEventListener("click", ()=> profileModal.style.display="none");
 
+// Modifier avatar
+avatarPreview.addEventListener("click", ()=> avatarInput.click());
+avatarInput.addEventListener("change", e=>{
+    let file = e.target.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = ev => {
+        avatarPreview.style.backgroundImage = `url(${ev.target.result})`;
+        avatarPreview.style.backgroundSize = "cover";
+        avatarPreview.style.backgroundPosition = "center";
+        avatarPreview.innerText = "";
+        users[currentProfile.username].photo = ev.target.result;
+        saveData();
+        renderStories();
+    };
+    reader.readAsDataURL(file);
 });
+
+// Sauvegarder profil (corrigé pour prénom et nom correctement)
+saveProfile.addEventListener("click", ()=>{
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
+    if(!nom || !prenom){ return alert("Nom et prénom sont obligatoires"); }
+
+    let oldKey = currentProfile.username;
+    let userData = users[oldKey];
+
+    userData.bio = prenom; // mettre à jour le prénom
+    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
+
+    // Renommer la clé si le nom change
+    if(oldKey !== nom){
+        users[nom] = userData;
+        delete users[oldKey];
+    }
+
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
+
+    saveData();
+    renderStories();
+    profileModal.style.display = "none";
+});
+
+/* ===== INIT ===== */
+renderStories();
+document.addEventListener("DOMContentLoaded", () => {
