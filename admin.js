@@ -144,46 +144,13 @@ window.onclick = function(event){
   }
 }
 
-/* ===== MODAL RETRAIT ===== */
-
-const withdrawModal = document.getElementById("withdrawModal");
-const withdrawBalance = document.getElementById("withdrawBalance");
-const withdrawAmount = document.getElementById("withdrawAmount");
-const confirmWithdrawBtn = document.getElementById("confirmWithdraw");
-const closeWithdrawBtn = document.getElementById("closeWithdraw");
-
-let withdrawLocked = false; // 🔒 bloque double clic
-
-// ouvrir modal
-function openWithdraw(){
-  withdrawModal.style.display = "flex";
-
-  // récupérer solde depuis localStorage
-  let balance = localStorage.getItem("balance") || 0;
-  withdrawBalance.textContent = balance;
-
-  withdrawAmount.value = "";
-  withdrawLocked = false;
-  confirmWithdrawBtn.disabled = false;
-}
-
 // fermer modal
-function closeWithdraw(){
-  withdrawModal.style.display = "none";
-
-  // reset sécurité
-  withdrawLocked = false;
-  confirmWithdrawBtn.disabled = false;
-  withdrawAmount.value = "";
-}
-
-closeWithdrawBtn.onclick = closeWithdraw;
-
+closeWithdrawBtn.addEventListener("click", closeWithdraw);
 
 // confirmer retrait
-confirmWithdrawBtn.onclick = () => {
+confirmWithdrawBtn.addEventListener("click", () => {
 
-  if(withdrawLocked) return; // 🔒 sécurité anti double clic
+  if(withdrawLocked) return;
 
   let balance = parseFloat(localStorage.getItem("balance")) || 0;
   let amount = parseFloat(withdrawAmount.value);
@@ -198,21 +165,16 @@ confirmWithdrawBtn.onclick = () => {
     return;
   }
 
-  // 🔒 bloque le bouton immédiatement
   withdrawLocked = true;
   confirmWithdrawBtn.disabled = true;
   confirmWithdrawBtn.innerText = "Traitement...";
 
-  // simulation traitement (plus tard PayPal)
   setTimeout(() => {
-
     balance -= amount;
     localStorage.setItem("balance", balance);
 
     alert("Retrait effectué ✅");
-
     closeWithdraw();
-
   }, 1500);
 
-};
+});
