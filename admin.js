@@ -144,47 +144,54 @@ window.onclick = function(event){
   }
 }
 
-// Bouton retirer (temporaire)
+// ===== MODAL RETRAIT =====
+
+// éléments
+const withdrawModal = document.getElementById("withdrawModal");
+const withdrawInput = document.getElementById("withdrawAmount");
+const confirmWithdrawBtn = document.getElementById("confirmWithdrawBtn");
+
+// simulation solde (temporaire)
+let balance = 0;
+
+// Ouvrir le modal
 function openWithdraw(){
-  alert("Fonction retrait bientôt disponible 💰");
-// Ouvrir modal (si pas déjà fait)
-function closeWithdraw() {
-  document.getElementById("withdrawModal").style.display = "none";
+  withdrawModal.style.display = "flex";
 }
 
-// Bouton retirer
-document.getElementById("confirmWithdrawBtn").addEventListener("click", () => {
+// Fermer le modal
+function closeWithdraw(){
+  withdrawModal.style.display = "none";
+  withdrawInput.value = "";
+}
 
-  const amount = document.getElementById("withdrawAmount").value;
+// Fermer si clique hors du modal
+window.addEventListener("click", (e)=>{
+  if(e.target === withdrawModal){
+    closeWithdraw();
+  }
+});
 
-  // Vérification montant
-  if (amount <= 0 || amount === "") {
+// ===== CONFIRMER RETRAIT =====
+confirmWithdrawBtn.addEventListener("click", ()=>{
+
+  let amount = parseFloat(withdrawInput.value);
+
+  // sécurité
+  if(!amount || amount <= 0){
     alert("Entre un montant valide");
     return;
   }
 
-  // Fermer le modal
+  if(amount > balance){
+    alert("Solde insuffisant");
+    return;
+  }
+
+  // simulation retrait
+  balance -= amount;
+
+  alert("Retrait demandé ✅\nMontant: " + amount + "€");
+
   closeWithdraw();
-
-  // Petite animation chargement
-  document.body.innerHTML = `
-    <div style="
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Arial;
-      background:#f5f7fa;
-      flex-direction:column;
-    ">
-      <h2>Redirection vers PayPal...</h2>
-      <p>Veuillez patienter ⏳</p>
-    </div>
-  `;
-
-  // Redirection PayPal (simulation page blanche)
-  setTimeout(() => {
-    window.location.href = "https://www.paypal.com/signin";
-  }, 2000);
-
 });
