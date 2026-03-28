@@ -214,4 +214,5 @@ saveProfile.addEventListener("click", ()=>{
 
 /* ===== INIT ===== */
 renderStories();
-document.addEventListener("DOMContentLoaded", () => {
+
+});
