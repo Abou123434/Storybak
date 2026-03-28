@@ -1,39 +1,52 @@
 /* ===== STORIES ===== */
 function renderStories(){
     let container = document.getElementById("stories");
-    container.innerHTML="";
+    container.innerHTML = "";
 
-    // Profil courant en premier
-    let allUsers = Object.keys(users).sort(u=> u===currentProfile.username ? -1 : 0);
+    // Mettre ton profil en premier (fix tri)
+    let allUsers = Object.keys(users).sort((a,b)=>{
+        if(a===currentProfile.username) return -1;
+        if(b===currentProfile.username) return 1;
+        return 0;
+    });
 
     allUsers.forEach(u=>{
-        let div = document.createElement("div"); div.className="story";
+        let div = document.createElement("div");
+        div.className = "story";
 
-        let avatarDiv = document.createElement("div");   
-        avatarDiv.style.width="80px"; avatarDiv.style.height="80px";  
-        avatarDiv.style.borderRadius="50%"; avatarDiv.style.margin="0 auto";  
-        avatarDiv.style.backgroundImage = `url(${users[u].photo})`;  
-        avatarDiv.style.backgroundSize="cover";  
-        avatarDiv.style.backgroundPosition="center";
-        avatarDiv.style.display="flex"; avatarDiv.style.alignItems="center"; avatarDiv.style.justifyContent="center";  
-        avatarDiv.style.cursor="pointer";  
+        // ===== AVATAR CERCLE =====
+        let avatarDiv = document.createElement("div");
+        avatarDiv.className = "storyAvatar";
 
-        // Nom + prénom côte à côte
-        let label = document.createElement("div");  
-        label.style.textAlign="center"; label.style.marginTop="5px";  
-        label.style.color="white"; 
+        // image avec avatar par défaut si vide
+        avatarDiv.style.backgroundImage =
+            `url(${users[u].photo || "https://i.imgur.com/6VBx3io.png"})`;
+
+        // ===== NOM + PRENOM =====
+        let label = document.createElement("div");
+        label.style.textAlign = "center";
+        label.style.marginTop = "5px";
+        label.style.color = "white";
         label.innerText = u + " " + users[u].bio;
 
-        div.appendChild(avatarDiv); div.appendChild(label);  
-        container.appendChild(div);  
+        div.appendChild(avatarDiv);
+        div.appendChild(label);
+        container.appendChild(div);
 
-        if(u===currentProfile.username){  
-            let plus = document.createElement("div"); plus.className="plus"; plus.innerText="+";  
-            plus.onclick = e=>{ e.stopPropagation(); document.getElementById("fileInput").click(); };  
-            div.appendChild(plus);  
-        }  
+        // ===== BOUTON + AJOUT STORY =====
+        if(u === currentProfile.username){
+            let plus = document.createElement("div");
+            plus.className = "plus";
+            plus.innerText = "+";
+            plus.onclick = e=>{
+                e.stopPropagation();
+                document.getElementById("fileInput").click();
+            };
+            div.appendChild(plus);
+        }
 
-        div.onclick = ()=> openViewer(u);  
+        // ===== OUVRIR VIEWER =====
+        div.onclick = ()=> openViewer(u);
     });
 }
 
@@ -245,4 +258,4 @@ function sendGift(q){
         updateCoinBalance();
     }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
-}
+    }
