@@ -410,12 +410,6 @@ function openViewer(userIndex = 0){
     showStory();
 }
 
-// fermer le viewer
-function closeViewer(){
-    document.getElementById("viewer").classList.remove("active");
-    clearInterval(timer);
-
-
 // ===== PROGRESS =====
 function renderProgressBars(activeIndex){
     let container = document.getElementById("progressContainer");
