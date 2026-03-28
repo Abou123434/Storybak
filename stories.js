@@ -398,7 +398,22 @@ function closeViewer(){
     }
 
     document.getElementById("viewer").style.display = "none";
-    document.getElementById("hamburger").style.display = "block";
+    document.getElementById("hamburger"
+  ).style.display = "block";
+}
+
+// ouvrir le viewer
+function openViewer(userIndex = 0){
+    currentUser = userIndex;
+    currentIndex = 0;
+    document.getElementById("viewer").classList.add("active");
+    showStory();
+}
+
+// fermer le viewer
+function closeViewer(){
+    document.getElementById("viewer").classList.remove("active");
+    clearInterval(timer);
 }
 
 // ===== PROGRESS =====
