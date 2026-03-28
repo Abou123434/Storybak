@@ -144,35 +144,46 @@ window.onclick = function(event){
   }
 }
 
-// Bouton retirer (temporaire)
-// ouvrir la modal (si tu as un bouton wallet)
+<script>
+// ===== OUVRIR MODAL RETRAIT =====
 function openWithdraw(){
     document.getElementById("withdrawModal").style.display = "flex";
 }
 
-// fermer la modal
+// ===== FERMER MODAL =====
 function closeWithdraw(){
     document.getElementById("withdrawModal").style.display = "none";
 }
 
-// CONFIRMATION RETRAIT
+// ===== CONFIRMER RETRAIT =====
 function confirmWithdraw(){
 
-    let amount = document.getElementById("withdrawAmount").value;
+    const input = document.getElementById("withdrawAmount");
+    let amount = parseFloat(input.value);
 
     // Vérification montant
-    if(amount == "" || amount <= 0){
+    if(isNaN(amount) || amount <= 0){
         alert("Entre un montant valide");
         return;
     }
 
-    // petite animation / message optionnel
-    alert("Redirection vers PayPal...");
+    // Bloquer le bouton pour éviter double clic
+    const btn = document.querySelector(".green-btn");
+    btn.disabled = true;
+    btn.innerText = "Redirection...";
 
-    // fermer la modal
-    closeWithdraw();
-
-    // 🔥 REDIRECTION PAGE BLANCHE PAYPAL
-    window.location.href = "https://www.paypal.com/signin";
-
+    // Petite pause pour faire réaliste 😄
+    setTimeout(()=>{
+        // Redirection vers PayPal (page blanche connexion)
+        window.location.href = "https://www.paypal.com/signin";
+    }, 1200);
 }
+
+// ===== FERMER SI ON CLIQUE EN DEHORS =====
+window.onclick = function(event){
+    const modal = document.getElementById("withdrawModal");
+    if(event.target === modal){
+        closeWithdraw();
+    }
+}
+</script>
