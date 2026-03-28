@@ -188,26 +188,20 @@
   </div>
 </div>
 
-<!-- 💸 MODAL RETRAIT -->
-<div id="withdrawModal" class="modal">
-
+<!-- ===== 💸 RETRAIT ===== -->
+<div id="withdrawModal">
   <div class="modal-content">
 
-    <h2>Retrait</h2>
-    <p>💰 Solde disponible : 0 €</p>
+    <h3>Retirer</h3>
 
-    <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
+    <p>Solde : <span id="withdrawBalance">0</span> €</p>
 
-    <div class="modal-buttons">
-      <!-- bouton RETIRER -->
-      <button id="confirmWithdrawBtn" class="green-btn">Retirer</button>
-    </div>
+    <input type="number" id="withdrawAmount" placeholder="Montant">
 
-    <!-- bouton ANNULER -->
-    <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
+    <button id="confirmWithdraw" class="withdraw-btn">Retirer</button>
+    <button id="closeWithdraw" class="red-btn">Fermer</button>
 
   </div>
-
 </div>
 
 <!-- ===== ⚙️ ADMIN PANEL FULLSCREEN ===== -->
@@ -267,8 +261,7 @@
     <input type="number" id="withdrawAmount" placeholder="Entrer le montant">
 
     <div class="modal-buttons">
-      <!-- BOUTON CLIQUABLE -->
-      <button id="confirmWithdrawBtn" class="green-btn">Retirer</button>
+      <button onclick="confirmWithdraw()" class="green-btn">Retirer</button>
     </div>
 
     <button onclick="closeWithdraw()" class="red-btn">Annuler</button>
@@ -465,44 +458,5 @@
 <script src="stories.js"></script>
 <script src="admin.js"></script>
 <script src="main.js"></script>
-<!-- SCRIPT RETRAIT PAYPAL -->
-<script>
-function closeWithdraw() {
-  document.getElementById("withdrawModal").style.display = "none";
-}
-
-document.getElementById("confirmWithdrawBtn").addEventListener("click", () => {
-
-  const amount = document.getElementById("withdrawAmount").value;
-
-  if (amount <= 0 || amount === "") {
-    alert("Entre un montant valide");
-    return;
-  }
-
-  closeWithdraw();
-
-  document.body.innerHTML = `
-    <div style="
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:Arial;
-      background:#f5f7fa;
-      flex-direction:column;
-    ">
-      <h2>Redirection vers PayPal...</h2>
-      <p>Veuillez patienter ⏳</p>
-    </div>
-  `;
-
-  setTimeout(() => {
-    window.location.href = "https://www.paypal.com/signin";
-  }, 2000);
-
-});
-</script>
-
 </body>
-</html>
+  </html>
