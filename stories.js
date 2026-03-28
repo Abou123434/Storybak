@@ -313,48 +313,64 @@ function startProgress(duration){
 function showStory(){
     clearInterval(timer);
 
-    let s = users[currentUser].stories[currentIndex];
+    let story = users[currentUser].stories[currentIndex];
+    let content = document.getElementById("content");
+    let progressBar = document.getElementById("progress");
 
-    renderProgressBars(currentIndex);
-
-    let c = document.getElementById("content");
-    c.innerHTML = "";
-
-    let e;
+    progressBar.style.width = "0%";
+    content.innerHTML = "";
 
     // ===== IMAGE =====
-    if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
+    if(story.type === "image"){
+        let img = document.createElement("img");
+        img.src = story.url;
+        content.appendChild(img);
 
-        startProgress(5000);
-    }
+        let duration = 5000; // 5 sec
+        let startTime = Date.now();
 
-    // ===== VIDEO =====
-    else {
-        e = document.createElement("video");
-        e.src = s.url;
-        e.autoplay = true;
-        e.muted = false;
-        e.controls = false;
+        timer = setInterval(() => {
+            let elapsed = Date.now() - startTime;
+            let percent = (elapsed / duration) * 100;
+            progressBar.style.width = percent + "%";
 
-        c.appendChild(e);
-
-        e.onloadedmetadata = () => {
-            e.currentTime = s.start;
-            e.play();
-        };
-
-        e.ontimeupdate = () => {
-            if(e.currentTime >= s.end){
-                e.pause();
+            if(percent >= 100){
                 nextStory();
             }
+        }, 50);
+    }
+
+    // ===== VIDEO (SEGMENTS 30s) =====
+    if(story.type === "video"){
+        let video = document.createElement("video");
+        video.src = story.url;
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+
+        content.appendChild(video);
+
+        let segmentDuration = story.end - story.start;
+
+        video.onloadedmetadata = () => {
+            video.currentTime = story.start;
+            video.play();
         };
 
-        startProgress((s.end - s.start) * 1000);
+        video.ontimeupdate = () => {
+
+            // stop fin segment
+            if(video.currentTime >= story.end){
+                nextStory();
+                return;
+            }
+
+            // progress bar segment
+            let progress = ((video.currentTime - story.start) / segmentDuration) * 100;
+            progressBar.style.width = progress + "%";
+        };
     }
+}
 
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
@@ -708,4 +724,4 @@ function sendGift(q){
         updateCoinBalance();
     }else document.getElementById("giftMessage").innerText="Solde insuffisant";
     closeGiftQuantity();
-}
+                    }
