@@ -398,16 +398,7 @@ function closeViewer(){
     }
 
     document.getElementById("viewer").style.display = "none";
-    document.getElementById("hamburger"
-  ).style.display = "block";
-}
-
-// ouvrir le viewer
-function openViewer(userIndex = 0){
-    currentUser = userIndex;
-    currentIndex = 0;
-    document.getElementById("viewer").classList.add("active");
-    showStory();
+    document.getElementById("hamburger").style.display = "block";
 }
 
 // ===== PROGRESS =====
