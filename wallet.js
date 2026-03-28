@@ -42,7 +42,8 @@ document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoin
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
 function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
 function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank","_blank"); }
+function openBlank(){
+    window.open("about:blank","_blank");
 }
 
 /* ===== WALLET & KYC & RETRAIT ===== */
@@ -214,5 +215,4 @@ saveProfile.addEventListener("click", ()=>{
 
 /* ===== INIT ===== */
 renderStories();
-
-});
+document.addEventListener("DOMContentLoaded", () => {
