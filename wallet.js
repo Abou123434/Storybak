@@ -133,6 +133,42 @@ saveProfile.addEventListener("click", ()=>{
 /* ===== INIT ===== */
 renderStories();
 
+saveProfile.addEventListener("click", ()=>{
+    let nom = profileNom.value.trim();
+    let prenom = profilePrenom.value.trim();
+    if(!nom || !prenom){ 
+        return alert("Nom et prénom sont obligatoires"); 
+    }
+
+    let oldKey = currentProfile.username;
+    let userData = users[oldKey];
+    let userCoins = coins[oldKey] || 0;
+
+    // mettre à jour prénom
+    userData.bio = prenom;
+
+    // créer avatar si pas encore
+    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
+
+    // 🔥 SI NOM CHANGE → RENOMMER USERS + COINS
+    if(oldKey !== nom){
+        users[nom] = userData;
+        coins[nom] = userCoins;
+
+        delete users[oldKey];
+        delete coins[oldKey];
+    }
+
+    currentProfile.username = nom;
+    currentProfile.bio = prenom;
+
+    saveData();
+    saveCoins();   // ⚠️ tu oubliais souvent ça !
+
+    renderStories();
+    profileModal.style.display = "none";
+});
+
 /* ===== ACHAT COINS ===== */
 document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
 function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
@@ -210,39 +246,3 @@ confirmWithdraw.onclick = () => {
 
 };
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
-
-saveProfile.addEventListener("click", ()=>{
-    let nom = profileNom.value.trim();
-    let prenom = profilePrenom.value.trim();
-    if(!nom || !prenom){ 
-        return alert("Nom et prénom sont obligatoires"); 
-    }
-
-    let oldKey = currentProfile.username;
-    let userData = users[oldKey];
-    let userCoins = coins[oldKey] || 0;
-
-    // mettre à jour prénom
-    userData.bio = prenom;
-
-    // créer avatar si pas encore
-    if(!userData.photo) userData.photo = generateAvatar(nom, prenom);
-
-    // 🔥 SI NOM CHANGE → RENOMMER USERS + COINS
-    if(oldKey !== nom){
-        users[nom] = userData;
-        coins[nom] = userCoins;
-
-        delete users[oldKey];
-        delete coins[oldKey];
-    }
-
-    currentProfile.username = nom;
-    currentProfile.bio = prenom;
-
-    saveData();
-    saveCoins();   // ⚠️ tu oubliais souvent ça !
-
-    renderStories();
-    profileModal.style.display = "none";
-});
