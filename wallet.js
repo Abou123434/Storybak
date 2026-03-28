@@ -133,13 +133,6 @@ saveProfile.addEventListener("click", ()=>{
 /* ===== INIT ===== */
 renderStories();
 
-/* ===== ACHAT COINS ===== */
-document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
-function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
-function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
-function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
-function openBlank(){ window.open("about:blank","_blank"); }
-
 /* ===== WALLET & KYC & RETRAIT ===== */
 const walletBtn=document.getElementById("walletBtn");
 const walletOverlay=document.getElementById("walletOverlay");
@@ -210,3 +203,11 @@ confirmWithdraw.onclick = () => {
 
 };
 closeWithdraw.onclick=()=>document.getElementById("withdrawModal").style.display="none";
+
+/* ===== ACHAT COINS ===== */
+document.getElementById("buyCoins").onclick=()=>document.getElementById("buyCoinsModal").style.display="flex";
+function closeBuy(){ document.getElementById("buyCoinsModal").style.display="none"; }
+function openPayment(){ document.getElementById("paymentModal").style.display="flex"; }
+function closePayment(){ document.getElementById("paymentModal").style.display="none"; }
+function openBlank(){ window.open("about:blank","_blank"); }
+
