@@ -518,9 +518,13 @@ function openViewer(userIndex = 0){
 
 function closeViewer(){
     document.getElementById("viewer").style.display = "none";
-    clearInterval(timer);
+
+clearInterval(timer);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("viewer").addEventListener("click", closeViewer);
+});
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
         s.views[currentProfile.username] = true;
