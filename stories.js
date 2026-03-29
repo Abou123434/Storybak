@@ -373,7 +373,21 @@ if(previewFile.type.startsWith("video")){
         reader.readAsDataURL(previewFile);
     }
 }
-    
+ 
+ // 🔥 DETRUIRE MEDIA ACTUEL (à ajouter ici)
+function destroyCurrentMedia(){
+    const content = document.getElementById("content");
+    const video = content.querySelector("video");
+
+    if(video){
+        video.pause();
+        video.removeAttribute("src");
+        video.load();
+        video.remove();
+    }
+
+    content.innerHTML = "";
+}   
 
 // ===== VIEWER =====
 function openViewer(u){
@@ -766,43 +780,32 @@ giftBtn.onclick = () => openGiftModal();
 
 document.getElementById("viewer").appendChild(giftBtn);
 // ⚡ Bouton supprimer (uniquement si c'est ton profil)
-if(currentProfile.username === currentUser){
+delBtn.onclick = () => {
+    if(confirm("Supprimer cette story ?")){
 
-    let delBtn = document.createElement("button");
-    delBtn.className = "deleteBtn";
-    delBtn.innerText = "Supprimer";
+        // 🔥 STOPPER et DETRUIRE la vidéo en cours
+        destroyCurrentMedia();
+        clearInterval(timer);
 
-    delBtn.style.position = "absolute";
-    delBtn.style.top = "45px";
-    delBtn.style.right = "10px";
-    delBtn.style.zIndex = "9999";
+        // 🔥 SUPPRIMER la story
+        users[currentUser].stories.splice(currentIndex,1);
+        saveData();
 
-    delBtn.style.background = "#ff4444";
-    delBtn.style.color = "#fff";
-    delBtn.style.border = "none";
-    delBtn.style.padding = "6px 12px";
-    delBtn.style.borderRadius = "20px";
-    delBtn.style.cursor = "pointer";
-    delBtn.style.whiteSpace = "nowrap";
-
-    delBtn.onclick = () => {
-        if(confirm("Supprimer cette story ?")){
-            users[currentUser].stories.splice(currentIndex,1);
-            saveData();
-
-            if(users[currentUser].stories.length === 0){
-                closeViewer();
-                return;
-            }
-
-            if(currentIndex >= users[currentUser].stories.length){
-                currentIndex = users[currentUser].stories.length - 1;
-            }
-
-            showStory();
+        // 🔥 si plus de story → fermer viewer
+        if(users[currentUser].stories.length === 0){
+            closeViewer();
+            return;
         }
-    };
 
+        // 🔥 corriger l’index
+        if(currentIndex >= users[currentUser].stories.length){
+            currentIndex = users[currentUser].stories.length - 1;
+        }
+
+        // 🔥 relancer proprement
+        showStory();
+    }
+};
     viewer.appendChild(delBtn);
 }
 
