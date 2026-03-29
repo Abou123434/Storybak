@@ -377,7 +377,7 @@ if(previewFile.type.startsWith("video")){
 
 // ===== VIEWER =====
 function openViewer(u){
-    if(users[u].stories.length === 0) return;
+    if(!users[u] || users[u].stories.length === 0) return;
 
     currentUser = u;
     currentIndex = 0;
@@ -389,7 +389,7 @@ function openViewer(u){
 }
 
 function closeViewer(){
-    clearInterval(timer);
+    if(timer) clearInterval(timer);
 
     let video = document.querySelector("#content video");
     if(video){
@@ -399,6 +399,7 @@ function closeViewer(){
 
     document.getElementById("viewer").style.display = "none";
     document.getElementById("hamburger").style.display = "block";
+    document.getElementById("content").innerHTML = "";
 }
 
 // ===== PROGRESS =====
