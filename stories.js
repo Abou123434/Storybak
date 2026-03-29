@@ -492,10 +492,6 @@ function showStory(){
 
         startProgress((s.end - s.start) * 1000);
     }
-    
-    // compteur Story 1 / 4
-document.getElementById("storyCounter").innerText =
-  "Story " + (currentIndex+1) + " / " + users[currentUser].stories.length;
 
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
