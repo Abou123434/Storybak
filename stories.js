@@ -505,9 +505,7 @@ function showStory(){
             // progress bar segment
             let progress = ((video.currentTime - story.start) / segmentDuration) * 100;
             progressBar.style.width = progress + "%";
-        };
-    }
-}
+      }
 
     // ===== VUES =====
     if(!s.views[currentProfile.username]){
