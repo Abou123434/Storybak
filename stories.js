@@ -451,7 +451,7 @@ function showStory(){
 
     let s = users[currentUser].stories[currentIndex];
 
-    renderProgressBars(currentIndex);
+    renderProgressBars(currentIndex); // ✅ très important
 
     let c = document.getElementById("content");
     c.innerHTML = "";
@@ -459,15 +459,14 @@ function showStory(){
     let e;
 
     // ===== IMAGE =====
-    if(s.type === "image"){
-    e = document.createElement("img");
-    e.src = s.url;
+if(s.type === "image"){
+    let e = document.createElement("img");
 
-    // démarrer le timer seulement quand l'image est affichée
     e.onload = () => {
         startProgress(5000);
     };
 
+    e.src = s.url;
     c.appendChild(e);
 }
 
