@@ -541,8 +541,14 @@ viewer.querySelectorAll(".deleteBtn").forEach(btn => btn.remove());
 
 function showStory(){
     clearInterval(timer);
-    let s=users[currentUser].stories[currentIndex];
-    let c=document.getElementById("content"); c.innerHTML="";
+
+    let s = users[currentUser].stories[currentIndex];
+
+    renderProgressBars(currentIndex);
+
+    let c = document.getElementById("content");
+    c.innerHTML = "";
+
     let e;
 
 if(s.type === "image"){
