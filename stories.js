@@ -505,12 +505,18 @@ function showStory(){
 
 // ===== NEXT =====
 function nextStory(){
-    if(currentIndex < users[currentUser].stories.length - 1){
-        currentIndex++;
-        showStory();
-    } else {
+    clearInterval(timer); // ⚠️ très important
+
+    let userStories = users[currentUser].stories;
+    currentIndex++;
+
+    // fin des stories
+    if(currentIndex >= userStories.length){
         closeViewer();
+        return;
     }
+
+    showStory(); // recharge la story suivante
 }
 
 
