@@ -425,22 +425,21 @@ function renderProgressBars(activeIndex){
 }
 
 function startProgress(duration){
-    let bars = document.querySelectorAll(".progress-inner");
-
-    if(!bars[currentIndex]) return;
-
-    let width = 0;
-
     clearInterval(timer);
 
+    let bars = document.querySelectorAll(".progress-inner");
+    if(!bars[currentIndex]) return;
+
+    let startTime = Date.now();
+
     timer = setInterval(() => {
-        width += 100 / (duration / 50);
+        let elapsed = Date.now() - startTime;
+        let percent = (elapsed / duration) * 100;
 
-        bars[currentIndex].style.width = Math.min(width, 100) + "%";
+        bars[currentIndex].style.width = Math.min(percent, 100) + "%";
 
-        if(width >= 100){
+        if(percent >= 100){
             clearInterval(timer);
-
             nextStory();
         }
     }, 50);
@@ -461,12 +460,16 @@ function showStory(){
 
     // ===== IMAGE =====
     if(s.type === "image"){
-        e = document.createElement("img");
-        e.src = s.url;
-        c.appendChild(e);
+    e = document.createElement("img");
+    e.src = s.url;
 
+    // démarrer le timer seulement quand l'image est affichée
+    e.onload = () => {
         startProgress(5000);
-    }
+    };
+
+    c.appendChild(e);
+}
 
     // ===== VIDEO =====
     else {
