@@ -902,16 +902,3 @@ body {
   align-items:center;
   z-index:9999;
 }
-/* compteur story */
-.story-counter{
-  position:absolute;
-  top:15px;
-  left:0;
-  right:0;
-  text-align:center;
-  color:white;
-  font-size:15px;
-  font-weight:bold;
-  z-index:50;
-  text-shadow:0 0 8px rgba(0,0,0,0.8);
-  }
