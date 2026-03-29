@@ -75,47 +75,12 @@ header {
   z-index: 1000;
 }
 
-/* quand ouvert */
-.viewer.active {
-  display: flex;
-}
-
-/* ===== BARRES STORIES (TOP) ===== */
-.progress-container {
-  position: absolute;
-  top: 15px;
-  left: 10px;
-  right: 10px;
-  height: 4px;
-  display: flex;
-  gap: 5px;
-  z-index: 2000; /* 🔥 AU DESSUS DE TOUT */
-}
-
-.progress-bar {
-  flex: 1;
-  background: rgba(255,255,255,0.3);
-  height: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress {
-  width: 0%;
-  height: 100%;
-  background: white;
-  transition: width 0.1s linear;
-}
-
-/* ===== CONTENU ===== */
 .content {
   width: 100%;
   height: 85vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  z-index: 1;
 }
 
 .content img,
@@ -125,29 +90,17 @@ header {
   border-radius: 15px;
 }
 
-/* ===== ZONES CLIC ===== */
+/* zones clic */
 .tap-left, .tap-right {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 50%;
-  z-index: 1500; /* au dessus du contenu */
 }
 
 .tap-left { left: 0; }
 .tap-right { right: 0; }
 
-/* ===== BARRE BAS ===== */
-.bottom-bar {
-  position: absolute;
-  bottom: 15px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: white;
-  font-size: 14px;
-  z-index: 2000;
-}
 /* ===== REACTIONS ===== */
 .reactions {
   position: absolute;
