@@ -63,7 +63,7 @@ header {
   font-weight: bold;
 }
 
-/* ===== VIEWER GLOBAL ===== */
+/* ===== VIEWER ===== */
 .viewer {
   position: fixed;
   inset: 0;
@@ -73,22 +73,49 @@ header {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  overflow: hidden;
 }
 
-/* active */
+/* quand ouvert */
 .viewer.active {
   display: flex;
 }
 
-/* ===== CONTENU STORY ===== */
+/* ===== BARRES STORIES (TOP) ===== */
+.progress-container {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  display: flex;
+  gap: 5px;
+  z-index: 2000; /* 🔥 AU DESSUS DE TOUT */
+}
+
+.progress-bar {
+  flex: 1;
+  background: rgba(255,255,255,0.3);
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background: white;
+  transition: width 0.1s linear;
+}
+
+/* ===== CONTENU ===== */
 .content {
   width: 100%;
   height: 85vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  position: relative;
+  z-index: 1;
 }
 
 .content img,
@@ -96,44 +123,15 @@ header {
   max-width: 100%;
   max-height: 80vh;
   border-radius: 15px;
-  object-fit: contain;
 }
 
-/* ===== BARRES DE PROGRESSION ===== */
-.progress-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 15px;
-  display: flex;
-  gap: 6px;
-  z-index: 5; /* toujours au dessus */
-}
-
-.progress-bar {
-  flex: 1;
-  height: 4px;
-  background: rgba(255,255,255,0.35);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  width: 0%;
-  background: white;
-  border-radius: 20px;
-}
-
-/* ===== ZONES DE TAP (navigation) ===== */
-.tap-left,
-.tap-right {
+/* ===== ZONES CLIC ===== */
+.tap-left, .tap-right {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 50%;
-  z-index: 1; /* sous les barres mais cliquable */
+  z-index: 1500; /* au dessus du contenu */
 }
 
 .tap-left { left: 0; }
@@ -142,20 +140,14 @@ header {
 /* ===== BARRE BAS ===== */
 .bottom-bar {
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 18px;
-  display: flex;
-  justify-content: center;
-  z-index: 4;
-}
-
-.view-count {
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
   color: white;
   font-size: 14px;
-  opacity: 0.8;
+  z-index: 2000;
 }
-
 /* ===== REACTIONS ===== */
 .reactions {
   position: absolute;
