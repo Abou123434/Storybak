@@ -265,7 +265,7 @@ viewBtn.onclick = () => {
         row.appendChild(textBox);
 
         box.appendChild(row);
-    }
+    });
 
     // BOUTON FERMER
     let closeBtn = document.createElement("button");
@@ -357,6 +357,9 @@ if(currentProfile.username === currentUser){
 
     viewer.appendChild(delBtn);
 }
+
+
+}
 function nextStory(){ if(currentIndex<users[currentUser].stories.length-1){ currentIndex++; showStory(); } }
 function prevStory(){ if(currentIndex>0){ currentIndex--; showStory(); } }
 function closeViewer(){
@@ -366,4 +369,4 @@ function closeViewer(){
 
     // 🔥 remettre le menu
     document.getElementById("hamburger").style.display = "block";
-        }
+            }
