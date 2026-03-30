@@ -7,3 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
     });
 });
+
+window.onerror = function(msg, url, line) {
+  alert("ERREUR JS : " + msg + " ligne " + line);
+};
