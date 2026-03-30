@@ -145,4 +145,3 @@ if(previewFile.type.startsWith("video")){
 
         reader.readAsDataURL(previewFile);
     }
-}
