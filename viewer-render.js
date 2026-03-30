@@ -290,8 +290,9 @@ if(currentProfile.username === currentUser){
             }
 
             showStory();
-        }
-    };
+};
 
-    viewer.appendChild(delBtn);
+    document.getElementById("viewer").appendChild(delBtn);
+}
+
 }
