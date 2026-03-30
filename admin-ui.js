@@ -10,4 +10,3 @@ function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
 
-window.closeAdmin = closeAdmin;
