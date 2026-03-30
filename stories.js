@@ -172,3 +172,10 @@ function renderStories(){
         div.onclick = ()=> openViewer(u);  
     });
             }
+
+// ===== RENDRE GLOBAL (IMPORTANT POUR LES AUTRES FICHIERS) =====
+window.renderStories = renderStories;
+window.users = users;
+window.currentProfile = currentProfile;
+window.saveData = saveData;
+window.saveCoins = saveCoins;
