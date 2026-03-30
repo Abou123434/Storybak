@@ -294,5 +294,3 @@ if(currentProfile.username === currentUser){
 
     document.getElementById("viewer").appendChild(delBtn);
 }
-
-}
