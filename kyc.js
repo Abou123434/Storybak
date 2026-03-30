@@ -14,3 +14,8 @@ function acceptKYC(){
 function refuseKYC(){
   document.getElementById("kycStatus").innerText = "❌ KYC refusé";
 }
+
+window.openKYCPage = openKYCPage;
+window.closeKYCPage = closeKYCPage;
+window.acceptKYC = acceptKYC;
+window.refuseKYC = refuseKYC;
