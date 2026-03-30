@@ -1,13 +1,5 @@
 /* ===== HAMBURGER ===== */
-document.addEventListener("DOMContentLoaded", () => {
-
-  const hamburger = document.getElementById("hamburger");
-  const menu = document.getElementById("menuOptions");
-
-  if(hamburger && menu){
-    hamburger.onclick = () => {
-      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-    };
-  }
-
-});
+document.getElementById("hamburger").onclick=()=>{
+    let m=document.getElementById("menuOptions");
+    m.style.display=(m.style.display==="flex")?"none":"flex";
+};
