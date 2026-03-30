@@ -22,6 +22,3 @@ window.onclick = function(event){
 function openWithdraw(){
   alert("Fonction retrait bientôt disponible 💰");
 }
-window.openBalance = openBalance;
-window.closeBalance = closeBalance;
-window.openWithdraw = openWithdraw;
