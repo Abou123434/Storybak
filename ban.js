@@ -13,3 +13,7 @@ function confirmBan(){
 
   closeBanPage();
 }
+
+window.openBanPage = openBanPage;
+window.closeBanPage = closeBanPage;
+window.confirmBan = confirmBan;
