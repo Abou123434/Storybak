@@ -9,3 +9,5 @@ document.getElementById("adminBtn").onclick = () => {
 function closeAdmin(){
   document.getElementById("adminPanel").style.display = "none";
 }
+
+window.closeAdmin = closeAdmin;
