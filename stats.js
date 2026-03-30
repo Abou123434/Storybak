@@ -29,3 +29,9 @@ function openStatsPage() {
 function closeStatsPage() {
   document.getElementById("statsPage").style.display = "none";
                 }
+window.openUsersPage = openUsersPage;
+window.closeUsersPage = closeUsersPage;
+window.openReportsPage = openReportsPage;
+window.closeReportsPage = closeReportsPage;
+window.openStatsPage = openStatsPage;
+window.closeStatsPage = closeStatsPage;
