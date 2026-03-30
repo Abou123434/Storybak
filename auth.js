@@ -1,3 +1,7 @@
+window.addEventListener("error", function(e) {
+  alert("ERREUR JS : " + e.message + " | fichier: " + e.filename + " | ligne: " + e.lineno);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const overlay = document.getElementById("authOverlay");
