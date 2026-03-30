@@ -265,7 +265,7 @@ viewBtn.onclick = () => {
         row.appendChild(textBox);
 
         box.appendChild(row);
-    });
+    }
 
     // BOUTON FERMER
     let closeBtn = document.createElement("button");
@@ -366,4 +366,4 @@ function closeViewer(){
 
     // 🔥 remettre le menu
     document.getElementById("hamburger").style.display = "block";
-}
+        }
