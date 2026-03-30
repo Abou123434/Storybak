@@ -64,49 +64,29 @@ header {
 }
 
 /* ===== VIEWER ===== */
-.viewer {
+.viewer{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.95);
+  
   display: none;
+  opacity: 0;
+  pointer-events: none; /* ⭐ empêche de bloquer les clics */
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   z-index: 9999;
-  pointer-events: none;
+  transition: opacity .3s ease;
 }
 
-.viewer.active {
+/* quand le viewer est ouvert */
+.viewer.active{
   display: flex;
-  pointer-events: auto;
+  opacity: 1;
+  pointer-events: auto; /* ⭐ autorise les clics seulement ouvert */
 }
-
-.content {
-  width: 100%;
-  height: 85vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content img,
-.content video {
-  max-width: 100%;
-  max-height: 80vh;
-  border-radius: 15px;
-}
-
-/* zones clic */
-.tap-left, .tap-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-}
-
-.tap-left { left: 0; }
-.tap-right { right: 0; }
-
 
 /* ===== REACTIONS ===== */
 .reactions {
