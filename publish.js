@@ -44,3 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function publishPost(){
   alert("Publication envoyée 🚀");
 }
+
+window.openGlobalPublish = openGlobalPublish;
+window.closePublish = closePublish;
+window.selectFile = selectFile;
+window.publishPost = publishPost;
