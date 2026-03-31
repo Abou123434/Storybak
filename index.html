@@ -2,42 +2,46 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Défi du jour</title>
-<link rel="stylesheet" href="challenge.css">
+<title>Daily Dare 🌍</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="app">
+<!-- MENU -->
+<div class="menuBtn" onclick="openFeed()">☰</div>
 
-    <h1>🔥 Défi du jour</h1>
-    <p id="date"></p>
+<!-- ============ ECRAN 1 ACCUEIL ============ -->
+<section id="home" class="screen active">
+    <h1 class="logo">Daily Dare 🌍</h1>
 
-    <div class="challenge-card">
-        <img src="https://picsum.photos/500/250" class="challenge-img">
-
-        <h2 id="challengeTitle">Poster une photo de ton sourire 😁</h2>
-        <p id="challengeDesc">
-            Montre ton plus beau sourire aujourd’hui !
-        </p>
-
-        <div class="reward">
-            🪙 Récompense : <b>+50 coins</b>
-        </div>
-
-        <div class="timer">
-            ⏱ Temps restant : <span id="timeLeft">24:00:00</span>
-        </div>
-
-        <button id="joinBtn">Participer au défi</button>
+    <div class="challengeBox">
+        <h2>📅 Défi du jour</h2>
+        <p id="dailyText">MONTRER TON FRIGO</p>
     </div>
 
-    <div class="participants">
-        <h3>👥 Participants aujourd’hui</h3>
-        <div id="usersList"></div>
-    </div>
+    <button class="mainBtn" onclick="goParticipate()">📸 Participer</button>
+    <button class="secondaryBtn" onclick="openFeed()">👀 Voir les participations</button>
+</section>
 
-</div>
 
-<script src="challenge.js"></script>
+<!-- ============ ECRAN 2 PARTICIPER ============ -->
+<section id="participate" class="screen">
+    <h2>📅 Défi : <span id="challengeTitle"></span></h2>
+
+    <input type="file" id="photoInput" accept="image/*">
+    <button class="mainBtn" onclick="publishPhoto()">🚀 Publier</button>
+    <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
+</section>
+
+
+<!-- ============ ECRAN 3 FEED ============ -->
+<section id="feed" class="screen">
+    <h2>🌍 Photos du monde</h2>
+    <div id="grid"></div>
+    <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
+</section>
+
+<script src="app.js"></script>
 </body>
 </html>
