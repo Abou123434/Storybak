@@ -9,8 +9,20 @@ const closeModal = document.getElementById('closeModal');
 const imageInput = document.getElementById('imageInput');
 const publishBtn = document.getElementById('publishBtn');
 
-// Modal ouvrir/fermer
-addImageBtn.onclick = () => uploadModal.style.display = 'block';
+// MOT DE PASSE ADMIN
+const ADMIN_PASSWORD = "monSuperMDP123"; // ← change ce mot de passe
+
+// Contrôle admin pour le bouton publier
+addImageBtn.onclick = () => {
+    const pass = prompt("Mot de passe administrateur :");
+    if(pass === ADMIN_PASSWORD){
+        uploadModal.style.display = 'block';
+    } else {
+        alert("Accès refusé !");
+    }
+};
+
+// Fermer le modal
 closeModal.onclick = () => uploadModal.style.display = 'none';
 
 // Publier une image
@@ -28,7 +40,7 @@ publishBtn.onclick = () => {
     reader.readAsDataURL(file);
 };
 
-// Fonction pour choisir deux images aléatoires
+// Choisir deux images aléatoires
 function getRandomPair() {
     if(images.length < 2) return [];
     let i = Math.floor(Math.random() * images.length);
@@ -61,9 +73,10 @@ function renderVotePair() {
         card.appendChild(img);
         card.appendChild(stats);
 
+        // Voter sur l'image
         card.onclick = () => {
             imgObj.votes++;
-            renderVotePair(); // Affiche une nouvelle paire
+            renderVotePair(); // nouvelle paire
         };
 
         voteContainer.appendChild(card);
