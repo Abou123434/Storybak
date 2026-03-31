@@ -5,8 +5,13 @@ body{
     text-align:center;
 }
 
-.screen{ display:none; padding:40px 20px; }
-.active{ display:block; }
+.screen{ 
+    display:none; 
+    padding:40px 20px; 
+}
+.active{ 
+    display:block; 
+}
 
 .logo{
     margin-top:40px;
@@ -36,6 +41,8 @@ body{
     border-radius:30px;
     font-size:18px;
     margin:15px;
+    cursor:pointer;
+    display:inline-block;
 }
 
 .secondaryBtn{
@@ -43,6 +50,7 @@ body{
     border:none;
     padding:12px 25px;
     border-radius:30px;
+    cursor:pointer;
 }
 
 .menuBtn{
