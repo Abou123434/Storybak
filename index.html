@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Daily Dare 🌍</title>
 <link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -24,20 +25,17 @@
     <button class="secondaryBtn" onclick="openFeed()">👀 Voir les participations</button>
 </section>
 
-
 <!-- ============ ECRAN 2 PARTICIPER ============ -->
 <section id="participate" class="screen">
     <h2>📅 Défi : <span id="challengeTitle"></span></h2>
 
-    <!-- input réel -->
-    <input type="file" id="photoInput" accept="image/*" hidden>
+    <!-- input minuscule mais cliquable via label -->
+    <input type="file" id="photoInput" accept="image/*" 
+           style="opacity:0; width:1px; height:1px; position:absolute; z-index:-1">
 
-    <!-- bouton VRAIMENT cliquable -->
     <label for="photoInput" class="mainBtn">🚀 Publier</label>
-
     <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
 </section>
-
 
 <!-- ============ ECRAN 3 FEED ============ -->
 <section id="feed" class="screen">
