@@ -1,6 +1,4 @@
-// ===============================
-// 🎯 LISTE DES DEFIS
-// ===============================
+// ===== défis pré-enregistrés =====
 const challenges = [
  "Montre ton frigo",
  "Photo du ciel",
@@ -9,84 +7,52 @@ const challenges = [
  "Quelque chose de rouge"
 ];
 
-// choisir défi du jour automatiquement
+// choisir défi selon la date
 const today = new Date().getDate();
 const dailyChallenge = challenges[today % challenges.length];
 
-// afficher défi sur les écrans
 document.getElementById("dailyText").innerText = dailyChallenge;
 document.getElementById("challengeTitle").innerText = dailyChallenge;
 
 
-// ===============================
-// 🧭 NAVIGATION ENTRE ECRANS
-// ===============================
+// ===== navigation =====
 function showScreen(id){
-  document.querySelectorAll(".screen").forEach(screen=>{
-    screen.classList.remove("active");
-  });
-  document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
 }
 
-function goParticipate(){
-  showScreen("participate");
+function goParticipate(){ showScreen("participate"); }
+function openFeed(){ showScreen("feed"); loadFeed(); }
+function goHome(){ showScreen("home"); }
+
+
+// ===== publier photo =====
+function publishPhoto(){
+ const file = document.getElementById("photoInput").files[0];
+ if(!file) return alert("Choisis une photo");
+
+ const reader = new FileReader();
+ reader.onload = function(e){
+    let photos = JSON.parse(localStorage.getItem("photos") || "[]");
+    photos.push(e.target.result);
+    localStorage.setItem("photos", JSON.stringify(photos));
+    alert("Publié !");
+    openFeed();
+ }
+ reader.readAsDataURL(file);
 }
 
-function openFeed(){
-  showScreen("feed");
-  loadFeed();
-}
 
-function goHome(){
-  showScreen("home");
-}
-
-
-// ===============================
-// 📱 OUVRIR GALERIE TELEPHONE
-// ===============================
-function openGallery(){
-  document.getElementById("photoInput").click();
-}
-
-
-// ===============================
-// 🚀 PUBLIER PHOTO AUTOMATIQUEMENT
-// ===============================
-document.getElementById("photoInput").addEventListener("change", function(){
-
-  const file = this.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-      let photos = JSON.parse(localStorage.getItem("photos") || "[]");
-      photos.push(e.target.result);
-      localStorage.setItem("photos", JSON.stringify(photos));
-
-      alert("Photo publiée 🎉");
-      openFeed();
-  };
-
-  reader.readAsDataURL(file);
-});
-
-
-// ===============================
-// 🌍 CHARGER LE FEED
-// ===============================
+// ===== afficher feed =====
 function loadFeed(){
+ const grid = document.getElementById("grid");
+ grid.innerHTML = "";
 
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
+ let photos = JSON.parse(localStorage.getItem("photos") || "[]");
 
-  let photos = JSON.parse(localStorage.getItem("photos") || "[]");
-
-  // dernières photos en premier
-  photos.reverse().forEach(photo=>{
-      let img = document.createElement("img");
-      img.src = photo;
-      grid.appendChild(img);
-  });
+ photos.reverse().forEach(p=>{
+    let img = document.createElement("img");
+    img.src = p;
+    grid.appendChild(img);
+ });
 }
