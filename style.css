@@ -1,0 +1,67 @@
+body{
+    margin:0;
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+}
+
+.app{
+    max-width:500px;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.challenge-card{
+    background:#1e293b;
+    border-radius:20px;
+    padding:15px;
+    margin-top:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.4);
+}
+
+.challenge-img{
+    width:100%;
+    border-radius:15px;
+}
+
+.reward{
+    margin-top:10px;
+    font-size:18px;
+    color:#facc15;
+}
+
+.timer{
+    margin-top:8px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+.participants{
+    margin-top:25px;
+}
+
+.user{
+    background:#334155;
+    padding:10px;
+    border-radius:10px;
+    margin-top:8px;
+}

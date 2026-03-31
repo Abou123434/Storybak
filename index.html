@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Défi du jour</title>
+<link rel="stylesheet" href="challenge.css">
+</head>
+<body>
+
+<div class="app">
+
+    <h1>🔥 Défi du jour</h1>
+    <p id="date"></p>
+
+    <div class="challenge-card">
+        <img src="https://picsum.photos/500/250" class="challenge-img">
+
+        <h2 id="challengeTitle">Poster une photo de ton sourire 😁</h2>
+        <p id="challengeDesc">
+            Montre ton plus beau sourire aujourd’hui !
+        </p>
+
+        <div class="reward">
+            🪙 Récompense : <b>+50 coins</b>
+        </div>
+
+        <div class="timer">
+            ⏱ Temps restant : <span id="timeLeft">24:00:00</span>
+        </div>
+
+        <button id="joinBtn">Participer au défi</button>
+    </div>
+
+    <div class="participants">
+        <h3>👥 Participants aujourd’hui</h3>
+        <div id="usersList"></div>
+    </div>
+
+</div>
+
+<script src="challenge.js"></script>
+</body>
+</html>
