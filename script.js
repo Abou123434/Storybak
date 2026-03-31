@@ -56,3 +56,13 @@ document.getElementById('vote2').onclick = async () => {
 
 // Initialisation
 loadData().then(() => randomTwoPhotos());
+
+import images from './image.js';
+
+const gallery = document.getElementById('gallery');
+
+images.forEach(imgPath => {
+  const img = document.createElement('img');
+  img.src = imgPath;
+  gallery.appendChild(img);
+});
