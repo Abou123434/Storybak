@@ -1,15 +1,15 @@
-// Données des images (à publier toi-même)
-let images = [];
+let images = []; // tableau des images publiées
 
 // Récupérer les éléments
-const gallery = document.getElementById('gallery');
+const voteContainer = document.getElementById('voteContainer');
+const voteInfo = document.getElementById('voteInfo');
 const addImageBtn = document.getElementById('addImageBtn');
 const uploadModal = document.getElementById('uploadModal');
 const closeModal = document.getElementById('closeModal');
 const imageInput = document.getElementById('imageInput');
 const publishBtn = document.getElementById('publishBtn');
 
-// Ouvrir modal
+// Modal ouvrir/fermer
 addImageBtn.onclick = () => uploadModal.style.display = 'block';
 closeModal.onclick = () => uploadModal.style.display = 'none';
 
@@ -20,46 +20,55 @@ publishBtn.onclick = () => {
 
     const reader = new FileReader();
     reader.onload = () => {
-        images.push({
-            src: reader.result,
-            votes: 0,
-            views: 0
-        });
-        renderGallery();
+        images.push({ src: reader.result, votes: 0, views: 0 });
         uploadModal.style.display = 'none';
         imageInput.value = '';
+        renderVotePair();
     };
     reader.readAsDataURL(file);
 };
 
-// Fonction pour afficher les images
-function renderGallery() {
-    gallery.innerHTML = '';
-    images.forEach((imgObj, index) => {
+// Fonction pour choisir deux images aléatoires
+function getRandomPair() {
+    if(images.length < 2) return [];
+    let i = Math.floor(Math.random() * images.length);
+    let j;
+    do { j = Math.floor(Math.random() * images.length); } while(i === j);
+    return [images[i], images[j]];
+}
+
+// Afficher deux images pour voter
+function renderVotePair() {
+    const pair = getRandomPair();
+    voteContainer.innerHTML = '';
+
+    if(pair.length < 2) {
+        voteInfo.textContent = 'Ajoute au moins 2 images pour voter.';
+        return;
+    }
+
+    pair.forEach(imgObj => {
         imgObj.views++;
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'vote-card';
 
         const img = document.createElement('img');
         img.src = imgObj.src;
 
-        const votes = document.createElement('p');
-        votes.textContent = `Votes: ${imgObj.votes} | Vues: ${imgObj.views}`;
-
-        const voteBtn = document.createElement('button');
-        voteBtn.className = 'vote-btn';
-        voteBtn.textContent = 'Voter';
-        voteBtn.onclick = () => {
-            imgObj.votes++;
-            renderGallery();
-        };
+        const stats = document.createElement('p');
+        stats.textContent = `Votes: ${imgObj.votes} | Vues: ${imgObj.views}`;
 
         card.appendChild(img);
-        card.appendChild(votes);
-        card.appendChild(voteBtn);
-        gallery.appendChild(card);
+        card.appendChild(stats);
+
+        card.onclick = () => {
+            imgObj.votes++;
+            renderVotePair(); // Affiche une nouvelle paire
+        };
+
+        voteContainer.appendChild(card);
     });
 }
 
-// Initial render
-renderGallery();
+// Initial
+renderVotePair();
