@@ -17,7 +17,7 @@
 
     <div class="challengeBox">
         <h2>📅 Défi du jour</h2>
-        <p id="dailyText"></p>
+        <p id="dailyText">MONTRER TON FRIGO</p>
     </div>
 
     <button class="mainBtn" onclick="goParticipate()">📸 Participer</button>
@@ -29,10 +29,8 @@
 <section id="participate" class="screen">
     <h2>📅 Défi : <span id="challengeTitle"></span></h2>
 
-    <!-- input caché qui ouvre la galerie -->
-    <input type="file" id="photoInput" accept="image/*" style="display:none">
-
-    <button class="mainBtn" onclick="openGallery()">🚀 Publier</button>
+    <input type="file" id="photoInput" accept="image/*">
+    <button class="mainBtn" onclick="publishPhoto()">🚀 Publier</button>
     <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
 </section>
 
