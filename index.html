@@ -29,11 +29,15 @@
 <section id="participate" class="screen">
     <h2>📅 Défi : <span id="challengeTitle"></span></h2>
 
-    <!-- input minuscule mais cliquable via label -->
-    <input type="file" id="photoInput" accept="image/*" 
-           style="opacity:0; width:1px; height:1px; position:absolute; z-index:-1">
+    <!-- input invisible mais actif -->
+    <input type="file" id="photoInput" accept="image/*"
+           style="opacity:0; width:0.1px; height:0.1px; position:absolute; z-index:1; left:0; top:0;">
 
-    <label for="photoInput" class="mainBtn">🚀 Publier</label>
+    <!-- bouton cliquable avec animation CSS -->
+    <label for="photoInput" class="mainBtn" style="position:relative; z-index:10; display:inline-block;">
+        🚀 Publier
+    </label>
+
     <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
 </section>
 
