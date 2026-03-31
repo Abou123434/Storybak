@@ -1,68 +1,65 @@
-let photos = ["photo1.jpg", "photo2.jpg", "photo3.jpg"];
-let photoData = {};
-let currentPhotos = [];
+// Données des images (à publier toi-même)
+let images = [];
 
-async function loadData() {
-  const res = await fetch('/api/save');
-  photoData = await res.json();
-}
-
-function randomTwoPhotos() {
-  let first = photos[Math.floor(Math.random() * photos.length)];
-  let second;
-  do {
-    second = photos[Math.floor(Math.random() * photos.length)];
-  } while (second === first);
-
-  currentPhotos = [first, second];
-
-  document.getElementById('photo1').src = 'photos/' + first;
-  document.getElementById('photo2').src = 'photos/' + second;
-
-  // Incrémenter vues
-  photoData[first].vues++;
-  photoData[second].vues++;
-
-  updateScores();
-  saveData();
-}
-
-function updateScores() {
-  document.getElementById('score1').textContent = `Vues: ${photoData[currentPhotos[0]].vues} | Votes: ${photoData[currentPhotos[0]].votes}`;
-  document.getElementById('score2').textContent = `Vues: ${photoData[currentPhotos[1]].vues} | Votes: ${photoData[currentPhotos[1]].votes}`;
-}
-
-async function saveData(votePhoto = null) {
-  if (votePhoto) {
-    photoData[votePhoto].votes++;
-  }
-
-  await fetch('/api/save', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(photoData)
-  });
-}
-
-document.getElementById('vote1').onclick = async () => {
-  await saveData(currentPhotos[0]);
-  randomTwoPhotos();
-};
-
-document.getElementById('vote2').onclick = async () => {
-  await saveData(currentPhotos[1]);
-  randomTwoPhotos();
-};
-
-// Initialisation
-loadData().then(() => randomTwoPhotos());
-
-import images from './image.js';
-
+// Récupérer les éléments
 const gallery = document.getElementById('gallery');
+const addImageBtn = document.getElementById('addImageBtn');
+const uploadModal = document.getElementById('uploadModal');
+const closeModal = document.getElementById('closeModal');
+const imageInput = document.getElementById('imageInput');
+const publishBtn = document.getElementById('publishBtn');
 
-images.forEach(imgPath => {
-  const img = document.createElement('img');
-  img.src = imgPath;
-  gallery.appendChild(img);
-});
+// Ouvrir modal
+addImageBtn.onclick = () => uploadModal.style.display = 'block';
+closeModal.onclick = () => uploadModal.style.display = 'none';
+
+// Publier une image
+publishBtn.onclick = () => {
+    const file = imageInput.files[0];
+    if(!file) return alert('Choisis une image !');
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        images.push({
+            src: reader.result,
+            votes: 0,
+            views: 0
+        });
+        renderGallery();
+        uploadModal.style.display = 'none';
+        imageInput.value = '';
+    };
+    reader.readAsDataURL(file);
+};
+
+// Fonction pour afficher les images
+function renderGallery() {
+    gallery.innerHTML = '';
+    images.forEach((imgObj, index) => {
+        imgObj.views++;
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const img = document.createElement('img');
+        img.src = imgObj.src;
+
+        const votes = document.createElement('p');
+        votes.textContent = `Votes: ${imgObj.votes} | Vues: ${imgObj.views}`;
+
+        const voteBtn = document.createElement('button');
+        voteBtn.className = 'vote-btn';
+        voteBtn.textContent = 'Voter';
+        voteBtn.onclick = () => {
+            imgObj.votes++;
+            renderGallery();
+        };
+
+        card.appendChild(img);
+        card.appendChild(votes);
+        card.appendChild(voteBtn);
+        gallery.appendChild(card);
+    });
+}
+
+// Initial render
+renderGallery();
