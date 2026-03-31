@@ -29,10 +29,12 @@
 <section id="participate" class="screen">
     <h2>📅 Défi : <span id="challengeTitle"></span></h2>
 
-    <!-- input caché qui ouvre la galerie -->
-    <input type="file" id="photoInput" accept="image/*" style="display:none">
+    <!-- input réel -->
+    <input type="file" id="photoInput" accept="image/*" hidden>
 
-    <button class="mainBtn" onclick="openGallery()">🚀 Publier</button>
+    <!-- bouton VRAIMENT cliquable -->
+    <label for="photoInput" class="mainBtn">🚀 Publier</label>
+
     <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
 </section>
 
