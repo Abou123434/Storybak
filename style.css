@@ -28,40 +28,35 @@ header button {
     font-weight: bold;
 }
 
-#gallery {
+#voteContainer {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    margin: 20px;
-    gap: 20px;
+    align-items: center;
+    margin: 40px 20px;
+    gap: 40px;
 }
 
-.card {
+.vote-card {
+    width: 250px;
     background: white;
-    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    width: 200px;
-    text-align: center;
-}
-
-.card img {
-    width: 100%;
-    border-radius: 10px;
-}
-
-.vote-btn {
-    margin-top: 10px;
-    background: #4267B2;
-    color: white;
-    border: none;
-    padding: 5px 10px;
     cursor: pointer;
-    border-radius: 5px;
+    text-align: center;
+    transition: transform 0.2s;
 }
 
-.vote-btn:hover {
-    background: #365899;
+.vote-card:hover {
+    transform: scale(1.05);
+}
+
+.vote-card img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
+
+.vote-card p {
+    margin: 10px 0;
 }
 
 /* Modal */
