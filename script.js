@@ -1,49 +1,58 @@
-// 📅 Date du jour
-let today = new Date();
-document.getElementById("date").innerText =
-    today.toLocaleDateString("fr-FR",{weekday:'long', day:'numeric', month:'long'});
+// ===== défis pré-enregistrés =====
+const challenges = [
+ "Montre ton frigo",
+ "Photo du ciel",
+ "Tes chaussures",
+ "Ton bureau",
+ "Quelque chose de rouge"
+];
+
+// choisir défi selon la date
+const today = new Date().getDate();
+const dailyChallenge = challenges[today % challenges.length];
+
+document.getElementById("dailyText").innerText = dailyChallenge;
+document.getElementById("challengeTitle").innerText = dailyChallenge;
 
 
-// ⏱ Timer jusqu'à minuit
-function updateTimer(){
-    let now = new Date();
-    let midnight = new Date();
-    midnight.setHours(24,0,0,0);
-
-    let diff = midnight - now;
-
-    let h = Math.floor(diff/1000/60/60);
-    let m = Math.floor(diff/1000/60)%60;
-    let s = Math.floor(diff/1000)%60;
-
-    document.getElementById("timeLeft").innerText =
-        `${h}:${m}:${s}`;
+// ===== navigation =====
+function showScreen(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
 }
 
-setInterval(updateTimer,1000);
+function goParticipate(){ showScreen("participate"); }
+function openFeed(){ showScreen("feed"); loadFeed(); }
+function goHome(){ showScreen("home"); }
 
 
-// 👥 Faux participants
-let users = ["Aminata","Kevin","Sofia","Yao"];
+// ===== publier photo =====
+function publishPhoto(){
+ const file = document.getElementById("photoInput").files[0];
+ if(!file) return alert("Choisis une photo");
 
-function renderUsers(){
-    let box = document.getElementById("usersList");
-    box.innerHTML="";
-
-    users.forEach(u=>{
-        let div=document.createElement("div");
-        div.className="user";
-        div.innerText="👤 "+u;
-        box.appendChild(div);
-    });
+ const reader = new FileReader();
+ reader.onload = function(e){
+    let photos = JSON.parse(localStorage.getItem("photos") || "[]");
+    photos.push(e.target.result);
+    localStorage.setItem("photos", JSON.stringify(photos));
+    alert("Publié !");
+    openFeed();
+ }
+ reader.readAsDataURL(file);
 }
 
-renderUsers();
 
+// ===== afficher feed =====
+function loadFeed(){
+ const grid = document.getElementById("grid");
+ grid.innerHTML = "";
 
-// 🎉 Participer
-document.getElementById("joinBtn").onclick=()=>{
-    users.push("Toi 😎");
-    renderUsers();
-    alert("Tu participes au défi !");
-};
+ let photos = JSON.parse(localStorage.getItem("photos") || "[]");
+
+ photos.reverse().forEach(p=>{
+    let img = document.createElement("img");
+    img.src = p;
+    grid.appendChild(img);
+ });
+}
