@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Mini Facemash</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Facemash</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Votez pour la photo la plus cool !</h1>
+    <header>
+        <h1>Mini Facemash</h1>
+        <button id="addImageBtn">Publier une image</button>
+    </header>
 
-  <div id="photo-container">
-    <div class="photo-box">
-      <img id="photo1" src="" alt="Photo 1">
-      <button id="vote1">Vote Photo 1</button>
-      <p id="score1">Vues: 0 | Votes: 0</p>
-    </div>
-    <div class="photo-box">
-      <img id="photo2" src="" alt="Photo 2">
-      <button id="vote2">Vote Photo 2</button>
-      <p id="score2">Vues: 0 | Votes: 0</p>
-    </div>
-  </div>
+    <main>
+        <div id="gallery">
+            <!-- Images à voter apparaissent ici -->
+        </div>
+    </main>
 
-  <script src="script.js"></script>
+    <!-- Modal pour publier une image -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Publier une nouvelle image</h2>
+            <input type="file" id="imageInput" accept="image/*">
+            <button id="publishBtn">Publier</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
