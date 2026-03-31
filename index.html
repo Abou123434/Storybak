@@ -2,45 +2,62 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Daily Dare 🌍</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Dare</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- MENU -->
-<div class="menuBtn" onclick="openFeed()">☰</div>
+<!-- ===== SCREEN 1 HOME ===== -->
+<div id="home" class="screen">
 
-<!-- ============ ECRAN 1 ACCUEIL ============ -->
-<section id="home" class="screen active">
-    <h1 class="logo">Daily Dare 🌍</h1>
-
-    <div class="challengeBox">
-        <h2>📅 Défi du jour</h2>
-        <p id="dailyText">MONTRER TON FRIGO</p>
+    <div class="top">
+        <div class="menu">☰</div>
+        <div class="title">Daily Dare 🌍</div>
     </div>
 
-    <button class="mainBtn" onclick="goParticipate()">📸 Participer</button>
-    <button class="secondaryBtn" onclick="openFeed()">👀 Voir les participations</button>
-</section>
+    <div class="center">
+        <div class="challengeBox">
+            <div class="challengeLabel">📅 Défi du jour</div>
+            <div id="challengeTitle" class="challengeTitle">Chargement...</div>
+        </div>
+
+        <button class="mainBtn" onclick="goParticipate()">📸 Participer</button>
+        <button class="linkBtn" onclick="openFeed()">Voir les participations 👀</button>
+    </div>
+
+</div>
 
 
-<!-- ============ ECRAN 2 PARTICIPER ============ -->
-<section id="participate" class="screen">
-    <h2>📅 Défi : <span id="challengeTitle"></span></h2>
+<!-- ===== SCREEN 2 PARTICIPATE ===== -->
+<div id="participate" class="screen">
 
-    <input type="file" id="photoInput" accept="image/*">
-    <button class="mainBtn" onclick="publishPhoto()">🚀 Publier</button>
-    <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
-</section>
+    <div class="top">
+        <button class="backBtn" onclick="goHome()">←</button>
+        <div class="title">Participer</div>
+    </div>
+
+    <div class="center">
+        <input type="file" id="photoInput" accept="image/*" capture="environment">
+        <button id="publishBtn" class="mainBtn">Publier 🚀</button>
+    </div>
+
+</div>
 
 
-<!-- ============ ECRAN 3 FEED ============ -->
-<section id="feed" class="screen">
-    <h2>🌍 Photos du monde</h2>
-    <div id="grid"></div>
-    <button class="secondaryBtn" onclick="goHome()">⬅ Retour</button>
-</section>
+<!-- ===== SCREEN 3 FEED ===== -->
+<div id="feed" class="screen">
+
+    <div class="top">
+        <button class="backBtn" onclick="goHome()">←</button>
+        <div class="title">Feed 🌍</div>
+    </div>
+
+    <div id="feedGrid" class="feedGrid"></div>
+
+</div>
+
 
 <script src="app.js"></script>
 </body>
