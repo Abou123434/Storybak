@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Tape vite ! Challenge quotidien</title>
+<style>
+  body { font-family: Arial; text-align: center; margin: 50px; background: #f0f8ff; }
+  button { font-size: 24px; padding: 15px 30px; margin: 20px; cursor: pointer; }
+  #top10 { margin-top: 20px; }
+  #social { margin-top: 30px; font-style: italic; color: #555; }
+</style>
+</head>
+<body>
+<h1>Tape le plus vite possible !</h1>
+<p>Tu as 5 secondes pour cliquer !</p>
+<button id="tapBtn">Clique-moi !</button>
+<p id="score">Score : 0</p>
+<div id="top10">
+  <h2>Top 10 local</h2>
+  <ol id="scoresList"></ol>
+</div>
+<div id="social"></div>
+
+<script>
+let clicks = 0;
+let gameOver = false;
+const button = document.getElementById("tapBtn");
+const scoreText = document.getElementById("score");
+
+// === Top 10 local avec localStorage ===
+let topScores = JSON.parse(localStorage.getItem("topScores") || "[]");
+
+function updateTop10() {
+  const list = document.getElementById("scoresList");
+  list.innerHTML = "";
+  topScores.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s;
+    list.appendChild(li);
+  });
+}
+
+// === Bouton clique ===
+button.addEventListener("click", () => {
+  if(!gameOver) {
+    clicks++;
+    scoreText.innerText = "Score : " + clicks;
+  }
+});
+
+// === Fin du jeu ===
+setTimeout(() => {
+  gameOver = true;
+  button.disabled = true;
+  // Bonus quotidien
+  const todaySeed = new Date().getDate();
+  const bonus = todaySeed % 5 + 1;
+  const finalScore = clicks + bonus;
+  alert(`Temps écoulé ! Score final : ${finalScore} (bonus du jour : +${bonus})`);
+
+  // Enregistrer top 10
+  topScores.push(finalScore);
+  topScores.sort((a,b)=>b-a);
+  topScores = topScores.slice(0,10);
+  localStorage.setItem("topScores", JSON.stringify(topScores));
+  updateTop10();
+}, 5000);
+
+// === Notifications aléatoires pour effet social ===
+const names = ["Alex","Léo","Sophie","Mia","Ryan"];
+const animals = ["chat","chien","lapin","licorne","tortue"];
+function randomNotification() {
+  const name = names[Math.floor(Math.random()*names.length)];
+  const animal = animals[Math.floor(Math.random()*animals.length)];
+  document.getElementById("social").innerText = `${name} a voté pour le ${animal} il y a 5 secondes !`;
+}
+setInterval(randomNotification, 4000); // toutes les 4 secondes
+
+// === Initialiser Top 10 au chargement ===
+updateTop10();
+</script>
+</body>
+</html>
