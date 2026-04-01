@@ -2,144 +2,127 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Écosystème Viral</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ton Alter Ego 🔥</title>
+
 <style>
-  body { font-family: Arial; text-align: center; margin: 30px; background: #f0f8ff; }
-  button { font-size: 20px; padding: 12px 25px; margin: 10px; cursor: pointer; }
-  .game { display: none; margin-top: 30px; }
-  #top10, #social { margin-top: 20px; font-style: italic; color: #555; }
+body {
+    margin: 0;
+    font-family: Arial;
+    text-align: center;
+    background: linear-gradient(135deg, #ff4757, #1e90ff);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: black;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#result {
+    margin-top: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+img {
+    margin-top: 15px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+.share-btn {
+    display: block;
+    margin-top: 15px;
+    padding: 10px;
+    background: #25D366;
+    color: white;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.copy-btn {
+    margin-top: 10px;
+    background: #000;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+}
 </style>
+
 </head>
 <body>
-<h1>Bienvenue dans ton écosystème viral !</h1>
-<p>Choisis un mini-jeu :</p>
-<button onclick="showGame('tape')">Tape vite</button>
-<button onclick="showGame('animal')">Quel animal es-tu ?</button>
-<button onclick="showGame('secret')">Message secret du jour</button>
 
-<!-- Mini-jeu Tape vite -->
-<div id="tape" class="game">
-  <h2>Tape le plus vite possible !</h2>
-  <p>Tu as 5 secondes pour cliquer !</p>
-  <button id="tapBtn">Clique-moi !</button>
-  <p id="score">Score : 0</p>
-  <div id="top10">
-    <h3>Top 10 local</h3>
-    <ol id="scoresList"></ol>
-  </div>
-  <div id="social"></div>
-</div>
+<div class="container">
+    <h1>🔥 Découvre ton alter ego 🔥</h1>
+    <p>Clique et vois qui tu es vraiment 😎</p>
 
-<!-- Mini-jeu Animal -->
-<div id="animal" class="game">
-  <h2>Quel animal es-tu ?</h2>
-  <input type="text" id="animalName" placeholder="Ton prénom">
-  <button onclick="generateAnimal()">Découvrir</button>
-  <p id="animalResult"></p>
-</div>
+    <button onclick="generate()">Générer</button>
 
-<!-- Mini-jeu Message secret -->
-<div id="secret" class="game">
-  <h2>Message secret du jour</h2>
-  <input type="text" id="secretName" placeholder="Ton prénom ou nom">
-  <button onclick="generateSecret()">Découvrir</button>
-  <p id="secretResult"></p>
+    <div id="result"></div>
 </div>
 
 <script>
-// === Gestion affichage mini-jeux ===
-function showGame(gameId) {
-  document.querySelectorAll('.game').forEach(div => div.style.display = 'none');
-  document.getElementById(gameId).style.display = 'block';
+const noms = ["Shadow", "Blaze", "Nova", "Phantom", "Storm", "Vortex"];
+const roles = ["Guerrier", "Hacker", "Roi", "Ninja", "Mage", "Boss"];
+const pouvoirs = ["du feu 🔥", "de la glace ❄️", "de l'électricité ⚡", "du temps ⏳", "de l'ombre 🌑"];
+
+function random(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// =================== TAPE VITE ===================
-let clicks = 0, gameOver = false;
-const tapBtn = document.getElementById("tapBtn");
-const scoreText = document.getElementById("score");
-let topScores = JSON.parse(localStorage.getItem("topScores") || "[]");
+function generate() {
+    let nom = random(noms);
+    let role = random(roles);
+    let pouvoir = random(pouvoirs);
 
-// Afficher top10
-function updateTop10() {
-  const list = document.getElementById("scoresList");
-  list.innerHTML = "";
-  topScores.forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = s;
-    list.appendChild(li);
-  });
-}
-updateTop10();
+    let pseudo = nom + " " + role;
 
-// Bouton clique
-tapBtn.addEventListener("click", () => {
-  if(!gameOver) {
-    clicks++;
-    scoreText.innerText = "Score : " + clicks;
-  }
-});
+    let text = "🔥 Mon alter ego est " + pseudo + " avec le pouvoir " + pouvoir;
 
-// Fin du jeu avec bonus quotidien
-function startTapGame() {
-  clicks = 0;
-  gameOver = false;
-  tapBtn.disabled = false;
-  scoreText.innerText = "Score : 0";
-  setTimeout(() => {
-    gameOver = true;
-    tapBtn.disabled = true;
-    const todaySeed = new Date().getDate();
-    const bonus = todaySeed % 5 + 1;
-    const finalScore = clicks + bonus;
-    alert(`Temps écoulé ! Score final : ${finalScore} (bonus du jour : +${bonus})`);
-    topScores.push(finalScore);
-    topScores.sort((a,b)=>b-a);
-    topScores = topScores.slice(0,10);
-    localStorage.setItem("topScores", JSON.stringify(topScores));
-    updateTop10();
-  }, 5000);
+    document.getElementById("result").innerHTML = `
+        <h2>${pseudo}</h2>
+        <p>Pouvoir : ${pouvoir}</p>
+        <img src="https://robohash.org/${pseudo}" width="120">
+        
+        <a class="share-btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank">
+        📲 Partager sur WhatsApp
+        </a>
+
+        <div class="copy-btn" onclick="copyText('${text}')">
+        📋 Copier mon résultat
+        </div>
+    `;
 }
 
-// Notifications aléatoires
-const names = ["Alex","Léo","Sophie","Mia","Ryan"];
-const animals = ["chat","chien","lapin","licorne","tortue"];
-function randomNotification() {
-  const name = names[Math.floor(Math.random()*names.length)];
-  const animal = animals[Math.floor(Math.random()*animals.length)];
-  document.getElementById("social").innerText = `${name} a joué il y a 5 secondes !`;
-}
-setInterval(randomNotification, 4000);
-
-// Lancer le mini-jeu Tape vite à l'ouverture
-document.getElementById("tape").addEventListener('click', startTapGame);
-
-// =================== ANIMAL ===================
-const animalList = [
-  {name: "Pizza 🍕", text: "toujours apprécié de tous !"},
-  {name: "Chat 🐱", text: "malin et espiègle !"},
-  {name: "Licorne 🦄", text: "magique et unique !"},
-  {name: "Burger 🍔", text: "plein de surprises croustillantes !"},
-  {name: "Taco 🌮", text: "fun et imprévisible !"}
-];
-function generateAnimal() {
-  const name = document.getElementById("animalName").value || "Toi";
-  const item = animalList[Math.floor(Math.random()*animalList.length)];
-  document.getElementById("animalResult").innerText = `${name} est ${item.name}, ${item.text}`;
-}
-
-// =================== MESSAGE SECRET ===================
-const secretMessages = [
-  "va recevoir une surprise magique 🎉",
-  "va faire rire quelqu'un aujourd'hui 😂",
-  "va rencontrer quelqu’un de spécial ❤️",
-  "va accomplir quelque chose d’incroyable ✨",
-  "va avoir une journée pleine d’aventures 🏞️"
-];
-function generateSecret() {
-  const name = document.getElementById("secretName").value || "Toi";
-  const msg = secretMessages[Math.floor(Math.random()*secretMessages.length)];
-  document.getElementById("secretResult").innerText = `${name}, ${msg}`;
+function copyText(text) {
+    navigator.clipboard.writeText(text);
+    alert("Copié 🔥");
 }
 </script>
+
 </body>
 </html>
