@@ -12,7 +12,7 @@
     button { padding: 12px 20px; background: #ff9500; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; margin-top: 10px; }
     button:hover { background: #ff7000; }
     .loading, .result, .share { display: none; margin-top: 20px; }
-    .share button { display: block; width: 100%; margin: 5px 0; background: #007aff; }
+    .share button { display: block; width: 100%; margin: 5px 0; background: #007aff; color: white; }
     .share button.instagram { background: #E1306C; }
     .share button.tiktok { background: #010101; }
     .share button.facebook { background: #4267B2; }
@@ -23,15 +23,16 @@
 
 <div class="container">
     <h1>Message Secret 😳</h1>
+
     <div class="start">
         <input type="text" id="name" placeholder="Entre ton prénom" />
         <button onclick="startTest()">Voir le message</button>
     </div>
-    
+
     <div class="loading">
         <p>Analyse en cours...</p>
     </div>
-    
+
     <div class="result">
         <p id="message">😏 Quelqu’un pense à toi en secret…</p>
         <div class="share">
@@ -41,44 +42,69 @@
             <button class="facebook" onclick="shareFacebook()">Partager sur Facebook</button>
         </div>
         <p class="teaser">🔁 Reviens demain… quelqu’un pourrait encore parler de toi !</p>
+        <button onclick="refaireTest()">🔄 Refais le test</button>
     </div>
 </div>
 
 <script>
+// Vérifie si l'utilisateur a déjà partagé
+let sharedBefore = localStorage.getItem('shared') === 'true';
+
 function startTest() {
     const name = document.getElementById('name').value.trim();
     if(name === '') { alert('Entre ton prénom !'); return; }
+
     document.querySelector('.start').style.display = 'none';
     const loading = document.querySelector('.loading');
     loading.style.display = 'block';
-    
+
     setTimeout(() => {
         loading.style.display = 'none';
         const result = document.querySelector('.result');
         result.style.display = 'block';
-    }, 3000); // 3 secondes suspense
+        // Si déjà partagé, on cache les boutons
+        if(sharedBefore) {
+            document.querySelector('.share').style.display = 'none';
+        } else {
+            document.querySelector('.share').style.display = 'block';
+        }
+    }, 3000);
 }
 
-// Partage WhatsApp
 function shareWhatsApp() {
     const url = encodeURIComponent('😳 J’ai vu un message secret sur moi ! Découvre le tien : [METTRE TON LIEN ICI]');
     window.open('https://api.whatsapp.com/send?text=' + url, '_blank');
+    setShared();
 }
 
-// Partage Instagram (lien à copier)
 function shareInstagram() {
     alert('Copie ce lien et partage-le sur Instagram : [METTRE TON LIEN ICI]');
+    setShared();
 }
 
-// Partage TikTok (lien à copier)
 function shareTikTok() {
     alert('Copie ce lien et partage-le sur TikTok : [METTRE TON LIEN ICI]');
+    setShared();
 }
 
-// Partage Facebook
 function shareFacebook() {
     const url = encodeURIComponent('😳 J’ai vu un message secret sur moi ! Découvre le tien : [METTRE TON LIEN ICI]');
     window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
+    setShared();
+}
+
+function setShared() {
+    sharedBefore = true;
+    localStorage.setItem('shared', 'true');
+    // Après partage, on cache les boutons
+    document.querySelector('.share').style.display = 'none';
+}
+
+// Bouton refaire le test
+function refaireTest() {
+    document.querySelector('.result').style.display = 'none';
+    document.querySelector('.start').style.display = 'block';
+    document.getElementById('name').value = '';
 }
 </script>
 
