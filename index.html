@@ -2,34 +2,64 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Tape vite ! Challenge quotidien</title>
+<title>Écosystème Viral</title>
 <style>
-  body { font-family: Arial; text-align: center; margin: 50px; background: #f0f8ff; }
-  button { font-size: 24px; padding: 15px 30px; margin: 20px; cursor: pointer; }
-  #top10 { margin-top: 20px; }
-  #social { margin-top: 30px; font-style: italic; color: #555; }
+  body { font-family: Arial; text-align: center; margin: 30px; background: #f0f8ff; }
+  button { font-size: 20px; padding: 12px 25px; margin: 10px; cursor: pointer; }
+  .game { display: none; margin-top: 30px; }
+  #top10, #social { margin-top: 20px; font-style: italic; color: #555; }
 </style>
 </head>
 <body>
-<h1>Tape le plus vite possible !</h1>
-<p>Tu as 5 secondes pour cliquer !</p>
-<button id="tapBtn">Clique-moi !</button>
-<p id="score">Score : 0</p>
-<div id="top10">
-  <h2>Top 10 local</h2>
-  <ol id="scoresList"></ol>
+<h1>Bienvenue dans ton écosystème viral !</h1>
+<p>Choisis un mini-jeu :</p>
+<button onclick="showGame('tape')">Tape vite</button>
+<button onclick="showGame('animal')">Quel animal es-tu ?</button>
+<button onclick="showGame('secret')">Message secret du jour</button>
+
+<!-- Mini-jeu Tape vite -->
+<div id="tape" class="game">
+  <h2>Tape le plus vite possible !</h2>
+  <p>Tu as 5 secondes pour cliquer !</p>
+  <button id="tapBtn">Clique-moi !</button>
+  <p id="score">Score : 0</p>
+  <div id="top10">
+    <h3>Top 10 local</h3>
+    <ol id="scoresList"></ol>
+  </div>
+  <div id="social"></div>
 </div>
-<div id="social"></div>
+
+<!-- Mini-jeu Animal -->
+<div id="animal" class="game">
+  <h2>Quel animal es-tu ?</h2>
+  <input type="text" id="animalName" placeholder="Ton prénom">
+  <button onclick="generateAnimal()">Découvrir</button>
+  <p id="animalResult"></p>
+</div>
+
+<!-- Mini-jeu Message secret -->
+<div id="secret" class="game">
+  <h2>Message secret du jour</h2>
+  <input type="text" id="secretName" placeholder="Ton prénom ou nom">
+  <button onclick="generateSecret()">Découvrir</button>
+  <p id="secretResult"></p>
+</div>
 
 <script>
-let clicks = 0;
-let gameOver = false;
-const button = document.getElementById("tapBtn");
-const scoreText = document.getElementById("score");
+// === Gestion affichage mini-jeux ===
+function showGame(gameId) {
+  document.querySelectorAll('.game').forEach(div => div.style.display = 'none');
+  document.getElementById(gameId).style.display = 'block';
+}
 
-// === Top 10 local avec localStorage ===
+// =================== TAPE VITE ===================
+let clicks = 0, gameOver = false;
+const tapBtn = document.getElementById("tapBtn");
+const scoreText = document.getElementById("score");
 let topScores = JSON.parse(localStorage.getItem("topScores") || "[]");
 
+// Afficher top10
 function updateTop10() {
   const list = document.getElementById("scoresList");
   list.innerHTML = "";
@@ -39,45 +69,77 @@ function updateTop10() {
     list.appendChild(li);
   });
 }
+updateTop10();
 
-// === Bouton clique ===
-button.addEventListener("click", () => {
+// Bouton clique
+tapBtn.addEventListener("click", () => {
   if(!gameOver) {
     clicks++;
     scoreText.innerText = "Score : " + clicks;
   }
 });
 
-// === Fin du jeu ===
-setTimeout(() => {
-  gameOver = true;
-  button.disabled = true;
-  // Bonus quotidien
-  const todaySeed = new Date().getDate();
-  const bonus = todaySeed % 5 + 1;
-  const finalScore = clicks + bonus;
-  alert(`Temps écoulé ! Score final : ${finalScore} (bonus du jour : +${bonus})`);
+// Fin du jeu avec bonus quotidien
+function startTapGame() {
+  clicks = 0;
+  gameOver = false;
+  tapBtn.disabled = false;
+  scoreText.innerText = "Score : 0";
+  setTimeout(() => {
+    gameOver = true;
+    tapBtn.disabled = true;
+    const todaySeed = new Date().getDate();
+    const bonus = todaySeed % 5 + 1;
+    const finalScore = clicks + bonus;
+    alert(`Temps écoulé ! Score final : ${finalScore} (bonus du jour : +${bonus})`);
+    topScores.push(finalScore);
+    topScores.sort((a,b)=>b-a);
+    topScores = topScores.slice(0,10);
+    localStorage.setItem("topScores", JSON.stringify(topScores));
+    updateTop10();
+  }, 5000);
+}
 
-  // Enregistrer top 10
-  topScores.push(finalScore);
-  topScores.sort((a,b)=>b-a);
-  topScores = topScores.slice(0,10);
-  localStorage.setItem("topScores", JSON.stringify(topScores));
-  updateTop10();
-}, 5000);
-
-// === Notifications aléatoires pour effet social ===
+// Notifications aléatoires
 const names = ["Alex","Léo","Sophie","Mia","Ryan"];
 const animals = ["chat","chien","lapin","licorne","tortue"];
 function randomNotification() {
   const name = names[Math.floor(Math.random()*names.length)];
   const animal = animals[Math.floor(Math.random()*animals.length)];
-  document.getElementById("social").innerText = `${name} a voté pour le ${animal} il y a 5 secondes !`;
+  document.getElementById("social").innerText = `${name} a joué il y a 5 secondes !`;
 }
-setInterval(randomNotification, 4000); // toutes les 4 secondes
+setInterval(randomNotification, 4000);
 
-// === Initialiser Top 10 au chargement ===
-updateTop10();
+// Lancer le mini-jeu Tape vite à l'ouverture
+document.getElementById("tape").addEventListener('click', startTapGame);
+
+// =================== ANIMAL ===================
+const animalList = [
+  {name: "Pizza 🍕", text: "toujours apprécié de tous !"},
+  {name: "Chat 🐱", text: "malin et espiègle !"},
+  {name: "Licorne 🦄", text: "magique et unique !"},
+  {name: "Burger 🍔", text: "plein de surprises croustillantes !"},
+  {name: "Taco 🌮", text: "fun et imprévisible !"}
+];
+function generateAnimal() {
+  const name = document.getElementById("animalName").value || "Toi";
+  const item = animalList[Math.floor(Math.random()*animalList.length)];
+  document.getElementById("animalResult").innerText = `${name} est ${item.name}, ${item.text}`;
+}
+
+// =================== MESSAGE SECRET ===================
+const secretMessages = [
+  "va recevoir une surprise magique 🎉",
+  "va faire rire quelqu'un aujourd'hui 😂",
+  "va rencontrer quelqu’un de spécial ❤️",
+  "va accomplir quelque chose d’incroyable ✨",
+  "va avoir une journée pleine d’aventures 🏞️"
+];
+function generateSecret() {
+  const name = document.getElementById("secretName").value || "Toi";
+  const msg = secretMessages[Math.floor(Math.random()*secretMessages.length)];
+  document.getElementById("secretResult").innerText = `${name}, ${msg}`;
+}
 </script>
 </body>
 </html>
