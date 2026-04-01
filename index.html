@@ -3,124 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ton Alter Ego 🔥</title>
+<title>🔥 Fun Generator 🔥</title>
 
 <style>
 body {
     margin: 0;
     font-family: Arial;
-    text-align: center;
-    background: linear-gradient(135deg, #ff4757, #1e90ff);
+    background: #111;
     color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
+    text-align: center;
+}
+
+header {
+    padding: 15px;
+    background: #ff4757;
+    font-size: 20px;
+}
+
+.menu button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .container {
     padding: 20px;
 }
 
-h1 {
-    font-size: 28px;
-}
-
-button {
+button.generate {
     padding: 15px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 30px;
-    background: white;
-    color: black;
-    cursor: pointer;
     margin-top: 20px;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
 }
 
 #result {
     margin-top: 30px;
-    animation: fadeIn 0.5s ease;
 }
 
-img {
-    margin-top: 15px;
-    border-radius: 50%;
-    border: 3px solid white;
-}
-
-.share-btn {
+.share a, .share div {
     display: block;
-    margin-top: 15px;
+    margin: 10px;
     padding: 10px;
-    background: #25D366;
-    color: white;
     border-radius: 20px;
     text-decoration: none;
-}
-
-.copy-btn {
-    margin-top: 10px;
-    background: #000;
     color: white;
-    padding: 10px;
-    border-radius: 20px;
-    cursor: pointer;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: scale(0.9);}
-    to {opacity: 1; transform: scale(1);}
-}
+.whatsapp { background: #25D366; }
+.facebook { background: #1877F2; }
+.copy { background: black; }
 </style>
-
 </head>
+
 <body>
 
+<header>🔥 Fun Generator 🔥</header>
+
+<div class="menu">
+    <button onclick="setMode('alter')">Alter Ego</button>
+    <button onclick="setMode('crush')">Crush 😏</button>
+    <button onclick="setMode('iq')">QI 🧠</button>
+</div>
+
 <div class="container">
-    <h1>🔥 Découvre ton alter ego 🔥</h1>
-    <p>Clique et vois qui tu es vraiment 😎</p>
-
-    <button onclick="generate()">Générer</button>
-
+    <h2 id="title">Choisis un mode</h2>
+    <button class="generate" onclick="generate()">Générer</button>
     <div id="result"></div>
 </div>
 
 <script>
-const noms = ["Shadow", "Blaze", "Nova", "Phantom", "Storm", "Vortex"];
-const roles = ["Guerrier", "Hacker", "Roi", "Ninja", "Mage", "Boss"];
-const pouvoirs = ["du feu 🔥", "de la glace ❄️", "de l'électricité ⚡", "du temps ⏳", "de l'ombre 🌑"];
+let mode = "alter";
+
+function setMode(m) {
+    mode = m;
+    document.getElementById("result").innerHTML = "";
+    
+    if(m === "alter") document.getElementById("title").innerText = "🔥 Ton Alter Ego";
+    if(m === "crush") document.getElementById("title").innerText = "😏 Ton crush pense quoi de toi ?";
+    if(m === "iq") document.getElementById("title").innerText = "🧠 Ton niveau d’intelligence";
+}
 
 function random(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
 function generate() {
-    let nom = random(noms);
-    let role = random(roles);
-    let pouvoir = random(pouvoirs);
+    let text = "";
 
-    let pseudo = nom + " " + role;
+    if(mode === "alter") {
+        const noms = ["Shadow", "Blaze", "Nova", "Storm"];
+        const roles = ["Ninja", "Boss", "Mage"];
+        text = "🔥 Mon alter ego est " + random(noms) + " " + random(roles);
+    }
 
-    let text = "🔥 Mon alter ego est " + pseudo + " avec le pouvoir " + pouvoir;
+    if(mode === "crush") {
+        const reactions = [
+            "Il/elle t'aime en secret 😍",
+            "Il/elle hésite encore 🤔",
+            "Il/elle pense à toi la nuit 😳"
+        ];
+        text = "😏 Verdict : " + random(reactions);
+    }
+
+    if(mode === "iq") {
+        const iq = Math.floor(Math.random() * 80) + 80;
+        text = "🧠 Ton QI est " + iq;
+    }
 
     document.getElementById("result").innerHTML = `
-        <h2>${pseudo}</h2>
-        <p>Pouvoir : ${pouvoir}</p>
-        <img src="https://robohash.org/${pseudo}" width="120">
-        
-        <a class="share-btn" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank">
-        📲 Partager sur WhatsApp
-        </a>
+        <h3>${text}</h3>
 
-        <div class="copy-btn" onclick="copyText('${text}')">
-        📋 Copier mon résultat
+        <div class="share">
+            <a class="whatsapp" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank">
+            WhatsApp 📲
+            </a>
+
+            <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=&quote=${encodeURIComponent(text)}" target="_blank">
+            Facebook 📘
+            </a>
+
+            <div class="copy" onclick="copyText('${text}')">
+            Copier (TikTok / Instagram) 📋
+            </div>
         </div>
     `;
 }
 
 function copyText(text) {
     navigator.clipboard.writeText(text);
-    alert("Copié 🔥");
+    alert("Copié 🔥 Colle sur TikTok ou Instagram");
 }
 </script>
 
