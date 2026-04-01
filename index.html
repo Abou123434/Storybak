@@ -3,128 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔥 Défis Impossibles 🔥</title>
-
+<title>Message Secret</title>
 <style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background: black;
-    color: white;
-    text-align: center;
-}
-
-header {
-    padding: 15px;
-    background: red;
-    font-size: 20px;
-}
-
-button {
-    padding: 15px;
-    margin: 10px;
-    border-radius: 20px;
-    border: none;
-    font-size: 16px;
-}
-
-#gameArea {
-    margin-top: 30px;
-}
-
-#box {
-    width: 80px;
-    height: 80px;
-    background: yellow;
-    position: absolute;
-    display: none;
-}
+    body { font-family: Arial, sans-serif; background: #fefefe; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .container { text-align: center; width: 90%; max-width: 400px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+    h1 { color: #ff3b30; }
+    input { padding: 10px; width: 80%; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; }
+    button { padding: 12px 20px; background: #ff9500; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+    button:hover { background: #ff7000; }
+    .loading, .result, .share { display: none; margin-top: 20px; }
+    .share button { display: block; width: 100%; margin: 5px 0; background: #007aff; }
+    .share button.instagram { background: #E1306C; }
+    .share button.tiktok { background: #010101; }
+    .share button.facebook { background: #4267B2; }
+    .teaser { margin-top: 15px; font-weight: bold; color: #ff3b30; }
 </style>
 </head>
-
 <body>
 
-<header>🔥 Défis Impossibles 🔥</header>
-
-<div>
-    <button onclick="startClick()">⚡ Clique rapide</button>
-    <button onclick="startCatch()">🎯 Attrape le carré</button>
+<div class="container">
+    <h1>Message Secret 😳</h1>
+    <div class="start">
+        <input type="text" id="name" placeholder="Entre ton prénom" />
+        <button onclick="startTest()">Voir le message</button>
+    </div>
+    
+    <div class="loading">
+        <p>Analyse en cours...</p>
+    </div>
+    
+    <div class="result">
+        <p id="message">😏 Quelqu’un pense à toi en secret…</p>
+        <div class="share">
+            <button onclick="shareWhatsApp()">Partager sur WhatsApp</button>
+            <button class="instagram" onclick="shareInstagram()">Partager sur Instagram</button>
+            <button class="tiktok" onclick="shareTikTok()">Partager sur TikTok</button>
+            <button class="facebook" onclick="shareFacebook()">Partager sur Facebook</button>
+        </div>
+        <p class="teaser">🔁 Reviens demain… quelqu’un pourrait encore parler de toi !</p>
+    </div>
 </div>
 
-<div id="gameArea"></div>
-<div id="result"></div>
-
-<div id="box" onclick="catchBox()"></div>
-
 <script>
-let clicks = 0;
-let gameActive = false;
-
-// ⚡ CLICK GAME
-function startClick() {
-    clicks = 0;
-    gameActive = true;
-    document.getElementById("gameArea").innerHTML =
-        "<button onclick='countClick()'>CLIQUE !!!</button>";
-
+function startTest() {
+    const name = document.getElementById('name').value.trim();
+    if(name === '') { alert('Entre ton prénom !'); return; }
+    document.querySelector('.start').style.display = 'none';
+    const loading = document.querySelector('.loading');
+    loading.style.display = 'block';
+    
     setTimeout(() => {
-        gameActive = false;
-        showResult("⚡ Score: " + clicks + " clics");
-    }, 5000);
+        loading.style.display = 'none';
+        const result = document.querySelector('.result');
+        result.style.display = 'block';
+    }, 3000); // 3 secondes suspense
 }
 
-function countClick() {
-    if(gameActive) clicks++;
+// Partage WhatsApp
+function shareWhatsApp() {
+    const url = encodeURIComponent('😳 J’ai vu un message secret sur moi ! Découvre le tien : [METTRE TON LIEN ICI]');
+    window.open('https://api.whatsapp.com/send?text=' + url, '_blank');
 }
 
-// 🎯 CATCH GAME
-function startCatch() {
-    gameActive = true;
-    document.getElementById("box").style.display = "block";
-    moveBox();
-
-    setTimeout(() => {
-        gameActive = false;
-        document.getElementById("box").style.display = "none";
-        showResult("🎯 Score terminé !");
-    }, 5000);
+// Partage Instagram (lien à copier)
+function shareInstagram() {
+    alert('Copie ce lien et partage-le sur Instagram : [METTRE TON LIEN ICI]');
 }
 
-function moveBox() {
-    if(!gameActive) return;
-
-    let x = Math.random() * window.innerWidth;
-    let y = Math.random() * window.innerHeight;
-
-    let box = document.getElementById("box");
-    box.style.left = x + "px";
-    box.style.top = y + "px";
-
-    setTimeout(moveBox, 800);
+// Partage TikTok (lien à copier)
+function shareTikTok() {
+    alert('Copie ce lien et partage-le sur TikTok : [METTRE TON LIEN ICI]');
 }
 
-let scoreCatch = 0;
-function catchBox() {
-    if(gameActive) scoreCatch++;
-}
-
-// 📲 SHARE
-function showResult(text) {
-    document.getElementById("result").innerHTML = `
-        <h2>${text}</h2>
-
-        <a href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank">
-        📲 WhatsApp
-        </a>
-
-        <br><br>
-        <button onclick="copy('${text}')">📋 Copier (TikTok)</button>
-    `;
-}
-
-function copy(text) {
-    navigator.clipboard.writeText(text);
-    alert("Copié 🔥");
+// Partage Facebook
+function shareFacebook() {
+    const url = encodeURIComponent('😳 J’ai vu un message secret sur moi ! Découvre le tien : [METTRE TON LIEN ICI]');
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
 }
 </script>
 
