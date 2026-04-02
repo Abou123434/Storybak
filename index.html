@@ -3,109 +3,173 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Message Secret</title>
+<title>Message Secret 😳</title>
+
 <style>
-    body { font-family: Arial, sans-serif; background: #fefefe; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .container { text-align: center; width: 90%; max-width: 400px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
-    h1 { color: #ff3b30; }
-    input { padding: 10px; width: 80%; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; }
-    button { padding: 12px 20px; background: #ff9500; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; margin-top: 10px; }
-    button:hover { background: #ff7000; }
-    .loading, .result, .share { display: none; margin-top: 20px; }
-    .share button { display: block; width: 100%; margin: 5px 0; background: #007aff; color: white; }
-    .share button.instagram { background: #E1306C; }
-    .share button.tiktok { background: #010101; }
-    .share button.facebook { background: #4267B2; }
-    .teaser { margin-top: 15px; font-weight: bold; color: #ff3b30; }
+body {
+    font-family: Arial;
+    background: #0f0f0f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.start button { background: orange; }
+.whatsapp { background: #25D366; }
+.instagram { background: #E1306C; }
+.tiktok { background: black; }
+.facebook { background: #4267B2; }
+
+.loading, .share, .result {
+    display: none;
+    margin-top: 20px;
+}
+
+.progress {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #00ffcc;
+}
+
+.teaser {
+    margin-top: 15px;
+    color: orange;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-    <h1>Message Secret 😳</h1>
 
+    <h2>😳 Message Secret</h2>
+
+    <!-- START -->
     <div class="start">
-        <input type="text" id="name" placeholder="Entre ton prénom" />
-        <button onclick="startTest()">Voir le message</button>
+        <input type="text" id="name" placeholder="Entre ton prénom">
+        <button onclick="start()">Voir le message</button>
     </div>
 
+    <!-- LOADING -->
     <div class="loading">
-        <p>Analyse en cours...</p>
+        <p>🔍 Analyse en cours...</p>
     </div>
 
-    <div class="result">
-        <p id="message">😏 Quelqu’un pense à toi en secret…</p>
-        <div class="share">
-            <button onclick="shareWhatsApp()">Partager sur WhatsApp</button>
-            <button class="instagram" onclick="shareInstagram()">Partager sur Instagram</button>
-            <button class="tiktok" onclick="shareTikTok()">Partager sur TikTok</button>
-            <button class="facebook" onclick="shareFacebook()">Partager sur Facebook</button>
-        </div>
-        <p class="teaser">🔁 Reviens demain… quelqu’un pourrait encore parler de toi !</p>
-        <button onclick="refaireTest()">🔄 Refais le test</button>
+    <!-- PARTAGE -->
+    <div class="share">
+        <p>🔒 Partage avec 3 amis pour débloquer ton message</p>
+        <div class="progress" id="progress">0/3 partages</div>
+
+        <button class="whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
+        <button class="instagram" onclick="shareInstagram()">Instagram</button>
+        <button class="tiktok" onclick="shareTikTok()">TikTok</button>
+        <button class="facebook" onclick="shareFacebook()">Facebook</button>
     </div>
+
+    <!-- RESULTAT -->
+    <div class="result">
+        <h3>😏 Quelqu’un pense à toi en secret...</h3>
+        <p class="teaser">🔁 Reviens demain… quelqu’un pourrait encore parler de toi !</p>
+        <button onclick="restart()">🔄 Refaire</button>
+    </div>
+
 </div>
 
 <script>
-// Vérifie si l'utilisateur a déjà partagé
-let sharedBefore = localStorage.getItem('shared') === 'true';
 
-function startTest() {
-    const name = document.getElementById('name').value.trim();
-    if(name === '') { alert('Entre ton prénom !'); return; }
+let count = 0;
 
-    document.querySelector('.start').style.display = 'none';
-    const loading = document.querySelector('.loading');
-    loading.style.display = 'block';
+// START
+function start() {
+    let name = document.getElementById("name").value.trim();
+    if(name === "") {
+        alert("Entre ton prénom !");
+        return;
+    }
+
+    document.querySelector(".start").style.display = "none";
+    document.querySelector(".loading").style.display = "block";
 
     setTimeout(() => {
-        loading.style.display = 'none';
-        const result = document.querySelector('.result');
-        result.style.display = 'block';
-        // Si déjà partagé, on cache les boutons
-        if(sharedBefore) {
-            document.querySelector('.share').style.display = 'none';
-        } else {
-            document.querySelector('.share').style.display = 'block';
-        }
+        document.querySelector(".loading").style.display = "none";
+        document.querySelector(".share").style.display = "block";
     }, 3000);
 }
 
+// ACTION PARTAGE
+function handleShare() {
+    if(count < 3) {
+        count++;
+        document.getElementById("progress").innerText = count + "/3 partages";
+    }
+
+    if(count >= 3) {
+        document.querySelector(".share").style.display = "none";
+        document.querySelector(".result").style.display = "block";
+    }
+}
+
+// BOUTONS PARTAGE
 function shareWhatsApp() {
-    const url = encodeURIComponent('😳 J’ai vu un message secret sur moi ! Découvre le tien : [METTRE TON LIEN ICI]');
-    window.open('https://api.whatsapp.com/send?text=' + url, '_blank');
-    setShared();
-}
-
-function shareInstagram() {
-    alert('Copie ce lien et partage-le sur Instagram : [METTRE TON LIEN ICI]');
-    setShared();
-}
-
-function shareTikTok() {
-    alert('Copie ce lien et partage-le sur TikTok : [METTRE TON LIEN ICI]');
-    setShared();
+    window.open("https://api.whatsapp.com/send?text=😳 Regarde ça : [TON LIEN]");
+    handleShare();
 }
 
 function shareFacebook() {
-    const url = encodeURIComponent('😳 J’ai vu un message secret sur moi ! Découvre le tien : [METTRE TON LIEN ICI]');
-    window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
-    setShared();
+    window.open("https://www.facebook.com/sharer/sharer.php?u=[TON LIEN]");
+    handleShare();
 }
 
-function setShared() {
-    sharedBefore = true;
-    localStorage.setItem('shared', 'true');
-    // Après partage, on cache les boutons
-    document.querySelector('.share').style.display = 'none';
+function shareInstagram() {
+    alert("Copie le lien et partage sur Instagram : [TON LIEN]");
+    handleShare();
 }
 
-// Bouton refaire le test
-function refaireTest() {
-    document.querySelector('.result').style.display = 'none';
-    document.querySelector('.start').style.display = 'block';
-    document.getElementById('name').value = '';
+function shareTikTok() {
+    alert("Copie le lien et partage sur TikTok : [TON LIEN]");
+    handleShare();
 }
+
+// RESTART
+function restart() {
+    count = 0;
+    document.getElementById("progress").innerText = "0/3 partages";
+
+    document.querySelector(".result").style.display = "none";
+    document.querySelector(".start").style.display = "block";
+    document.getElementById("name").value = "";
+}
+
 </script>
 
 </body>
