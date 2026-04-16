@@ -1,156 +1,175 @@
-/* USER */
-let userId = localStorage.getItem("userId");
-if(!userId){
-  userId="user_"+Math.random().toString(36).substr(2,9);
-  localStorage.setItem("userId",userId);
+// ================= VARIABLES =================
+let sequence = [];
+let player = [];
+let level = 1;
+let score = 0;
+
+let timer;
+let timeLeft = 10;
+
+let canCheck = true;
+let canPlay = false;
+
+const colors = ["red", "green", "blue", "yellow"];
+
+// 🔊 Sons
+const clickSound = document.getElementById("clickSound");
+const winSound = document.getElementById("winSound");
+const failSound = document.getElementById("failSound");
+
+
+// ================= START GAME =================
+function startGame() {
+  level = 1;
+  score = 0;
+  updateUI();
+  nextRound();
 }
 
-/* DATA */
-let photos = JSON.parse(localStorage.getItem("photos")) || [];
-let currentShareIndex=null;
-let currentCommentIndex=null;
 
-const feed=document.getElementById("feed");
-const shareBox=document.getElementById("shareBox");
+// ================= NEW ROUND =================
+function nextRound() {
+  player = [];
+  sequence = [];
+  canCheck = true;
+  canPlay = false;
 
-/* SAVE */
-function save(){
-  localStorage.setItem("photos",JSON.stringify(photos));
-}
+  // longueur augmente avec niveau
+  let length = 3 + level;
 
-/* RENDER */
-function render(){
-  feed.innerHTML="";
-
-  if(photos.length===0){
-    feed.innerHTML='<div class="empty">Aucune image</div>';
-    return;
+  for (let i = 0; i < length; i++) {
+    sequence.push(colors[Math.floor(Math.random() * colors.length)]);
   }
 
-  photos.forEach((p,i)=>{
+  document.getElementById("msg").textContent = "👀 Observe bien !";
+  document.getElementById("flashGrid").style.display = "grid";
+  document.getElementById("answerBox").classList.add("hidden");
 
-    if(!p.viewsUsers.includes(userId)){
-      p.viewsUsers.push(userId);
+  showSequence();
+}
+
+
+// ================= SHOW SEQUENCE =================
+function showSequence() {
+  let speed = level > 7 ? 250 : 600;
+  let i = 0;
+
+  let interval = setInterval(() => {
+    flash(sequence[i]);
+    i++;
+
+    if (i >= sequence.length) clearInterval(interval);
+  }, speed);
+
+  // passage phase réponse
+  setTimeout(() => {
+    document.getElementById("flashGrid").style.display = "none";
+    document.getElementById("answerBox").classList.remove("hidden");
+
+    canPlay = true;
+    startTimer();
+
+    document.getElementById("msg").textContent = "🎮 Reproduis la séquence";
+  }, sequence.length * speed + 600);
+}
+
+
+// ================= FLASH COLOR =================
+function flash(color) {
+  let el = document.querySelector("." + color);
+
+  el.classList.add("active");
+  clickSound.currentTime = 0;
+  clickSound.play();
+
+  document.body.classList.add("flash");
+
+  setTimeout(() => {
+    el.classList.remove("active");
+    document.body.classList.remove("flash");
+  }, 250);
+}
+
+
+// ================= PLAYER CLICK =================
+function pick(color) {
+  if (!canPlay) return;
+
+  player.push(color);
+
+  // petit feedback visuel
+  let el = document.querySelector(".pick-" + color);
+  el.classList.add("active");
+  setTimeout(() => el.classList.remove("active"), 150);
+}
+
+
+// ================= TIMER =================
+function startTimer() {
+  clearInterval(timer);
+  timeLeft = Math.max(2, 10 - level);
+
+  document.getElementById("timer").textContent = "⏱ " + timeLeft + "s";
+
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").textContent = "⏱ " + timeLeft + "s";
+
+    if (timeLeft <= 0) gameOver();
+  }, 1000);
+}
+
+
+// ================= CHECK ANSWER =================
+function check() {
+  if (!canCheck) return;
+  canCheck = false;
+  clearInterval(timer);
+
+  let correct = true;
+
+  if (player.length !== sequence.length) {
+    correct = false;
+  } else {
+    for (let i = 0; i < sequence.length; i++) {
+      if (player[i] !== sequence[i]) {
+        correct = false;
+        break;
+      }
     }
+  }
 
-    const liked=p.likesUsers.includes(userId);
+  // ✅ BONNE REPONSE → niveau suivant direct (sans "GAGNÉ")
+  if (correct) {
+    winSound.play();
 
-    const card=document.createElement("div");
-    card.className="card";
+    score += level * 10;
+    level++;
+    updateUI();
 
-    card.innerHTML=`
-      <img src="${p.url}">
+    document.getElementById("msg").textContent = "👀 Niveau suivant...";
+    setTimeout(nextRound, 800);
 
-      <div class="actions">
-        <span>❤️ ${p.likesUsers.length} | 👁️ ${p.viewsUsers.length}</span>
-
-        <div>
-          <button class="like-btn" onclick="toggleLike(${i})">
-            ${liked?"Dislike":"Like"}
-          </button>
-
-          <button onclick="openShare(${i})">🔗</button>
-        </div>
-      </div>
-
-      <div style="padding:10px">
-        <button onclick="openComments(${i})">
-          💬 ${p.comments.length} commentaire(s)
-        </button>
-      </div>
-    `;
-
-    feed.appendChild(card);
-  });
-
-  save();
-}
-
-/* LIKE */
-function toggleLike(i){
-  const index=photos[i].likesUsers.indexOf(userId);
-  if(index===-1) photos[i].likesUsers.push(userId);
-  else photos[i].likesUsers.splice(index,1);
-  render();
-}
-
-/* SHARE */
-function openShare(i){
-  currentShareIndex=i;
-  shareBox.style.display="flex";
-}
-
-function closeShare(){
-  shareBox.style.display="none";
-}
-
-function sharePost(){
-  const link = window.location.href;
-
-  if(navigator.share){
-    navigator.share({
-      title:"Mini Bako",
-      text:"Regarde ce post 🔥",
-      url:link
-    });
-  }else{
-    alert("Partage non supporté");
+  } else {
+    gameOver();
   }
 }
 
-/* COMMENT */
-const commentOverlay=document.getElementById("commentOverlay");
-const commentList=document.getElementById("commentList");
-const commentInput=document.getElementById("commentInput");
 
-function openComments(i){
-  currentCommentIndex=i;
-  updateComments();
-  commentOverlay.style.display="flex";
+// ================= GAME OVER =================
+function gameOver() {
+  clearInterval(timer);
+  canPlay = false;
+
+  failSound.play();
+  document.getElementById("msg").textContent = "❌ Game Over | Score : " + score;
+
+  setTimeout(startGame, 2000);
 }
 
-function closeComments(){
-  commentOverlay.style.display="none";
+
+// ================= UI =================
+function updateUI() {
+  document.getElementById("score").textContent = score;
+  document.getElementById("level").textContent = level;
 }
-
-function updateComments(){
-  commentList.innerHTML=photos[currentCommentIndex].comments
-    .map(c=>`<p>${c}</p>`).join("");
-}
-
-function submitComment(){
-  const v=commentInput.value.trim();
-  if(!v) return;
-  photos[currentCommentIndex].comments.push(v);
-  commentInput.value="";
-  save();
-  updateComments();
-  render();
-}
-
-/* UPLOAD */
-const upload=document.getElementById("upload");
-
-function handlePublish(){
-  upload.click();
-}
-
-upload.addEventListener("change",e=>{
-  const file=e.target.files[0];
-  if(!file) return;
-
-  const reader=new FileReader();
-  reader.onload=()=>{
-    photos.unshift({
-      url:reader.result,
-      likesUsers:[],
-      viewsUsers:[],
-      comments:[]
-    });
-    render();
-  };
-  reader.readAsDataURL(file);
-});
-
-/* INIT */
-render();
