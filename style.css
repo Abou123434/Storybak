@@ -1,110 +1,67 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial;
-}
-
 body{
-  background:#0f0f0f;
-  color:white;
+margin:0;
+font-family:sans-serif;
+background:#0d0d0d;
+color:white;
 }
 
-/* HEADER */
 header{
-  display:flex;
-  justify-content:space-between;
-  padding:15px;
-  background:black;
-  position:sticky;
-  top:0;
-}
-
-nav a{
-  margin:0 10px;
-  color:white;
-  text-decoration:none;
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:black;
 }
 
 .lang button{
-  margin-left:5px;
-  background:#222;
-  color:white;
-  border:none;
-  padding:5px;
-  cursor:pointer;
+margin:3px;
+padding:6px 10px;
+border:none;
+background:#c59d5f;
 }
 
-/* HERO */
 .hero{
-  height:90vh;
-  background:url("https://images.unsplash.com/photo-1555992336-03a23c7b20ee") center/cover;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.overlay{
-  background:rgba(0,0,0,0.6);
-  padding:20px;
-  text-align:center;
-}
-
-/* SECTION */
-.section{
-  padding:50px 20px;
-}
-
-.dark{
-  background:#1a1a1a;
-}
-
-/* MENU */
-.menu{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:#222;
-  padding:15px;
-  border-radius:10px;
-}
-
-.card img{
-  width:100%;
-  border-radius:10px;
-}
-
-.desc{
-  margin-top:10px;
-  font-size:14px;
-  line-height:1.5;
-  opacity:0.9;
-}
-
-button{
-  margin-top:10px;
-  width:100%;
-  padding:10px;
-  background:#25D366;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-
-.food-img{
-  width:100%;
-  margin-top:20px;
-  border-radius:10px;
+text-align:center;
+padding:80px 20px;
+background:url('https://images.unsplash.com/photo-1544025162-d76694265947') center/cover;
 }
 
 .btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:10px;
-  background:#d4af37;
-  color:black;
-  text-decoration:none;
+display:inline-block;
+margin-top:15px;
+padding:10px 20px;
+background:#c59d5f;
+color:black;
+text-decoration:none;
+}
+
+.menu{
+padding:30px;
+}
+
+.cards{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.card{
+background:#1a1a1a;
+padding:15px;
+border-radius:10px;
+width:100%;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+iframe{
+width:100%;
+height:300px;
+border:none;
+}
+
+@media(min-width:768px){
+.card{width:45%;}
 }
