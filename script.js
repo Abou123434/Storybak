@@ -1,20 +1,9 @@
-// MENU MOBILE
-const toggle = document.getElementById("menu-toggle");
-const nav = document.getElementById("nav");
+function reserve(plat) {
+  alert("Vous avez choisi : " + plat + " 🍽️");
+}
 
-toggle.addEventListener("click", () => {
-  nav.style.display = nav.style.display === "flex" ? "none" : "flex";
-});
-
-// SCROLL ANIMATION
-const cards = document.querySelectorAll(".card");
-
-window.addEventListener("scroll", () => {
-  cards.forEach(card => {
-    const top = card.getBoundingClientRect().top;
-    if(top < window.innerHeight - 50){
-      card.style.opacity = 1;
-      card.style.transform = "translateY(0)";
-    }
-  });
+// Formulaire
+document.getElementById("form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  alert("Réservation envoyée avec succès ✅");
 });
