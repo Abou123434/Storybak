@@ -1,212 +1,122 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LUX AUTO | Location & Vente de Voitures Premium</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/741/741407.png" />
+  <meta charset="UTF-8">
+  <title>Le Prestige Restaurant</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="logo">
-      <span class="lux">LUX</span><span class="auto">AUTO</span>
-    </div>
+<header>
+  <h1>🍽️ Le Prestige Restaurant</h1>
 
-    <nav class="nav-links">
-      <a href="#home">Accueil</a>
-      <a href="#cars">Voitures</a>
-      <a href="#services">Services</a>
-      <a href="#reservation">Réservation</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-    <button class="menu-btn" id="menuBtn">☰</button>
-  </header>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#home">Accueil</a>
-    <a href="#cars">Voitures</a>
-    <a href="#services">Services</a>
-    <a href="#reservation">Réservation</a>
-    <a href="#contact">Contact</a>
+  <div class="lang">
+    <button onclick="setLang('fr')">FR</button>
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('it')">IT</button>
   </div>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Location & Vente de Voitures <span>Premium</span></h1>
-      <p>Découvrez l’élégance et la performance. Réservez une voiture de luxe en quelques secondes.</p>
+  <nav>
+    <a href="#menu">Menu</a>
+    <a href="#hours">Horaires</a>
+    <a href="#reviews">Avis</a>
+    <a href="#reservation">Réservation</a>
+  </nav>
+</header>
 
-      <div class="hero-buttons">
-        <a href="#cars" class="btn primary">Voir les voitures</a>
-        <a href="#reservation" class="btn secondary">Réserver maintenant</a>
-      </div>
+<!-- HERO -->
+<section class="hero">
+  <h2 data-i18n="title">Une expérience culinaire d’exception</h2>
+  <p data-i18n="subtitle">Restaurant haut de gamme – Abidjan</p>
+</section>
 
-      <div class="hero-stats">
-        <div class="stat-box">
-          <h3>+120</h3>
-          <p>Clients satisfaits</p>
-        </div>
-        <div class="stat-box">
-          <h3>10+</h3>
-          <p>Modèles premium</p>
-        </div>
-        <div class="stat-box">
-          <h3>24/7</h3>
-          <p>Assistance</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- MENU -->
+<section id="menu">
+  <h2>🍴 Menu Signature</h2>
 
-  <!-- CARS SECTION -->
-  <section class="cars-section" id="cars">
-    <div class="section-title">
-      <h2>Nos Voitures de Luxe</h2>
-      <p>Choisissez votre modèle, consultez les détails et réservez immédiatement.</p>
+  <div class="grid">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
+      <h3>Filet de bœuf truffé</h3>
+      <p>Viande premium, sauce truffe noire italienne.</p>
+      <button onclick="reserve('Filet de bœuf')">Réserver</button>
     </div>
 
-    <div class="cars-grid" id="carsGrid">
-      <!-- Injected by JS -->
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section class="services-section" id="services">
-    <div class="section-title">
-      <h2>Nos Services</h2>
-      <p>Une expérience premium, rapide et sécurisée.</p>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2" />
+      <h3>Homard grillé</h3>
+      <p>Homard frais, beurre citronné et herbes fines.</p>
+      <button onclick="reserve('Homard grillé')">Réserver</button>
     </div>
 
-    <div class="services-grid">
-      <div class="service-card">
-        <h3>🚗 Livraison</h3>
-        <p>Livraison à domicile ou à l’hôtel partout dans votre ville.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>🛡 Assurance Premium</h3>
-        <p>Protection complète et assistance 24h/24 en cas de problème.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>⚡ Réservation rapide</h3>
-        <p>Réservez en 30 secondes via WhatsApp, Gmail ou formulaire direct.</p>
-      </div>
-
-      <div class="service-card">
-        <h3>💎 Voitures haut de gamme</h3>
-        <p>Nos véhicules sont propres, contrôlés et toujours prêts.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESERVATION -->
-  <section class="reservation-section" id="reservation">
-    <div class="section-title">
-      <h2>Réserver une Voiture</h2>
-      <p>Remplissez le formulaire et envoyez votre réservation sur WhatsApp.</p>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d" />
+      <h3>Sushi Royal</h3>
+      <p>Assortiment sushi luxe japonais premium.</p>
+      <button onclick="reserve('Sushi Royal')">Réserver</button>
     </div>
 
-    <div class="reservation-container">
-      <form class="reservation-form" id="reservationForm">
+    <!-- Ajoute jusqu'à 10 plats pareil -->
+  </div>
+</section>
 
-        <div class="form-group">
-          <label>Nom complet</label>
-          <input type="text" id="fullname" placeholder="Ex: Karim Traoré" required />
-        </div>
+<!-- HORAIRES -->
+<section id="hours">
+  <h2>🕒 Horaires</h2>
+  <ul>
+    <li>Lundi - Vendredi : 10h - 23h</li>
+    <li>Samedi : 10h - 00h</li>
+    <li>Dimanche : 12h - 22h</li>
+  </ul>
 
-        <div class="form-group">
-          <label>Téléphone</label>
-          <input type="tel" id="phone" placeholder="+225 07 00 00 00 00" required />
-        </div>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18..."
+    width="100%" height="250">
+  </iframe>
+</section>
 
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="email" placeholder="exemple@gmail.com" required />
-        </div>
+<!-- AVIS -->
+<section id="reviews">
+  <h2>⭐ Avis clients</h2>
 
-        <div class="form-group">
-          <label>Choisir une voiture</label>
-          <select id="carSelect" required>
-            <option value="">-- Sélectionnez une voiture --</option>
-          </select>
-        </div>
+  <div class="review">“Service incroyable, cuisine parfaite !” – Aïcha</div>
+  <div class="review">“Le meilleur restaurant d’Abidjan.” – Marc</div>
+  <div class="review">“Luxury experience 10/10.” – John</div>
+</section>
 
-        <div class="form-group">
-          <label>Date de départ</label>
-          <input type="date" id="startDate" required />
-        </div>
+<!-- RESERVATION -->
+<section id="reservation">
+  <h2>📅 Réservation</h2>
 
-        <div class="form-group">
-          <label>Date de retour</label>
-          <input type="date" id="endDate" required />
-        </div>
+  <form onsubmit="sendReservation(event)">
+    <input type="text" placeholder="Nom" required>
+    <input type="date" required>
+    <input type="time" required>
 
-        <div class="form-group">
-          <label>Message</label>
-          <textarea id="message" placeholder="Ex: Je veux livraison à l’hôtel, à 10h..."></textarea>
-        </div>
+    <select>
+      <option>1 personne</option>
+      <option>2 personnes</option>
+      <option>3-5 personnes</option>
+      <option>+5 personnes</option>
+    </select>
 
-        <button type="submit" class="btn primary">Envoyer sur WhatsApp</button>
-      </form>
+    <button type="submit">Réserver via WhatsApp</button>
+  </form>
 
-      <div class="reservation-info">
-        <h3>📌 Informations</h3>
-        <p>Après l’envoi WhatsApp, notre équipe vous confirme rapidement.</p>
+  <div class="social">
+    <a href="https://wa.me/225000000000">WhatsApp</a>
+    <a href="#">Gmail</a>
+    <a href="#">Facebook</a>
+    <a href="#">Instagram</a>
+  </div>
+</section>
 
-        <div class="contact-buttons">
-          <a class="social-btn whatsapp" href="https://wa.me/2250700000000" target="_blank">WhatsApp</a>
-          <a class="social-btn gmail" href="mailto:luxauto@gmail.com" target="_blank">Gmail</a>
-          <a class="social-btn facebook" href="https://facebook.com" target="_blank">Facebook</a>
-          <a class="social-btn instagram" href="https://instagram.com" target="_blank">Instagram</a>
-        </div>
-      </div>
-    </div>
-  </section>
+<footer>
+  <p>© 2026 Le Prestige Restaurant - Abidjan</p>
+</footer>
 
-  <!-- CONTACT + HOURS + MAP -->
-  <section class="contact-section" id="contact">
-    <div class="section-title">
-      <h2>Contact & Horaires</h2>
-      <p>Nous sommes disponibles tous les jours.</p>
-    </div>
-
-    <div class="contact-grid">
-      <div class="hours-card">
-        <h3>🕒 Horaires</h3>
-        <ul>
-          <li><span>Lundi - Vendredi</span> <b>08:00 - 22:00</b></li>
-          <li><span>Samedi</span> <b>09:00 - 23:00</b></li>
-          <li><span>Dimanche</span> <b>10:00 - 20:00</b></li>
-        </ul>
-
-        <h3>📍 Adresse</h3>
-        <p>Abidjan, Cocody - Riviera 3</p>
-
-        <h3>📞 Téléphone</h3>
-        <p>+225 07 00 00 00 00</p>
-      </div>
-
-      <div class="map-card">
-        <iframe 
-          src="https://www.google.com/maps?q=Abidjan%20Cocody%20Riviera&output=embed"
-          allowfullscreen="" loading="lazy">
-        </iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>© 2026 LUX AUTO - Location & Vente Premium | Développé par vous.</p>
-  </footer>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
