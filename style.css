@@ -2,7 +2,7 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Arial, sans-serif;
+  font-family:Arial;
 }
 
 body{
@@ -14,41 +14,25 @@ body{
 header{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  padding:15px 20px;
+  padding:15px;
   background:black;
   position:sticky;
   top:0;
-  z-index:10;
-}
-
-.logo{
-  color:#d4af37;
-  font-weight:bold;
 }
 
 nav a{
-  color:white;
   margin:0 10px;
-  text-decoration:none;
-}
-
-.actions .btn{
-  margin-left:10px;
-}
-
-/* BUTTONS */
-.btn{
-  background:#d4af37;
-  padding:8px 12px;
-  color:black;
-  text-decoration:none;
-  border-radius:5px;
-}
-
-.btn.dark{
-  background:#333;
   color:white;
+  text-decoration:none;
+}
+
+.lang button{
+  margin-left:5px;
+  background:#222;
+  color:white;
+  border:none;
+  padding:5px;
+  cursor:pointer;
 }
 
 /* HERO */
@@ -62,35 +46,17 @@ nav a{
 
 .overlay{
   background:rgba(0,0,0,0.6);
-  padding:30px;
+  padding:20px;
   text-align:center;
 }
 
-/* SECTIONS */
+/* SECTION */
 .section{
-  padding:60px 20px;
+  padding:50px 20px;
 }
 
 .dark{
   background:#1a1a1a;
-}
-
-.subtitle{
-  opacity:0.8;
-  margin-bottom:30px;
-}
-
-/* STORY */
-.story-block{
-  background:#222;
-  margin:15px auto;
-  padding:20px;
-  max-width:900px;
-  border-left:3px solid #d4af37;
-}
-
-.highlight{
-  border-left:3px solid red;
 }
 
 /* MENU */
@@ -102,58 +68,43 @@ nav a{
 
 .card{
   background:#222;
-  padding:20px;
+  padding:15px;
+  border-radius:10px;
 }
 
-.card button{
+.card img{
+  width:100%;
+  border-radius:10px;
+}
+
+.desc{
   margin-top:10px;
+  font-size:14px;
+  line-height:1.5;
+  opacity:0.9;
+}
+
+button{
+  margin-top:10px;
+  width:100%;
+  padding:10px;
   background:#25D366;
   border:none;
-  padding:10px;
-  width:100%;
   color:white;
   cursor:pointer;
 }
 
-/* REVIEWS */
-.review{
-  background:#222;
-  margin:10px auto;
-  padding:15px;
-  max-width:600px;
-}
-
-.rating{
+.food-img{
+  width:100%;
   margin-top:20px;
-  font-size:18px;
+  border-radius:10px;
 }
 
-/* CONTACT */
-.contact-box{
-  margin-bottom:20px;
-}
-
-.hours{
-  width:100%;
-  max-width:500px;
-  margin:auto;
-  margin-bottom:20px;
-}
-
-.hours td{
-  padding:8px;
-  border-bottom:1px solid #333;
-}
-
-.map iframe{
-  width:100%;
-  height:300px;
-  border:none;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:20px;
-  background:black;
+.btn{
+  display:inline-block;
+  margin-top:10px;
+  padding:10px;
+  background:#d4af37;
+  color:black;
+  text-decoration:none;
 }
