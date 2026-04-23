@@ -1,133 +1,101 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maison Élégance</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurant Luxe</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<header>
-  <div class="logo">Maison Élégance</div>
-  <nav id="nav">
-    <a href="#home">Accueil</a>
-    <a href="#menu">Menu</a>
-    <a href="#reservation">Réservation</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <div class="menu-toggle" id="menu-toggle">☰</div>
+<!-- HERO -->
+<header class="hero">
+  <div class="overlay">
+    <h1>Restaurant Élégance</h1>
+    <p>L’expérience culinaire ultime</p>
+
+    <div class="buttons">
+      <a href="#reservation" class="btn">Réserver une table</a>
+      <a href="#menu" class="btn secondary">Voir le menu</a>
+    </div>
+  </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="overlay">
-    <h1>Expérience Gastronomique Unique</h1>
-    <p>Le luxe dans chaque assiette</p>
-    <div class="buttons">
-      <a href="#reservation" class="btn gold">Réserver</a>
-      <a href="#menu" class="btn">Voir le Menu</a>
+<!-- MENU -->
+<section id="menu" class="section">
+  <h2>Notre Menu</h2>
+
+  <div class="menu-grid">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
+      <h3>Filet de Bœuf Royal</h3>
+      <p>Viande tendre servie avec sauce truffe.</p>
+      <span>25 000 FCFA</span>
+      <button onclick="reserve('Filet de Bœuf Royal')">Réserver ce plat</button>
     </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" />
+      <h3>Pâtes Truffées</h3>
+      <p>Recette italienne premium à la crème de truffe.</p>
+      <span>18 000 FCFA</span>
+      <button onclick="reserve('Pâtes Truffées')">Réserver ce plat</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
+      <h3>Dessert Chocolat Noir</h3>
+      <p>Fondant chocolat intense avec glace vanille.</p>
+      <span>9 000 FCFA</span>
+      <button onclick="reserve('Dessert Chocolat Noir')">Réserver ce plat</button>
+    </div>
+
   </div>
 </section>
 
-<!-- HISTOIRE -->
-<section class="about">
-  <h2>Notre Histoire</h2>
+<!-- ABOUT -->
+<section class="section dark">
+  <h2>À propos</h2>
   <p>
-    Depuis plus de 20 ans, Maison Élégance incarne l’excellence culinaire.
-    Nos chefs sélectionnent des ingrédients d’exception pour offrir une expérience inoubliable.
+    Restaurant Élégance est une expérience gastronomique unique,
+    où chaque plat est préparé avec passion et précision.
   </p>
 </section>
 
-<!-- MENU -->
-<section class="menu" id="menu">
-  <h2>Notre Menu</h2>
-  <div class="menu-grid">
-
-    <!-- PLAT -->
-    <div class="card">
-      <img src="https://source.unsplash.com/400x300/?gourmet" />
-      <h3>Filet de Bœuf Truffé</h3>
-      <p>Viande tendre accompagnée de sauce à la truffe noire.</p>
-      <span>45€</span>
-      <div class="actions">
-        <a href="https://wa.me/" target="_blank">WhatsApp</a>
-        <a href="#reservation">Réserver</a>
-      </div>
-    </div>
-
-    <!-- DUPLIQUE 10 FOIS -->
-    <div class="card">
-      <img src="https://source.unsplash.com/400x300/?salmon" />
-      <h3>Saumon Royal</h3>
-      <p>Saumon grillé avec réduction citronnée.</p>
-      <span>38€</span>
-      <div class="actions">
-        <a href="#">WhatsApp</a>
-        <a href="#reservation">Réserver</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://source.unsplash.com/400x300/?pasta" />
-      <h3>Pâtes aux Fruits de Mer</h3>
-      <p>Mélange raffiné de fruits de mer frais.</p>
-      <span>32€</span>
-      <div class="actions">
-        <a href="#">WhatsApp</a>
-        <a href="#reservation">Réserver</a>
-      </div>
-    </div>
-
-    <!-- Ajoute plus de plats pareil jusqu’à 10 -->
-    
-  </div>
-</section>
-
-<!-- GALERIE -->
-<section class="gallery">
-  <h2>Galerie</h2>
-  <div class="gallery-grid">
-    <img src="https://source.unsplash.com/400x400/?restaurant"/>
-    <img src="https://source.unsplash.com/400x400/?food"/>
-    <img src="https://source.unsplash.com/400x400/?chef"/>
-    <img src="https://source.unsplash.com/400x400/?luxury-dinner"/>
-  </div>
-</section>
-
-<!-- RÉSERVATION -->
-<section class="reservation" id="reservation">
-  <h2>Réserver une table</h2>
-  <form>
-    <input type="text" placeholder="Nom" required>
-    <input type="email" placeholder="Email" required>
-    <input type="tel" placeholder="Téléphone" required>
-    <input type="date" required>
-    <input type="time" required>
-    <input type="number" placeholder="Personnes" required>
-    <button type="submit">Réserver</button>
-  </form>
-</section>
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <h2>Contact</h2>
-  <p>📍 Abidjan, Côte d’Ivoire</p>
-  <p>📞 +225 00 00 00 00</p>
-  <p>📧 contact@restaurant.com</p>
-</section>
-
 <!-- MAP -->
-<section class="map">
-  <iframe src="https://maps.google.com/maps?q=abidjan&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<section class="section">
+  <h2>Localisation</h2>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18..."
+    loading="lazy">
+  </iframe>
 </section>
 
-<!-- FOOTER -->
+<!-- RESERVATION -->
+<section id="reservation" class="section dark">
+  <h2>Réservation</h2>
+
+  <form id="form">
+    <input type="text" placeholder="Nom" required />
+    <input type="tel" placeholder="Téléphone" required />
+    <input type="date" required />
+    <input type="time" required />
+    <textarea placeholder="Message"></textarea>
+
+    <button type="submit">Envoyer la réservation</button>
+  </form>
+
+  <div class="social">
+    <a href="#">WhatsApp</a>
+    <a href="#">Instagram</a>
+    <a href="#">Facebook</a>
+  </div>
+</section>
+
 <footer>
-  <p>© 2026 Maison Élégance - Tous droits réservés</p>
+  <p>© 2026 Restaurant Élégance - Tous droits réservés</p>
 </footer>
 
 <script src="script.js"></script>
