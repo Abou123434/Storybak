@@ -1,28 +1,22 @@
-function wa(plat){
-  window.open("https://wa.me/22500000000?text=Je%20veux%20réserver%20:%20" + plat);
-}
-
-// Langue simple (demo)
-document.getElementById("lang").addEventListener("change", function(){
-  let lang = this.value;
-
-  if(lang === "en"){
-    document.getElementById("title").innerText = "Luxury Restaurant in Ivory Coast";
-    document.getElementById("subtitle").innerText = "Premium dining experience";
-  }
-
-  if(lang === "it"){
-    document.getElementById("title").innerText = "Ristorante di lusso in Costa d'Avorio";
-    document.getElementById("subtitle").innerText = "Esperienza gastronomica premium";
-  }
-
-  if(lang === "fr"){
-    location.reload();
-  }
-});
-
-// reservation
 document.getElementById("resForm").addEventListener("submit", function(e){
   e.preventDefault();
-  alert("Réservation envoyée avec succès !");
+
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let date = document.getElementById("date").value;
+  let time = document.getElementById("time").value;
+  let people = document.getElementById("people").value;
+  let message = document.getElementById("message").value;
+
+  let text = `Bonjour, je souhaite réserver une table:%0A
+Nom: ${name}%0A
+Téléphone: ${phone}%0A
+Date: ${date}%0A
+Heure: ${time}%0A
+Personnes: ${people}%0A
+Message: ${message}`;
+
+  let whatsappURL = `https://wa.me/225000000000?text=${text}`;
+
+  window.open(whatsappURL, "_blank");
 });
