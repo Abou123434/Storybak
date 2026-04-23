@@ -1,73 +1,85 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: #0d0d0d;
+  background: #0b0b0b;
   color: white;
 }
 
+/* HEADER */
 header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
   background: black;
-  padding: 20px;
-  text-align: center;
 }
 
-nav a {
-  margin: 10px;
-  color: gold;
-  text-decoration: none;
-}
-
+/* HERO */
 .hero {
+  padding: 30px;
   text-align: center;
-  padding: 60px;
-  background: url('https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba') center/cover;
+  background: linear-gradient(to bottom, #111, #000);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
+/* MENU MOBILE */
+.menu {
+  padding: 10px;
 }
 
 .card {
+  display: flex;
   background: #1a1a1a;
-  padding: 15px;
-  border-radius: 10px;
+  margin: 10px 0;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .card img {
-  width: 100%;
-  border-radius: 10px;
+  width: 120px;
+  object-fit: cover;
+}
+
+.card div {
+  padding: 10px;
 }
 
 button {
   background: gold;
   border: none;
-  padding: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-section {
-  padding: 40px;
-}
-
-.review {
-  background: #222;
-  margin: 10px;
-  padding: 10px;
-  border-left: 3px solid gold;
-}
-
-form input, select {
-  display: block;
+  padding: 8px;
+  margin-top: 5px;
   width: 100%;
-  margin: 10px 0;
+}
+
+/* BOOKING */
+.booking {
+  padding: 20px;
+  background: #111;
+}
+
+input, select {
+  width: 100%;
+  margin: 5px 0;
   padding: 10px;
 }
 
-.social a {
-  margin: 10px;
+/* HORAIRES */
+.hours, .reviews {
+  padding: 20px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: black;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.bottom-nav a {
   color: gold;
+  font-size: 20px;
+  text-decoration: none;
 }
