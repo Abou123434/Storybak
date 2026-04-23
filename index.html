@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maison Élégance</title>
+<title>Maison Élégance - Restaurant Gastronomique</title>
 
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
@@ -16,12 +16,10 @@
 
   <nav>
     <a href="#menu" data-translate="nav_menu">Menu</a>
-    <a href="#about" data-translate="nav_about">À propos</a>
-    <a href="#gallery" data-translate="nav_gallery">Galerie</a>
-    <a href="#reservation" class="btn-nav" data-translate="nav_book">Réserver</a>
+    <a href="#hours" data-translate="nav_hours">Horaires</a>
+    <a href="#reservation" data-translate="nav_book" class="btn-nav">Réserver</a>
   </nav>
 
-  <!-- SELECTEUR LANGUE -->
   <select id="languageSwitcher">
     <option value="fr">FR</option>
     <option value="en">EN</option>
@@ -33,101 +31,60 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <h1 data-translate="hero_title">L'expérience culinaire ultime</h1>
-    <p data-translate="hero_sub">Haute gastronomie • Produits d’exception • Instant magique</p>
+<div class="overlay"></div>
+<div class="hero-content">
+<h1 data-translate="hero_title">L’expérience culinaire ultime</h1>
+<p data-translate="hero_sub">Haute gastronomie • Produits d’exception</p>
 
-    <div class="hero-buttons">
-      <a href="#reservation" class="gold-btn" data-translate="book_table">Réserver une table</a>
-      <a href="#menu" class="white-btn" data-translate="view_menu">Voir le menu</a>
-    </div>
-  </div>
+<a href="#reservation" class="gold-btn" data-translate="book_table">Réserver une table</a>
+<a href="https://wa.me/22500000000" class="white-btn">WhatsApp</a>
+</div>
 </section>
+
+<a href="#reservation" class="floating-btn">Réserver</a>
 
 <!-- MENU -->
 <section id="menu" class="section">
 <h2 data-translate="menu_title">Notre Menu Signature</h2>
-
 <div class="menu-grid">
-<div class="dish">
-<img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
-<h3>Foie gras truffé</h3>
-<p>Foie gras maison, truffe noire</p>
-<span>28€</span>
-</div>
-
-<div class="dish">
-<img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
-<h3>Wagyu</h3>
-<p>Purée truffée, jus réduit</p>
-<span>52€</span>
-</div>
-
-<div class="dish">
-<img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601">
-<h3>Homard grillé</h3>
-<p>Beurre citronné</p>
-<span>48€</span>
-</div>
-</div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="section dark">
-<h2 data-translate="about_title">Notre Histoire</h2>
-<p data-translate="about_text">
-Depuis 2010, nous sublimons la gastronomie avec passion.
-</p>
-</section>
-
-<!-- GALERIE -->
-<section id="gallery" class="section">
-<h2 data-translate="gallery_title">Galerie</h2>
-<div class="gallery">
-<img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
-<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5">
-<img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c">
+<div class="dish"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"><h3>Foie gras</h3><span>28€</span></div>
+<div class="dish"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2"><h3>Wagyu</h3><span>52€</span></div>
+<div class="dish"><img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601"><h3>Homard</h3><span>48€</span></div>
 </div>
 </section>
 
 <!-- HORAIRES -->
-<section class="section dark">
-<h2 data-translate="hours_title">Horaires</h2>
+<section id="hours" class="section dark">
+<h2 data-translate="hours_title">Horaires d’ouverture</h2>
 <p id="status"></p>
-</section>
-
-<!-- MAP -->
-<section class="section">
-<h2 data-translate="find_us">Nous trouver</h2>
-<iframe src="https://maps.google.com/maps?q=Paris&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+<table class="hours">
+<tr><td>Lundi</td><td>12h-15h / 19h-23h</td></tr>
+<tr><td>Mardi</td><td>12h-15h / 19h-23h</td></tr>
+<tr><td>Mercredi</td><td>12h-15h / 19h-23h</td></tr>
+<tr><td>Jeudi</td><td>12h-15h / 19h-23h</td></tr>
+<tr><td>Vendredi</td><td>12h-15h / 19h-00h</td></tr>
+<tr><td>Samedi</td><td>19h-00h</td></tr>
+<tr><td>Dimanche</td><td>Fermé</td></tr>
+</table>
 </section>
 
 <!-- RESERVATION -->
-<section id="reservation" class="section dark">
+<section id="reservation" class="section">
 <h2 data-translate="reservation_title">Réserver une table</h2>
+
 <form id="bookingForm">
-<input placeholder="Nom" required>
-<input placeholder="Téléphone" required>
-<input placeholder="Email" required>
-<input type="datetime-local" required>
-<button class="gold-btn" data-translate="send">Envoyer</button>
+<input id="name" placeholder="Nom complet" required>
+<input id="phone" placeholder="Téléphone" required>
+<input id="people" type="number" placeholder="Nombre de personnes" required>
+<input id="date" type="date" required>
+<input id="time" type="time" required>
+<textarea id="message" placeholder="Message"></textarea>
+
+<button type="submit" class="gold-btn" data-translate="send_whatsapp">Envoyer via WhatsApp</button>
 </form>
 </section>
 
-<!-- AVIS -->
-<section class="section">
-<h2 data-translate="reviews_title">Avis clients</h2>
-<div class="reviews">
-<div>★★★★★ Expérience incroyable</div>
-<div>★★★★★ Restaurant exceptionnel</div>
-</div>
-</section>
-
-<footer>
-© 2026 Maison Élégance
-</footer>
-
+<footer>© 2026 Maison Élégance</footer>
 <script src="script.js"></script>
 </body>
 </html>
