@@ -1,28 +1,27 @@
 function reserver(plat) {
-  let msg = "Je veux réserver : " + plat;
+  let msg = "Bonjour, je veux réserver : " + plat;
   let url = "https://wa.me/22500000000?text=" + encodeURIComponent(msg);
   window.open(url, "_blank");
 }
 
-// LANGUES
 const texts = {
   fr: {
-    heroTitle: "Une expérience gastronomique unique",
-    heroText: "Cuisine raffinée, ambiance luxueuse, service premium"
+    title: "Cuisine d’exception dans un cadre royal",
+    desc: "Saveurs authentiques et service de prestige"
   },
   en: {
-    heroTitle: "A unique culinary experience",
-    heroText: "Fine dining, luxury atmosphere, premium service"
+    title: "Exceptional dining in a royal setting",
+    desc: "Authentic flavors and premium service"
   },
   it: {
-    heroTitle: "Un'esperienza gastronomica unica",
-    heroText: "Cucina raffinata, atmosfera di lusso"
+    title: "Cucina eccezionale in un ambiente reale",
+    desc: "Sapori autentici e servizio premium"
   }
 };
 
 function setLang(lang) {
-  document.getElementById("heroTitle").innerText = texts[lang].heroTitle;
-  document.getElementById("heroText").innerText = texts[lang].heroText;
+  document.getElementById("title").innerText = texts[lang].title;
+  document.getElementById("desc").innerText = texts[lang].desc;
 }
 
 function sendForm(e) {
