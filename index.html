@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUXE GASTRONOMIQUE | Restaurant Étoilé</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ÉCLAT — Restaurant Gastronomique</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
@@ -12,87 +12,91 @@
 <!-- HERO -->
 <header class="hero">
   <div class="overlay"></div>
-  <nav>
-    <h1 class="logo">LUXE GASTRONOMIQUE</h1>
+
+  <nav class="navbar">
+    <h1 class="logo">ÉCLAT</h1>
     <ul>
       <li><a href="#menu">Menu</a></li>
       <li><a href="#about">À propos</a></li>
       <li><a href="#gallery">Galerie</a></li>
-      <li><a href="#reservation">Réservation</a></li>
+      <li><a href="#reservation" class="btn-nav">Réserver</a></li>
     </ul>
   </nav>
 
   <div class="hero-content">
     <h2>L’expérience culinaire ultime</h2>
-    <p>Un voyage gastronomique unique dans un univers de luxe et de saveurs.</p>
-    <div class="buttons">
-      <a href="#reservation" class="btn gold">Réserver une table</a>
-      <a href="#menu" class="btn">Voir le menu</a>
+    <p>Une cuisine d’exception pensée pour éveiller vos sens</p>
+    <div class="hero-buttons">
+      <a href="#reservation" class="btn-gold">Réserver une table</a>
+      <a href="#menu" class="btn-outline">Voir le menu</a>
     </div>
   </div>
 </header>
 
 <!-- MENU -->
-<section id="menu">
-  <h2 class="section-title">Notre Menu</h2>
+<section id="menu" class="section">
+  <h2 class="title">Notre Menu</h2>
 
   <div class="menu-grid">
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="">
-      <h3>Filet de bœuf truffé</h3>
-      <p>Viande premium, sauce truffe noire et purée maison.</p>
-      <span>45€</span>
-      <button>Commander</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="">
-      <h3>Saumon grillé</h3>
-      <p>Saumon frais, légumes croquants, sauce citron.</p>
-      <span>32€</span>
-      <button>Commander</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b" alt="">
-      <h3>Fondant chocolat</h3>
-      <p>Dessert chaud avec cœur coulant au chocolat belge.</p>
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947" />
+      <h3>Entrée Signature</h3>
+      <p>Foie gras, réduction balsamique, pain brioché</p>
       <span>18€</span>
-      <button>Commander</button>
+      <button>Réserver ce plat</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" />
+      <h3>Filet Royal</h3>
+      <p>Bœuf premium, sauce truffe noire</p>
+      <span>42€</span>
+      <button>Réserver ce plat</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b" />
+      <h3>Dessert Or</h3>
+      <p>Chocolat fondant, caramel premium</p>
+      <span>14€</span>
+      <button>Réserver ce plat</button>
     </div>
 
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about">
-  <h2 class="section-title">Notre Histoire</h2>
+<section id="about" class="section dark">
+  <h2 class="title">Notre Histoire</h2>
   <p>
-    Fondé par des chefs passionnés, notre restaurant incarne le luxe, la tradition et l’innovation culinaire.
-    Chaque plat est une œuvre d’art pensée pour éveiller les sens.
+    ÉCLAT est né d’une passion pour la haute gastronomie.
+    Notre chef fusionne tradition et innovation pour créer des expériences uniques.
   </p>
 </section>
 
 <!-- GALLERY -->
-<section id="gallery">
-  <h2 class="section-title">Galerie</h2>
+<section id="gallery" class="section">
+  <h2 class="title">Galerie</h2>
   <div class="gallery">
-    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
-    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
-    <img src="https://images.unsplash.com/photo-1555992336-03a23c7b20ee">
+    <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba"/>
+    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2"/>
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836"/>
   </div>
 </section>
 
 <!-- LOCATION -->
-<section id="location">
-  <h2 class="section-title">Localisation</h2>
-  <iframe src="https://www.google.com/maps/embed?pb="></iframe>
+<section class="section dark">
+  <h2 class="title">Localisation</h2>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18..."
+    loading="lazy">
+  </iframe>
 </section>
 
 <!-- RESERVATION -->
-<section id="reservation">
-  <h2 class="section-title">Réserver une table</h2>
+<section id="reservation" class="section">
+  <h2 class="title">Réserver une table</h2>
 
   <form id="form">
     <input type="text" placeholder="Nom complet" required>
@@ -101,7 +105,8 @@
     <input type="number" placeholder="Nombre de personnes" required>
     <input type="datetime-local" required>
     <textarea placeholder="Message"></textarea>
-    <button type="submit">Envoyer la réservation</button>
+
+    <button type="submit">Confirmer la réservation</button>
   </form>
 
   <div class="social">
@@ -111,9 +116,19 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- REVIEWS -->
+<section class="section dark">
+  <h2 class="title">Avis Clients</h2>
+
+  <div class="reviews">
+    <div class="review">⭐⭐⭐⭐⭐<br>“Incroyable expérience gastronomique.”</div>
+    <div class="review">⭐⭐⭐⭐⭐<br>“Service et ambiance exceptionnels.”</div>
+    <div class="review">⭐⭐⭐⭐⭐<br>“Le meilleur restaurant de la ville.”</div>
+  </div>
+</section>
+
 <footer>
-  <p>© 2026 LUXE GASTRONOMIQUE - Tous droits réservés</p>
+  <p>© 2026 ÉCLAT Restaurant — Tous droits réservés</p>
 </footer>
 
 <script src="script.js"></script>
