@@ -1,67 +1,121 @@
-body{
-margin:0;
-font-family:sans-serif;
-background:#0d0d0d;
-color:white;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-header{
-display:flex;
-justify-content:space-between;
-padding:15px;
-background:black;
+body {
+  background: #000;
+  color: #fff;
 }
 
-.lang button{
-margin:3px;
-padding:6px 10px;
-border:none;
-background:#c59d5f;
+/* NAVBAR */
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: black;
 }
 
-.hero{
-text-align:center;
-padding:80px 20px;
-background:url('https://images.unsplash.com/photo-1544025162-d76694265947') center/cover;
+nav {
+  display: flex;
+  gap: 20px;
 }
 
-.btn{
-display:inline-block;
-margin-top:15px;
-padding:10px 20px;
-background:#c59d5f;
-color:black;
-text-decoration:none;
+nav a {
+  color: gold;
+  text-decoration: none;
 }
 
-.menu{
-padding:30px;
+.menu-toggle {
+  display: none;
 }
 
-.cards{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
+/* HERO */
+.hero {
+  height: 100vh;
+  background: url('https://source.unsplash.com/1600x900/?luxury-restaurant') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.card{
-background:#1a1a1a;
-padding:15px;
-border-radius:10px;
-width:100%;
+.overlay {
+  text-align: center;
 }
 
-.card img{
-width:100%;
-border-radius:10px;
+.btn {
+  padding: 10px 20px;
+  border: 1px solid gold;
+  color: gold;
 }
 
-iframe{
-width:100%;
-height:300px;
-border:none;
+.btn.gold {
+  background: gold;
+  color: black;
 }
 
-@media(min-width:768px){
-.card{width:45%;}
+/* MENU */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+  padding: 40px;
+}
+
+.card {
+  background: #111;
+  padding: 15px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+}
+
+/* GALERIE */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+
+.gallery img {
+  width: 100%;
+}
+
+/* FORM */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+button {
+  background: gold;
+  border: none;
+  padding: 10px;
+}
+
+/* MAP */
+.map iframe {
+  width: 100%;
+  height: 300px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav {
+    display: none;
+    flex-direction: column;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
 }
