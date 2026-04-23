@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: Arial;
-  background: #0d0d0d;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
   color: white;
 }
 
@@ -13,23 +13,31 @@ header {
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: gold;
 }
 
 .hero {
   text-align: center;
-  padding: 80px 20px;
-  background: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0") center/cover;
+  padding: 100px 20px;
+  background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0') center/cover;
 }
 
 .hero h1 {
-  font-size: 40px;
+  font-size: 50px;
+}
+
+.btn {
+  background: gold;
+  padding: 12px 20px;
+  color: black;
+  text-decoration: none;
+  border-radius: 10px;
 }
 
 .menu {
-  padding: 40px;
+  padding: 50px;
 }
 
 .grid {
@@ -49,28 +57,44 @@ header {
   border-radius: 10px;
 }
 
-button {
-  background: gold;
-  border: none;
-  padding: 10px;
-  margin-top: 10px;
-  cursor: pointer;
+.actions a {
+  margin: 5px;
+  display: inline-block;
+  color: gold;
 }
 
-.info, .reviews, .reservation {
-  padding: 40px;
+.hours, .map, .reviews, .reservation {
+  padding: 50px;
   text-align: center;
 }
 
-form input, form select {
-  display: block;
+iframe {
+  width: 100%;
+  height: 300px;
+  border: none;
+}
+
+.review {
+  background: #1a1a1a;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+form input, form textarea {
   width: 80%;
-  margin: 10px auto;
+  margin: 10px;
   padding: 10px;
 }
 
-.social a {
-  margin: 10px;
-  color: gold;
-  text-decoration: none;
+button {
+  background: gold;
+  padding: 10px 20px;
+  border: none;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background: black;
 }
