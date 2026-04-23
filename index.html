@@ -1,121 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Restaurant LUX Côte d'Ivoire</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Gourmet Luxe</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <div class="logo">LUX RESTAURANT</div>
-
-  <select id="lang">
-    <option value="fr">Français</option>
-    <option value="en">English</option>
-    <option value="it">Italiano</option>
-  </select>
+  <div class="logo">🍽️ Le Gourmet Luxe</div>
+  <nav>
+    <a href="#menu">Menu</a>
+    <a href="#reservation">Réservation</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
 <section class="hero">
-  <h1 id="title">Cuisine de Luxe en Côte d'Ivoire</h1>
-  <p id="subtitle">Expérience gastronomique premium</p>
-  <a class="btn" href="#menu">Découvrir le menu</a>
+  <h1>Expérience Gastronomique Exceptionnelle</h1>
+  <p>Saveurs raffinées • Cuisine moderne • Ambiance luxueuse</p>
+  <a href="#reservation" class="btn">Réserver une table</a>
 </section>
 
-<!-- MENU -->
-<section id="menu">
-  <h2>Menu Prestige</h2>
+<section id="menu" class="menu">
+  <h2>Nos Plats Signature</h2>
 
   <div class="grid">
 
-    <!-- 10 PLATS -->
     <div class="card">
-      <img src="https://source.unsplash.com/600x400/?luxury-food,steak" />
-      <h3>Steak Royal</h3>
-      <p>Filet premium grillé sauce truffe.</p>
-      <div class="actions">
-        <a href="#" onclick="wa('Steak Royal')" class="wa">WhatsApp</a>
-        <a href="#" class="mail">Email</a>
-        <a href="#" class="fb">Facebook</a>
-        <a href="#" class="ig">Instagram</a>
-      </div>
+      <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2" />
+      <h3>Filet de bœuf premium</h3>
+      <p>Viande tendre, sauce truffe noire, légumes grillés.</p>
     </div>
 
     <div class="card">
-      <img src="https://source.unsplash.com/600x400/?lobster,luxury-food" />
-      <h3>Homard Prestige</h3>
-      <p>Homard grillé beurre citron.</p>
-      <div class="actions">
-        <a href="#" onclick="wa('Homard Prestige')" class="wa">WhatsApp</a>
-        <a href="#" class="mail">Email</a>
-        <a href="#" class="fb">Facebook</a>
-        <a href="#" class="ig">Instagram</a>
-      </div>
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947" />
+      <h3>Homard grillé</h3>
+      <p>Homard frais servi avec beurre citronné.</p>
     </div>
 
     <div class="card">
-      <img src="https://source.unsplash.com/600x400/?sushi,luxury-food" />
-      <h3>Sushi Imperial</h3>
-      <p>Assortiment japonais premium.</p>
-      <div class="actions">
-        <a href="#" onclick="wa('Sushi Imperial')" class="wa">WhatsApp</a>
-        <a href="#" class="mail">Email</a>
-        <a href="#" class="fb">Facebook</a>
-        <a href="#" class="ig">Instagram</a>
-      </div>
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
+      <h3>Pâtes italiennes luxe</h3>
+      <p>Crème parmesan, truffe blanche, basilic frais.</p>
     </div>
 
-    <!-- tu peux dupliquer jusqu’à 10 plats -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327" />
+      <h3>Dessert chocolat royal</h3>
+      <p>Fondant chocolat noir avec cœur coulant.</p>
+    </div>
+
   </div>
 </section>
 
-<!-- HORAIRES -->
-<section class="hours">
-  <h2>Horaires</h2>
-  <ul>
-    <li>Lundi - 10h à 23h</li>
-    <li>Mardi - 10h à 23h</li>
-    <li>Mercredi - 10h à 23h</li>
-    <li>Jeudi - 10h à 23h</li>
-    <li>Vendredi - 10h à 01h</li>
-    <li>Samedi - 11h à 02h</li>
-    <li>Dimanche - 11h à 22h</li>
-  </ul>
-</section>
-
-<!-- RESERVATION -->
-<section class="reservation">
-  <h2>Réservation</h2>
+<section id="reservation" class="reservation">
+  <h2>Réservation de Table</h2>
 
   <form id="resForm">
-    <input type="text" placeholder="Nom complet" required>
-    <input type="date" required>
-    <input type="time" required>
-    <textarea placeholder="Message"></textarea>
-    <button type="submit">Réserver</button>
+    <input type="text" id="name" placeholder="Nom complet" required>
+    <input type="tel" id="phone" placeholder="Téléphone" required>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required>
+    <input type="number" id="people" placeholder="Nombre de personnes" required>
+    <textarea id="message" placeholder="Message spécial"></textarea>
+
+    <button type="submit">Réserver via WhatsApp</button>
   </form>
 </section>
 
-<!-- MAP -->
-<section class="map">
-  <h2>Nous trouver</h2>
-  <a href="https://www.google.com/maps" target="_blank">Ouvrir Google Maps</a>
-</section>
+<section id="contact" class="contact">
+  <h2>Nous Trouver</h2>
 
-<!-- AVIS -->
-<section class="reviews">
-  <h2>Avis clients</h2>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31716.123!2d-3.999!3d5.336"
+    loading="lazy">
+  </iframe>
 
-  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Excellent restaurant luxe à Abidjan”</div>
-  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Service parfait et plats incroyables”</div>
-  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Meilleur restaurant que j’ai testé”</div>
+  <p>📍 Abidjan, Côte d'Ivoire</p>
 </section>
 
 <footer>
-  <p>© 2026 LUX RESTAURANT Côte d'Ivoire</p>
+  <p>© 2026 Le Gourmet Luxe - Tous droits réservés</p>
 </footer>
 
 <script src="script.js"></script>
