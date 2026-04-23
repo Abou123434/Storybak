@@ -3,21 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Luxury Restaurant</title>
+  <title>LUXE RESTAURANT</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
 
 <header>
   <div class="logo">LUXE RESTAURANT</div>
-
-  <nav>
-    <a href="#menu">Menu</a>
-    <a href="#reservation">Réservation</a>
-    <a href="#avis">Avis</a>
-    <a href="#contact">Contact</a>
-  </nav>
 
   <select id="lang">
     <option value="fr">FR</option>
@@ -26,156 +18,114 @@
   </select>
 </header>
 
-<!-- HERO -->
 <section class="hero">
-  <h1 id="title">Expérience Gastronomique de Luxe</h1>
-  <p id="subtitle">Saveurs raffinées - ambiance élégante - service premium</p>
+  <h1 data-i18n="title">Une expérience gastronomique d’exception</h1>
+  <p data-i18n="subtitle">Cuisine raffinée, ambiance luxueuse, service premium</p>
 </section>
 
-<!-- MENU -->
-<section id="menu" class="section">
-  <h2>Menu Signature</h2>
+<section class="menu">
+  <h2 data-i18n="menu">Nos Plats Signature</h2>
 
   <div class="grid">
 
     <!-- 10 PLATS -->
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" />
-      <h3>Steak Royal</h3>
-      <p>Filet premium grillé, sauce truffe.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a>
-        <a href="#">Gmail</a>
-        <a href="#">Facebook</a>
-        <a href="#">Instagram</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1544025162-d76694265947" />
-      <h3>Homard Prestige</h3>
-      <p>Homard frais avec beurre citronné.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
+      <h3>Truffle Pasta</h3>
+      <p>Crème, truffe noire italienne, parmesan affiné.</p>
     </div>
 
     <div class="card">
       <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" />
-      <h3>Pasta Truffe</h3>
-      <p>Pâtes artisanales crème truffée.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" />
-      <h3>Saumon Royal</h3>
-      <p>Saumon grillé sauce beurre blanc.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38" />
-      <h3>Pizza Gourmet</h3>
-      <p>Pizza artisanale mozzarella premium.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1604908177225-1f5c6b8b2f0a" />
-      <h3>Sushi Deluxe</h3>
-      <p>Sélection japonaise haut de gamme.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe" />
-      <h3>Burger Luxe</h3>
-      <p>Boeuf wagyu, cheddar affiné.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e" />
-      <h3>Salade Fraîcheur</h3>
-      <p>Avocat, quinoa, vinaigrette maison.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
+      <h3>Luxury Burger</h3>
+      <p>Boeuf wagyu, fromage premium, sauce maison.</p>
     </div>
 
     <div class="card">
       <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
-      <h3>Riz Royal</h3>
-      <p>Riz parfumé aux épices fines.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
+      <h3>Grilled Salmon</h3>
+      <p>Saumon frais grillé, légumes croquants.</p>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
-      <h3>Dessert Chocolat</h3>
-      <p>Fondant chocolat cœur coulant.</p>
-      <div class="btns">
-        <a href="#">WhatsApp</a><a href="#">Gmail</a><a href="#">Facebook</a><a href="#">Instagram</a>
-      </div>
+      <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e" />
+      <h3>Steak Royal</h3>
+      <p>Entrecôte premium, sauce poivre noir.</p>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92" />
+      <h3>Italian Pizza</h3>
+      <p>Pizza artisanale, mozzarella di bufala.</p>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19" />
+      <h3>Sushi Deluxe</h3>
+      <p>Assortiment sushi premium japonais.</p>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1604908177522-040a1b3b1f0d" />
+      <h3>Seafood Platter</h3>
+      <p>Fruits de mer frais, huîtres, crevettes.</p>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe" />
+      <h3>Chicken Gourmet</h3>
+      <p>Poulet rôti sauce fine aux herbes.</p>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
+      <h3>Vegan Bowl</h3>
+      <p>Bol sain avocat, quinoa, légumes frais.</p>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327" />
+      <h3>Chocolate Dessert</h3>
+      <p>Dessert chocolat noir fondant premium.</p>
     </div>
 
   </div>
 </section>
 
-<!-- RESERVATION -->
-<section id="reservation" class="section">
-  <h2>Réservation</h2>
+<section class="reservation">
+  <h2 data-i18n="reserve">Réservation</h2>
 
   <form id="form">
-    <input type="text" placeholder="Nom complet" required />
+    <input type="text" placeholder="Nom" required />
     <input type="date" required />
     <input type="time" required />
-    <input type="number" placeholder="Nombre de personnes" />
+    <input type="number" placeholder="Nombre de personnes" required />
     <textarea placeholder="Message"></textarea>
 
     <button type="submit">Réserver via WhatsApp</button>
   </form>
-</section>
 
-<!-- AVIS -->
-<section id="avis" class="section">
-  <h2>Avis Clients</h2>
-
-  <div class="avis">
-    <p>⭐⭐⭐⭐⭐ “Service incroyable et cuisine exceptionnelle.”</p>
-    <p>⭐⭐⭐⭐⭐ “Le meilleur restaurant que j’ai visité.”</p>
-    <p>⭐⭐⭐⭐⭐ “Luxury experience like in New York!”</p>
+  <div class="social">
+    <a href="#">WhatsApp</a>
+    <a href="#">Gmail</a>
+    <a href="#">Facebook</a>
+    <a href="#">Instagram</a>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="section">
-  <h2>Localisation & Horaires</h2>
-
-  <p>Lundi - Dimanche : 10h - 23h</p>
-
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18..."
-    width="100%" height="300"></iframe>
+<section class="map">
+  <h2>Localisation</h2>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18..." allowfullscreen></iframe>
 </section>
 
-<footer>
-  <p>© Luxury Restaurant 2026</p>
-</footer>
+<section class="reviews">
+  <h2>Avis Clients</h2>
+
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Service incroyable et plats délicieux”</div>
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Le meilleur restaurant de la ville”</div>
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Ambiance luxe parfaite”</div>
+</section>
 
 <script src="script.js"></script>
 </body>
-      </html>
+</html>
