@@ -5,81 +5,86 @@ body {
   color: white;
 }
 
-/* HEADER */
 header {
   display: flex;
   justify-content: space-between;
   padding: 15px;
   background: black;
+  border-bottom: 1px solid gold;
 }
 
-/* HERO */
+.logo {
+  font-size: 20px;
+  color: gold;
+  font-weight: bold;
+}
+
 .hero {
-  padding: 30px;
   text-align: center;
-  background: linear-gradient(to bottom, #111, #000);
+  padding: 80px 20px;
+  background: url('https://source.unsplash.com/1600x900/?luxury-restaurant') center/cover;
 }
 
-/* MENU MOBILE */
-.menu {
-  padding: 10px;
+.hero h1 {
+  font-size: 40px;
+}
+
+.btn {
+  background: gold;
+  padding: 10px 20px;
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+h2 {
+  text-align: center;
+  margin: 40px 0 20px;
+  color: gold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
 .card {
-  display: flex;
   background: #1a1a1a;
-  margin: 10px 0;
-  border-radius: 15px;
-  overflow: hidden;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .card img {
-  width: 120px;
-  object-fit: cover;
+  width: 100%;
+  border-radius: 10px;
 }
 
-.card div {
+.actions a {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px 8px;
+  font-size: 12px;
+  background: gold;
+  color: black;
+  text-decoration: none;
+}
+
+.hours, .reservation, .reviews, .map {
+  padding: 20px;
+  text-align: center;
+}
+
+form input, form textarea {
+  width: 80%;
+  margin: 5px;
   padding: 10px;
 }
 
 button {
   background: gold;
   border: none;
-  padding: 8px;
-  margin-top: 5px;
-  width: 100%;
-}
-
-/* BOOKING */
-.booking {
-  padding: 20px;
-  background: #111;
-}
-
-input, select {
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px;
-}
-
-/* HORAIRES */
-.hours, .reviews {
-  padding: 20px;
-}
-
-/* BOTTOM NAV */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: black;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-}
-
-.bottom-nav a {
-  color: gold;
-  font-size: 20px;
-  text-decoration: none;
+  padding: 10px 20px;
 }
