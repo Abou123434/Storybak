@@ -1,91 +1,76 @@
 body {
   margin: 0;
-  font-family: "Georgia", serif;
-  background: #f5f1e6;
-  color: #2b2b2b;
+  font-family: Arial;
+  background: #0d0d0d;
+  color: white;
 }
 
 header {
-  background: #3b2f2f;
-  color: gold;
+  display: flex;
+  justify-content: space-between;
   padding: 20px;
-  text-align: center;
+  background: black;
 }
 
-.lang button {
-  margin: 5px;
-  padding: 5px 10px;
-  background: gold;
-  border: none;
-  cursor: pointer;
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: gold;
 }
 
 .hero {
   text-align: center;
-  padding: 80px;
-  background: url("https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba") center/cover;
-  color: white;
+  padding: 80px 20px;
+  background: url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0") center/cover;
+}
+
+.hero h1 {
+  font-size: 40px;
 }
 
 .menu {
   padding: 40px;
 }
 
-.item {
-  display: flex;
-  background: white;
-  margin: 20px auto;
-  max-width: 900px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #1a1a1a;
+  padding: 15px;
   border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.item img {
-  width: 40%;
-  object-fit: cover;
+.card img {
+  width: 100%;
+  border-radius: 10px;
 }
 
-.item div {
-  padding: 20px;
-}
-
-.item button {
-  background: #3b2f2f;
-  color: gold;
-  padding: 10px;
+button {
+  background: gold;
   border: none;
+  padding: 10px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
-.hours, .map, .reservation {
-  text-align: center;
+.info, .reviews, .reservation {
   padding: 40px;
+  text-align: center;
 }
 
-form input {
+form input, form select {
   display: block;
+  width: 80%;
   margin: 10px auto;
   padding: 10px;
-  width: 60%;
 }
 
-form button {
-  background: #3b2f2f;
-  color: gold;
-  padding: 10px;
-  border: none;
-}
-
-.contact a {
+.social a {
   margin: 10px;
-  color: #3b2f2f;
-  font-weight: bold;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  background: #3b2f2f;
   color: gold;
+  text-decoration: none;
 }
