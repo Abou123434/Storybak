@@ -2,92 +2,145 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Le Jardin Royal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal Gourmet Restaurant</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-  <h1>🏛️ Le Jardin Royal</h1>
+  <div class="logo">Royal Gourmet</div>
 
-  <div class="lang">
-    <button onclick="setLang('fr')">FR</button>
-    <button onclick="setLang('en')">EN</button>
-    <button onclick="setLang('it')">IT</button>
-  </div>
+  <select id="lang" onchange="changeLang()">
+    <option value="fr">FR</option>
+    <option value="en">EN</option>
+    <option value="it">IT</option>
+  </select>
 </header>
 
 <section class="hero">
-  <h2 id="title">Cuisine d’exception dans un cadre royal</h2>
-  <p id="desc">Saveurs authentiques et service de prestige</p>
+  <h1 data-i18n="title">Expérience Gastronomique de Luxe</h1>
+  <p data-i18n="subtitle">Cuisine raffinée - Service premium - Ambiance élégante</p>
 </section>
 
 <section class="menu">
-  <h2>🍽️ Nos plats signatures</h2>
+  <h2>Menu</h2>
+  <div class="grid">
 
-  <div class="item">
-    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
-    <div>
-      <h3>Filet de bœuf royal</h3>
-      <p>Viande tendre, sauce maison, accompagnement classique.</p>
-      <button onclick="reserver('Filet de bœuf royal')">Réserver</button>
+    <!-- 10 PLATS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e">
+      <h3>Filet de bœuf truffé</h3>
+      <p>Viande premium avec sauce truffe noire.</p>
+      <button onclick="reserve('Filet de bœuf truffé')">Réserver</button>
     </div>
-  </div>
 
-  <div class="item">
-    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
-    <div>
-      <h3>Salade du chef</h3>
-      <p>Fraîcheur naturelle, légumes bio, vinaigrette maison.</p>
-      <button onclick="reserver('Salade du chef')">Réserver</button>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947">
+      <h3>Homard grillé</h3>
+      <p>Homard frais au beurre citronné.</p>
+      <button onclick="reserve('Homard grillé')">Réserver</button>
     </div>
-  </div>
 
-  <div class="item">
-    <img src="https://images.unsplash.com/photo-1604908177522-0404a1b8f0d7">
-    <div>
-      <h3>Pâtes italiennes tradition</h3>
-      <p>Recette authentique italienne, sauce tomate lente.</p>
-      <button onclick="reserver('Pâtes italiennes')">Réserver</button>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
+      <h3>Sushi premium</h3>
+      <p>Assortiment japonais haut de gamme.</p>
+      <button onclick="reserve('Sushi premium')">Réserver</button>
     </div>
-  </div>
 
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1604908177522-040a0b6a0c1d">
+      <h3>Poulet rôti miel</h3>
+      <p>Poulet fermier caramélisé.</p>
+      <button onclick="reserve('Poulet rôti miel')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38">
+      <h3>Pasta Alfredo</h3>
+      <p>Pâtes crémeuses italiennes.</p>
+      <button onclick="reserve('Pasta Alfredo')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe">
+      <h3>Pizza truffe</h3>
+      <p>Pizza artisanale à la truffe blanche.</p>
+      <button onclick="reserve('Pizza truffe')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+      <h3>Burger gourmet</h3>
+      <p>Steak Angus premium.</p>
+      <button onclick="reserve('Burger gourmet')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1553621042-f6e147245754">
+      <h3>Salade César luxe</h3>
+      <p>Salade fraîcheur premium.</p>
+      <button onclick="reserve('Salade César luxe')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+      <h3>Risotto champignons</h3>
+      <p>Risotto crémeux italien.</p>
+      <button onclick="reserve('Risotto champignons')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
+      <h3>Dessert chocolat fondant</h3>
+      <p>Gâteau chocolat cœur coulant.</p>
+      <button onclick="reserve('Dessert chocolat')">Réserver</button>
+    </div>
+
+  </div>
 </section>
 
-<section class="hours">
-  <h2>⏰ Horaires</h2>
-  <p>Lundi - Vendredi : 10h - 23h</p>
-  <p>Samedi : 11h - 00h</p>
-  <p>Dimanche : 12h - 22h</p>
+<section class="info">
+  <h2>Horaires</h2>
+  <p>Lundi - Dimanche : 10h00 - 23h00</p>
+
+  <h2>Localisation</h2>
+  <a href="https://www.google.com/maps" target="_blank">Ouvrir sur Google Maps</a>
 </section>
 
-<section class="map">
-  <h2>📍 Localisation</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18..."></iframe>
+<section class="reviews">
+  <h2>Avis clients</h2>
+  <p>⭐⭐⭐⭐⭐ "Meilleur restaurant d'Abidjan !" - Sarah</p>
+  <p>⭐⭐⭐⭐⭐ "Service incroyable et luxe total." - Marco</p>
+  <p>⭐⭐⭐⭐⭐ "Expérience inoubliable." - John</p>
 </section>
 
 <section class="reservation">
-  <h2>📅 Réservation</h2>
+  <h2>Réservation</h2>
 
-  <form onsubmit="sendForm(event)">
-    <input type="text" placeholder="Nom complet" required>
-    <input type="date" required>
-    <input type="time" required>
-    <input type="number" placeholder="Personnes" required>
-    <button>Envoyer</button>
+  <form onsubmit="sendReservation(event)">
+    <input type="text" id="name" placeholder="Nom" required>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required>
+
+    <select id="people">
+      <option>1 personne</option>
+      <option>2 personnes</option>
+      <option>3 personnes</option>
+      <option>4+ personnes</option>
+    </select>
+
+    <button type="submit">Réserver maintenant</button>
   </form>
 
-  <div class="contact">
-    <a href="https://wa.me/22500000000">WhatsApp</a>
-    <a href="mailto:restaurant@gmail.com">Email</a>
+  <div class="social">
+    <a href="#" onclick="whatsapp()">WhatsApp</a>
+    <a href="mailto:restaurant@gmail.com">Gmail</a>
+    <a href="#">Facebook</a>
     <a href="#">Instagram</a>
   </div>
 </section>
-
-<footer>
-  © 2026 Le Jardin Royal
-</footer>
 
 <script src="script.js"></script>
 </body>
