@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Restaurant Luxe</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <title>Le Jardin Royal</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <h1>🍽️ La Belle Table</h1>
+  <h1>🏛️ Le Jardin Royal</h1>
 
   <div class="lang">
     <button onclick="setLang('fr')">FR</button>
@@ -19,105 +18,75 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
-  <h2 id="heroTitle">Une expérience gastronomique unique</h2>
-  <p id="heroText">Cuisine raffinée, ambiance luxueuse, service premium</p>
+  <h2 id="title">Cuisine d’exception dans un cadre royal</h2>
+  <p id="desc">Saveurs authentiques et service de prestige</p>
 </section>
 
-<!-- PLATS -->
 <section class="menu">
-  <h2>🍴 Menu Signature</h2>
-  <div class="grid">
+  <h2>🍽️ Nos plats signatures</h2>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" />
-      <h3>Filet de bœuf truffé</h3>
-      <p>Steak premium, sauce truffe noire, légumes grillés.</p>
-      <button onclick="reserver('Filet de bœuf truffé')">Réserver</button>
+  <div class="item">
+    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+    <div>
+      <h3>Filet de bœuf royal</h3>
+      <p>Viande tendre, sauce maison, accompagnement classique.</p>
+      <button onclick="reserver('Filet de bœuf royal')">Réserver</button>
     </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1553621042-f6e147245754" />
-      <h3>Homard grillé</h3>
-      <p>Homard frais grillé au beurre citronné.</p>
-      <button onclick="reserver('Homard grillé')">Réserver</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
-      <h3>Poulet rôti gourmet</h3>
-      <p>Poulet fermier rôti aux herbes fines.</p>
-      <button onclick="reserver('Poulet rôti gourmet')">Réserver</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1604908177522-0404a1b8f0d7" />
-      <h3>Pâtes aux fruits de mer</h3>
-      <p>Crevettes, moules, sauce crémeuse.</p>
-      <button onclick="reserver('Pâtes fruits de mer')">Réserver</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
-      <h3>Salade exotique</h3>
-      <p>Avocat, mangue, crevettes fraîches.</p>
-      <button onclick="reserver('Salade exotique')">Réserver</button>
-    </div>
-
   </div>
+
+  <div class="item">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+    <div>
+      <h3>Salade du chef</h3>
+      <p>Fraîcheur naturelle, légumes bio, vinaigrette maison.</p>
+      <button onclick="reserver('Salade du chef')">Réserver</button>
+    </div>
+  </div>
+
+  <div class="item">
+    <img src="https://images.unsplash.com/photo-1604908177522-0404a1b8f0d7">
+    <div>
+      <h3>Pâtes italiennes tradition</h3>
+      <p>Recette authentique italienne, sauce tomate lente.</p>
+      <button onclick="reserver('Pâtes italiennes')">Réserver</button>
+    </div>
+  </div>
+
 </section>
 
-<!-- HORAIRES -->
 <section class="hours">
-  <h2>⏰ Horaires d'ouverture</h2>
-  <ul>
-    <li>Lundi - Vendredi : 10h - 23h</li>
-    <li>Samedi : 11h - 00h</li>
-    <li>Dimanche : 12h - 22h</li>
-  </ul>
+  <h2>⏰ Horaires</h2>
+  <p>Lundi - Vendredi : 10h - 23h</p>
+  <p>Samedi : 11h - 00h</p>
+  <p>Dimanche : 12h - 22h</p>
 </section>
 
-<!-- MAP -->
 <section class="map">
-  <h2>📍 Nous trouver</h2>
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3..."
-    loading="lazy">
-  </iframe>
+  <h2>📍 Localisation</h2>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18..."></iframe>
 </section>
 
-<!-- AVIS -->
-<section class="reviews">
-  <h2>⭐ Avis clients</h2>
-  <p>“Service exceptionnel et plats délicieux” – Awa K.</p>
-  <p>“Le meilleur restaurant à Abidjan” – John D.</p>
-  <p>“Ambiance luxe incroyable” – Marco L.</p>
-</section>
-
-<!-- RESERVATION -->
 <section class="reservation">
   <h2>📅 Réservation</h2>
 
   <form onsubmit="sendForm(event)">
-    <input type="text" placeholder="Nom complet" required />
-    <input type="date" required />
-    <input type="time" required />
-    <input type="number" placeholder="Nombre de personnes" required />
-
-    <button type="submit">Réserver maintenant</button>
+    <input type="text" placeholder="Nom complet" required>
+    <input type="date" required>
+    <input type="time" required>
+    <input type="number" placeholder="Personnes" required>
+    <button>Envoyer</button>
   </form>
 
-  <div class="social">
+  <div class="contact">
     <a href="https://wa.me/22500000000">WhatsApp</a>
     <a href="mailto:restaurant@gmail.com">Email</a>
-    <a href="#">Facebook</a>
     <a href="#">Instagram</a>
   </div>
 </section>
 
 <footer>
-  <p>© 2026 La Belle Table - Tous droits réservés</p>
+  © 2026 Le Jardin Royal
 </footer>
 
 <script src="script.js"></script>
