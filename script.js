@@ -1,32 +1,46 @@
-// LANGUE
-const lang = document.getElementById("lang");
-
-const texts = {
+const langData = {
   fr: {
-    title: "Expérience Gastronomique de Luxe",
-    subtitle: "Saveurs raffinées - ambiance élégante - service premium"
+    title: "Une expérience gastronomique d’exception",
+    subtitle: "Cuisine raffinée, ambiance luxueuse, service premium",
+    menu: "Nos Plats Signature",
+    reserve: "Réservation"
   },
   en: {
-    title: "Luxury Gastronomic Experience",
-    subtitle: "Refined flavors - elegant ambiance - premium service"
+    title: "An exceptional dining experience",
+    subtitle: "Fine cuisine, luxury atmosphere, premium service",
+    menu: "Our Signature Dishes",
+    reserve: "Reservation"
   },
   it: {
-    title: "Esperienza Gastronomica di Lusso",
-    subtitle: "Sapori raffinati - ambiente elegante - servizio premium"
+    title: "Un'esperienza gastronomica eccezionale",
+    subtitle: "Cucina raffinata, atmosfera di lusso, servizio premium",
+    menu: "I nostri piatti",
+    reserve: "Prenotazione"
   }
 };
 
-lang.addEventListener("change", () => {
-  document.getElementById("title").innerText = texts[lang.value].title;
-  document.getElementById("subtitle").innerText = texts[lang.value].subtitle;
+const langSelect = document.getElementById("lang");
+
+langSelect.addEventListener("change", (e) => {
+  const lang = e.target.value;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    el.textContent = langData[lang][key];
+  });
 });
 
-// RESERVATION WHATSAPP
+// WhatsApp reservation
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
 
-  let msg = "Nouvelle réservation restaurant";
-  let url = "https://wa.me/225000000000?text=" + encodeURIComponent(msg);
+  const inputs = this.querySelectorAll("input, textarea");
+  let msg = "Nouvelle réservation:%0A";
 
-  window.open(url, "_blank");
+  inputs.forEach(i => {
+    msg += i.placeholder + ": " + i.value + "%0A";
+  });
+
+  const phone = "225000000000"; // change ton numéro
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
 });
