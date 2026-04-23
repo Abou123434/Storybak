@@ -1,67 +1,133 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taverna dei Rutuli</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maison Élégance</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<!-- NAVBAR -->
 <header>
-<h1>La Taverna dei Rutuli</h1>
-<div class="lang">
-<button onclick="setLang('it')">IT</button>
-<button onclick="setLang('fr')">FR</button>
-<button onclick="setLang('en')">EN</button>
-<button onclick="setLang('de')">DE</button>
-</div>
+  <div class="logo">Maison Élégance</div>
+  <nav id="nav">
+    <a href="#home">Accueil</a>
+    <a href="#menu">Menu</a>
+    <a href="#reservation">Réservation</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
 </header>
 
-<section class="hero">
-<h2 id="heroTitle"></h2>
-<p id="heroText"></p>
-<a id="reserveBtn" target="_blank" class="btn"></a>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="overlay">
+    <h1>Expérience Gastronomique Unique</h1>
+    <p>Le luxe dans chaque assiette</p>
+    <div class="buttons">
+      <a href="#reservation" class="btn gold">Réserver</a>
+      <a href="#menu" class="btn">Voir le Menu</a>
+    </div>
+  </div>
 </section>
 
-<section class="menu">
-<h2 id="menuTitle"></h2>
-<div class="cards">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1558030006-450675393462">
-<h3>Bistecca alla brace</h3>
-<p id="dish1"></p>
-<a class="btn" href="https://wa.me/393913404676" target="_blank">WhatsApp</a>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-<h3>Pasta fresca</h3>
-<p id="dish2"></p>
-<a class="btn" href="https://wa.me/393913404676" target="_blank">WhatsApp</a>
-</div>
-
-</div>
+<!-- HISTOIRE -->
+<section class="about">
+  <h2>Notre Histoire</h2>
+  <p>
+    Depuis plus de 20 ans, Maison Élégance incarne l’excellence culinaire.
+    Nos chefs sélectionnent des ingrédients d’exception pour offrir une expérience inoubliable.
+  </p>
 </section>
 
-<section class="story">
-<h2 id="storyTitle"></h2>
-<p id="storyText"></p>
+<!-- MENU -->
+<section class="menu" id="menu">
+  <h2>Notre Menu</h2>
+  <div class="menu-grid">
+
+    <!-- PLAT -->
+    <div class="card">
+      <img src="https://source.unsplash.com/400x300/?gourmet" />
+      <h3>Filet de Bœuf Truffé</h3>
+      <p>Viande tendre accompagnée de sauce à la truffe noire.</p>
+      <span>45€</span>
+      <div class="actions">
+        <a href="https://wa.me/" target="_blank">WhatsApp</a>
+        <a href="#reservation">Réserver</a>
+      </div>
+    </div>
+
+    <!-- DUPLIQUE 10 FOIS -->
+    <div class="card">
+      <img src="https://source.unsplash.com/400x300/?salmon" />
+      <h3>Saumon Royal</h3>
+      <p>Saumon grillé avec réduction citronnée.</p>
+      <span>38€</span>
+      <div class="actions">
+        <a href="#">WhatsApp</a>
+        <a href="#reservation">Réserver</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://source.unsplash.com/400x300/?pasta" />
+      <h3>Pâtes aux Fruits de Mer</h3>
+      <p>Mélange raffiné de fruits de mer frais.</p>
+      <span>32€</span>
+      <div class="actions">
+        <a href="#">WhatsApp</a>
+        <a href="#reservation">Réserver</a>
+      </div>
+    </div>
+
+    <!-- Ajoute plus de plats pareil jusqu’à 10 -->
+    
+  </div>
 </section>
 
+<!-- GALERIE -->
+<section class="gallery">
+  <h2>Galerie</h2>
+  <div class="gallery-grid">
+    <img src="https://source.unsplash.com/400x400/?restaurant"/>
+    <img src="https://source.unsplash.com/400x400/?food"/>
+    <img src="https://source.unsplash.com/400x400/?chef"/>
+    <img src="https://source.unsplash.com/400x400/?luxury-dinner"/>
+  </div>
+</section>
+
+<!-- RÉSERVATION -->
+<section class="reservation" id="reservation">
+  <h2>Réserver une table</h2>
+  <form>
+    <input type="text" placeholder="Nom" required>
+    <input type="email" placeholder="Email" required>
+    <input type="tel" placeholder="Téléphone" required>
+    <input type="date" required>
+    <input type="time" required>
+    <input type="number" placeholder="Personnes" required>
+    <button type="submit">Réserver</button>
+  </form>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2>Contact</h2>
+  <p>📍 Abidjan, Côte d’Ivoire</p>
+  <p>📞 +225 00 00 00 00</p>
+  <p>📧 contact@restaurant.com</p>
+</section>
+
+<!-- MAP -->
 <section class="map">
-<iframe src="https://maps.google.com/maps?q=Ardea&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+  <iframe src="https://maps.google.com/maps?q=abidjan&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
 </section>
 
-<section class="contact">
-<h2 id="contactTitle"></h2>
-<p id="address"></p>
-<p id="phone"></p>
-</section>
-
+<!-- FOOTER -->
 <footer>
-<p>© 2026 Taverna dei Rutuli</p>
+  <p>© 2026 Maison Élégance - Tous droits réservés</p>
 </footer>
 
 <script src="script.js"></script>
