@@ -3,128 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LUXE RESTAURANT</title>
+  <title>Restaurant Luxe</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">LUXE RESTAURANT</div>
+  <h1>🍽️ La Belle Table</h1>
 
-  <select id="lang">
-    <option value="fr">FR</option>
-    <option value="en">EN</option>
-    <option value="it">IT</option>
-  </select>
+  <div class="lang">
+    <button onclick="setLang('fr')">FR</button>
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('it')">IT</button>
+  </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <h1 data-i18n="title">Une expérience gastronomique d’exception</h1>
-  <p data-i18n="subtitle">Cuisine raffinée, ambiance luxueuse, service premium</p>
+  <h2 id="heroTitle">Une expérience gastronomique unique</h2>
+  <p id="heroText">Cuisine raffinée, ambiance luxueuse, service premium</p>
 </section>
 
+<!-- PLATS -->
 <section class="menu">
-  <h2 data-i18n="menu">Nos Plats Signature</h2>
-
+  <h2>🍴 Menu Signature</h2>
   <div class="grid">
 
-    <!-- 10 PLATS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" />
+      <h3>Filet de bœuf truffé</h3>
+      <p>Steak premium, sauce truffe noire, légumes grillés.</p>
+      <button onclick="reserver('Filet de bœuf truffé')">Réserver</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1553621042-f6e147245754" />
+      <h3>Homard grillé</h3>
+      <p>Homard frais grillé au beurre citronné.</p>
+      <button onclick="reserver('Homard grillé')">Réserver</button>
+    </div>
+
     <div class="card">
       <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
-      <h3>Truffle Pasta</h3>
-      <p>Crème, truffe noire italienne, parmesan affiné.</p>
+      <h3>Poulet rôti gourmet</h3>
+      <p>Poulet fermier rôti aux herbes fines.</p>
+      <button onclick="reserver('Poulet rôti gourmet')">Réserver</button>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" />
-      <h3>Luxury Burger</h3>
-      <p>Boeuf wagyu, fromage premium, sauce maison.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
-      <h3>Grilled Salmon</h3>
-      <p>Saumon frais grillé, légumes croquants.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e" />
-      <h3>Steak Royal</h3>
-      <p>Entrecôte premium, sauce poivre noir.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1562967916-eb82221dfb92" />
-      <h3>Italian Pizza</h3>
-      <p>Pizza artisanale, mozzarella di bufala.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19" />
-      <h3>Sushi Deluxe</h3>
-      <p>Assortiment sushi premium japonais.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1604908177522-040a1b3b1f0d" />
-      <h3>Seafood Platter</h3>
-      <p>Fruits de mer frais, huîtres, crevettes.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe" />
-      <h3>Chicken Gourmet</h3>
-      <p>Poulet rôti sauce fine aux herbes.</p>
+      <img src="https://images.unsplash.com/photo-1604908177522-0404a1b8f0d7" />
+      <h3>Pâtes aux fruits de mer</h3>
+      <p>Crevettes, moules, sauce crémeuse.</p>
+      <button onclick="reserver('Pâtes fruits de mer')">Réserver</button>
     </div>
 
     <div class="card">
       <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
-      <h3>Vegan Bowl</h3>
-      <p>Bol sain avocat, quinoa, légumes frais.</p>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327" />
-      <h3>Chocolate Dessert</h3>
-      <p>Dessert chocolat noir fondant premium.</p>
+      <h3>Salade exotique</h3>
+      <p>Avocat, mangue, crevettes fraîches.</p>
+      <button onclick="reserver('Salade exotique')">Réserver</button>
     </div>
 
   </div>
 </section>
 
-<section class="reservation">
-  <h2 data-i18n="reserve">Réservation</h2>
+<!-- HORAIRES -->
+<section class="hours">
+  <h2>⏰ Horaires d'ouverture</h2>
+  <ul>
+    <li>Lundi - Vendredi : 10h - 23h</li>
+    <li>Samedi : 11h - 00h</li>
+    <li>Dimanche : 12h - 22h</li>
+  </ul>
+</section>
 
-  <form id="form">
-    <input type="text" placeholder="Nom" required />
+<!-- MAP -->
+<section class="map">
+  <h2>📍 Nous trouver</h2>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3..."
+    loading="lazy">
+  </iframe>
+</section>
+
+<!-- AVIS -->
+<section class="reviews">
+  <h2>⭐ Avis clients</h2>
+  <p>“Service exceptionnel et plats délicieux” – Awa K.</p>
+  <p>“Le meilleur restaurant à Abidjan” – John D.</p>
+  <p>“Ambiance luxe incroyable” – Marco L.</p>
+</section>
+
+<!-- RESERVATION -->
+<section class="reservation">
+  <h2>📅 Réservation</h2>
+
+  <form onsubmit="sendForm(event)">
+    <input type="text" placeholder="Nom complet" required />
     <input type="date" required />
     <input type="time" required />
     <input type="number" placeholder="Nombre de personnes" required />
-    <textarea placeholder="Message"></textarea>
 
-    <button type="submit">Réserver via WhatsApp</button>
+    <button type="submit">Réserver maintenant</button>
   </form>
 
   <div class="social">
-    <a href="#">WhatsApp</a>
-    <a href="#">Gmail</a>
+    <a href="https://wa.me/22500000000">WhatsApp</a>
+    <a href="mailto:restaurant@gmail.com">Email</a>
     <a href="#">Facebook</a>
     <a href="#">Instagram</a>
   </div>
 </section>
 
-<section class="map">
-  <h2>Localisation</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18..." allowfullscreen></iframe>
-</section>
-
-<section class="reviews">
-  <h2>Avis Clients</h2>
-
-  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Service incroyable et plats délicieux”</div>
-  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Le meilleur restaurant de la ville”</div>
-  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Ambiance luxe parfaite”</div>
-</section>
+<footer>
+  <p>© 2026 La Belle Table - Tous droits réservés</p>
+</footer>
 
 <script src="script.js"></script>
 </body>
