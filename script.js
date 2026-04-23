@@ -1,23 +1,40 @@
-// Animation scroll simple
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.style.opacity = 1;
-      entry.target.style.transform = "translateY(0)";
-    }
+// HORAIRES EN TEMPS RÉEL
+const hours = document.getElementById("hours");
+
+function updateHours() {
+  const now = new Date();
+  const h = now.getHours();
+
+  let status = "";
+
+  if (h >= 11 && h <= 15 || h >= 18 && h <= 23) {
+    status = "🟢 Ouvert maintenant";
+  } else {
+    status = "🔴 Fermé actuellement";
+  }
+
+  hours.innerHTML = `
+    <p>Lundi - Dimanche</p>
+    <p>12h - 15h | 19h - 23h</p>
+    <h3>${status}</h3>
+  `;
+}
+
+updateHours();
+setInterval(updateHours, 60000);
+
+// ANIMATION SIMPLE SCROLL
+document.querySelectorAll("a").forEach(a=>{
+  a.addEventListener("click", e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute("href")).scrollIntoView({
+      behavior:"smooth"
+    });
   });
 });
 
-document.querySelectorAll(".card, .review, .title").forEach(el => {
-  el.style.opacity = 0;
-  el.style.transform = "translateY(30px)";
-  el.style.transition = "0.6s ease";
-  observer.observe(el);
-});
-
-// Formulaire réservation
-document.getElementById("form").addEventListener("submit", function(e){
+// FORMULAIRE
+document.querySelector("form").addEventListener("submit", e=>{
   e.preventDefault();
-  alert("🍽️ Réservation envoyée avec succès ! Nous vous contactons bientôt.");
-  this.reset();
+  alert("Réservation envoyée avec succès 🍽️");
 });
