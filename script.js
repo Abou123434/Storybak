@@ -1,30 +1,18 @@
 function reserve(plat) {
-  const msg = "Je veux réserver : " + plat;
-  window.open("https://wa.me/225000000000?text=" + encodeURIComponent(msg));
+  window.open("https://wa.me/225000000000?text=Je veux réserver : " + plat);
 }
 
-function sendReservation(e) {
-  e.preventDefault();
-
-  alert("Réservation envoyée via WhatsApp !");
+function send() {
+  alert("Réservation envoyée ✔");
 }
 
-const translations = {
-  fr: {
-    title: "Une expérience culinaire d’exception",
-    subtitle: "Restaurant haut de gamme – Abidjan"
-  },
-  en: {
-    title: "A luxury culinary experience",
-    subtitle: "High-end restaurant – Abidjan"
-  },
-  it: {
-    title: "Un’esperienza culinaria di lusso",
-    subtitle: "Ristorante di alta classe – Abidjan"
-  }
+const t = {
+  fr: { title: "Expérience culinaire luxe", subtitle: "Abidjan - Côte d’Ivoire" },
+  en: { title: "Luxury dining experience", subtitle: "Abidjan - Ivory Coast" },
+  it: { title: "Esperienza culinaria di lusso", subtitle: "Abidjan - Costa d’Avorio" }
 };
 
-function setLang(lang) {
-  document.querySelector("[data-i18n='title']").innerText = translations[lang].title;
-  document.querySelector("[data-i18n='subtitle']").innerText = translations[lang].subtitle;
+function setLang(l) {
+  document.querySelector("[data-i18n='title']").innerText = t[l].title;
+  document.querySelector("[data-i18n='subtitle']").innerText = t[l].subtitle;
 }
