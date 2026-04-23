@@ -1,18 +1,28 @@
-function reserve(plat) {
-  window.open("https://wa.me/225000000000?text=Je veux réserver : " + plat);
+function wa(plat){
+  window.open("https://wa.me/22500000000?text=Je%20veux%20réserver%20:%20" + plat);
 }
 
-function send() {
-  alert("Réservation envoyée ✔");
-}
+// Langue simple (demo)
+document.getElementById("lang").addEventListener("change", function(){
+  let lang = this.value;
 
-const t = {
-  fr: { title: "Expérience culinaire luxe", subtitle: "Abidjan - Côte d’Ivoire" },
-  en: { title: "Luxury dining experience", subtitle: "Abidjan - Ivory Coast" },
-  it: { title: "Esperienza culinaria di lusso", subtitle: "Abidjan - Costa d’Avorio" }
-};
+  if(lang === "en"){
+    document.getElementById("title").innerText = "Luxury Restaurant in Ivory Coast";
+    document.getElementById("subtitle").innerText = "Premium dining experience";
+  }
 
-function setLang(l) {
-  document.querySelector("[data-i18n='title']").innerText = t[l].title;
-  document.querySelector("[data-i18n='subtitle']").innerText = t[l].subtitle;
-}
+  if(lang === "it"){
+    document.getElementById("title").innerText = "Ristorante di lusso in Costa d'Avorio";
+    document.getElementById("subtitle").innerText = "Esperienza gastronomica premium";
+  }
+
+  if(lang === "fr"){
+    location.reload();
+  }
+});
+
+// reservation
+document.getElementById("resForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  alert("Réservation envoyée avec succès !");
+});
