@@ -1,175 +1,114 @@
-// ================= VARIABLES =================
-let sequence = [];
-let player = [];
-let level = 1;
-let score = 0;
+// MENU MOBILE
+const burgerBtn = document.getElementById("burgerBtn");
+const navLinks = document.getElementById("navLinks");
 
-let timer;
-let timeLeft = 10;
+burgerBtn.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+});
 
-let canCheck = true;
-let canPlay = false;
+// FORM BOOKING
+const bookingForm = document.getElementById("bookingForm");
 
-const colors = ["red", "green", "blue", "yellow"];
+bookingForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-// 🔊 Sons
-const clickSound = document.getElementById("clickSound");
-const winSound = document.getElementById("winSound");
-const failSound = document.getElementById("failSound");
+  const arrival = document.getElementById("arrival").value;
+  const departure = document.getElementById("departure").value;
+  const adults = document.getElementById("adults").value;
+  const roomsCount = document.getElementById("roomsCount").value;
 
+  alert(
+    "Réservation demandée ✅\n\n" +
+    "Arrivée : " + arrival + "\n" +
+    "Départ : " + departure + "\n" +
+    "Adultes : " + adults + "\n" +
+    "Chambres : " + roomsCount + "\n\n" +
+    "Fonction démo : ici on connecterait un système de réservation."
+  );
+});
 
-// ================= START GAME =================
-function startGame() {
-  level = 1;
-  score = 0;
-  updateUI();
-  nextRound();
-}
+// BOUTONS RESERVER CHAMBRES
+const bookBtns = document.querySelectorAll(".book-btn");
 
+bookBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const roomName = btn.getAttribute("data-room");
+    alert("Vous avez choisi : " + roomName + "\n\nCliquez sur 'Voir les disponibilités' pour réserver.");
+  });
+});
 
-// ================= NEW ROUND =================
-function nextRound() {
-  player = [];
-  sequence = [];
-  canCheck = true;
-  canPlay = false;
+// FAQ ACCORDION
+const faqQuestions = document.querySelectorAll(".faq-question");
 
-  // longueur augmente avec niveau
-  let length = 3 + level;
+faqQuestions.forEach(question => {
+  question.addEventListener("click", () => {
+    const answer = question.nextElementSibling;
 
-  for (let i = 0; i < length; i++) {
-    sequence.push(colors[Math.floor(Math.random() * colors.length)]);
-  }
-
-  document.getElementById("msg").textContent = "👀 Observe bien !";
-  document.getElementById("flashGrid").style.display = "grid";
-  document.getElementById("answerBox").classList.add("hidden");
-
-  showSequence();
-}
-
-
-// ================= SHOW SEQUENCE =================
-function showSequence() {
-  let speed = level > 7 ? 250 : 600;
-  let i = 0;
-
-  let interval = setInterval(() => {
-    flash(sequence[i]);
-    i++;
-
-    if (i >= sequence.length) clearInterval(interval);
-  }, speed);
-
-  // passage phase réponse
-  setTimeout(() => {
-    document.getElementById("flashGrid").style.display = "none";
-    document.getElementById("answerBox").classList.remove("hidden");
-
-    canPlay = true;
-    startTimer();
-
-    document.getElementById("msg").textContent = "🎮 Reproduis la séquence";
-  }, sequence.length * speed + 600);
-}
-
-
-// ================= FLASH COLOR =================
-function flash(color) {
-  let el = document.querySelector("." + color);
-
-  el.classList.add("active");
-  clickSound.currentTime = 0;
-  clickSound.play();
-
-  document.body.classList.add("flash");
-
-  setTimeout(() => {
-    el.classList.remove("active");
-    document.body.classList.remove("flash");
-  }, 250);
-}
-
-
-// ================= PLAYER CLICK =================
-function pick(color) {
-  if (!canPlay) return;
-
-  player.push(color);
-
-  // petit feedback visuel
-  let el = document.querySelector(".pick-" + color);
-  el.classList.add("active");
-  setTimeout(() => el.classList.remove("active"), 150);
-}
-
-
-// ================= TIMER =================
-function startTimer() {
-  clearInterval(timer);
-  timeLeft = Math.max(2, 10 - level);
-
-  document.getElementById("timer").textContent = "⏱ " + timeLeft + "s";
-
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").textContent = "⏱ " + timeLeft + "s";
-
-    if (timeLeft <= 0) gameOver();
-  }, 1000);
-}
-
-
-// ================= CHECK ANSWER =================
-function check() {
-  if (!canCheck) return;
-  canCheck = false;
-  clearInterval(timer);
-
-  let correct = true;
-
-  if (player.length !== sequence.length) {
-    correct = false;
-  } else {
-    for (let i = 0; i < sequence.length; i++) {
-      if (player[i] !== sequence[i]) {
-        correct = false;
-        break;
-      }
+    if (answer.style.maxHeight) {
+      answer.style.maxHeight = null;
+    } else {
+      document.querySelectorAll(".faq-answer").forEach(a => a.style.maxHeight = null);
+      answer.style.maxHeight = answer.scrollHeight + "px";
     }
+  });
+});
+
+// REVIEWS DYNAMIQUES
+const reviewsData = [
+  { name: "VIGREUX R.", rating: 5, text: "Très bien accueilli, confort excellent, personnel au top." },
+  { name: "ESTHER G.", rating: 4, text: "Très bon hôtel, propre, pratique et accessible." },
+  { name: "ALIX F.", rating: 4.5, text: "Excellent séjour, rapport qualité/prix parfait." },
+  { name: "MÉLANIE A.", rating: 5, text: "Tout était parfait, calme, propre et agréable." },
+  { name: "MARTIN F.", rating: 1, text: "Expérience moyenne, mais bon emplacement." },
+  { name: "SANDRA L.", rating: 4, text: "Petit déjeuner complet, chambre confortable." },
+  { name: "DAVID P.", rating: 5, text: "Parfait pour un séjour proche d'Orly." },
+  { name: "KARIM A.", rating: 4.5, text: "Très bon service, parking sécurisé, je recommande." },
+  { name: "JULIE M.", rating: 4, text: "Hôtel moderne, propre, très pratique pour voyager." }
+];
+
+let reviewIndex = 0;
+const reviewsGrid = document.getElementById("reviewsGrid");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+function renderReviews(count = 3) {
+  for (let i = 0; i < count; i++) {
+    if (reviewIndex >= reviewsData.length) {
+      loadMoreBtn.style.display = "none";
+      return;
+    }
+
+    const review = reviewsData[reviewIndex];
+    const card = document.createElement("div");
+    card.classList.add("review-card");
+
+    card.innerHTML = `
+      <h4>${review.name}</h4>
+      <div class="stars">⭐ ${review.rating} / 5</div>
+      <p>${review.text}</p>
+    `;
+
+    reviewsGrid.appendChild(card);
+    reviewIndex++;
   }
+}
 
-  // ✅ BONNE REPONSE → niveau suivant direct (sans "GAGNÉ")
-  if (correct) {
-    winSound.play();
+renderReviews(3);
 
-    score += level * 10;
-    level++;
-    updateUI();
+loadMoreBtn.addEventListener("click", () => {
+  renderReviews(3);
+});
 
-    document.getElementById("msg").textContent = "👀 Niveau suivant...";
-    setTimeout(nextRound, 800);
+// BOUTON RETOUR EN HAUT
+const topBtn = document.getElementById("topBtn");
 
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    topBtn.style.display = "block";
   } else {
-    gameOver();
+    topBtn.style.display = "none";
   }
-}
+});
 
-
-// ================= GAME OVER =================
-function gameOver() {
-  clearInterval(timer);
-  canPlay = false;
-
-  failSound.play();
-  document.getElementById("msg").textContent = "❌ Game Over | Score : " + score;
-
-  setTimeout(startGame, 2000);
-}
-
-
-// ================= UI =================
-function updateUI() {
-  document.getElementById("score").textContent = score;
-  document.getElementById("level").textContent = level;
-}
+topBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
