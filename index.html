@@ -1,89 +1,106 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Restaurant Luxe</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUXE GASTRONOMIQUE | Restaurant Étoilé</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <!-- HERO -->
 <header class="hero">
-  <div class="overlay">
-    <h1>Restaurant Élégance</h1>
-    <p>L’expérience culinaire ultime</p>
+  <div class="overlay"></div>
+  <nav>
+    <h1 class="logo">LUXE GASTRONOMIQUE</h1>
+    <ul>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#gallery">Galerie</a></li>
+      <li><a href="#reservation">Réservation</a></li>
+    </ul>
+  </nav>
 
+  <div class="hero-content">
+    <h2>L’expérience culinaire ultime</h2>
+    <p>Un voyage gastronomique unique dans un univers de luxe et de saveurs.</p>
     <div class="buttons">
-      <a href="#reservation" class="btn">Réserver une table</a>
-      <a href="#menu" class="btn secondary">Voir le menu</a>
+      <a href="#reservation" class="btn gold">Réserver une table</a>
+      <a href="#menu" class="btn">Voir le menu</a>
     </div>
   </div>
 </header>
 
 <!-- MENU -->
-<section id="menu" class="section">
-  <h2>Notre Menu</h2>
+<section id="menu">
+  <h2 class="section-title">Notre Menu</h2>
 
   <div class="menu-grid">
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
-      <h3>Filet de Bœuf Royal</h3>
-      <p>Viande tendre servie avec sauce truffe.</p>
-      <span>25 000 FCFA</span>
-      <button onclick="reserve('Filet de Bœuf Royal')">Réserver ce plat</button>
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="">
+      <h3>Filet de bœuf truffé</h3>
+      <p>Viande premium, sauce truffe noire et purée maison.</p>
+      <span>45€</span>
+      <button>Commander</button>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" />
-      <h3>Pâtes Truffées</h3>
-      <p>Recette italienne premium à la crème de truffe.</p>
-      <span>18 000 FCFA</span>
-      <button onclick="reserve('Pâtes Truffées')">Réserver ce plat</button>
+      <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="">
+      <h3>Saumon grillé</h3>
+      <p>Saumon frais, légumes croquants, sauce citron.</p>
+      <span>32€</span>
+      <button>Commander</button>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
-      <h3>Dessert Chocolat Noir</h3>
-      <p>Fondant chocolat intense avec glace vanille.</p>
-      <span>9 000 FCFA</span>
-      <button onclick="reserve('Dessert Chocolat Noir')">Réserver ce plat</button>
+      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b" alt="">
+      <h3>Fondant chocolat</h3>
+      <p>Dessert chaud avec cœur coulant au chocolat belge.</p>
+      <span>18€</span>
+      <button>Commander</button>
     </div>
 
   </div>
 </section>
 
 <!-- ABOUT -->
-<section class="section dark">
-  <h2>À propos</h2>
+<section id="about">
+  <h2 class="section-title">Notre Histoire</h2>
   <p>
-    Restaurant Élégance est une expérience gastronomique unique,
-    où chaque plat est préparé avec passion et précision.
+    Fondé par des chefs passionnés, notre restaurant incarne le luxe, la tradition et l’innovation culinaire.
+    Chaque plat est une œuvre d’art pensée pour éveiller les sens.
   </p>
 </section>
 
-<!-- MAP -->
-<section class="section">
-  <h2>Localisation</h2>
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18..."
-    loading="lazy">
-  </iframe>
+<!-- GALLERY -->
+<section id="gallery">
+  <h2 class="section-title">Galerie</h2>
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
+    <img src="https://images.unsplash.com/photo-1555992336-03a23c7b20ee">
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <h2 class="section-title">Localisation</h2>
+  <iframe src="https://www.google.com/maps/embed?pb="></iframe>
 </section>
 
 <!-- RESERVATION -->
-<section id="reservation" class="section dark">
-  <h2>Réservation</h2>
+<section id="reservation">
+  <h2 class="section-title">Réserver une table</h2>
 
   <form id="form">
-    <input type="text" placeholder="Nom" required />
-    <input type="tel" placeholder="Téléphone" required />
-    <input type="date" required />
-    <input type="time" required />
+    <input type="text" placeholder="Nom complet" required>
+    <input type="tel" placeholder="Téléphone" required>
+    <input type="email" placeholder="Email" required>
+    <input type="number" placeholder="Nombre de personnes" required>
+    <input type="datetime-local" required>
     <textarea placeholder="Message"></textarea>
-
     <button type="submit">Envoyer la réservation</button>
   </form>
 
@@ -94,8 +111,9 @@
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <p>© 2026 Restaurant Élégance - Tous droits réservés</p>
+  <p>© 2026 LUXE GASTRONOMIQUE - Tous droits réservés</p>
 </footer>
 
 <script src="script.js"></script>
