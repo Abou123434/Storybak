@@ -2,120 +2,101 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Le Prestige Restaurant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le Prestige App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <h1>🍽️ Le Prestige Restaurant</h1>
+  <h1>🍽️ Prestige</h1>
 
   <div class="lang">
     <button onclick="setLang('fr')">FR</button>
     <button onclick="setLang('en')">EN</button>
     <button onclick="setLang('it')">IT</button>
   </div>
-
-  <nav>
-    <a href="#menu">Menu</a>
-    <a href="#hours">Horaires</a>
-    <a href="#reviews">Avis</a>
-    <a href="#reservation">Réservation</a>
-  </nav>
 </header>
 
-<!-- HERO -->
+<!-- HERO MOBILE -->
 <section class="hero">
-  <h2 data-i18n="title">Une expérience culinaire d’exception</h2>
-  <p data-i18n="subtitle">Restaurant haut de gamme – Abidjan</p>
+  <h2 data-i18n="title">Expérience culinaire luxe</h2>
+  <p data-i18n="subtitle">Abidjan - Côte d’Ivoire</p>
 </section>
 
-<!-- MENU -->
-<section id="menu">
-  <h2>🍴 Menu Signature</h2>
+<!-- MENU MOBILE -->
+<section class="menu">
 
-  <div class="grid">
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" />
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
+    <div>
       <h3>Filet de bœuf truffé</h3>
-      <p>Viande premium, sauce truffe noire italienne.</p>
+      <p>Viande premium + sauce truffe noire.</p>
       <button onclick="reserve('Filet de bœuf')">Réserver</button>
     </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2" />
-      <h3>Homard grillé</h3>
-      <p>Homard frais, beurre citronné et herbes fines.</p>
-      <button onclick="reserve('Homard grillé')">Réserver</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d" />
-      <h3>Sushi Royal</h3>
-      <p>Assortiment sushi luxe japonais premium.</p>
-      <button onclick="reserve('Sushi Royal')">Réserver</button>
-    </div>
-
-    <!-- Ajoute jusqu'à 10 plats pareil -->
   </div>
-</section>
 
-<!-- HORAIRES -->
-<section id="hours">
-  <h2>🕒 Horaires</h2>
-  <ul>
-    <li>Lundi - Vendredi : 10h - 23h</li>
-    <li>Samedi : 10h - 00h</li>
-    <li>Dimanche : 12h - 22h</li>
-  </ul>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
+    <div>
+      <h3>Homard grillé</h3>
+      <p>Beurre citronné + herbes fines.</p>
+      <button onclick="reserve('Homard')">Réserver</button>
+    </div>
+  </div>
 
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18..."
-    width="100%" height="250">
-  </iframe>
-</section>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
+    <div>
+      <h3>Sushi Royal</h3>
+      <p>Assortiment japonais premium.</p>
+      <button onclick="reserve('Sushi')">Réserver</button>
+    </div>
+  </div>
 
-<!-- AVIS -->
-<section id="reviews">
-  <h2>⭐ Avis clients</h2>
-
-  <div class="review">“Service incroyable, cuisine parfaite !” – Aïcha</div>
-  <div class="review">“Le meilleur restaurant d’Abidjan.” – Marc</div>
-  <div class="review">“Luxury experience 10/10.” – John</div>
 </section>
 
 <!-- RESERVATION -->
-<section id="reservation">
-  <h2>📅 Réservation</h2>
+<section class="booking">
+  <h2>📅 Réservation rapide</h2>
 
-  <form onsubmit="sendReservation(event)">
-    <input type="text" placeholder="Nom" required>
-    <input type="date" required>
-    <input type="time" required>
+  <input type="text" placeholder="Nom">
+  <input type="date">
+  <input type="time">
 
-    <select>
-      <option>1 personne</option>
-      <option>2 personnes</option>
-      <option>3-5 personnes</option>
-      <option>+5 personnes</option>
-    </select>
+  <select>
+    <option>1 personne</option>
+    <option>2 personnes</option>
+    <option>3-5 personnes</option>
+  </select>
 
-    <button type="submit">Réserver via WhatsApp</button>
-  </form>
-
-  <div class="social">
-    <a href="https://wa.me/225000000000">WhatsApp</a>
-    <a href="#">Gmail</a>
-    <a href="#">Facebook</a>
-    <a href="#">Instagram</a>
-  </div>
+  <button onclick="send()">Valider réservation</button>
 </section>
 
-<footer>
-  <p>© 2026 Le Prestige Restaurant - Abidjan</p>
-</footer>
+<!-- HORAIRES -->
+<section class="hours">
+  <h2>🕒 Horaires</h2>
+  <p>Lun - Ven : 10h - 23h</p>
+  <p>Sam : 10h - 00h</p>
+  <p>Dim : 12h - 22h</p>
+</section>
+
+<!-- AVIS -->
+<section class="reviews">
+  <h2>⭐ Avis</h2>
+  <p>“Incroyable expérience luxe”</p>
+  <p>“Meilleur restaurant d’Abidjan”</p>
+  <p>“Service 5 étoiles”</p>
+</section>
+
+<!-- BOTTOM NAV MOBILE -->
+<nav class="bottom-nav">
+  <a href="#menu">🍽️</a>
+  <a href="#booking">📅</a>
+  <a href="#hours">🕒</a>
+  <a href="#reviews">⭐</a>
+</nav>
 
 <script src="script.js"></script>
 </body>
