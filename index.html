@@ -1,102 +1,122 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Le Prestige App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurant LUX Côte d'Ivoire</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-  <h1>🍽️ Prestige</h1>
+  <div class="logo">LUX RESTAURANT</div>
 
-  <div class="lang">
-    <button onclick="setLang('fr')">FR</button>
-    <button onclick="setLang('en')">EN</button>
-    <button onclick="setLang('it')">IT</button>
-  </div>
+  <select id="lang">
+    <option value="fr">Français</option>
+    <option value="en">English</option>
+    <option value="it">Italiano</option>
+  </select>
 </header>
 
-<!-- HERO MOBILE -->
 <section class="hero">
-  <h2 data-i18n="title">Expérience culinaire luxe</h2>
-  <p data-i18n="subtitle">Abidjan - Côte d’Ivoire</p>
+  <h1 id="title">Cuisine de Luxe en Côte d'Ivoire</h1>
+  <p id="subtitle">Expérience gastronomique premium</p>
+  <a class="btn" href="#menu">Découvrir le menu</a>
 </section>
 
-<!-- MENU MOBILE -->
-<section class="menu">
+<!-- MENU -->
+<section id="menu">
+  <h2>Menu Prestige</h2>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
-    <div>
-      <h3>Filet de bœuf truffé</h3>
-      <p>Viande premium + sauce truffe noire.</p>
-      <button onclick="reserve('Filet de bœuf')">Réserver</button>
+  <div class="grid">
+
+    <!-- 10 PLATS -->
+    <div class="card">
+      <img src="https://source.unsplash.com/600x400/?luxury-food,steak" />
+      <h3>Steak Royal</h3>
+      <p>Filet premium grillé sauce truffe.</p>
+      <div class="actions">
+        <a href="#" onclick="wa('Steak Royal')" class="wa">WhatsApp</a>
+        <a href="#" class="mail">Email</a>
+        <a href="#" class="fb">Facebook</a>
+        <a href="#" class="ig">Instagram</a>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
-    <div>
-      <h3>Homard grillé</h3>
-      <p>Beurre citronné + herbes fines.</p>
-      <button onclick="reserve('Homard')">Réserver</button>
+    <div class="card">
+      <img src="https://source.unsplash.com/600x400/?lobster,luxury-food" />
+      <h3>Homard Prestige</h3>
+      <p>Homard grillé beurre citron.</p>
+      <div class="actions">
+        <a href="#" onclick="wa('Homard Prestige')" class="wa">WhatsApp</a>
+        <a href="#" class="mail">Email</a>
+        <a href="#" class="fb">Facebook</a>
+        <a href="#" class="ig">Instagram</a>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
-    <div>
-      <h3>Sushi Royal</h3>
+    <div class="card">
+      <img src="https://source.unsplash.com/600x400/?sushi,luxury-food" />
+      <h3>Sushi Imperial</h3>
       <p>Assortiment japonais premium.</p>
-      <button onclick="reserve('Sushi')">Réserver</button>
+      <div class="actions">
+        <a href="#" onclick="wa('Sushi Imperial')" class="wa">WhatsApp</a>
+        <a href="#" class="mail">Email</a>
+        <a href="#" class="fb">Facebook</a>
+        <a href="#" class="ig">Instagram</a>
+      </div>
     </div>
+
+    <!-- tu peux dupliquer jusqu’à 10 plats -->
   </div>
-
-</section>
-
-<!-- RESERVATION -->
-<section class="booking">
-  <h2>📅 Réservation rapide</h2>
-
-  <input type="text" placeholder="Nom">
-  <input type="date">
-  <input type="time">
-
-  <select>
-    <option>1 personne</option>
-    <option>2 personnes</option>
-    <option>3-5 personnes</option>
-  </select>
-
-  <button onclick="send()">Valider réservation</button>
 </section>
 
 <!-- HORAIRES -->
 <section class="hours">
-  <h2>🕒 Horaires</h2>
-  <p>Lun - Ven : 10h - 23h</p>
-  <p>Sam : 10h - 00h</p>
-  <p>Dim : 12h - 22h</p>
+  <h2>Horaires</h2>
+  <ul>
+    <li>Lundi - 10h à 23h</li>
+    <li>Mardi - 10h à 23h</li>
+    <li>Mercredi - 10h à 23h</li>
+    <li>Jeudi - 10h à 23h</li>
+    <li>Vendredi - 10h à 01h</li>
+    <li>Samedi - 11h à 02h</li>
+    <li>Dimanche - 11h à 22h</li>
+  </ul>
+</section>
+
+<!-- RESERVATION -->
+<section class="reservation">
+  <h2>Réservation</h2>
+
+  <form id="resForm">
+    <input type="text" placeholder="Nom complet" required>
+    <input type="date" required>
+    <input type="time" required>
+    <textarea placeholder="Message"></textarea>
+    <button type="submit">Réserver</button>
+  </form>
+</section>
+
+<!-- MAP -->
+<section class="map">
+  <h2>Nous trouver</h2>
+  <a href="https://www.google.com/maps" target="_blank">Ouvrir Google Maps</a>
 </section>
 
 <!-- AVIS -->
 <section class="reviews">
-  <h2>⭐ Avis</h2>
-  <p>“Incroyable expérience luxe”</p>
-  <p>“Meilleur restaurant d’Abidjan”</p>
-  <p>“Service 5 étoiles”</p>
+  <h2>Avis clients</h2>
+
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Excellent restaurant luxe à Abidjan”</div>
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Service parfait et plats incroyables”</div>
+  <div class="review">⭐️⭐️⭐️⭐️⭐️ “Meilleur restaurant que j’ai testé”</div>
 </section>
 
-<!-- BOTTOM NAV MOBILE -->
-<nav class="bottom-nav">
-  <a href="#menu">🍽️</a>
-  <a href="#booking">📅</a>
-  <a href="#hours">🕒</a>
-  <a href="#reviews">⭐</a>
-</nav>
+<footer>
+  <p>© 2026 LUX RESTAURANT Côte d'Ivoire</p>
+</footer>
 
 <script src="script.js"></script>
 </body>
