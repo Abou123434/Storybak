@@ -6,95 +6,62 @@
 <title>Taverna dei Rutuli</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-  <div class="logo">Taverna Rutuli</div>
-
-  <nav>
-    <a href="#menu" data-key="menu">Menu</a>
-    <a href="#storia" data-key="story">Storia</a>
-    <a href="#contatti" data-key="contact">Contatti</a>
-  </nav>
-
-  <div class="lang">
-    <button onclick="setLang('it')">IT</button>
-    <button onclick="setLang('en')">EN</button>
-    <button onclick="setLang('fr')">FR</button>
-    <button onclick="setLang('de')">DE</button>
-  </div>
+<h1>La Taverna dei Rutuli</h1>
+<div class="lang">
+<button onclick="setLang('it')">IT</button>
+<button onclick="setLang('fr')">FR</button>
+<button onclick="setLang('en')">EN</button>
+<button onclick="setLang('de')">DE</button>
+</div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="overlay">
-    <h1 data-key="hero_title">Brace, Famiglia & Tradizione</h1>
-    <p data-key="hero_text">Un’esperienza autentica dal 1998</p>
-  </div>
+<h2 id="heroTitle"></h2>
+<p id="heroText"></p>
+<a id="reserveBtn" target="_blank" class="btn"></a>
 </section>
 
-<!-- MENU -->
-<section id="menu" class="section dark">
-  <h2 data-key="menu_title">Il Menu</h2>
+<section class="menu">
+<h2 id="menuTitle"></h2>
+<div class="cards">
 
-  <div class="menu">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1558030006-450675393462">
+<h3>Bistecca alla brace</h3>
+<p id="dish1"></p>
+<a class="btn" href="https://wa.me/393913404676" target="_blank">WhatsApp</a>
+</div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-      <h3 data-key="meat">Carne alla brace</h3>
-      <p class="desc" data-key="meat_desc">
-        Selezione esclusiva di carni premium cotte lentamente alla brace
-        con carbone naturale. Tagli scelti, succosi e ricchi di sapore,
-        serviti con olio extravergine e sale pregiato.
-      </p>
-      <button onclick="order('Carne')">WhatsApp</button>
-    </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+<h3>Pasta fresca</h3>
+<p id="dish2"></p>
+<a class="btn" href="https://wa.me/393913404676" target="_blank">WhatsApp</a>
+</div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642">
-      <h3 data-key="pasta">Pasta fatta in casa</h3>
-      <p class="desc" data-key="pasta_desc">
-        Pasta fresca lavorata a mano ogni giorno, trafilata al bronzo
-        e accompagnata da sughi tradizionali italiani preparati con ingredienti freschi.
-      </p>
-      <button onclick="order('Pasta')">WhatsApp</button>
-    </div>
-
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1544025162-d76694265947">
-      <h3 data-key="starter">Antipasti</h3>
-      <p class="desc" data-key="starter_desc">
-        Antipasti preparati con prodotti locali selezionati:
-        salumi artigianali, formaggi stagionati e specialità della casa.
-      </p>
-      <button onclick="order('Antipasti')">WhatsApp</button>
-    </div>
-
-  </div>
+</div>
 </section>
 
-<!-- STORIA -->
-<section id="storia" class="section">
-  <h2 data-key="story_title">La Nostra Storia</h2>
-  <p data-key="story_text">
-    Una storia di famiglia e passione iniziata nel 1998, costruita con dedizione,
-    tradizione e amore per la cucina autentica italiana.
-  </p>
-
-  <img class="food-img" src="https://images.unsplash.com/photo-1555992336-03a23c7b20ee">
+<section class="story">
+<h2 id="storyTitle"></h2>
+<p id="storyText"></p>
 </section>
 
-<!-- CONTACT -->
-<section id="contatti" class="section dark">
-  <h2 data-key="contact_title">Contatti</h2>
-  <p>📍 Via Catilina 6, Ardea</p>
-  <p>📞 +39 391 340 4676</p>
-  <a href="https://wa.me/393913404676" class="btn">WhatsApp</a>
+<section class="map">
+<iframe src="https://maps.google.com/maps?q=Ardea&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+</section>
+
+<section class="contact">
+<h2 id="contactTitle"></h2>
+<p id="address"></p>
+<p id="phone"></p>
 </section>
 
 <footer>
-  <p>© 2026 Taverna Rutuli</p>
+<p>© 2026 Taverna dei Rutuli</p>
 </footer>
 
 <script src="script.js"></script>
