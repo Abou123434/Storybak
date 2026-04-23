@@ -17,7 +17,8 @@
   <nav>
     <a href="#menu" data-translate="nav_menu">Menu</a>
     <a href="#hours" data-translate="nav_hours">Horaires</a>
-    <a href="#reservation" data-translate="nav_book" class="btn-nav">Réserver</a>
+    <a href="#location" data-translate="nav_location">Localisation</a>
+    <a href="#reservation" class="btn-nav" data-translate="nav_book">Réserver</a>
   </nav>
 
   <select id="languageSwitcher">
@@ -68,8 +69,19 @@
 </table>
 </section>
 
+<!-- LOCALISATION -->
+<section id="location" class="section">
+<h2 data-translate="find_us">Nous trouver</h2>
+
+<iframe 
+src="https://maps.google.com/maps?q=Paris&t=&z=13&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+<p class="address">📍 15 Avenue des Champs-Élysées, Paris</p>
+</section>
+
 <!-- RESERVATION -->
-<section id="reservation" class="section">
+<section id="reservation" class="section dark">
 <h2 data-translate="reservation_title">Réserver une table</h2>
 
 <form id="bookingForm">
