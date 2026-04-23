@@ -1,133 +1,149 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUXE GASTRONOMIQUE | Restaurant</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Élégance | Restaurant Gastronomique</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- HERO -->
-<header class="hero">
+<!-- NAVBAR -->
+<header>
+  <div class="logo">Maison Élégance</div>
   <nav>
-    <h1 class="logo">LUXE GASTRONOMIQUE</h1>
-    <ul>
-      <li><a href="#menu">Menu</a></li>
-      <li><a href="#about">À propos</a></li>
-      <li><a href="#gallery">Galerie</a></li>
-      <li><a href="#reservation">Réserver</a></li>
-    </ul>
+    <a href="#menu">Menu</a>
+    <a href="#about">À propos</a>
+    <a href="#gallery">Galerie</a>
+    <a href="#reservation" class="btn-nav">Réserver</a>
   </nav>
+</header>
 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-overlay"></div>
   <div class="hero-content">
-    <h2>L’expérience culinaire ultime</h2>
-    <p>Un voyage gastronomique entre luxe, émotion et perfection.</p>
-    <div class="buttons">
-      <a href="#reservation" class="btn gold">Réserver une table</a>
-      <a href="#menu" class="btn">Voir le menu</a>
+    <h1>L'expérience culinaire ultime</h1>
+    <p>Haute gastronomie • Produits d’exception • Instant magique</p>
+    <div class="hero-buttons">
+      <a href="#reservation" class="gold-btn">Réserver une table</a>
+      <a href="#menu" class="white-btn">Voir le menu</a>
     </div>
   </div>
-</header>
+</section>
 
 <!-- MENU -->
 <section id="menu" class="section">
-  <h2>Menu Signature</h2>
+<h2>Notre Menu Signature</h2>
+<div class="menu-grid">
 
-  <div class="menu-grid">
+<div class="dish">
+<img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
+<h3>Foie gras truffé</h3>
+<p>Foie gras maison, truffe noire, brioche toastée</p>
+<span>28€</span>
+<button>Réserver ce plat</button>
+</div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe" />
-      <h3>Foie Gras Royal</h3>
-      <p>Foie gras truffé, pain brioché</p>
-      <span>45€</span>
-      <button>Commander</button>
-    </div>
+<div class="dish">
+<img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
+<h3>Filet de bœuf Wagyu</h3>
+<p>Purée truffée, jus réduit au vin rouge</p>
+<span>52€</span>
+<button>Réserver ce plat</button>
+</div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2" />
-      <h3>Filet de Bœuf Wagyu</h3>
-      <p>Sauce au vin rouge, purée truffée</p>
-      <span>89€</span>
-      <button>Commander</button>
-    </div>
+<div class="dish">
+<img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601">
+<h3>Homard grillé</h3>
+<p>Beurre citronné, légumes croquants</p>
+<span>48€</span>
+<button>Réserver ce plat</button>
+</div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b" />
-      <h3>Fondant Chocolat Noir</h3>
-      <p>Cœur coulant, glace vanille</p>
-      <span>25€</span>
-      <button>Commander</button>
-    </div>
+<div class="dish">
+<img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb">
+<h3>Dessert signature</h3>
+<p>Chocolat grand cru & fruits rouges</p>
+<span>16€</span>
+<button>Réserver ce plat</button>
+</div>
 
-  </div>
+</div>
 </section>
 
 <!-- ABOUT -->
 <section id="about" class="section dark">
-  <h2>Notre Histoire</h2>
-  <p>
-    Depuis plus de 20 ans, notre chef étoilé crée des expériences uniques
-    où chaque plat est une œuvre d’art culinaire.
-  </p>
+<h2>Notre Histoire</h2>
+<p>
+Depuis 2010, Maison Élégance sublime la gastronomie avec passion.
+Notre chef étoilé sélectionne des produits d’exception pour créer une expérience sensorielle inoubliable.
+</p>
 </section>
 
 <!-- GALLERY -->
 <section id="gallery" class="section">
-  <h2>Galerie</h2>
-  <div class="gallery">
-    <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba">
-    <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e">
-    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0">
-  </div>
-</section>
-
-<!-- LOCATION -->
-<section class="section dark">
-  <h2>Localisation</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18..."
-  loading="lazy"></iframe>
+<h2>Galerie</h2>
+<div class="gallery">
+<img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5">
+<img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c">
+<img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1">
+</div>
 </section>
 
 <!-- HOURS -->
+<section class="section dark">
+<h2>Horaires d’ouverture</h2>
+<p id="status"></p>
+<table>
+<tr><td>Lundi - Vendredi</td><td>12h - 15h | 19h - 23h</td></tr>
+<tr><td>Samedi</td><td>19h - 00h</td></tr>
+<tr><td>Dimanche</td><td>Fermé</td></tr>
+</table>
+</section>
+
+<!-- MAP -->
 <section class="section">
-  <h2>Horaires d’ouverture</h2>
-  <div id="hours"></div>
+<h2>Nous trouver</h2>
+<iframe src="https://maps.google.com/maps?q=Paris&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
 </section>
 
 <!-- RESERVATION -->
 <section id="reservation" class="section dark">
-  <h2>Réservation</h2>
+<h2>Réserver une table</h2>
+<form id="bookingForm">
+<input type="text" placeholder="Nom" required>
+<input type="tel" placeholder="Téléphone" required>
+<input type="email" placeholder="Email" required>
+<input type="number" placeholder="Nombre de personnes" required>
+<input type="datetime-local" required>
+<textarea placeholder="Message"></textarea>
+<button type="submit" class="gold-btn">Envoyer la réservation</button>
+</form>
 
-  <form>
-    <input type="text" placeholder="Nom">
-    <input type="tel" placeholder="Téléphone">
-    <input type="email" placeholder="Email">
-    <input type="number" placeholder="Nombre de personnes">
-    <input type="datetime-local">
-    <textarea placeholder="Message"></textarea>
-    <button type="submit" class="btn gold">Réserver</button>
-  </form>
-
-  <div class="social">
-    <button>WhatsApp</button>
-    <button>Instagram</button>
-    <button>Email</button>
-  </div>
+<div class="quick-contact">
+<a href="#">WhatsApp</a>
+<a href="#">Instagram</a>
+<a href="#">Facebook</a>
+<a href="#">Email</a>
+</div>
 </section>
 
 <!-- REVIEWS -->
 <section class="section">
-  <h2>Avis clients</h2>
-  <div class="reviews">
-    <p>⭐⭐⭐⭐⭐ “Incroyable expérience, digne d’un étoilé Michelin”</p>
-    <p>⭐⭐⭐⭐⭐ “Service parfait et plats exceptionnels”</p>
-  </div>
+<h2>Avis clients</h2>
+<div class="reviews">
+<div class="review">★★★★★ Expérience incroyable !</div>
+<div class="review">★★★★★ Meilleur restaurant de la ville</div>
+<div class="review">★★★★★ Service parfait et plats divins</div>
+</div>
 </section>
 
 <footer>
-  <p>© 2026 LUXE GASTRONOMIQUE - Tous droits réservés</p>
+© 2026 Maison Élégance • Tous droits réservés
 </footer>
 
 <script src="script.js"></script>
