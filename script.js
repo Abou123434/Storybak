@@ -1,40 +1,29 @@
-// HORAIRES EN TEMPS RÉEL
-const hours = document.getElementById("hours");
+// STATUS OUVERT / FERMÉ
+const statusText = document.getElementById("status");
+const now = new Date().getHours();
 
-function updateHours() {
-  const now = new Date();
-  const h = now.getHours();
-
-  let status = "";
-
-  if (h >= 11 && h <= 15 || h >= 18 && h <= 23) {
-    status = "🟢 Ouvert maintenant";
-  } else {
-    status = "🔴 Fermé actuellement";
-  }
-
-  hours.innerHTML = `
-    <p>Lundi - Dimanche</p>
-    <p>12h - 15h | 19h - 23h</p>
-    <h3>${status}</h3>
-  `;
+if(now >= 12 && now <= 23){
+statusText.innerText = "🟢 Ouvert maintenant";
+statusText.style.color = "#4CAF50";
+}else{
+statusText.innerText = "🔴 Fermé actuellement";
+statusText.style.color = "red";
 }
 
-updateHours();
-setInterval(updateHours, 60000);
-
-// ANIMATION SIMPLE SCROLL
-document.querySelectorAll("a").forEach(a=>{
-  a.addEventListener("click", e=>{
-    e.preventDefault();
-    document.querySelector(a.getAttribute("href")).scrollIntoView({
-      behavior:"smooth"
-    });
-  });
+// Animation apparition scroll
+const elements = document.querySelectorAll(".section");
+window.addEventListener("scroll", () => {
+elements.forEach(el => {
+const position = el.getBoundingClientRect().top;
+if(position < window.innerHeight - 100){
+el.style.opacity = 1;
+el.style.transform = "translateY(0)";
+}
+});
 });
 
-// FORMULAIRE
-document.querySelector("form").addEventListener("submit", e=>{
-  e.preventDefault();
-  alert("Réservation envoyée avec succès 🍽️");
+// Simulation envoi réservation
+document.getElementById("bookingForm").addEventListener("submit", e=>{
+e.preventDefault();
+alert("Votre demande de réservation a été envoyée !");
 });
