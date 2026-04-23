@@ -1,22 +1,23 @@
-// Animation scroll simple (effet pro)
-const sections = document.querySelectorAll("section");
-
-window.addEventListener("scroll", () => {
-  sections.forEach(sec => {
-    const top = window.scrollY;
-    const offset = sec.offsetTop - 400;
-    const height = sec.offsetHeight;
-
-    if(top >= offset && top < offset + height){
-      sec.style.opacity = 1;
-      sec.style.transform = "translateY(0)";
-      sec.style.transition = "0.6s ease";
+// Animation scroll simple
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.style.opacity = 1;
+      entry.target.style.transform = "translateY(0)";
     }
   });
+});
+
+document.querySelectorAll(".card, .review, .title").forEach(el => {
+  el.style.opacity = 0;
+  el.style.transform = "translateY(30px)";
+  el.style.transition = "0.6s ease";
+  observer.observe(el);
 });
 
 // Formulaire réservation
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
-  alert("Réservation envoyée avec succès 🍽️");
+  alert("🍽️ Réservation envoyée avec succès ! Nous vous contactons bientôt.");
+  this.reset();
 });
