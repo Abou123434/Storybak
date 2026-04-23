@@ -1,100 +1,34 @@
-// HORAIRES OUVERT / FERME
-const statusText = document.getElementById("status");
-const hour = new Date().getHours();
-statusText.innerText = (hour>=12 && hour<=23) ? "🟢 Ouvert maintenant" : "🔴 Fermé";
+// HORAIRES AUTO
+const now=new Date();
+const day=now.getDay();
+const hour=now.getHours();
+let open=false;
 
-// 🌍 TRADUCTIONS
-const translations = {
-fr:{
-nav_menu:"Menu",nav_about:"À propos",nav_gallery:"Galerie",nav_book:"Réserver",
-hero_title:"L'expérience culinaire ultime",
-hero_sub:"Haute gastronomie • Produits d’exception • Instant magique",
-book_table:"Réserver une table",
-view_menu:"Voir le menu",
-menu_title:"Notre Menu Signature",
-about_title:"Notre Histoire",
-about_text:"Depuis 2010, nous sublimons la gastronomie avec passion.",
-gallery_title:"Galerie",
-hours_title:"Horaires",
-find_us:"Nous trouver",
-reservation_title:"Réserver une table",
-reviews_title:"Avis clients",
-send:"Envoyer"
-},
+if(day>=1 && day<=4 && hour>=12 && hour<=23) open=true;
+if(day==5 && hour>=12 && hour<=24) open=true;
+if(day==6 && hour>=19 && hour<=24) open=true;
 
-en:{
-nav_menu:"Menu",nav_about:"About",nav_gallery:"Gallery",nav_book:"Book",
-hero_title:"Ultimate dining experience",
-hero_sub:"Fine dining • Exceptional products • Magical moments",
-book_table:"Book a table",
-view_menu:"View menu",
-menu_title:"Our Menu",
-about_title:"Our Story",
-about_text:"Since 2010 we elevate gastronomy with passion.",
-gallery_title:"Gallery",
-hours_title:"Opening hours",
-find_us:"Find us",
-reservation_title:"Book a table",
-reviews_title:"Customer reviews",
-send:"Send"
-},
+document.getElementById("status").innerText = open ? "🟢 Ouvert maintenant" : "🔴 Fermé";
 
-it:{
-nav_menu:"Menu",nav_about:"Chi siamo",nav_gallery:"Galleria",nav_book:"Prenota",
-hero_title:"Esperienza culinaria definitiva",
-hero_sub:"Alta cucina • Prodotti eccezionali",
-book_table:"Prenota tavolo",
-view_menu:"Vedi menu",
-menu_title:"Il nostro menu",
-about_title:"La nostra storia",
-about_text:"Dal 2010 eleviamo la gastronomia.",
-gallery_title:"Galleria",
-hours_title:"Orari",
-find_us:"Dove siamo",
-reservation_title:"Prenota tavolo",
-reviews_title:"Recensioni",
-send:"Invia"
-},
+// WHATSAPP FORM
+document.getElementById("bookingForm").addEventListener("submit",e=>{
+e.preventDefault();
+let text=`Nouvelle réservation:%0A Nom:${name.value}%0A Téléphone:${phone.value}%0A Personnes:${people.value}%0A Date:${date.value}%0A Heure:${time.value}%0A Message:${message.value}`;
+window.open(`https://wa.me/22500000000?text=${text}`);
+});
 
-de:{
-nav_menu:"Menü",nav_about:"Über uns",nav_gallery:"Galerie",nav_book:"Reservieren",
-hero_title:"Ultimatives kulinarisches Erlebnis",
-hero_sub:"Gourmetküche • Magische Momente",
-book_table:"Tisch reservieren",
-view_menu:"Menü ansehen",
-menu_title:"Unser Menü",
-about_title:"Unsere Geschichte",
-about_text:"Seit 2010 veredeln wir Gastronomie.",
-gallery_title:"Galerie",
-hours_title:"Öffnungszeiten",
-find_us:"Standort",
-reservation_title:"Tisch reservieren",
-reviews_title:"Bewertungen",
-send:"Senden"
-},
-
-ar:{
-nav_menu:"القائمة",nav_about:"من نحن",nav_gallery:"معرض",nav_book:"احجز",
-hero_title:"تجربة طعام فاخرة",
-hero_sub:"مطبخ فاخر • لحظات سحرية",
-book_table:"احجز طاولة",
-view_menu:"عرض القائمة",
-menu_title:"قائمتنا",
-about_title:"قصتنا",
-about_text:"منذ 2010 نقدم تجربة فاخرة.",
-gallery_title:"معرض الصور",
-hours_title:"ساعات العمل",
-find_us:"موقعنا",
-reservation_title:"احجز طاولة",
-reviews_title:"آراء العملاء",
-send:"إرسال"
-}
+// MULTILANGUE
+const translations={
+en:{hero_title:"Ultimate dining experience",book_table:"Book a table",menu_title:"Our Menu",hours_title:"Opening Hours",reservation_title:"Book a table",send_whatsapp:"Send via WhatsApp"},
+it:{hero_title:"Esperienza culinaria",book_table:"Prenota tavolo",menu_title:"Menu",hours_title:"Orari",reservation_title:"Prenota tavolo",send_whatsapp:"Invia WhatsApp"},
+de:{hero_title:"Kulinarisches Erlebnis",book_table:"Reservieren",menu_title:"Menü",hours_title:"Öffnungszeiten",reservation_title:"Reservieren",send_whatsapp:"Per WhatsApp senden"},
+ar:{hero_title:"تجربة طعام فاخرة",book_table:"احجز طاولة",menu_title:"القائمة",hours_title:"ساعات العمل",reservation_title:"احجز",send_whatsapp:"إرسال واتساب"}
 };
 
-document.getElementById("languageSwitcher").addEventListener("change", e=>{
-const lang=e.target.value;
+document.getElementById("languageSwitcher").addEventListener("change",e=>{
+let lang=e.target.value;
 document.querySelectorAll("[data-translate]").forEach(el=>{
-el.textContent=translations[lang][el.dataset.translate];
+el.innerText=translations[lang][el.dataset.translate]||el.innerText;
 });
-document.body.style.direction = (lang==="ar")?"rtl":"ltr";
+document.body.style.direction=(lang=="ar")?"rtl":"ltr";
 });
