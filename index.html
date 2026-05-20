@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Flash Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container" id="game">
+
+  <h1 id="title">🧠 Memory Flash Pro</h1>
+
+  <!-- 🌍 LANGUE -->
+  <label id="langLabel">🌍 Langue :</label>
+  <select id="langSelect">
+    <option value="fr">Français</option>
+    <option value="en">English</option>
+    <option value="es">Español</option>
+    <option value="de">Deutsch</option>
+    <option value="ar">العربية</option>
+  </select>
+
+  <p><span id="levelLabel">Niveau</span> : <span id="level">1</span></p>
+  <p><span id="scoreLabel">Score</span> : <span id="score">0</span></p>
+  <p><span id="livesLabel">Vies</span> : <span id="lives">5</span></p>
+
+  <!-- 🎥 PUB -->
+  <button id="watchAdBtn" style="display:none;">
+    🎥 Regarder une pub (+4 vies)
+  </button>
+
+  <p id="msg">Appuie sur START</p>
+  <p id="timer"></p>
+
+  <!-- 🎨 GRID -->
+  <div id="flashGrid" class="grid">
+    <div class="btn red" onclick="pick('red')"></div>
+    <div class="btn green" onclick="pick('green')"></div>
+    <div class="btn blue" onclick="pick('blue')"></div>
+    <div class="btn yellow" onclick="pick('yellow')"></div>
+  </div>
+
+  <!-- 🎮 REPONSE -->
+  <div id="answerBox" class="hidden">
+
+    <p id="questionText">Quelles couleurs as-tu vues ?</p>
+
+    <button onclick="pick('red')">
+      <span class="color-name" data-color="red">Rouge</span>
+    </button>
+
+    <button onclick="pick('green')">
+      <span class="color-name" data-color="green">Vert</span>
+    </button>
+
+    <button onclick="pick('blue')">
+      <span class="color-name" data-color="blue">Bleu</span>
+    </button>
+
+    <button onclick="pick('yellow')">
+      <span class="color-name" data-color="yellow">Jaune</span>
+    </button>
+
+  </div>
+
+  <!-- START -->
+  <button id="star">
+    <span id="startText">⭐ Commencer</span>
+  </button>
+
+</div>
+<a href="https://storybak.vercel.app/app-release.apk" target="_blank">
+  <button>📥 Télécharger la nouvelle version</button>
+</a>
+<!-- 🔊 SONS -->
+<audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+<audio id="winSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
+<audio id="failSound" src="https://assets.mixkit.co/active_storage/sfx/270/270-preview.mp3"></audio>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187273428222373"
+     crossorigin="anonymous"></script>
+
+<script src="script.js"></script>
+</body>
+</html>
