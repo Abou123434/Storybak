@@ -94,3 +94,38 @@ button {
     background: #111;
   }
 }
+#welcomeImage{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+
+  animation: hideSplash 5s forwards;
+}
+
+#welcomeImage img{
+  width:80%;
+  max-width:300px;
+  border-radius:20px;
+}
+
+@keyframes hideSplash{
+  0%{
+    opacity:1;
+  }
+
+  90%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+    visibility:hidden;
+  }
+}
