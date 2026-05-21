@@ -422,49 +422,6 @@ function gameOver() {
 }
 
 /* =========================
-   PUB
-========================= */
-
-function watchAd() {
-  if (adInProgress) return;
-
-  adInProgress = true;
-
-  const btn = get("watchAdBtn");
-
-  if (btn) {
-    btn.disabled = true;
-  }
-
-  if (get("msg")) {
-    get("msg").textContent = t("ad");
-  }
-
-  setTimeout(() => {
-    lives += 4;
-
-    saveGame();
-    updateUI();
-    updateButtonsState();
-
-    adInProgress = false;
-
-    if (btn) {
-      btn.disabled = false;
-      btn.style.display = "none";
-    }
-
-    if (get("msg")) {
-      get("msg").textContent = t("adwin");
-    }
-
-    setTimeout(() => {
-      startGame();
-    }, 1200);
-  }, 5000);
-}
-
-/* =========================
    UPDATE UI
 ========================= */
 
