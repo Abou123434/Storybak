@@ -414,12 +414,6 @@ function gameOver() {
       get("answerBox").classList.add("hidden");
     }
 
-    const adBtn = get("watchAdBtn");
-    if (adBtn) {
-      adBtn.style.display = "inline-block";
-    }
-  }
-}
 
 /* =========================
    UPDATE UI
@@ -432,8 +426,7 @@ function updateUI() {
 
   if (get("title")) get("title").textContent = t("title");
   if (get("startText")) get("startText").textContent = t("start");
-  if (get("watchAdBtn")) get("watchAdBtn").textContent = t("watchAd");
-
+  
   if (get("scoreLabel")) get("scoreLabel").textContent = t("score");
   if (get("levelLabel")) get("levelLabel").textContent = t("level");
   if (get("livesLabel")) get("livesLabel").textContent = t("lives");
