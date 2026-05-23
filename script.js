@@ -216,7 +216,13 @@ function nextRound() {
   player = [];
   canPlay = false;
 
-  const length = 4 + level;
+  let length;
+
+if (level <= 10) {
+  length = 4; // facile
+} else {
+  length = 4 + (level - 10); // difficulté après niveau 10
+}
 
   for (let i = 0; i < length; i++) {
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -243,7 +249,13 @@ function nextRound() {
 ========================= */
 
 function showSequence() {
-  const speed = level > 8 ? 300 : 600;
+  let speed;
+
+if (level <= 10) {
+  speed = 900; // lent
+} else {
+  speed = 500; // plus rapide après niveau 10
+}
   let i = 0;
 
   const interval = setInterval(() => {
@@ -324,7 +336,11 @@ function pick(color) {
 function startTimer() {
   clearInterval(timer);
 
-  timeLeft = Math.max(2, 10 - level);
+  if (level <= 10) {
+  timeLeft = 10; // 10 secondes pour les 10 premiers niveaux
+} else {
+  timeLeft = 15; // 15 secondes pour les niveaux 11 à 20
+}
 
   updateTimerUI();
 
@@ -360,7 +376,16 @@ function winRound() {
   }
 
   score += level * 10;
+  if (level < 20) {
   level++;
+} else {
+  if (get("msg")) {
+    get("msg").textContent = "🏆 Bravo ! Tu as terminé les 20 niveaux !";
+  }
+
+  canPlay = false;
+  return;
+}
 
   saveGame();
   updateUI();
