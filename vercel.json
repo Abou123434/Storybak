@@ -1,9 +1,8 @@
 {
-  "redirects": [
+  "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "https://stunning-sprinkles-d4f3b3.netlify.app/",
-      "permanent": false
+      "destination": "https://sparkling-biscochitos-3615f1.netlify.app/$1"
     }
   ]
 }
