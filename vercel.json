@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "destination": "https://sparkling-biscochitos-3615f1.netlify.app/",
+      "destination": "https://stunning-sprinkles-d4f3b3.netlify.app/",
       "permanent": false
     }
   ]
