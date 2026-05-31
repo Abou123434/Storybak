@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "destination": "https://ton-site.netlify.app/$1",
+      "destination": "https://sparkling-biscochitos-3615f1.netlify.app/",
       "permanent": true
     }
   ]
