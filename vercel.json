@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://ton-site.netlify.app/$1",
+      "permanent": true
+    }
+  ]
+}
