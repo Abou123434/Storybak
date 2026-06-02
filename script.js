@@ -410,22 +410,17 @@ function winRound() {
     winSound.play();
   }
 
-score += level * 10;
+  score += level * 10;
 
-if (level < 1000) {
-  level++;
-} else {
-  if (get("msg")) {
-    get("msg").textContent = "🏆 Bravo ! Tu as terminé les 1000 niveaux !";
+  if (level < 1000) {
+    level++;
+  } else {
+    if (get("msg")) {
+      get("msg").textContent =
+        "🏆 Bravo ! Tu as terminé les 1000 niveaux !";
+    }
+    return;
   }
-
-  canPlay = false;
-  return;
-}
-
-  canPlay = false;
-  return;
-}
 
   saveGame();
   updateUI();
