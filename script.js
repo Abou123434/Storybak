@@ -216,18 +216,45 @@ function nextRound() {
   player = [];
   canPlay = false;
 
-  let length;
+let length;
 
 if (level <= 10) {
-  length = 4; // facile
-} else {
-  length = 4 + (level - 10); // difficulté après niveau 10
+  length = 3;
+}
+else if (level <= 30) {
+  length = 4;
+}
+else if (level <= 100) {
+  length = 5;
+}
+else if (level <= 200) {
+  length = 6;
+}
+else if (level <= 400) {
+  length = 7;
+}
+else if (level <= 700) {
+  length = 8;
+}
+else {
+  length = 10;
 }
 
-  for (let i = 0; i < length; i++) {
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    sequence.push(randomColor);
-  }
+const availableColors =
+level <= 10 ? colors.slice(0, 3) :
+level <= 30 ? colors.slice(0, 4) :
+level <= 100 ? colors.slice(0, 5) :
+level <= 200 ? colors.slice(0, 6) :
+level <= 400 ? colors.slice(0, 7) :
+level <= 700 ? colors.slice(0, 8) :
+colors.slice(0, 10);
+
+for (let i = 0; i < length; i++) {
+  const randomColor =
+    availableColors[Math.floor(Math.random() * availableColors.length)];
+
+  sequence.push(randomColor);
+}
 
   if (get("msg")) {
     get("msg").textContent = t("observe");
@@ -251,12 +278,13 @@ if (level <= 10) {
 function showSequence() {
   let speed;
 
-if (level <= 10) {
-  speed = 900; // lent
-} else {
-  speed = 500; // plus rapide après niveau 10
+let speed;
+
+if (level <= 1000) {
+  speed = 900;
 }
-  let i = 0;
+
+let i = 0;
 
   const interval = setInterval(() => {
     if (i >= sequence.length) {
@@ -337,9 +365,25 @@ function startTimer() {
   clearInterval(timer);
 
   if (level <= 10) {
-  timeLeft = 10; // 10 secondes pour les 10 premiers niveaux
-} else {
-  timeLeft = 15; // 15 secondes pour les niveaux 11 à 20
+  timeLeft = 5;
+}
+else if (level <= 30) {
+  timeLeft = 7;
+}
+else if (level <= 100) {
+  timeLeft = 9;
+}
+else if (level <= 200) {
+  timeLeft = 10;
+}
+else if (level <= 400) {
+  timeLeft = 15;
+}
+else if (level <= 700) {
+  timeLeft = 20;
+}
+else {
+  timeLeft = 30;
 }
 
   updateTimerUI();
@@ -529,4 +573,4 @@ function updateButtonsState() {
   } else {
     starBtn.style.opacity = "1";
   }
-}
+         }
