@@ -272,25 +272,20 @@ for (let i = 0; i < length; i++) {
 ========================= */
 
 function showSequence() {
-  let speed;
 
-let speed;
-
-if (level <= 1000) {
-  speed = 900;
-}
+const speed = 900;
 
 let i = 0;
 
-  const interval = setInterval(() => {
-    if (i >= sequence.length) {
-      clearInterval(interval);
-      return;
-    }
+const interval = setInterval(() => {
+  if (i >= sequence.length) {
+    clearInterval(interval);
+    return;
+  }
 
-    flash(sequence[i]);
-    i++;
-  }, speed);
+  flash(sequence[i]);
+  i++;
+}, speed);
 
   setTimeout(() => {
     if (get("flashGrid")) {
@@ -415,13 +410,18 @@ function winRound() {
     winSound.play();
   }
 
-  score += level * 10;
-  if (level < 20) {
+score += level * 10;
+
+if (level < 1000) {
   level++;
 } else {
   if (get("msg")) {
-    get("msg").textContent = "🏆 Bravo ! Tu as terminé les 20 niveaux !";
+    get("msg").textContent = "🏆 Bravo ! Tu as terminé les 1000 niveaux !";
   }
+
+  canPlay = false;
+  return;
+}
 
   canPlay = false;
   return;
