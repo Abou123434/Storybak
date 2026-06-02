@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "https://sparkling-biscochitos-3615f1.netlify.app/$1"
-    }
-  ]
-}
