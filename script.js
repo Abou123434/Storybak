@@ -241,13 +241,9 @@ else {
 }
 
 const availableColors =
-level <= 10 ? colors.slice(0, 3) :
-level <= 30 ? colors.slice(0, 4) :
-level <= 100 ? colors.slice(0, 5) :
-level <= 200 ? colors.slice(0, 6) :
-level <= 400 ? colors.slice(0, 7) :
-level <= 700 ? colors.slice(0, 8) :
-colors.slice(0, 10);
+level <= 10
+  ? colors.slice(0, 3)
+  : colors;
 
 for (let i = 0; i < length; i++) {
   const randomColor =
@@ -573,4 +569,4 @@ function updateButtonsState() {
   } else {
     starBtn.style.opacity = "1";
   }
-         }
+}
