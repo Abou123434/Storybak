@@ -565,3 +565,17 @@ function updateButtonsState() {
     starBtn.style.opacity = "1";
   }
 }
+const shareBtn = document.getElementById("shareBtn");
+const shareMenu = document.getElementById("shareMenu");
+
+const siteUrl = "https://storybak.vercel.app/";
+
+document.getElementById("whatsappShare").href =
+  `https://wa.me/?text=Joue%20à%20Memory%20Flash%20Pro%20${encodeURIComponent(siteUrl)}`;
+
+document.getElementById("facebookShare").href =
+  `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
+
+shareBtn.addEventListener("click", () => {
+  shareMenu.classList.toggle("hidden");
+});
