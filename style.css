@@ -140,3 +140,31 @@ a{
   border-radius:12px;
   font-weight:bold;
 }
+#shareBtn{
+  background:#00ff99;
+  color:black;
+  border:none;
+  padding:15px 25px;
+  border-radius:15px;
+  font-size:18px;
+  margin:15px;
+}
+
+#shareMenu{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:10px auto;
+}
+
+#shareMenu.hidden{
+  display:none;
+}
+
+#shareMenu a{
+  background:white;
+  color:black;
+  text-decoration:none;
+  padding:10px;
+  border-radius:10px;
+}
