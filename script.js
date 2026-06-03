@@ -579,3 +579,13 @@ document.getElementById("facebookShare").href =
 shareBtn.addEventListener("click", () => {
   shareMenu.classList.toggle("hidden");
 });
+const profilePic = document.getElementById("profilePic");
+const profileModal = document.getElementById("profileModal");
+
+profilePic.onclick = () => {
+  profileModal.style.display = "flex";
+};
+
+profileModal.onclick = () => {
+  profileModal.style.display = "none";
+};
