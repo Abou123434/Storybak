@@ -62,6 +62,8 @@
   <span class="color-name" data-color="yellow">Jaune</span>  
 </button>
 
+</div> <!-- fin de answerBox -->
+
 <!-- START -->
 <button id="star">
     <span id="startText">⭐ Commencer</span>
@@ -70,10 +72,17 @@
 </div> <!-- fin de container -->
 
 <!-- 🔊 SONS -->
-<audio id="clickSound" src="sounds/click.mp3"></audio>
-<audio id="winSound" src="sounds/win.mp3"></audio>
-<audio id="failSound" src="sounds/fail.mp3"></audio>
+<audio id="clickSound" preload="auto">
+    <source src="sounds/click.mp3" type="audio/mpeg">
+</audio>
 
+<audio id="winSound" preload="auto">
+    <source src="sounds/win.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="failSound" preload="auto">
+    <source src="sounds/fail.mp3" type="audio/mpeg">
+</audio>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187273428222373"
 crossorigin="anonymous"></script>
