@@ -45,12 +45,10 @@ body {
 .btn {
   width: 140px;
   height: 140px;
-
   border-radius: 15px;
 
-  /* Cachés par défaut */
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
 
   transition:
     opacity 0.2s ease,
@@ -59,12 +57,9 @@ body {
     filter 0.2s ease;
 
   border: none;
-
   cursor: pointer;
-
   position: relative;
 }
-
 
 /* =========================
    🎮 COULEUR DES BOUTONS JOUEUR
