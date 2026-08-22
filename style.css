@@ -6,19 +6,18 @@
 }
 
 body {
-  background: radial-gradient(circle, #111, #000);
+  background-image: url("images/ville1.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   text-align: center;
-}
-
-.container {
-  width: 100%;
-  max-width: 420px;
-  padding: 15px;
 }
 
 .grid {
