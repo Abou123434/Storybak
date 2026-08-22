@@ -17,7 +17,7 @@ const colors = ["red", "green", "blue", "yellow"];
 ========================= */
 
 const backgrounds = [
-  ville1.png",
+  /ville1.png",
   ville2.png",
   ville3.png",
   ville4.png",
