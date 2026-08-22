@@ -67,27 +67,48 @@ body {
 
 
 /* =========================
-   🎮 COULEURS DES 4 BOUTONS JOUEUR
-   ========================= */
+   🎮 COULEUR DES BOUTONS JOUEUR
+   UNIQUEMENT LA COULEUR
+========================= */
 
+.grid button.red,
 .grid .btn.red {
-  background: #ff2020;
-  color: white;
+  background: #ff2020 !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #ff2020,
+    0 0 20px #ff2020 !important;
 }
 
+.grid button.green,
 .grid .btn.green {
-  background: #00e676;
-  color: white;
+  background: #00e676 !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #00e676,
+    0 0 20px #00e676 !important;
 }
 
+.grid button.blue,
 .grid .btn.blue {
-  background: #168cff;
-  color: white;
+  background: #168cff !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #168cff,
+    0 0 20px #168cff !important;
 }
 
+.grid button.yellow,
 .grid .btn.yellow {
-  background: #ffd600;
-  color: white;
+  background: #ffd600 !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #ffd600,
+    0 0 20px #ffd600 !important;
 }
 
 
