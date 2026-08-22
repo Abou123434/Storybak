@@ -16,6 +16,7 @@
 
 body {
   background-image: url("images/ville1.png");
+
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -34,8 +35,21 @@ body {
 
 
 /* =========================================================
-   🔴🟢🔵🟡 GRILLE DU JEU
-   ⚠️ NE PAS MODIFIER
+   📦 CONTENEUR PRINCIPAL
+========================================================= */
+
+.container {
+  width: 100%;
+  max-width: 500px;
+
+  padding: 20px;
+
+  margin: auto;
+}
+
+
+/* =========================================================
+   🔴🟢🔵🟡 GRILLE DES 4 CARRÉS DU JEU
 ========================================================= */
 
 .grid {
@@ -53,10 +67,10 @@ body {
 
 /* =========================================================
    🔲 4 CARRÉS QUI S'ALLUMENT
-   ⚠️ CONSERVÉS
+   ⚠️ NE PAS CONFONDRE AVEC LES BOUTONS TEXTE
 ========================================================= */
 
-.btn {
+.grid .btn {
   width: 140px;
   height: 140px;
 
@@ -80,61 +94,72 @@ body {
 
 
 /* =========================================================
-   🔴🟢🔵🟡 COULEURS DES CARRÉS DU JEU
-   ⚠️ NE PAS MODIFIER
+   🔴 CARRÉ ROUGE
 ========================================================= */
 
-.grid button.red,
 .grid .btn.red {
-  background: #ff2020 !important;
-  color: white !important;
+  background: #ff2020;
+
+  color: white;
 
   box-shadow:
     0 0 10px #ff2020,
-    0 0 20px #ff2020 !important;
+    0 0 20px #ff2020;
 }
 
 
-.grid button.green,
+/* =========================================================
+   🟢 CARRÉ VERT
+========================================================= */
+
 .grid .btn.green {
-  background: #00e676 !important;
-  color: white !important;
+  background: #00e676;
+
+  color: white;
 
   box-shadow:
     0 0 10px #00e676,
-    0 0 20px #00e676 !important;
+    0 0 20px #00e676;
 }
 
 
-.grid button.blue,
+/* =========================================================
+   🔵 CARRÉ BLEU
+========================================================= */
+
 .grid .btn.blue {
-  background: #168cff !important;
-  color: white !important;
+  background: #168cff;
+
+  color: white;
 
   box-shadow:
     0 0 10px #168cff,
-    0 0 20px #168cff !important;
+    0 0 20px #168cff;
 }
 
 
-.grid button.yellow,
+/* =========================================================
+   🟡 CARRÉ JAUNE
+========================================================= */
+
 .grid .btn.yellow {
-  background: #ffd600 !important;
-  color: white !important;
+  background: #ffd600;
+
+  color: white;
 
   box-shadow:
     0 0 10px #ffd600,
-    0 0 20px #ffd600 !important;
+    0 0 20px #ffd600;
 }
 
 
 /* =========================================================
    👀 CARRÉ ACTIF PENDANT LA SÉQUENCE
-   ⚠️ CONSERVÉ
 ========================================================= */
 
-.btn.active {
+.grid .btn.active {
   opacity: 1;
+
   visibility: visible;
 
   transform: scale(1.1);
@@ -150,11 +175,11 @@ body {
 
 /* =========================================================
    🎮 MODE JOUEUR DES 4 CARRÉS
-   ⚠️ CONSERVÉ
 ========================================================= */
 
 .grid.player-mode .btn {
   opacity: 1;
+
   visibility: visible;
 
   transform: scale(1);
@@ -163,53 +188,8 @@ body {
 }
 
 
-/* 🔴 */
-
-.grid.player-mode .btn.red {
-  background: #ff2020;
-
-  box-shadow:
-    0 0 10px #ff2020,
-    0 0 20px #ff2020;
-}
-
-
-/* 🟢 */
-
-.grid.player-mode .btn.green {
-  background: #00e676;
-
-  box-shadow:
-    0 0 10px #00e676,
-    0 0 20px #00e676;
-}
-
-
-/* 🔵 */
-
-.grid.player-mode .btn.blue {
-  background: #168cff;
-
-  box-shadow:
-    0 0 10px #168cff,
-    0 0 20px #168cff;
-}
-
-
-/* 🟡 */
-
-.grid.player-mode .btn.yellow {
-  background: #ffd600;
-
-  box-shadow:
-    0 0 10px #ffd600,
-    0 0 20px #ffd600;
-}
-
-
 /* =========================================================
    🖱️ SURVOL DES CARRÉS
-   ⚠️ CONSERVÉ
 ========================================================= */
 
 .grid.player-mode .btn:hover {
@@ -218,8 +198,7 @@ body {
 
 
 /* =========================================================
-   👆 APPUI SUR LES CARRÉS
-   ⚠️ CONSERVÉ
+   👆 APPUI DES CARRÉS
 ========================================================= */
 
 .grid.player-mode .btn:active {
@@ -232,7 +211,7 @@ body {
 ========================================================= */
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 
@@ -242,9 +221,11 @@ body {
 
 button {
   margin: 5px;
+
   padding: 10px 14px;
 
   border: none;
+
   border-radius: 10px;
 
   cursor: pointer;
@@ -254,76 +235,116 @@ button {
 
 
 /* =========================================================
-   🎨🎨🎨 LES 4 BOUTONS DE RÉPONSE
-   ⚠️ C'EST ICI QUE LA MODIFICATION EST FAITE
-   ⚠️ UNIQUEMENT #answerBox
+   🎨 4 BOUTONS TEXTE DE RÉPONSE
+   ⚠️ CE SONT CEUX-CI QUI DOIVENT ÊTRE COLORÉS
 ========================================================= */
 
-/* 🔴 ROUGE */
+#answerBox {
+  margin-top: 15px;
+}
 
-#answerBox .red {
+
+/* =========================================================
+   🔴 BOUTON TEXTE ROUGE
+========================================================= */
+
+#answerBox .answer-btn.red {
+  width: 140px;
+  height: 140px;
+
+  border-radius: 15px;
+
   background: #ff2020 !important;
 
   color: white !important;
 
   border: none;
 
+  font-size: 20px;
+
   font-weight: bold;
 
   box-shadow:
     0 0 10px #ff2020,
-    0 0 20px rgba(255, 32, 32, 0.7);
+    0 0 20px #ff2020;
 }
 
 
-/* 🟢 VERT */
+/* =========================================================
+   🟢 BOUTON TEXTE VERT
+========================================================= */
 
-#answerBox .green {
+#answerBox .answer-btn.green {
+  width: 140px;
+  height: 140px;
+
+  border-radius: 15px;
+
   background: #00e676 !important;
 
   color: white !important;
 
   border: none;
 
+  font-size: 20px;
+
   font-weight: bold;
 
   box-shadow:
     0 0 10px #00e676,
-    0 0 20px rgba(0, 230, 118, 0.7);
+    0 0 20px #00e676;
 }
 
 
-/* 🔵 BLEU */
+/* =========================================================
+   🔵 BOUTON TEXTE BLEU
+========================================================= */
 
-#answerBox .blue {
+#answerBox .answer-btn.blue {
+  width: 140px;
+  height: 140px;
+
+  border-radius: 15px;
+
   background: #168cff !important;
 
   color: white !important;
 
   border: none;
 
+  font-size: 20px;
+
   font-weight: bold;
 
   box-shadow:
     0 0 10px #168cff,
-    0 0 20px rgba(22, 140, 255, 0.7);
+    0 0 20px #168cff;
 }
 
 
-/* 🟡 JAUNE */
+/* =========================================================
+   🟡 BOUTON TEXTE JAUNE
+========================================================= */
 
-#answerBox .yellow {
+#answerBox .answer-btn.yellow {
+  width: 140px;
+  height: 140px;
+
+  border-radius: 15px;
+
   background: #ffd600 !important;
 
   color: white !important;
 
   border: none;
 
+  font-size: 20px;
+
   font-weight: bold;
 
   box-shadow:
     0 0 10px #ffd600,
-    0 0 20px rgba(255, 214, 0, 0.7);
+    0 0 20px #ffd600;
 }
 
 
@@ -334,21 +355,18 @@ button {
 #answerBox .color-name {
   color: white !important;
 
-  font-weight: bold;
-
   font-size: 20px;
+
+  font-weight: bold;
 }
 
 
 /* =========================================================
-   👆 APPUI DES BOUTONS DE RÉPONSE
-   ⚠️ NE CHANGE PAS LEUR POSITION
+   👆 APPUI DES BOUTONS TEXTE
+   ⚠️ NE LES DÉPLACE PAS
 ========================================================= */
 
-#answerBox .red:active,
-#answerBox .green:active,
-#answerBox .blue:active,
-#answerBox .yellow:active {
+#answerBox .answer-btn:active {
   transform: none;
 }
 
@@ -380,6 +398,7 @@ button {
 
 
 @keyframes flash {
+
   0% {
     background: white;
   }
@@ -451,6 +470,7 @@ a {
   display: inline-block;
 
   margin-top: 20px;
+
   margin-bottom: 20px;
 
   padding: 12px 20px;
@@ -464,6 +484,17 @@ a {
   border-radius: 12px;
 
   font-weight: bold;
+}
+
+
+/* =========================================================
+   📥 BOUTON APK
+========================================================= */
+
+a button {
+  background: white;
+
+  color: black;
 }
 
 
@@ -500,7 +531,7 @@ a {
 
 
 #shareMenu.hidden {
-  display: none;
+  display: none !important;
 }
 
 
@@ -525,6 +556,7 @@ a {
   position: absolute;
 
   top: 10px;
+
   left: 10px;
 
   z-index: 1000;
@@ -533,6 +565,7 @@ a {
 
 #profilePic {
   width: 70px;
+
   height: 70px;
 
   border-radius: 50%;
@@ -545,20 +578,27 @@ a {
 }
 
 
+/* =========================================================
+   🖼️ PROFIL EN GRAND
+========================================================= */
+
 #profileModal {
   display: none;
 
   position: fixed;
 
   top: 0;
+
   left: 0;
 
   width: 100%;
+
   height: 100%;
 
   background: rgba(0, 0, 0, 0.95);
 
   justify-content: center;
+
   align-items: center;
 
   z-index: 9999;
@@ -567,7 +607,23 @@ a {
 
 #profileModal img {
   max-width: 95%;
+
   max-height: 95%;
+}
+
+
+/* =========================================================
+   🌍 LANGUE
+========================================================= */
+
+#langSelect {
+  margin: 8px;
+
+  padding: 8px;
+
+  border-radius: 8px;
+
+  border: none;
 }
 
 
@@ -585,10 +641,49 @@ a {
     margin: 20px 0;
   }
 
-  .btn {
+
+  .grid .btn {
     width: 140px;
+
     height: 140px;
 
     border-radius: 15px;
   }
+
+
+  #answerBox .answer-btn {
+    width: 140px;
+
+    height: 140px;
+
+    border-radius: 15px;
   }
+
+}
+
+
+/* =========================================================
+   📱 PETITS TÉLÉPHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .grid {
+    gap: 8px;
+  }
+
+
+  .grid .btn {
+    width: 125px;
+
+    height: 125px;
+  }
+
+
+  #answerBox .answer-btn {
+    width: 125px;
+
+    height: 125px;
+  }
+
+     }
