@@ -17,15 +17,15 @@ const colors = ["red", "green", "blue", "yellow"];
 ========================= */
 
 const backgrounds = [
-  "images/ville1.png",
-  "images/ville2.png",
-  "images/ville3.png",
-  "images/ville4.png",
-  "images/ville5.png",
-  "images/ville6.png",
-  "images/ville7.png",
-  "images/ville8.png",
-  "images/ville9.png"
+  ville1.png",
+  ville2.png",
+  ville3.png",
+  ville4.png",
+  ville5.png",
+  ville6.png",
+  ville7.png",
+  ville8.png",
+  ville9.png"
 ];
 
 /* Change automatiquement le fond selon le niveau */
