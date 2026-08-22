@@ -2,8 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
 }
+
+/* =========================
+   🌍 PAGE
+========================= */
 
 body {
   color: white;
@@ -12,18 +16,30 @@ body {
   align-items: center;
   min-height: 100vh;
   text-align: center;
+  overflow-x: hidden;
 
   transition: background 1.5s ease;
 
   background:
-    radial-gradient(circle at 50% 20%, #12345c, #020617 70%);
+    radial-gradient(circle at 50% 20%, #315b91, #071426 55%, #02050a);
 }
+
+/* =========================
+   🎮 JEU
+========================= */
 
 .container {
   width: 100%;
   max-width: 420px;
   padding: 15px;
+
+  position: relative;
+  z-index: 2;
 }
+
+/* =========================
+   🔲 GRILLE DU SIMON
+========================= */
 
 .grid {
   display: grid;
@@ -33,16 +49,21 @@ body {
   justify-items: center;
 }
 
-.btn {
 /* =========================
-   🎮 BOUTONS DU SIMON
+   🔴🟢🔵🟡 ÉLÉMENTS ANIMÉS
 ========================= */
 
 .btn {
   width: 140px;
   height: 140px;
+
   opacity: 0;
-  transition: 0.25s;
+
+  transition:
+    0.25s,
+    border-radius 0.8s ease,
+    box-shadow 0.8s ease;
+
   position: relative;
   overflow: hidden;
 
@@ -53,7 +74,7 @@ body {
     inset 0 0 15px rgba(255,255,255,0.15);
 }
 
-/* Couleurs des 4 éléments du Simon */
+/* Couleurs */
 
 .red {
   --btn-color: #ff2020;
@@ -71,12 +92,11 @@ body {
   --btn-color: #ffd600;
 }
 
-/* =========================
-   ✨ LORSQUE LE BOUTON S'ANIME
-========================= */
+/* Quand la couleur s'allume */
 
 .btn.active {
   opacity: 1;
+
   transform: scale(1.1);
 
   box-shadow:
@@ -87,107 +107,122 @@ body {
 }
 
 /* =========================
-   ❄️ NIVEAUX NEIGE
+   ❄️ NIVEAUX 1 → 10
+   NEIGE
 ========================= */
 
 body.environment-snow .btn {
-  border-radius: 25px 35px 20px 40px;
-  border: 5px solid rgba(255,255,255,0.8);
+  border-radius: 35px 20px 40px 25px;
+
+  border: 5px solid rgba(255,255,255,0.9);
 
   box-shadow:
-    0 0 15px rgba(255,255,255,0.7),
-    inset 0 0 20px rgba(255,255,255,0.5);
+    0 0 20px rgba(255,255,255,0.8),
+    inset 0 0 20px rgba(255,255,255,0.35);
 }
 
 /* =========================
-   🧊 GLACE
+   🧊 NIVEAUX 11 → 30
+   GLACE
 ========================= */
 
 body.environment-ice .btn {
   border-radius: 45% 20% 40% 25%;
-  border: 4px solid rgba(210,245,255,0.9);
+
+  border: 4px solid rgba(210,245,255,0.95);
 
   background:
     linear-gradient(
       135deg,
-      rgba(255,255,255,0.5),
+      rgba(255,255,255,0.55),
       var(--btn-color),
-      rgba(180,240,255,0.6)
+      rgba(180,240,255,0.5)
     );
 
   box-shadow:
-    0 0 20px rgba(180,240,255,0.9),
+    0 0 25px rgba(180,240,255,0.9),
     inset 0 0 25px rgba(255,255,255,0.5);
 }
 
 /* =========================
-   🌲 FORÊT
+   🌲 NIVEAUX 31 → 100
+   FORÊT
 ========================= */
 
 body.environment-forest .btn {
   border-radius: 50% 20% 45% 25%;
-  border: 4px solid rgba(80,50,20,0.7);
+
+  border: 5px solid rgba(70,45,20,0.8);
 
   box-shadow:
-    0 0 20px rgba(80,180,80,0.5),
-    inset 0 0 15px rgba(0,0,0,0.3);
+    0 0 20px rgba(80,180,80,0.6),
+    inset 0 0 20px rgba(0,0,0,0.3);
 }
 
 /* =========================
-   🌧️ PLUIE / PIERRE
+   🌧️ NIVEAUX 101 → 200
+   PLUIE
 ========================= */
 
 body.environment-rain .btn {
   border-radius: 18px 35px 15px 30px;
-  border: 4px solid rgba(100,100,100,0.8);
+
+  border: 4px solid rgba(150,200,220,0.8);
 
   box-shadow:
-    0 0 20px rgba(100,180,255,0.6),
+    0 0 20px rgba(100,180,255,0.7),
     inset 0 0 20px rgba(255,255,255,0.15);
 }
 
 /* =========================
-   ☀️ SOLEIL
+   ☀️ NIVEAUX 201 → 400
+   SOLEIL
 ========================= */
 
 body.environment-sun .btn {
   border-radius: 50%;
-  border: 5px solid rgba(255,220,50,0.8);
+
+  border: 5px solid rgba(255,220,50,0.9);
 
   box-shadow:
-    0 0 25px rgba(255,200,0,0.8);
+    0 0 30px rgba(255,200,0,0.8);
 }
 
 /* =========================
-   🌅 COUCHER DE SOLEIL
+   🌅 NIVEAUX 401 → 700
+   COUCHER DE SOLEIL
 ========================= */
 
 body.environment-sunset .btn {
   border-radius: 30% 50% 20% 45%;
-  border: 4px solid rgba(255,150,70,0.8);
+
+  border: 4px solid rgba(255,150,70,0.9);
 
   box-shadow:
-    0 0 25px rgba(255,100,50,0.7);
+    0 0 25px rgba(255,100,50,0.8);
 }
 
 /* =========================
-   🌌 NUIT
+   🌌 NIVEAUX 701 → 900
+   NUIT
 ========================= */
 
 body.environment-night .btn {
   border-radius: 50% 25% 50% 30%;
-  border: 4px solid rgba(150,150,255,0.8);
+
+  border: 4px solid rgba(150,150,255,0.9);
 
   box-shadow:
     0 0 25px rgba(100,100,255,0.8);
 }
 
 /* =========================
-   🔥 ENVIRONNEMENT FINAL
+   🔥 NIVEAUX 901 → 1000
 ========================= */
 
 body.environment-fire .btn {
   border-radius: 50% 15% 40% 20%;
+
   border: 4px solid rgba(255,120,0,0.9);
 
   box-shadow:
@@ -195,238 +230,290 @@ body.environment-fire .btn {
 }
 
 /* =========================
-   👇 BOUTONS STATIQUES
-   🔴🟢🔵🟡
+   🎨 BOUTONS STATIQUES
+   EN BAS
 ========================= */
 
 #answerBox button {
   color: white;
+
   font-weight: bold;
+
   font-size: 17px;
+
   min-width: 100px;
+
   border: 3px solid white;
+
   text-shadow: 0 2px 3px black;
+
+  cursor: pointer;
+
+  transition: 0.15s;
 }
 
-/* Rouge */
+/* 🔴 Rouge */
 
 #answerBox button[onclick*="'red'"] {
   background: #f01818;
-  box-shadow: 0 0 15px rgba(255,0,0,0.6);
+
+  box-shadow:
+    0 0 15px rgba(255,0,0,0.7);
 }
 
-/* Vert */
+/* 🟢 Vert */
 
 #answerBox button[onclick*="'green'"] {
   background: #00b83d;
-  box-shadow: 0 0 15px rgba(0,255,80,0.6);
+
+  box-shadow:
+    0 0 15px rgba(0,255,80,0.7);
 }
 
-/* Bleu */
+/* 🔵 Bleu */
 
 #answerBox button[onclick*="'blue'"] {
   background: #087cff;
-  box-shadow: 0 0 15px rgba(0,120,255,0.6);
+
+  box-shadow:
+    0 0 15px rgba(0,120,255,0.7);
 }
 
-/* Jaune */
+/* 🟡 Jaune */
 
 #answerBox button[onclick*="'yellow'"] {
   background: #e5b900;
-  box-shadow: 0 0 15px rgba(255,220,0,0.7);
+
+  box-shadow:
+    0 0 15px rgba(255,220,0,0.8);
 }
 
-/* Animation quand on appuie */
+/* Animation quand le joueur appuie */
 
 #answerBox button:active {
   transform: scale(0.92);
-  }
-
-.btn.active {
-  opacity: 1;
-  transform: scale(1.1);
-  box-shadow: 0 0 25px white;
 }
 
-.hidden {
-  display: none;
-}
+/* =========================
+   🔘 BOUTONS GÉNÉRAUX
+========================= */
 
 button {
   margin: 5px;
   padding: 10px 14px;
+
   border: none;
   border-radius: 10px;
+
   cursor: pointer;
+
   background: white;
 }
 
+/* =========================
+   🎥 PUB
+========================= */
+
 #watchAdBtn {
   background: gold;
+
   color: black;
+
   font-weight: bold;
+
   display: none;
+
   margin-top: 10px;
 }
 
-.flash {
-  animation: flash 0.2s;
-}
+/* =========================
+   ❌ ÉLÉMENTS CACHÉS
+========================= */
 
-@keyframes flash {
-  0% {
-    background: white;
-  }
-
-  100% {
-    background: #111;
-  }
-}
-#welcomeImage{
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-
-  animation: hideSplash 5s forwards;
-}
-
-#welcomeImage img{
-  width:80%;
-  max-width:300px;
-  border-radius:20px;
-}
-
-@keyframes hideSplash{
-  0%{
-    opacity:1;
-  }
-
-  90%{
-    opacity:1;
-  }
-
-  100%{
-    opacity:0;
-    visibility:hidden;
-  }
-}
-a{
-  display:inline-block;
-  margin-top:20px;
-  margin-bottom:20px;
-  padding:12px 20px;
-  background:#00ff88;
-  color:black;
-  text-decoration:none;
-  border-radius:12px;
-  font-weight:bold;
-}
-#shareBtn{
-  background:#00ff99;
-  color:black;
-  border:none;
-  padding:15px 25px;
-  border-radius:15px;
-  font-size:18px;
-  margin:15px;
-}
-
-#shareMenu{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin:10px auto;
-}
-
-#shareMenu.hidden{
-  display:none;
-}
-
-#shareMenu a{
-  background:white;
-  color:black;
-  text-decoration:none;
-  padding:10px;
-  border-radius:10px;
-}
-#profileContainer{
-  position:absolute;
-  top:10px;
-  left:10px;
-  z-index:1000;
-}
-
-#profilePic{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid #00ff99;
-  cursor:pointer;
-}
-
-#profileModal{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.95);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-#profileModal img{
-  max-width:95%;
-  max-height:95%;
+.hidden {
+  display: none !important;
 }
 
 /* =========================
-   🌨️ ENVIRONNEMENTS
+   🔗 LIENS
+========================= */
+
+a {
+  display: inline-block;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  padding: 12px 20px;
+
+  background: #00ff88;
+
+  color: black;
+
+  text-decoration: none;
+
+  border-radius: 12px;
+
+  font-weight: bold;
+}
+
+/* =========================
+   📤 PARTAGE
+========================= */
+
+#shareBtn {
+  background: #00ff99;
+
+  color: black;
+
+  border: none;
+
+  padding: 15px 25px;
+
+  border-radius: 15px;
+
+  font-size: 18px;
+
+  margin: 15px;
+}
+
+#shareMenu {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin: 10px auto;
+}
+
+#shareMenu.hidden {
+  display: none;
+}
+
+#shareMenu a {
+  background: white;
+
+  color: black;
+
+  text-decoration: none;
+
+  padding: 10px;
+
+  border-radius: 10px;
+}
+
+/* =========================
+   👤 PROFIL
+========================= */
+
+#profileContainer {
+  position: absolute;
+
+  top: 10px;
+  left: 10px;
+
+  z-index: 1000;
+}
+
+#profilePic {
+  width: 70px;
+  height: 70px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 3px solid #00ff99;
+
+  cursor: pointer;
+}
+
+#profileModal {
+  display: none;
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.95);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+#profileModal img {
+  max-width: 95%;
+  max-height: 95%;
+}
+
+/* =========================
+   🌍 ENVIRONNEMENTS
 ========================= */
 
 /* ❄️ NEIGE */
 
 body.environment-snow {
   background:
-    radial-gradient(circle at 50% 20%, #315b91, #071426 55%, #02050a);
+    radial-gradient(
+      circle at 50% 20%,
+      #315b91,
+      #071426 55%,
+      #02050a
+    );
 }
 
 /* 🧊 GLACE */
 
 body.environment-ice {
   background:
-    radial-gradient(circle at 50% 20%, #8bdcff, #174f75 45%, #06131e);
+    radial-gradient(
+      circle at 50% 20%,
+      #8bdcff,
+      #174f75 45%,
+      #06131e
+    );
 }
 
 /* 🌲 FORÊT */
 
 body.environment-forest {
   background:
-    radial-gradient(circle at 50% 20%, #28623b, #082415 55%, #020b05);
+    radial-gradient(
+      circle at 50% 20%,
+      #28623b,
+      #082415 55%,
+      #020b05
+    );
 }
 
 /* 🌧️ PLUIE */
 
 body.environment-rain {
   background:
-    linear-gradient(#152b3e, #06131c 65%, #020608);
+    linear-gradient(
+      #152b3e,
+      #06131c 65%,
+      #020608
+    );
 }
 
 /* ☀️ SOLEIL */
 
 body.environment-sun {
   background:
-    radial-gradient(circle at 50% 15%, #ffe477, #e87928 40%, #4c1b38 100%);
+    radial-gradient(
+      circle at 50% 15%,
+      #ffe477,
+      #e87928 40%,
+      #4c1b38 100%
+    );
 }
 
 /* 🌅 COUCHER DE SOLEIL */
@@ -446,73 +533,139 @@ body.environment-sunset {
 
 body.environment-night {
   background:
-    radial-gradient(circle at 50% 15%, #283b78, #080d28 55%, #010207);
+    radial-gradient(
+      circle at 50% 15%,
+      #283b78,
+      #080d28 55%,
+      #010207
+    );
 }
 
 /* 🔥 FINAL */
 
 body.environment-fire {
   background:
-    radial-gradient(circle at 50% 30%, #7c2412, #250806 55%, #030101);
+    radial-gradient(
+      circle at 50% 30%,
+      #7c2412,
+      #250806 55%,
+      #030101
+    );
 }
 
-
 /* =========================
-   ❄️ PARTICULES MÉTÉO
+   🌨️ COUCHE MÉTÉO
 ========================= */
 
 #weatherLayer {
   position: fixed;
+
   inset: 0;
+
   pointer-events: none;
+
   overflow: hidden;
-  z-index: 0;
+
+  z-index: 1;
 }
 
 .weather-particle {
   position: absolute;
+
   top: -20px;
+
   pointer-events: none;
 }
 
-/* Neige */
+/* =========================
+   ❄️ NEIGE
+========================= */
 
 .snow-particle {
-  width: 8px;
-  height: 8px;
   background: white;
-  border-radius: 50%;
-  opacity: 0.8;
 
-  animation: snowFall linear infinite;
+  border-radius: 50%;
+
+  opacity: 0.85;
+
+  animation:
+    snowFall linear infinite;
+
+  box-shadow:
+    0 0 6px white;
 }
 
 @keyframes snowFall {
+
   from {
-    transform: translateY(-20px) translateX(0);
+    transform:
+      translateY(-20px)
+      translateX(0);
   }
 
   to {
-    transform: translateY(110vh) translateX(80px);
+    transform:
+      translateY(110vh)
+      translateX(80px);
   }
 }
 
-/* Pluie */
+/* =========================
+   🌧️ PLUIE
+========================= */
 
 .rain-particle {
   width: 2px;
   height: 18px;
-  background: rgba(120,200,255,0.7);
 
-  animation: rainFall linear infinite;
+  background:
+    rgba(120,200,255,0.7);
+
+  animation:
+    rainFall linear infinite;
 }
 
 @keyframes rainFall {
+
   from {
-    transform: translateY(-30px);
+    transform:
+      translateY(-30px);
   }
 
   to {
-    transform: translateY(110vh);
+    transform:
+      translateY(110vh);
   }
 }
+
+/* =========================
+   📱 TÉLÉPHONE
+========================= */
+
+@media (max-width: 450px) {
+
+  .container {
+    max-width: 100%;
+
+    padding:
+      10px;
+  }
+
+  .btn {
+    width: 125px;
+    height: 125px;
+  }
+
+  #answerBox button {
+    min-width: 75px;
+
+    font-size: 15px;
+
+    padding: 9px 10px;
+  }
+
+  #profilePic {
+    width: 55px;
+    height: 55px;
+  }
+      }
