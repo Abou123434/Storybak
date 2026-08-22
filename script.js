@@ -590,7 +590,10 @@ function updateUI() {
       el.textContent = colorNames[lang][color];
     }
   });
-}
+
+  /* 🏙️ CHANGE LE FOND SELON LE NIVEAU */
+  updateBackground();
+        }
 
 /* =========================
    BUTTONS
