@@ -589,3 +589,162 @@ profilePic.onclick = () => {
 profileModal.onclick = () => {
   profileModal.style.display = "none";
 };
+
+/* =========================
+   🌦️ SYSTÈME MÉTÉO + ENVIRONNEMENT
+   100% CSS / JS
+   AUCUNE IMAGE
+========================= */
+
+function updateEnvironment() {
+
+  const oldClasses = [
+    "environment-snow",
+    "environment-ice",
+    "environment-forest",
+    "environment-rain",
+    "environment-sun",
+    "environment-sunset",
+    "environment-night",
+    "environment-fire"
+  ];
+
+  document.body.classList.remove(...oldClasses);
+
+  let environment;
+
+  if (level <= 10) {
+
+    // ❄️ NIVEAU 1 → 10
+    environment = "snow";
+
+  } else if (level <= 30) {
+
+    // 🧊 NIVEAU 11 → 30
+    environment = "ice";
+
+  } else if (level <= 100) {
+
+    // 🌲 NIVEAU 31 → 100
+    environment = "forest";
+
+  } else if (level <= 200) {
+
+    // 🌧️ NIVEAU 101 → 200
+    environment = "rain";
+
+  } else if (level <= 400) {
+
+    // ☀️ NIVEAU 201 → 400
+    environment = "sun";
+
+  } else if (level <= 700) {
+
+    // 🌅 NIVEAU 401 → 700
+    environment = "sunset";
+
+  } else if (level <= 900) {
+
+    // 🌌 NIVEAU 701 → 900
+    environment = "night";
+
+  } else {
+
+    // 🔥 NIVEAU 901 → 1000
+    environment = "fire";
+  }
+
+  document.body.classList.add("environment-" + environment);
+
+  createWeather(environment);
+}
+
+
+/* =========================
+   🌨️ PARTICULES
+========================= */
+
+function createWeather(environment) {
+
+  let layer = document.getElementById("weatherLayer");
+
+  if (!layer) {
+
+    layer = document.createElement("div");
+    layer.id = "weatherLayer";
+
+    document.body.prepend(layer);
+  }
+
+  layer.innerHTML = "";
+
+  /* Pas de particules pour certains environnements */
+
+  if (
+    environment === "sun" ||
+    environment === "sunset" ||
+    environment === "night" ||
+    environment === "fire"
+  ) {
+    return;
+  }
+
+  let amount = 35;
+
+  for (let i = 0; i < amount; i++) {
+
+    const particle = document.createElement("div");
+
+    particle.classList.add("weather-particle");
+
+    particle.style.left =
+      Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+      (4 + Math.random() * 6) + "s";
+
+    particle.style.animationDelay =
+      Math.random() * 5 + "s";
+
+
+    if (
+      environment === "snow" ||
+      environment === "ice"
+    ) {
+
+      particle.classList.add("snow-particle");
+
+      const size =
+        4 + Math.random() * 8;
+
+      particle.style.width = size + "px";
+      particle.style.height = size + "px";
+
+    }
+
+
+    if (environment === "rain") {
+
+      particle.classList.add("rain-particle");
+
+      particle.style.animationDuration =
+        (0.5 + Math.random() * 0.8) + "s";
+    }
+
+
+    layer.appendChild(particle);
+  }
+}
+
+
+/* =========================
+   🚀 LANCEMENT
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  setTimeout(() => {
+    updateEnvironment();
+  }, 100);
+
+});
