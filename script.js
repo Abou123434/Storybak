@@ -398,7 +398,7 @@ function updateTimerUI() {
 }
 
 /* =========================
-   WIN
+   🏆 WIN
 ========================= */
 
 function winRound() {
@@ -424,6 +424,9 @@ function winRound() {
 
   saveGame();
   updateUI();
+
+  // 🌦️ Change le décor et la météo selon le nouveau niveau
+  updateEnvironment();
 
   if (get("msg")) {
     get("msg").textContent = t("win");
