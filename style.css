@@ -1,9 +1,18 @@
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
 }
+
+
+/* =========================================================
+   BODY
+========================================================= */
 
 body {
   background-image: url("images/ville1.png");
@@ -13,20 +22,25 @@ body {
   background-repeat: no-repeat;
 
   color: white;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   min-height: 100vh;
+
   text-align: center;
 }
 
 
-/* =========================
-   🔴🟢🔵🟡 GRILLE
-========================= */
+/* =========================================================
+   🔴🟢🔵🟡 GRILLE DU JEU
+   ⚠️ NE PAS MODIFIER
+========================================================= */
 
 .grid {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
 
   gap: 12px;
@@ -37,10 +51,10 @@ body {
 }
 
 
-/* =========================
-   🔴🟢🔵🟡 CARRÉS
-   FORME CONSERVÉE
-========================= */
+/* =========================================================
+   🔲 4 CARRÉS QUI S'ALLUMENT
+   ⚠️ CONSERVÉS
+========================================================= */
 
 .btn {
   width: 140px;
@@ -48,7 +62,6 @@ body {
 
   border-radius: 15px;
 
-  /* Cachés par défaut */
   opacity: 0;
   visibility: hidden;
 
@@ -66,40 +79,59 @@ body {
 }
 
 
-/* =========================
-   🎨 COULEUR DES 4 BOUTONS
-   POSITION ET TAILLE INCHANGÉES
-========================= */
+/* =========================================================
+   🔴🟢🔵🟡 COULEURS DES CARRÉS DU JEU
+   ⚠️ NE PAS MODIFIER
+========================================================= */
 
+.grid button.red,
 .grid .btn.red {
-  background-color: #ff2020 !important;
-}
-
-.grid .btn.green {
-  background-color: #00e676 !important;
-}
-
-.grid .btn.blue {
-  background-color: #168cff !important;
-}
-
-.grid .btn.yellow {
-  background-color: #ffd600 !important;
-}
-
-/* Texte des boutons */
-.grid .btn {
+  background: #ff2020 !important;
   color: white !important;
-  font-size: 20px;
-  font-weight: bold;
+
+  box-shadow:
+    0 0 10px #ff2020,
+    0 0 20px #ff2020 !important;
 }
 
 
-/* =========================
-   👀 SÉQUENCE
-   UNE SEULE COULEUR
-   EST VISIBLE
-========================= */
+.grid button.green,
+.grid .btn.green {
+  background: #00e676 !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #00e676,
+    0 0 20px #00e676 !important;
+}
+
+
+.grid button.blue,
+.grid .btn.blue {
+  background: #168cff !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #168cff,
+    0 0 20px #168cff !important;
+}
+
+
+.grid button.yellow,
+.grid .btn.yellow {
+  background: #ffd600 !important;
+  color: white !important;
+
+  box-shadow:
+    0 0 10px #ffd600,
+    0 0 20px #ffd600 !important;
+}
+
+
+/* =========================================================
+   👀 CARRÉ ACTIF PENDANT LA SÉQUENCE
+   ⚠️ CONSERVÉ
+========================================================= */
 
 .btn.active {
   opacity: 1;
@@ -116,10 +148,10 @@ body {
 }
 
 
-/* =========================
-   🎮 MODE JOUEUR
-   APRÈS LA SÉQUENCE
-========================= */
+/* =========================================================
+   🎮 MODE JOUEUR DES 4 CARRÉS
+   ⚠️ CONSERVÉ
+========================================================= */
 
 .grid.player-mode .btn {
   opacity: 1;
@@ -128,12 +160,10 @@ body {
   transform: scale(1);
 
   filter: brightness(1);
-
-  /* On garde les couleurs de chaque bouton */
 }
 
 
-/* 🔴 ROUGE */
+/* 🔴 */
 
 .grid.player-mode .btn.red {
   background: #ff2020;
@@ -144,7 +174,7 @@ body {
 }
 
 
-/* 🟢 VERT */
+/* 🟢 */
 
 .grid.player-mode .btn.green {
   background: #00e676;
@@ -155,7 +185,7 @@ body {
 }
 
 
-/* 🔵 BLEU */
+/* 🔵 */
 
 .grid.player-mode .btn.blue {
   background: #168cff;
@@ -166,7 +196,7 @@ body {
 }
 
 
-/* 🟡 JAUNE */
+/* 🟡 */
 
 .grid.player-mode .btn.yellow {
   background: #ffd600;
@@ -177,47 +207,38 @@ body {
 }
 
 
-/* =========================
-   🖱️ EFFET AU TOUCHER
-   SANS DÉPLACER LES BOUTONS
-========================= */
+/* =========================================================
+   🖱️ SURVOL DES CARRÉS
+   ⚠️ CONSERVÉ
+========================================================= */
 
 .grid.player-mode .btn:hover {
   filter: brightness(1.15);
 }
 
 
-/* =========================
-   👆 APPUI
-   SANS DÉPLACER LES BOUTONS
-========================= */
+/* =========================================================
+   👆 APPUI SUR LES CARRÉS
+   ⚠️ CONSERVÉ
+========================================================= */
 
 .grid.player-mode .btn:active {
   transform: scale(0.98);
 }
 
 
-/* =========================
-   👆 APPUI
-   SANS DÉPLACER LES BOUTONS
-========================= */
-
-.grid.player-mode .btn:active {
-  transform: scale(0.98);
-}
-
-/* =========================
-   👻 ÉLÉMENTS CACHÉS
-========================= */
+/* =========================================================
+   👻 HIDDEN
+========================================================= */
 
 .hidden {
   display: none;
 }
 
 
-/* =========================
-   🔘 AUTRES BOUTONS
-========================= */
+/* =========================================================
+   🔘 BOUTONS GÉNÉRAUX
+========================================================= */
 
 button {
   margin: 5px;
@@ -232,26 +253,131 @@ button {
 }
 
 
-/* =========================
-   🎥 PUB
-========================= */
+/* =========================================================
+   🎨🎨🎨 LES 4 BOUTONS DE RÉPONSE
+   ⚠️ C'EST ICI QUE LA MODIFICATION EST FAITE
+   ⚠️ UNIQUEMENT #answerBox
+========================================================= */
+
+/* 🔴 ROUGE */
+
+#answerBox .red {
+  background: #ff2020 !important;
+
+  color: white !important;
+
+  border: none;
+
+  font-weight: bold;
+
+  box-shadow:
+    0 0 10px #ff2020,
+    0 0 20px rgba(255, 32, 32, 0.7);
+}
+
+
+/* 🟢 VERT */
+
+#answerBox .green {
+  background: #00e676 !important;
+
+  color: white !important;
+
+  border: none;
+
+  font-weight: bold;
+
+  box-shadow:
+    0 0 10px #00e676,
+    0 0 20px rgba(0, 230, 118, 0.7);
+}
+
+
+/* 🔵 BLEU */
+
+#answerBox .blue {
+  background: #168cff !important;
+
+  color: white !important;
+
+  border: none;
+
+  font-weight: bold;
+
+  box-shadow:
+    0 0 10px #168cff,
+    0 0 20px rgba(22, 140, 255, 0.7);
+}
+
+
+/* 🟡 JAUNE */
+
+#answerBox .yellow {
+  background: #ffd600 !important;
+
+  color: white !important;
+
+  border: none;
+
+  font-weight: bold;
+
+  box-shadow:
+    0 0 10px #ffd600,
+    0 0 20px rgba(255, 214, 0, 0.7);
+}
+
+
+/* =========================================================
+   📝 TEXTE DES 4 BOUTONS
+========================================================= */
+
+#answerBox .color-name {
+  color: white !important;
+
+  font-weight: bold;
+
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   👆 APPUI DES BOUTONS DE RÉPONSE
+   ⚠️ NE CHANGE PAS LEUR POSITION
+========================================================= */
+
+#answerBox .red:active,
+#answerBox .green:active,
+#answerBox .blue:active,
+#answerBox .yellow:active {
+  transform: none;
+}
+
+
+/* =========================================================
+   🎥 BOUTON PUBLICITÉ
+========================================================= */
 
 #watchAdBtn {
   background: gold;
+
   color: black;
+
   font-weight: bold;
+
   display: none;
+
   margin-top: 10px;
 }
 
 
-/* =========================
+/* =========================================================
    ✨ FLASH
-========================= */
+========================================================= */
 
 .flash {
   animation: flash 0.2s;
 }
+
 
 @keyframes flash {
   0% {
@@ -264,9 +390,9 @@ button {
 }
 
 
-/* =========================
+/* =========================================================
    🖼️ IMAGE D'ACCUEIL
-========================= */
+========================================================= */
 
 #welcomeImage {
   position: fixed;
@@ -280,6 +406,7 @@ button {
   background: black;
 
   display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -288,12 +415,15 @@ button {
   animation: hideSplash 5s forwards;
 }
 
+
 #welcomeImage img {
   width: 80%;
+
   max-width: 300px;
 
   border-radius: 20px;
 }
+
 
 @keyframes hideSplash {
 
@@ -307,14 +437,15 @@ button {
 
   100% {
     opacity: 0;
+
     visibility: hidden;
   }
 }
 
 
-/* =========================
+/* =========================================================
    🔗 LIENS
-========================= */
+========================================================= */
 
 a {
   display: inline-block;
@@ -325,6 +456,7 @@ a {
   padding: 12px 20px;
 
   background: #00ff88;
+
   color: black;
 
   text-decoration: none;
@@ -335,9 +467,9 @@ a {
 }
 
 
-/* =========================
+/* =========================================================
    📤 PARTAGER
-========================= */
+========================================================= */
 
 #shareBtn {
   background: #00ff99;
@@ -355,6 +487,7 @@ a {
   margin: 15px;
 }
 
+
 #shareMenu {
   display: flex;
 
@@ -365,9 +498,11 @@ a {
   margin: 10px auto;
 }
 
+
 #shareMenu.hidden {
   display: none;
 }
+
 
 #shareMenu a {
   background: white;
@@ -382,9 +517,9 @@ a {
 }
 
 
-/* =========================
+/* =========================================================
    👤 PROFIL
-========================= */
+========================================================= */
 
 #profileContainer {
   position: absolute;
@@ -394,6 +529,7 @@ a {
 
   z-index: 1000;
 }
+
 
 #profilePic {
   width: 70px;
@@ -407,6 +543,7 @@ a {
 
   cursor: pointer;
 }
+
 
 #profileModal {
   display: none;
@@ -427,15 +564,16 @@ a {
   z-index: 9999;
 }
 
+
 #profileModal img {
   max-width: 95%;
   max-height: 95%;
 }
 
 
-/* =========================
+/* =========================================================
    📱 TÉLÉPHONE
-========================= */
+========================================================= */
 
 @media (max-width: 700px) {
 
@@ -453,133 +591,4 @@ a {
 
     border-radius: 15px;
   }
-}
-
-#watchAdBtn {
-  background: gold;
-  color: black;
-  font-weight: bold;
-  display: none;
-  margin-top: 10px;
-}
-
-.flash {
-  animation: flash 0.2s;
-}
-
-@keyframes flash {
-  0% {
-    background: white;
   }
-
-  100% {
-    background: #111;
-  }
-}
-#welcomeImage{
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-
-  animation: hideSplash 5s forwards;
-}
-
-#welcomeImage img{
-  width:80%;
-  max-width:300px;
-  border-radius:20px;
-}
-
-@keyframes hideSplash{
-  0%{
-    opacity:1;
-  }
-
-  90%{
-    opacity:1;
-  }
-
-  100%{
-    opacity:0;
-    visibility:hidden;
-  }
-}
-a{
-  display:inline-block;
-  margin-top:20px;
-  margin-bottom:20px;
-  padding:12px 20px;
-  background:#00ff88;
-  color:black;
-  text-decoration:none;
-  border-radius:12px;
-  font-weight:bold;
-}
-#shareBtn{
-  background:#00ff99;
-  color:black;
-  border:none;
-  padding:15px 25px;
-  border-radius:15px;
-  font-size:18px;
-  margin:15px;
-}
-
-#shareMenu{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin:10px auto;
-}
-
-#shareMenu.hidden{
-  display:none;
-}
-
-#shareMenu a{
-  background:white;
-  color:black;
-  text-decoration:none;
-  padding:10px;
-  border-radius:10px;
-}
-#profileContainer{
-  position:absolute;
-  top:10px;
-  left:10px;
-  z-index:1000;
-}
-
-#profilePic{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid #00ff99;
-  cursor:pointer;
-}
-
-#profileModal{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.95);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-#profileModal img{
-  max-width:95%;
-  max-height:95%;
-}
