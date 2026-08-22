@@ -32,27 +32,51 @@ body {
   width: 140px;
   height: 140px;
   border-radius: 15px;
-  opacity: 0;
+  opacity: 1;
   transition: 0.2s;
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
+  cursor: pointer;
 }
 
+/* 🔴 ROUGE */
 .red {
-  background: red;
+  background: #ff0000;
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 25px #ff0000;
 }
 
+/* 🟢 VERT */
 .green {
-  background: green;
+  background: #00d83a;
+  box-shadow:
+    0 0 10px #00ff55,
+    0 0 25px #00ff55;
 }
 
+/* 🔵 BLEU */
 .blue {
-  background: blue;
+  background: #0066ff;
+  box-shadow:
+    0 0 10px #0088ff,
+    0 0 25px #0088ff;
 }
 
+/* 🟡 JAUNE */
 .yellow {
-  background: gold;
+  background: #ffd900;
+  box-shadow:
+    0 0 10px #ffd900,
+    0 0 25px #ffd900;
 }
 
+/* ✨ Quand la couleur est montrée dans la séquence */
+.btn.active {
+  opacity: 1;
+  transform: scale(1.1);
+  box-shadow: 0 0 35px white;
+}
 .btn.active {
   opacity: 1;
   transform: scale(1.1);
