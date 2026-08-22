@@ -12,9 +12,51 @@ let adInProgress = false;
 
 const colors = ["red", "green", "blue", "yellow"];
 
+/* =========================
+🏙️ IMAGES DE FOND DES VILLES
+========================= */
+
+const backgrounds = [
+  "images/ville1.png",
+  "images/ville2.png",
+  "images/ville3.png",
+  "images/ville4.png",
+  "images/ville5.png",
+  "images/ville6.png",
+  "images/ville7.png",
+  "images/ville8.png",
+  "images/ville9.png"
+];
+
+/* Change automatiquement le fond selon le niveau */
+function updateBackground() {
+  let backgroundIndex;
+
+  // Images 1 à 8 : 20 niveaux chacune
+  if (level <= 160) {
+    backgroundIndex = Math.floor((level - 1) / 20);
+  } 
+  
+  // Image 9 : du niveau 161 jusqu'au niveau 1000
+  else {
+    backgroundIndex = 8;
+  }
+
+  document.body.style.backgroundImage =
+    `url("${backgrounds[backgroundIndex]}")`;
+}
+
+/* =========================
+🔊 SONS
+========================= */
+
 const clickSound = document.getElementById("clickSound");
 const winSound = document.getElementById("winSound");
 const failSound = document.getElementById("failSound");
+
+/* =========================
+🛠️ RACCOURCI POUR LES ÉLÉMENTS HTML
+========================= */
 
 function get(id) {
   return document.getElementById(id);
