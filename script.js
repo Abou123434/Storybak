@@ -1,3 +1,13 @@
+const GAME_VERSION = "2.0";
+
+if (localStorage.getItem("gameVersion") !== GAME_VERSION) {
+  localStorage.removeItem("lives");
+  localStorage.removeItem("level");
+  localStorage.removeItem("score");
+
+  localStorage.setItem("gameVersion", GAME_VERSION);
+}
+
 let sequence = [];
 let player = [];
 
