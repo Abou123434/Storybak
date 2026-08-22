@@ -1,31 +1,3 @@
-/* =========================================================
-   🧠 MEMORY FLASH PRO
-   VERSION 4.0
-   🎮 JEU + 🌍 MONDE CSS/JS
-   🚫 AUCUNE IMAGE
-========================================================= */
-
-
-/* =========================================================
-   💾 VERSION DU JEU
-========================================================= */
-
-const GAME_VERSION = "4.0";
-
-if (localStorage.getItem("gameVersion") !== GAME_VERSION) {
-
-  localStorage.removeItem("lives");
-  localStorage.removeItem("level");
-  localStorage.removeItem("score");
-
-  localStorage.setItem("gameVersion", GAME_VERSION);
-}
-
-
-/* =========================================================
-   🎮 VARIABLES DU JEU
-========================================================= */
-
 let sequence = [];
 let player = [];
 
@@ -33,3292 +5,587 @@ let level = 1;
 let score = 0;
 let lives = 5;
 
-let timer = null;
+let timer;
 let timeLeft = 10;
-
 let canPlay = false;
 let adInProgress = false;
 
-const colors = [
-  "red",
-  "green",
-  "blue",
-  "yellow"
-];
+const colors = ["red", "green", "blue", "yellow"];
 
-
-/* =========================================================
-   🔧 FONCTION GET
-========================================================= */
+const clickSound = document.getElementById("clickSound");
+const winSound = document.getElementById("winSound");
+const failSound = document.getElementById("failSound");
 
 function get(id) {
   return document.getElementById(id);
 }
 
-
-/* =========================================================
+/* =========================
    🌍 LANGUES
-========================================================= */
+========================= */
 
-let lang =
-  localStorage.getItem("lang") || "fr";
-
+let lang = localStorage.getItem("lang") || "fr";
 
 const translations = {
-
   fr: {
-
     title: "🧠 Memory Flash Pro",
-
     start: "⭐ Commencer",
-
     watchAd: "🎥 Regarder une pub",
-
     score: "Score",
-
     level: "Niveau",
-
     lives: "Vies",
-
     observe: "👀 Observe bien !",
-
     play: "🎮 Reproduis la séquence !",
-
     win: "🔥 Gagné !",
-
-    error:
-      "❌ Erreur ! Vie restante : ",
-
-    gameover:
-      "🚫 Plus de vies ! Regarde une pub",
-
-    ad:
-      "🎥 Publicité en cours...",
-
-    adwin:
-      "✅ +4 vies ajoutées",
-
-    timer:
-      "⏱ Temps"
-
+    error: "❌ Erreur ! Vie restante : ",
+    gameover: "🚫 Plus de vies ! Regarde une pub",
+    ad: "🎥 Publicité en cours...",
+    adwin: "✅ +4 vies ajoutées",
+    timer: "⏱ Temps"
   },
-
 
   en: {
-
     title: "🧠 Memory Flash Pro",
-
     start: "⭐ Start",
-
     watchAd: "🎥 Watch Ad",
-
     score: "Score",
-
     level: "Level",
-
     lives: "Lives",
-
-    observe:
-      "👀 Watch carefully!",
-
-    play:
-      "🎮 Repeat the sequence!",
-
-    win:
-      "🔥 You win!",
-
-    error:
-      "❌ Wrong! Lives left: ",
-
-    gameover:
-      "🚫 No lives left! Watch an ad",
-
-    ad:
-      "🎥 Ad running...",
-
-    adwin:
-      "✅ +4 lives added",
-
-    timer:
-      "⏱ Time"
-
+    observe: "👀 Watch carefully!",
+    play: "🎮 Repeat the sequence!",
+    win: "🔥 You win!",
+    error: "❌ Wrong! Lives left: ",
+    gameover: "🚫 No lives left! Watch an ad",
+    ad: "🎥 Ad running...",
+    adwin: "✅ +4 lives added",
+    timer: "⏱ Time"
   },
-
 
   es: {
-
-    title:
-      "🧠 Memoria Flash Pro",
-
-    start:
-      "⭐ Empezar",
-
-    watchAd:
-      "🎥 Ver anuncio",
-
-    score:
-      "Puntuación",
-
-    level:
-      "Nivel",
-
-    lives:
-      "Vidas",
-
-    observe:
-      "👀 ¡Observa bien!",
-
-    play:
-      "🎮 ¡Repite la secuencia!",
-
-    win:
-      "🔥 ¡Ganaste!",
-
-    error:
-      "❌ Error! Vidas restantes: ",
-
-    gameover:
-      "🚫 Sin vidas. Mira un anuncio",
-
-    ad:
-      "🎥 Anuncio en curso...",
-
-    adwin:
-      "✅ +4 vidas añadidas",
-
-    timer:
-      "⏱ Tiempo"
-
+    title: "🧠 Memoria Flash Pro",
+    start: "⭐ Empezar",
+    watchAd: "🎥 Ver anuncio",
+    score: "Puntuación",
+    level: "Nivel",
+    lives: "Vidas",
+    observe: "👀 ¡Observa bien!",
+    play: "🎮 ¡Repite la secuencia!",
+    win: "🔥 ¡Ganaste!",
+    error: "❌ Error! Vidas restantes: ",
+    gameover: "🚫 Sin vidas. Mira un anuncio",
+    ad: "🎥 Anuncio en curso...",
+    adwin: "✅ +4 vidas añadidas",
+    timer: "⏱ Tiempo"
   },
-
 
   de: {
-
-    title:
-      "🧠 Memory Flash Pro",
-
-    start:
-      "⭐ Starten",
-
-    watchAd:
-      "🎥 Werbung ansehen",
-
-    score:
-      "Punkte",
-
-    level:
-      "Level",
-
-    lives:
-      "Leben",
-
-    observe:
-      "👀 Gut beobachten!",
-
-    play:
-      "🎮 Wiederhole die Sequenz!",
-
-    win:
-      "🔥 Gewonnen!",
-
-    error:
-      "❌ Fehler! Leben übrig: ",
-
-    gameover:
-      "🚫 Keine Leben mehr!",
-
-    ad:
-      "🎥 Werbung läuft...",
-
-    adwin:
-      "✅ +4 Leben hinzugefügt",
-
-    timer:
-      "⏱ Zeit"
-
+    title: "🧠 Memory Flash Pro",
+    start: "⭐ Starten",
+    watchAd: "🎥 Werbung ansehen",
+    score: "Punkte",
+    level: "Level",
+    lives: "Leben",
+    observe: "👀 Gut beobachten!",
+    play: "🎮 Wiederhole die Sequenz!",
+    win: "🔥 Gewonnen!",
+    error: "❌ Fehler! Leben übrig: ",
+    gameover: "🚫 Keine Leben mehr!",
+    ad: "🎥 Werbung läuft...",
+    adwin: "✅ +4 Leben hinzugefügt",
+    timer: "⏱ Zeit"
   },
 
-
   ar: {
-
-    title:
-      "🧠 لعبة الذاكرة",
-
-    start:
-      "⭐ ابدأ",
-
-    watchAd:
-      "🎥 مشاهدة إعلان",
-
-    score:
-      "النقاط",
-
-    level:
-      "المستوى",
-
-    lives:
-      "الأرواح",
-
-    observe:
-      "👀 راقب جيدًا!",
-
-    play:
-      "🎮 أعد التسلسل!",
-
-    win:
-      "🔥 فزت!",
-
-    error:
-      "❌ خطأ! الأرواح المتبقية: ",
-
-    gameover:
-      "🚫 انتهت الأرواح! شاهد إعلانًا",
-
-    ad:
-      "🎥 الإعلان يعمل...",
-
-    adwin:
-      "✅ تمت إضافة 4 أرواح",
-
-    timer:
-      "⏱ الوقت"
-
+    title: "🧠 لعبة الذاكرة",
+    start: "⭐ ابدأ",
+    watchAd: "🎥 مشاهدة إعلان",
+    score: "النقاط",
+    level: "المستوى",
+    lives: "الأرواح",
+    observe: "👀 راقب جيدًا!",
+    play: "🎮 أعد التسلسل!",
+    win: "🔥 فزت!",
+    error: "❌ خطأ! الأرواح المتبقية: ",
+    gameover: "🚫 انتهت الأرواح! شاهد إعلانًا",
+    ad: "🎥 الإعلان يعمل...",
+    adwin: "✅ تمت إضافة 4 أرواح",
+    timer: "⏱ الوقت"
   }
-
 };
 
-
-/* =========================================================
-   🎨 NOMS DES COULEURS
-========================================================= */
+/* =========================
+   🎨 COULEURS TRADUITES
+========================= */
 
 const colorNames = {
-
-  fr: {
-    red: "Rouge",
-    green: "Vert",
-    blue: "Bleu",
-    yellow: "Jaune"
-  },
-
-  en: {
-    red: "Red",
-    green: "Green",
-    blue: "Blue",
-    yellow: "Yellow"
-  },
-
-  es: {
-    red: "Rojo",
-    green: "Verde",
-    blue: "Azul",
-    yellow: "Amarillo"
-  },
-
-  de: {
-    red: "Rot",
-    green: "Grün",
-    blue: "Blau",
-    yellow: "Gelb"
-  },
-
-  ar: {
-    red: "أحمر",
-    green: "أخضر",
-    blue: "أزرق",
-    yellow: "أصفر"
-  }
-
+  fr: { red: "Rouge", green: "Vert", blue: "Bleu", yellow: "Jaune" },
+  en: { red: "Red", green: "Green", blue: "Blue", yellow: "Yellow" },
+  es: { red: "Rojo", green: "Verde", blue: "Azul", yellow: "Amarillo" },
+  de: { red: "Rot", green: "Grün", blue: "Blau", yellow: "Gelb" },
+  ar: { red: "أحمر", green: "أخضر", blue: "أزرق", yellow: "أصفر" }
 };
 
-
 function t(key) {
-
-  return (
-    translations[lang]?.[key] ||
-    translations.fr[key] ||
-    key
-  );
-
+  return translations[lang][key];
 }
-
-
-/* =========================================================
-   🌍 CHANGEMENT DE LANGUE
-========================================================= */
 
 function setLanguage(newLang) {
+  lang = newLang;
+  localStorage.setItem("lang", lang);
+  updateUI();
+}
 
-  if (!translations[newLang]) {
-    newLang = "fr";
+/* =========================
+   INIT
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadGame();
+
+  const starBtn = get("star");
+  const adBtn = get("watchAdBtn");
+  const langSelect = get("langSelect");
+
+  if (starBtn) {
+    starBtn.addEventListener("click", () => {
+      if (lives <= 0) {
+        watchAd();
+      } else {
+        startGame();
+      }
+    });
   }
 
-  lang = newLang;
+  if (adBtn) adBtn.addEventListener("click", watchAd);
 
-  localStorage.setItem(
-    "lang",
-    lang
-  );
+  if (langSelect) {
+    langSelect.value = lang;
+    langSelect.addEventListener("change", (e) => {
+      setLanguage(e.target.value);
+    });
+  }
 
   updateUI();
+  updateButtonsState();
+});
 
-}
-
-
-/* =========================================================
-   💾 SAUVEGARDE
-========================================================= */
+/* =========================
+   STORAGE
+========================= */
 
 function saveGame() {
-
-  localStorage.setItem(
-    "lives",
-    lives
-  );
-
-  localStorage.setItem(
-    "level",
-    level
-  );
-
-  localStorage.setItem(
-    "score",
-    score
-  );
-
+  localStorage.setItem("lives", lives);
+  localStorage.setItem("level", level);
+  localStorage.setItem("score", score);
 }
-
-
-/* =========================================================
-   💾 CHARGEMENT
-========================================================= */
 
 function loadGame() {
+  const savedLives = parseInt(localStorage.getItem("lives"));
+  const savedLevel = parseInt(localStorage.getItem("level"));
+  const savedScore = parseInt(localStorage.getItem("score"));
 
-  const savedLives =
-    parseInt(
-      localStorage.getItem("lives")
-    );
-
-  const savedLevel =
-    parseInt(
-      localStorage.getItem("level")
-    );
-
-  const savedScore =
-    parseInt(
-      localStorage.getItem("score")
-    );
-
-
-  lives =
-    isNaN(savedLives)
-      ? 5
-      : savedLives;
-
-
-  level =
-    isNaN(savedLevel)
-      ? 1
-      : savedLevel;
-
-
-  score =
-    isNaN(savedScore)
-      ? 0
-      : savedScore;
-
-
-  /* sécurité */
-
-  if (level < 1)
-    level = 1;
-
-  if (level > 1000)
-    level = 1000;
-
-  if (score < 0)
-    score = 0;
-
+  lives = isNaN(savedLives) ? 5 : savedLives;
+  level = isNaN(savedLevel) ? 1 : savedLevel;
+  score = isNaN(savedScore) ? 0 : savedScore;
 }
 
-
-/* =========================================================
-   🔊 SONS
-========================================================= */
-
-function playSound(id) {
-
-  const sound = get(id);
-
-  if (!sound)
-    return;
-
-  try {
-
-    sound.currentTime = 0;
-
-    const promise =
-      sound.play();
-
-    if (promise) {
-      promise.catch(() => {});
-    }
-
-  } catch (error) {
-
-    console.log(
-      "Son indisponible :",
-      id
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🚀 INITIALISATION
-========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    loadGame();
-
-    const starBtn =
-      get("star");
-
-    const adBtn =
-      get("watchAdBtn");
-
-    const langSelect =
-      get("langSelect");
-
-
-    /* ⭐ bouton commencer */
-
-    if (starBtn) {
-
-      starBtn.addEventListener(
-        "click",
-        () => {
-
-          if (lives <= 0) {
-
-            watchAd();
-
-          } else {
-
-            startGame();
-
-          }
-
-        }
-      );
-
-    }
-
-
-    /* 🎥 publicité */
-
-    if (adBtn) {
-
-      adBtn.addEventListener(
-        "click",
-        watchAd
-      );
-
-    }
-
-
-    /* 🌍 langue */
-
-    if (langSelect) {
-
-      langSelect.value = lang;
-
-      langSelect.addEventListener(
-        "change",
-        event => {
-
-          setLanguage(
-            event.target.value
-          );
-
-        }
-      );
-
-    }
-
-
-    /* UI */
-
-    updateUI();
-
-    updateButtonsState();
-
-
-    /* 🌍 création du monde */
-
-    setTimeout(
-      () => {
-
-        createWorld();
-
-      },
-      150
-    );
-
-
-    /* 🔗 partage */
-
-    setupShare();
-
-
-    /* 👤 profil */
-
-    setupProfile();
-
-  }
-);
-
-
-/* =========================================================
-   🎮 START GAME
-========================================================= */
+/* =========================
+   START GAME
+========================= */
 
 function startGame() {
-
-  if (lives <= 0)
-    return;
-
+  if (lives <= 0) return;
 
   sequence = [];
-
   player = [];
 
-
-  const adBtn =
-    get("watchAdBtn");
-
-
-  if (adBtn) {
-
-    adBtn.style.display =
-      "none";
-
-  }
-
+  const adBtn = get("watchAdBtn");
+  if (adBtn) adBtn.style.display = "none";
 
   nextRound();
-
 }
 
-
-/* =========================================================
-   🔄 PROCHAIN ROUND
-========================================================= */
+/* =========================
+   NEXT ROUND
+========================= */
 
 function nextRound() {
-
   clearInterval(timer);
 
   sequence = [];
-
   player = [];
-
   canPlay = false;
 
+let length;
 
-  let length;
-
-
-  if (level <= 10) {
-
-    length = 3;
-
-  }
-
-  else if (level <= 30) {
-
-    length = 4;
-
-  }
-
-  else if (level <= 100) {
-
-    length = 5;
-
-  }
-
-  else if (level <= 200) {
-
-    length = 6;
-
-  }
-
-  else if (level <= 400) {
-
-    length = 7;
-
-  }
-
-  else if (level <= 700) {
-
-    length = 8;
-
-  }
-
-  else {
-
-    length = 10;
-
-  }
-
-
-  const availableColors =
-    level <= 10
-      ? colors.slice(0, 3)
-      : colors;
-
-
-  for (
-    let i = 0;
-    i < length;
-    i++
-  ) {
-
-    const randomColor =
-      availableColors[
-        Math.floor(
-          Math.random() *
-          availableColors.length
-        )
-      ];
-
-    sequence.push(
-      randomColor
-    );
-
-  }
-
-
-  if (get("msg")) {
-
-    get("msg").textContent =
-      t("observe");
-
-  }
-
-
-  if (get("flashGrid")) {
-
-    get("flashGrid").style.display =
-      "grid";
-
-  }
-
-
-  if (get("answerBox")) {
-
-    get("answerBox")
-      .classList
-      .add("hidden");
-
-  }
-
-
-  showSequence();
-
+if (level <= 10) {
+  length = 3;
+}
+else if (level <= 30) {
+  length = 4;
+}
+else if (level <= 100) {
+  length = 5;
+}
+else if (level <= 200) {
+  length = 6;
+}
+else if (level <= 400) {
+  length = 7;
+}
+else if (level <= 700) {
+  length = 8;
+}
+else {
+  length = 10;
 }
 
+const availableColors =
+level <= 10
+  ? colors.slice(0, 3)
+  : colors;
 
-/* =========================================================
-   👀 AFFICHAGE DE LA SÉQUENCE
-========================================================= */
+for (let i = 0; i < length; i++) {
+  const randomColor =
+    availableColors[Math.floor(Math.random() * availableColors.length)];
+
+  sequence.push(randomColor);
+}
+
+  if (get("msg")) {
+    get("msg").textContent = t("observe");
+  }
+
+  if (get("flashGrid")) {
+    get("flashGrid").style.display = "grid";
+  }
+
+  if (get("answerBox")) {
+    get("answerBox").classList.add("hidden");
+  }
+
+  showSequence();
+}
+
+/* =========================
+   SHOW SEQUENCE
+========================= */
 
 function showSequence() {
 
-  const speed = 900;
+const speed = 900;
 
-  let i = 0;
+let i = 0;
 
+const interval = setInterval(() => {
+  if (i >= sequence.length) {
+    clearInterval(interval);
+    return;
+  }
 
-  const interval =
-    setInterval(
-      () => {
+  flash(sequence[i]);
+  i++;
+}, speed);
 
-        if (
-          i >= sequence.length
-        ) {
+  setTimeout(() => {
+    if (get("flashGrid")) {
+      get("flashGrid").style.display = "none";
+    }
 
-          clearInterval(
-            interval
-          );
+    if (get("answerBox")) {
+      get("answerBox").classList.remove("hidden");
+    }
 
-          return;
+    canPlay = true;
 
-        }
+    if (get("msg")) {
+      get("msg").textContent = t("play");
+    }
 
-
-        flash(
-          sequence[i]
-        );
-
-        i++;
-
-      },
-      speed
-    );
-
-
-  setTimeout(
-    () => {
-
-      if (get("flashGrid")) {
-
-        get("flashGrid")
-          .style.display =
-          "none";
-
-      }
-
-
-      if (get("answerBox")) {
-
-        get("answerBox")
-          .classList
-          .remove("hidden");
-
-      }
-
-
-      canPlay = true;
-
-
-      if (get("msg")) {
-
-        get("msg").textContent =
-          t("play");
-
-      }
-
-
-      startTimer();
-
-    },
-    sequence.length * speed + 700
-  );
-
+    startTimer();
+  }, sequence.length * speed + 700);
 }
 
-
-/* =========================================================
-   ✨ FLASH COULEUR
-========================================================= */
+/* =========================
+   FLASH
+========================= */
 
 function flash(color) {
+  const el = document.querySelector("." + color);
 
-  const el =
-    document.querySelector(
-      "." + color
-    );
+  if (!el) return;
 
+  el.classList.add("active");
 
-  if (!el)
-    return;
+  if (clickSound) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
 
-
-  el.classList.add(
-    "active"
-  );
-
-
-  playSound(
-    "clickSound"
-  );
-
-
-  setTimeout(
-    () => {
-
-      el.classList.remove(
-        "active"
-      );
-
-    },
-    250
-  );
-
+  setTimeout(() => {
+    el.classList.remove("active");
+  }, 250);
 }
 
-
-/* =========================================================
-   🎮 CHOIX DU JOUEUR
-========================================================= */
+/* =========================
+   PLAYER PICK
+========================= */
 
 function pick(color) {
-
-  if (!canPlay)
-    return;
-
+  if (!canPlay) return;
 
   player.push(color);
 
+  const index = player.length - 1;
 
-  const index =
-    player.length - 1;
-
-
-  if (
-    player[index] !==
-    sequence[index]
-  ) {
-
+  if (player[index] !== sequence[index]) {
     gameOver();
-
     return;
-
   }
 
-
-  if (
-    player.length ===
-    sequence.length
-  ) {
-
+  if (player.length === sequence.length) {
     winRound();
-
   }
-
 }
 
-
-/* =========================================================
-   ⏱️ TIMER
-========================================================= */
+/* =========================
+   TIMER
+========================= */
 
 function startTimer() {
-
   clearInterval(timer);
 
-
   if (level <= 10) {
-
-    timeLeft = 5;
-
-  }
-
-  else if (level <= 30) {
-
-    timeLeft = 7;
-
-  }
-
-  else if (level <= 100) {
-
-    timeLeft = 9;
-
-  }
-
-  else if (level <= 200) {
-
-    timeLeft = 10;
-
-  }
-
-  else if (level <= 400) {
-
-    timeLeft = 15;
-
-  }
-
-  else if (level <= 700) {
-
-    timeLeft = 20;
-
-  }
-
-  else {
-
-    timeLeft = 30;
-
-  }
-
+  timeLeft = 5;
+}
+else if (level <= 30) {
+  timeLeft = 7;
+}
+else if (level <= 100) {
+  timeLeft = 9;
+}
+else if (level <= 200) {
+  timeLeft = 10;
+}
+else if (level <= 400) {
+  timeLeft = 15;
+}
+else if (level <= 700) {
+  timeLeft = 20;
+}
+else {
+  timeLeft = 30;
+}
 
   updateTimerUI();
 
+  timer = setInterval(() => {
+    timeLeft--;
 
-  timer =
-    setInterval(
-      () => {
+    updateTimerUI();
 
-        timeLeft--;
-
-        updateTimerUI();
-
-
-        if (timeLeft <= 0) {
-
-          clearInterval(
-            timer
-          );
-
-          gameOver();
-
-        }
-
-      },
-      1000
-    );
-
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      gameOver();
+    }
+  }, 1000);
 }
-
-
-/* =========================================================
-   ⏱️ AFFICHAGE TIMER
-========================================================= */
 
 function updateTimerUI() {
-
-  const timerElement =
-    get("timer");
-
-
-  if (timerElement) {
-
-    timerElement.textContent =
-      `${t("timer")} : ${timeLeft}s`;
-
+  if (get("timer")) {
+    get("timer").textContent = `${t("timer")} : ${timeLeft}s`;
   }
-
 }
 
-
-/* =========================================================
-   🏆 VICTOIRE
-========================================================= */
+/* =========================
+   WIN
+========================= */
 
 function winRound() {
-
   clearInterval(timer);
-
   canPlay = false;
 
+  if (winSound) {
+    winSound.currentTime = 0;
+    winSound.play();
+  }
 
-  playSound(
-    "winSound"
-  );
-
-
-  score +=
-    level * 10;
-
+  score += level * 10;
 
   if (level < 1000) {
-
     level++;
-
-  }
-
-  else {
-
-    saveGame();
-
-    updateUI();
-
-    createWorld();
-
-
+  } else {
     if (get("msg")) {
-
       get("msg").textContent =
         "🏆 Bravo ! Tu as terminé les 1000 niveaux !";
-
     }
-
     return;
-
   }
-
 
   saveGame();
-
   updateUI();
 
-
-  /* 🌍 nouveau décor */
-
-  createWorld();
-
-
   if (get("msg")) {
-
-    get("msg").textContent =
-      t("win");
-
+    get("msg").textContent = t("win");
   }
 
-
-  setTimeout(
-    () => {
-
-      nextRound();
-
-    },
-    1200
-  );
-
+  setTimeout(() => {
+    nextRound();
+  }, 1200);
 }
 
-
-/* =========================================================
-   ❌ GAME OVER
-========================================================= */
+/* =========================
+   GAME OVER
+========================= */
 
 function gameOver() {
-
   clearInterval(timer);
-
   canPlay = false;
 
-
-  playSound(
-    "failSound"
-  );
-
+  if (failSound) {
+    failSound.currentTime = 0;
+    failSound.play();
+  }
 
   lives--;
 
-
-  if (lives < 0)
-    lives = 0;
-
-
   saveGame();
-
   updateUI();
-
   updateButtonsState();
 
-
   if (lives > 0) {
-
     if (get("msg")) {
-
-      get("msg").textContent =
-        t("error") +
-        lives;
-
+      get("msg").textContent = t("error") + lives;
     }
 
-
-    setTimeout(
-      () => {
-
-        nextRound();
-
-      },
-      1500
-    );
-
-  }
-
-  else {
-
+    setTimeout(() => {
+      nextRound();
+    }, 1500);
+  } else {
     if (get("msg")) {
-
-      get("msg").textContent =
-        t("gameover");
-
+      get("msg").textContent = t("gameover");
     }
-
 
     if (get("flashGrid")) {
-
-      get("flashGrid")
-        .style.display =
-        "none";
-
+      get("flashGrid").style.display = "none";
     }
-
 
     if (get("answerBox")) {
-
-      get("answerBox")
-        .classList
-        .add("hidden");
-
+      get("answerBox").classList.add("hidden");
     }
 
-
-    const adBtn =
-      get("watchAdBtn");
-
-
+    const adBtn = get("watchAdBtn");
     if (adBtn) {
-
-      adBtn.style.display =
-        "inline-block";
-
+      adBtn.style.display = "inline-block";
     }
-
   }
-
 }
 
-
-/* =========================================================
-   🎥 PUB
-========================================================= */
+/* =========================
+   PUB
+========================= */
 
 function watchAd() {
-
-  if (adInProgress)
-    return;
-
+  if (adInProgress) return;
 
   adInProgress = true;
 
-
-  const btn =
-    get("watchAdBtn");
-
+  const btn = get("watchAdBtn");
 
   if (btn) {
-
     btn.disabled = true;
-
   }
-
 
   if (get("msg")) {
-
-    get("msg").textContent =
-      t("ad");
-
+    get("msg").textContent = t("ad");
   }
 
+  setTimeout(() => {
+    lives += 4;
 
-  setTimeout(
-    () => {
+    saveGame();
+    updateUI();
+    updateButtonsState();
 
-      lives += 4;
+    adInProgress = false;
 
+    if (btn) {
+      btn.disabled = false;
+      btn.style.display = "none";
+    }
 
-      saveGame();
+    if (get("msg")) {
+      get("msg").textContent = t("adwin");
+    }
 
-      updateUI();
-
-      updateButtonsState();
-
-
-      adInProgress = false;
-
-
-      if (btn) {
-
-        btn.disabled = false;
-
-        btn.style.display =
-          "none";
-
-      }
-
-
-      if (get("msg")) {
-
-        get("msg").textContent =
-          t("adwin");
-
-      }
-
-
-      setTimeout(
-        () => {
-
-          startGame();
-
-        },
-        1200
-      );
-
-
-    },
-    5000
-  );
-
+    setTimeout(() => {
+      startGame();
+    }, 1200);
+  }, 5000);
 }
 
-
-/* =========================================================
-   🎨 UPDATE UI
-========================================================= */
+/* =========================
+   UPDATE UI
+========================= */
 
 function updateUI() {
-
-  if (get("score"))
-    get("score").textContent =
-      score;
-
-
-  if (get("level"))
-    get("level").textContent =
-      level;
-
-
-  if (get("lives"))
-    get("lives").textContent =
-      lives;
-
-
-  if (get("title"))
-    get("title").textContent =
-      t("title");
-
-
-  if (get("startText"))
-    get("startText").textContent =
-      t("start");
-
-
-  if (get("watchAdBtn"))
-    get("watchAdBtn").textContent =
-      t("watchAd");
-
-
-  if (get("scoreLabel"))
-    get("scoreLabel").textContent =
-      t("score");
-
-
-  if (get("levelLabel"))
-    get("levelLabel").textContent =
-      t("level");
-
-
-  if (get("livesLabel"))
-    get("livesLabel").textContent =
-      t("lives");
-
-
-  document
-    .querySelectorAll(
-      ".color-name"
-    )
-    .forEach(
-      element => {
-
-        const color =
-          element.dataset.color;
-
-
-        if (
-          colorNames[lang] &&
-          colorNames[lang][color]
-        ) {
-
-          element.textContent =
-            colorNames[lang][color];
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   ⭐ ÉTAT BOUTON
-========================================================= */
-
-function updateButtonsState() {
-
-  const starBtn =
-    get("star");
-
-
-  if (!starBtn)
-    return;
-
-
-  if (lives <= 0) {
-
-    starBtn.style.opacity =
-      "0.6";
-
-  }
-
-  else {
-
-    starBtn.style.opacity =
-      "1";
-
-  }
-
-}
-
-
-/* =========================================================
-   🔗 PARTAGE
-========================================================= */
-
-function setupShare() {
-
-  const shareBtn =
-    get("shareBtn");
-
-  const shareMenu =
-    get("shareMenu");
-
-
-  if (!shareBtn ||
-      !shareMenu)
-    return;
-
-
-  const siteUrl =
-    "https://storybak.vercel.app/";
-
-
-  const whatsapp =
-    get("whatsappShare");
-
-
-  const facebook =
-    get("facebookShare");
-
-
-  if (whatsapp) {
-
-    whatsapp.href =
-      `https://wa.me/?text=Joue%20à%20Memory%20Flash%20Pro%20${encodeURIComponent(siteUrl)}`;
-
-  }
-
-
-  if (facebook) {
-
-    facebook.href =
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
-
-  }
-
-
-  shareBtn.addEventListener(
-    "click",
-    () => {
-
-      shareMenu
-        .classList
-        .toggle("hidden");
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   👤 PROFIL
-========================================================= */
-
-function setupProfile() {
-
-  const profilePic =
-    get("profilePic");
-
-  const profileModal =
-    get("profileModal");
-
-
-  if (!profilePic ||
-      !profileModal)
-    return;
-
-
-  profilePic.onclick =
-    () => {
-
-      profileModal.style.display =
-        "flex";
-
-    };
-
-
-  profileModal.onclick =
-    () => {
-
-      profileModal.style.display =
-        "none";
-
-    };
-
-}
-
-
-/* =========================================================
-   🌍 ENVIRONNEMENTS
-========================================================= */
-
-function getEnvironment() {
-
-  if (level <= 10)
-    return "snowCity";
-
-
-  if (level <= 30)
-    return "iceCity";
-
-
-  if (level <= 100)
-    return "forestCity";
-
-
-  if (level <= 200)
-    return "rainCity";
-
-
-  if (level <= 400)
-    return "sunCity";
-
-
-  if (level <= 700)
-    return "sunsetCity";
-
-
-  if (level <= 900)
-    return "nightCity";
-
-
-  return "fireCity";
-
-}
-
-
-/* =========================================================
-   🏙️ CRÉATION DU MONDE
-========================================================= */
-
-function createWorld() {
-
-  let world =
-    get("worldScene");
-
-
-  if (!world) {
-
-    world =
-      document.createElement(
-        "div"
-      );
-
-    world.id =
-      "worldScene";
-
-    document.body.prepend(
-      world
-    );
-
-  }
-
-
-  world.innerHTML = "";
-
-
-  const environment =
-    getEnvironment();
-
-
-  world.dataset.environment =
-    environment;
-
-
-  /* 🌌 CIEL */
-
-  const sky =
-    document.createElement(
-      "div"
-    );
-
-  sky.className =
-    "world-sky";
-
-
-  world.appendChild(
-    sky
-  );
-
-
-  /* ⭐ ÉTOILES */
-
-  createStars(
-    world,
-    environment
-  );
-
-
-  /* ☁️ NUAGES */
-
-  createClouds(
-    world,
-    environment
-  );
-
-
-  /* 🌙 LUNE */
-
-  if (
-    environment === "snowCity" ||
-    environment === "iceCity" ||
-    environment === "nightCity" ||
-    environment === "fireCity"
-  ) {
-
-    createMoon(world);
-
-  }
-
-
-  /* 🏔️ MONTAGNES */
-
-  if (
-    environment === "snowCity" ||
-    environment === "iceCity" ||
-    environment === "forestCity"
-  ) {
-
-    createMountains(world);
-
-  }
-
-
-  /* 🌲 ARBRES */
-
-  if (
-    environment === "snowCity" ||
-    environment === "forestCity"
-  ) {
-
-    createTrees(world);
-
-  }
-
-
-  /* 🏢 IMMEUBLES */
-
-  createBuildings(
-    world,
-    environment
-  );
-
-
-  /* 🌊 RIVIÈRE */
-
-  if (
-    environment === "snowCity" ||
-    environment === "forestCity" ||
-    environment === "sunsetCity"
-  ) {
-
-    createRiver(world);
-
-  }
-
-
-  /* 🛣️ ROUTE */
-
-  createRoad(world);
-
-
-  /* 💡 LAMPADAIRES */
-
-  createLamps(world);
-
-
-  /* 🚗 VOITURES */
-
-  createCars(world);
-
-
-  /* 🌫️ BROUILLARD */
-
-  if (
-    environment === "snowCity" ||
-    environment === "rainCity" ||
-    environment === "nightCity"
-  ) {
-
-    createFog(world);
-
-  }
-
-
-  /* ❄️ NEIGE */
-
-  if (
-    environment === "snowCity" ||
-    environment === "iceCity"
-  ) {
-
-    createSnow(world);
-
-  }
-
-
-  /* 🌧️ PLUIE */
-
-  if (
-    environment === "rainCity"
-  ) {
-
-    createRain(world);
-
-  }
-
-
-  /* 🔥 FEU */
-
-  if (
-    environment === "fireCity"
-  ) {
-
-    createFire(world);
-
-  }
-
-
-  /* 🎨 COULEUR SPÉCIALE DU CIEL */
-
-  applySkyStyle(
-    world,
-    environment
-  );
-
-}
-
-
-/* =========================================================
-   🌌 CIEL SELON ENVIRONNEMENT
-========================================================= */
-
-function applySkyStyle(
-  world,
-  environment
-) {
-
-  const sky =
-    world.querySelector(
-      ".world-sky"
-    );
-
-
-  if (!sky)
-    return;
-
-
-  const skies = {
-
-    snowCity:
-      "linear-gradient(180deg,#020718,#12315d,#577da3,#101827)",
-
-    iceCity:
-      "linear-gradient(180deg,#06172b,#2383ae,#8bdcff,#17344b)",
-
-    forestCity:
-      "linear-gradient(180deg,#061b19,#15533d,#6c9d76,#102719)",
-
-    rainCity:
-      "linear-gradient(180deg,#111a29,#263d50,#526777,#080d13)",
-
-    sunCity:
-      "linear-gradient(180deg,#43b8ff,#7ed8ff,#ffd56a,#e98435)",
-
-    sunsetCity:
-      "linear-gradient(180deg,#17113e,#5a2c68,#d25862,#f2a04d)",
-
-    nightCity:
-      "linear-gradient(180deg,#020516,#07133b,#142558,#03050e)",
-
-    fireCity:
-      "linear-gradient(180deg,#080102,#280706,#711b0c,#170303)"
-
-  };
-
-
-  sky.style.background =
-    skies[environment];
-
-}
-
-
-/* =========================================================
-   🌙 LUNE
-========================================================= */
-
-function createMoon(world) {
-
-  const moon =
-    document.createElement(
-      "div"
-    );
-
-  moon.className =
-    "world-moon";
-
-
-  world.appendChild(
-    moon
-  );
-
-}
-
-
-/* =========================================================
-   ⭐ ÉTOILES
-========================================================= */
-
-function createStars(
-  world,
-  environment
-) {
-
-  const night =
-    environment === "snowCity" ||
-    environment === "iceCity" ||
-    environment === "nightCity" ||
-    environment === "fireCity";
-
-
-  if (!night)
-    return;
-
-
-  const amount =
-    environment === "nightCity"
-      ? 120
-      : 70;
-
-
-  for (
-    let i = 0;
-    i < amount;
-    i++
-  ) {
-
-    const star =
-      document.createElement(
-        "div"
-      );
-
-    star.className =
-      "world-star";
-
-
-    star.style.left =
-      Math.random() * 100 +
-      "%";
-
-
-    star.style.top =
-      Math.random() * 60 +
-      "%";
-
-
-    star.style.animationDelay =
-      Math.random() * 4 +
-      "s";
-
-
-    const size =
-      2 +
-      Math.random() * 3;
-
-
-    star.style.width =
-      size + "px";
-
-
-    star.style.height =
-      size + "px";
-
-
-    world.appendChild(
-      star
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   ☁️ NUAGES
-========================================================= */
-
-function createClouds(
-  world,
-  environment
-) {
-
-  if (
-    environment === "nightCity" ||
-    environment === "fireCity"
-  ) {
-
-    return;
-
-  }
-
-
-  for (
-    let i = 0;
-    i < 7;
-    i++
-  ) {
-
-    const cloud =
-      document.createElement(
-        "div"
-      );
-
-    cloud.className =
-      "world-cloud";
-
-
-    cloud.style.top =
-      8 +
-      Math.random() * 35 +
-      "%";
-
-
-    cloud.style.left =
-      Math.random() * 100 +
-      "%";
-
-
-    cloud.style.animationDuration =
-      25 +
-      Math.random() * 35 +
-      "s";
-
-
-    cloud.style.animationDelay =
-      Math.random() * -30 +
-      "s";
-
-
-    world.appendChild(
-      cloud
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🏔️ MONTAGNES
-========================================================= */
-
-function createMountains(world) {
-
-  const mountains =
-    document.createElement(
-      "div"
-    );
-
-  mountains.className =
-    "world-mountains";
-
-
-  world.appendChild(
-    mountains
-  );
-
-}
-
-
-/* =========================================================
-   🏢 IMMEUBLES
-========================================================= */
-
-function createBuildings(
-  world,
-  environment
-) {
-
-  let amount = 18;
-
-
-  if (
-    environment === "forestCity"
-  ) {
-
-    amount = 11;
-
-  }
-
-
-  if (
-    environment === "fireCity"
-  ) {
-
-    amount = 22;
-
-  }
-
-
-  let position = -2;
-
-
-  for (
-    let i = 0;
-    i < amount;
-    i++
-  ) {
-
-    const building =
-      document.createElement(
-        "div"
-      );
-
-    building.className =
-      "world-building";
-
-
-    const width =
-      4 +
-      Math.random() * 5;
-
-
-    const height =
-      14 +
-      Math.random() * 38;
-
-
-    building.style.left =
-      position + "%";
-
-
-    building.style.width =
-      width + "%";
-
-
-    building.style.height =
-      height + "%";
-
-
-    /* couleurs */
-
-    if (
-      environment === "sunCity"
-    ) {
-
-      building.style.background =
-        "linear-gradient(90deg,#30343b,#777f86,#25282e)";
-
-    }
-
-
-    if (
-      environment === "sunsetCity"
-    ) {
-
-      building.style.background =
-        "linear-gradient(90deg,#21152f,#70435d,#17101f)";
-
-    }
-
-
-    if (
-      environment === "nightCity"
-    ) {
-
-      building.style.background =
-        "linear-gradient(90deg,#030611,#111d3b,#02040a)";
-
-    }
-
-
-    if (
-      environment === "fireCity"
-    ) {
-
-      building.style.background =
-        "linear-gradient(90deg,#100303,#421009,#070101)";
-
-    }
-
-
-    if (
-      environment === "iceCity"
-    ) {
-
-      building.style.background =
-        "linear-gradient(90deg,#0c3047,#3f7790,#0a2335)";
-
-    }
-
-
-    /* 🪟 fenêtres */
-
-    const rows =
-      Math.max(
-        4,
-        Math.floor(
-          height / 5
-        )
-      );
-
-
-    const columns =
-      Math.max(
-        2,
-        Math.floor(
-          width / 1.8
-        )
-      );
-
-
-    for (
-      let r = 0;
-      r < rows;
-      r++
-    ) {
-
-      for (
-        let c = 0;
-        c < columns;
-        c++
-      ) {
-
-        if (
-          Math.random() > .62
-        ) {
-
-          continue;
-
-        }
-
-
-        const window =
-          document.createElement(
-            "div"
-          );
-
-
-        window.className =
-          "world-window";
-
-
-        window.style.left =
-          (
-            8 +
-            c *
-            (
-              78 /
-              Math.max(
-                1,
-                columns
-              )
-            )
-          ) + "%";
-
-
-        window.style.top =
-          (
-            8 +
-            r *
-            (
-              84 /
-              Math.max(
-                1,
-                rows
-              )
-            )
-          ) + "%";
-
-
-        window.style.animationDelay =
-          Math.random() * 5 +
-          "s";
-
-
-        world.appendChild(
-          building
-        );
-
-
-        building.appendChild(
-          window
-        );
-
-      }
-
-    }
-
-
-    position +=
-      width +
-      Math.random() * 1.5;
-
-  }
-
-}
-
-
-/* =========================================================
-   🌲 ARBRES
-========================================================= */
-
-function createTrees(world) {
-
-  for (
-    let i = 0;
-    i < 22;
-    i++
-  ) {
-
-    const tree =
-      document.createElement(
-        "div"
-      );
-
-    tree.className =
-      "world-tree";
-
-
-    tree.style.left =
-      Math.random() * 100 +
-      "%";
-
-
-    tree.style.transform =
-      `scale(${
-        .65 +
-        Math.random() * .8
-      })`;
-
-
-    tree.style.bottom =
-      (
-        18 +
-        Math.random() * 7
-      ) + "%";
-
-
-    world.appendChild(
-      tree
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🌊 RIVIÈRE
-========================================================= */
-
-function createRiver(world) {
-
-  const river =
-    document.createElement(
-      "div"
-    );
-
-  river.className =
-    "world-river";
-
-
-  world.appendChild(
-    river
-  );
-
-}
-
-
-/* =========================================================
-   🛣️ ROUTE
-========================================================= */
-
-function createRoad(world) {
-
-  const road =
-    document.createElement(
-      "div"
-    );
-
-  road.className =
-    "world-road";
-
-
-  world.appendChild(
-    road
-  );
-
-}
-
-
-/* =========================================================
-   💡 LAMPADAIRES
-========================================================= */
-
-function createLamps(world) {
-
-  for (
-    let i = 0;
-    i < 8;
-    i++
-  ) {
-
-    const lamp =
-      document.createElement(
-        "div"
-      );
-
-    lamp.className =
-      "world-lamp";
-
-
-    lamp.style.left =
-      (
-        3 +
-        i * 14
-      ) + "%";
-
-
-    world.appendChild(
-      lamp
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🚗 VOITURES
-========================================================= */
-
-function createCars(world) {
-
-  const carColors = [
-
-    "#ff3030",
-    "#208cff",
-    "#eeeeee",
-    "#ffd21c",
-    "#20c878",
-    "#a83cff"
-
-  ];
-
-
-  for (
-    let i = 0;
-    i < 5;
-    i++
-  ) {
-
-    const car =
-      document.createElement(
-        "div"
-      );
-
-    car.className =
-      "world-car";
-
-
-    car.style.bottom =
-      (
-        4 +
-        i * 4
-      ) + "%";
-
-
-    car.style.animationDuration =
-      (
-        7 +
-        Math.random() * 8
-      ) + "s";
-
-
-    car.style.animationDelay =
-      Math.random() * -10 +
-      "s";
-
-
-    const color =
-      carColors[
-        Math.floor(
-          Math.random() *
-          carColors.length
-        )
-      ];
-
-
-    car.style.background =
-      `linear-gradient(
-        180deg,
-        ${color},
-        #111
-      )`;
-
-
-    world.appendChild(
-      car
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🌫️ BROUILLARD
-========================================================= */
-
-function createFog(world) {
-
-  const fog =
-    document.createElement(
-      "div"
-    );
-
-  fog.className =
-    "world-fog";
-
-
-  world.appendChild(
-    fog
-  );
-
-}
-
-
-/* =========================================================
-   ❄️ NEIGE
-========================================================= */
-
-function createSnow(world) {
-
-  for (
-    let i = 0;
-    i < 100;
-    i++
-  ) {
-
-    const snow =
-      document.createElement(
-        "div"
-      );
-
-    snow.className =
-      "world-snow";
-
-
-    const size =
-      3 +
-      Math.random() * 9;
-
-
-    snow.style.width =
-      size + "px";
-
-
-    snow.style.height =
-      size + "px";
-
-
-    snow.style.left =
-      Math.random() * 100 +
-      "%";
-
-
-    snow.style.animationDuration =
-      (
-        4 +
-        Math.random() * 8
-      ) + "s";
-
-
-    snow.style.animationDelay =
-      Math.random() * -10 +
-      "s";
-
-
-    world.appendChild(
-      snow
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🌧️ PLUIE
-========================================================= */
-
-function createRain(world) {
-
-  for (
-    let i = 0;
-    i < 150;
-    i++
-  ) {
-
-    const rain =
-      document.createElement(
-        "div"
-      );
-
-    rain.className =
-      "world-rain";
-
-
-    rain.style.left =
-      Math.random() * 100 +
-      "%";
-
-
-    rain.style.animationDuration =
-      (
-        .45 +
-        Math.random() * .7
-      ) + "s";
-
-
-    rain.style.animationDelay =
-      Math.random() * -3 +
-      "s";
-
-
-    world.appendChild(
-      rain
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🔥 FEU + 💨 FUMÉE
-========================================================= */
-
-function createFire(world) {
-
-  /* 🔥 étincelles */
-
-  for (
-    let i = 0;
-    i < 50;
-    i++
-  ) {
-
-    const fire =
-      document.createElement(
-        "div"
-      );
-
-    fire.className =
-      "world-fire";
-
-
-    fire.style.left =
-      Math.random() * 100 +
-      "%";
-
-
-    fire.style.animationDuration =
-      (
-        1 +
-        Math.random() * 2
-      ) + "s";
-
-
-    fire.style.animationDelay =
-      Math.random() * 3 +
-      "s";
-
-
-    world.appendChild(
-      fire
-    );
-
-  }
-
-
-  /* 💨 fumée */
-
-  for (
-    let i = 0;
-    i < 10;
-    i++
-  ) {
-
-    const smoke =
-      document.createElement(
-        "div"
-      );
-
-    smoke.className =
-      "world-smoke";
-
-
-    smoke.style.left =
-      (
-        5 +
-        Math.random() * 90
-      ) + "%";
-
-
-    smoke.style.animationDelay =
-      Math.random() * 5 +
-      "s";
-
-
-    world.appendChild(
-      smoke
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   🔄 RECRÉER LE MONDE SI BESOIN
-========================================================= */
-
-function refreshWorld() {
-
-  createWorld();
-
-}
-
-
-/* =========================================================
-   🚀 SÉCURITÉ : SI LE SCRIPT EST CHARGÉ APRÈS DOM
-========================================================= */
-
-if (
-  document.readyState ===
-  "interactive" ||
-  document.readyState ===
-  "complete"
-) {
-
-  setTimeout(
-    () => {
-
-      loadGame();
-
-      updateUI();
-
-      updateButtonsState();
-
-      createWorld();
-
-    },
-    100
-  );
-
-    }
-
-/* =========================================================
-   🌆 CITY WORLD ENGINE
-   100% CSS + JS
-========================================================= */
-
-let sceneCreated = false;
-
-/* =========================================================
-   🏗️ CRÉATION DE LA SCÈNE
-========================================================= */
-
-function createGameScene() {
-
-  if (sceneCreated) return;
-
-  sceneCreated = true;
-
-  const scene = document.createElement("div");
-  scene.id = "gameScene";
-
-  scene.innerHTML = `
-    <div id="sky"></div>
-    <div id="stars"></div>
-    <div id="moon"></div>
-    <div id="clouds"></div>
-    <div id="mountains"></div>
-    <div id="city"></div>
-    <div id="trees"></div>
-    <div id="river"></div>
-    <div id="road"></div>
-    <div id="cars"></div>
-    <div id="streetLights"></div>
-    <div id="fog"></div>
-    <div id="smoke"></div>
-    <div id="sparks"></div>
-  `;
-
-  document.body.prepend(scene);
-
-  createStars();
-  createClouds();
-  createMountains();
-  createBuildings();
-  createTrees();
-  createRiver();
-  createRoad();
-  createCars();
-  createStreetLights();
-}
-
-
-/* =========================================================
-   ⭐ ÉTOILES
-========================================================= */
-
-function createStars() {
-
-  const stars = document.getElementById("stars");
-
-  if (!stars) return;
-
-  stars.innerHTML = "";
-
-  for (let i = 0; i < 90; i++) {
-
-    const star = document.createElement("div");
-
-    star.className = "star";
-
-    if (Math.random() > 0.85) {
-      star.classList.add("big");
-    }
-
-    star.style.left =
-      Math.random() * 100 + "%";
-
-    star.style.top =
-      Math.random() * 55 + "%";
-
-    star.style.animationDelay =
-      Math.random() * 3 + "s";
-
-    stars.appendChild(star);
-  }
-}
-
-
-/* =========================================================
-   ☁️ NUAGES
-========================================================= */
-
-function createClouds() {
-
-  const clouds = document.getElementById("clouds");
-
-  if (!clouds) return;
-
-  clouds.innerHTML = "";
-
-  for (let i = 0; i < 6; i++) {
-
-    const cloud = document.createElement("div");
-
-    cloud.className = "cloud";
-
-    cloud.style.top =
-      (5 + Math.random() * 35) + "%";
-
-    cloud.style.animationDuration =
-      (35 + Math.random() * 35) + "s";
-
-    cloud.style.animationDelay =
-      -(Math.random() * 30) + "s";
-
-    cloud.style.opacity =
-      0.25 + Math.random() * 0.45;
-
-    clouds.appendChild(cloud);
-  }
-}
-
-
-/* =========================================================
-   🏔️ MONTAGNES
-========================================================= */
-
-function createMountains() {
-
-  const mountains =
-    document.getElementById("mountains");
-
-  if (!mountains) return;
-
-  mountains.innerHTML = "";
-
-  for (let i = 0; i < 7; i++) {
-
-    const mountain =
-      document.createElement("div");
-
-    mountain.className = "mountain";
-
-    mountain.style.left =
-      (-80 + i * 17) + "%";
-
-    mountain.style.transform =
-      `scale(${0.7 + Math.random() * .7})`;
-
-    mountains.appendChild(mountain);
-  }
-}
-
-
-/* =========================================================
-   🏙️ IMMEUBLES
-========================================================= */
-
-function createBuildings() {
-
-  const city =
-    document.getElementById("city");
-
-  if (!city) return;
-
-  city.innerHTML = "";
-
-  const count =
-    window.innerWidth < 500 ? 16 : 28;
-
-  for (let i = 0; i < count; i++) {
-
-    const building =
-      document.createElement("div");
-
-    building.className = "building";
-
-    const width =
-      30 + Math.random() * 55;
-
-    const height =
-      90 + Math.random() * 260;
-
-    building.style.width =
-      width + "px";
-
-    building.style.height =
-      height + "px";
-
-    /* Quelques bâtiments plus colorés */
-
-    const hue =
-      Math.random() > .8
-        ? 210 + Math.random() * 30
-        : 0;
-
-    if (hue) {
-
-      building.style.background =
-        `linear-gradient(
-          90deg,
-          hsl(${hue},25%,8%),
-          hsl(${hue},25%,18%),
-          hsl(${hue},25%,7%)
-        )`;
-    }
-
-    createWindows(building, width, height);
-
-    city.appendChild(building);
-  }
-}
-
-
-/* =========================================================
-   🪟 FENÊTRES
-========================================================= */
-
-function createWindows(building, width, height) {
-
-  const columns =
-    Math.max(2, Math.floor(width / 15));
-
-  const rows =
-    Math.max(3, Math.floor(height / 22));
-
-  for (let y = 0; y < rows; y++) {
-
-    for (let x = 0; x < columns; x++) {
-
-      const window =
-        document.createElement("div");
-
-      window.className = "window";
-
-      window.style.left =
-        (7 + x * 15) + "px";
-
-      window.style.top =
-        (12 + y * 22) + "px";
-
-      /* État aléatoire */
-
-      if (Math.random() > 0.55) {
-        window.classList.add("on");
-      }
-
-      building.appendChild(window);
-    }
-  }
-}
-
-
-/* =========================================================
-   🪟 ANIMATION DES FENÊTRES
-========================================================= */
-
-function animateWindows() {
-
-  const windows =
-    document.querySelectorAll(".window");
-
-  windows.forEach(window => {
-
-    if (Math.random() > 0.65) {
-
-      window.classList.toggle("on");
+  if (get("score")) get("score").textContent = score;
+  if (get("level")) get("level").textContent = level;
+  if (get("lives")) get("lives").textContent = lives;
+
+  if (get("title")) get("title").textContent = t("title");
+  if (get("startText")) get("startText").textContent = t("start");
+  if (get("watchAdBtn")) get("watchAdBtn").textContent = t("watchAd");
+
+  if (get("scoreLabel")) get("scoreLabel").textContent = t("score");
+  if (get("levelLabel")) get("levelLabel").textContent = t("level");
+  if (get("livesLabel")) get("livesLabel").textContent = t("lives");
+
+  document.querySelectorAll(".color-name").forEach(el => {
+    const color = el.dataset.color;
+
+    if (colorNames[lang] && colorNames[lang][color]) {
+      el.textContent = colorNames[lang][color];
     }
   });
 }
 
+/* =========================
+   BUTTONS
+========================= */
 
-/* =========================================================
-   🌲 ARBRES
-========================================================= */
+function updateButtonsState() {
+  const starBtn = get("star");
 
-function createTrees() {
+  if (!starBtn) return;
 
-  const trees =
-    document.getElementById("trees");
-
-  if (!trees) return;
-
-  trees.innerHTML = "";
-
-  for (let i = 0; i < 18; i++) {
-
-    const tree =
-      document.createElement("div");
-
-    tree.className = "tree";
-
-    tree.style.left =
-      Math.random() * 100 + "%";
-
-    tree.style.transform =
-      `scale(${0.6 + Math.random() * .7})`;
-
-    trees.appendChild(tree);
-  }
-}
-
-
-/* =========================================================
-   🌊 RIVIÈRE
-========================================================= */
-
-function createRiver() {
-
-  const river =
-    document.getElementById("river");
-
-  if (!river) return;
-
-  river.innerHTML = "";
-
-  for (let i = 0; i < 12; i++) {
-
-    const line =
-      document.createElement("div");
-
-    line.className = "river-line";
-
-    line.style.top =
-      (10 + Math.random() * 80) + "%";
-
-    line.style.width =
-      (50 + Math.random() * 150) + "px";
-
-    line.style.left =
-      Math.random() * 100 + "%";
-
-    line.style.animationDuration =
-      (2 + Math.random() * 5) + "s";
-
-    river.appendChild(line);
-  }
-}
-
-
-/* =========================================================
-   🛣️ ROUTE
-========================================================= */
-
-function createRoad() {
-
-  const road =
-    document.getElementById("road");
-
-  if (!road) return;
-
-  road.innerHTML = "";
-
-  for (let i = 0; i < 8; i++) {
-
-    const line =
-      document.createElement("div");
-
-    line.className = "road-line";
-
-    line.style.animationDelay =
-      -(i * .5) + "s";
-
-    road.appendChild(line);
-  }
-}
-
-
-/* =========================================================
-   🚗 VOITURES
-========================================================= */
-
-function createCars() {
-
-  const cars =
-    document.getElementById("cars");
-
-  if (!cars) return;
-
-  cars.innerHTML = "";
-
-  for (let i = 0; i < 5; i++) {
-
-    const car =
-      document.createElement("div");
-
-    car.className = "car";
-
-    car.style.bottom =
-      (3 + Math.random() * 8) + "%";
-
-    car.style.animationDuration =
-      (7 + Math.random() * 8) + "s";
-
-    car.style.animationDelay =
-      -(Math.random() * 10) + "s";
-
-    cars.appendChild(car);
-  }
-}
-
-
-/* =========================================================
-   💡 LAMPADAIRES
-========================================================= */
-
-function createStreetLights() {
-
-  const lights =
-    document.getElementById("streetLights");
-
-  if (!lights) return;
-
-  lights.innerHTML = "";
-
-  for (let i = 0; i < 9; i++) {
-
-    const light =
-      document.createElement("div");
-
-    light.className = "street-light";
-
-    light.style.left =
-      (4 + i * 12) + "%";
-
-    light.style.transform =
-      `scale(${0.7 + Math.random() * .4})`;
-
-    lights.appendChild(light);
-  }
-}
-
-
-/* =========================================================
-   🌨️ MÉTÉO
-========================================================= */
-
-function createWeather(environment) {
-
-  let layer =
-    document.getElementById("weatherLayer");
-
-  if (!layer) {
-
-    layer =
-      document.createElement("div");
-
-    layer.id =
-      "weatherLayer";
-
-    document.body.appendChild(layer);
-  }
-
-  layer.innerHTML = "";
-
-  /* ☀️ Pas de météo */
-
-  if (
-    environment === "sun" ||
-    environment === "sunset" ||
-    environment === "night"
-  ) {
-    return;
-  }
-
-  let amount = 40;
-
-  if (environment === "fire") {
-    amount = 0;
-  }
-
-  for (let i = 0; i < amount; i++) {
-
-    const particle =
-      document.createElement("div");
-
-    particle.className =
-      "weather-particle";
-
-    particle.style.left =
-      Math.random() * 100 + "%";
-
-    particle.style.animationDelay =
-      Math.random() * 5 + "s";
-
-    if (
-      environment === "snow" ||
-      environment === "ice"
-    ) {
-
-      particle.classList.add(
-        "snow-particle"
-      );
-
-      const size =
-        3 + Math.random() * 8;
-
-      particle.style.width =
-        size + "px";
-
-      particle.style.height =
-        size + "px";
-
-      particle.style.animationDuration =
-        (4 + Math.random() * 6) + "s";
-    }
-
-    if (environment === "rain") {
-
-      particle.classList.add(
-        "rain-particle"
-      );
-
-      particle.style.animationDuration =
-        (.4 + Math.random() * .7) + "s";
-    }
-
-    layer.appendChild(particle);
-  }
-}
-
-
-/* =========================================================
-   🔥 FUMÉE
-========================================================= */
-
-function createSmoke() {
-
-  const smoke =
-    document.getElementById("smoke");
-
-  if (!smoke) return;
-
-  smoke.innerHTML = "";
-
-  for (let i = 0; i < 15; i++) {
-
-    const particle =
-      document.createElement("div");
-
-    particle.className =
-      "smoke-particle";
-
-    particle.style.left =
-      (20 + Math.random() * 60) + "%";
-
-    particle.style.bottom =
-      (5 + Math.random() * 15) + "%";
-
-    particle.style.animationDelay =
-      -(Math.random() * 5) + "s";
-
-    smoke.appendChild(particle);
-  }
-}
-
-
-/* =========================================================
-   🔥 ÉTINCELLES
-========================================================= */
-
-function createSparks() {
-
-  const sparks =
-    document.getElementById("sparks");
-
-  if (!sparks) return;
-
-  sparks.innerHTML = "";
-
-  for (let i = 0; i < 25; i++) {
-
-    const spark =
-      document.createElement("div");
-
-    spark.className = "spark";
-
-    spark.style.left =
-      (20 + Math.random() * 60) + "%";
-
-    spark.style.top =
-      (55 + Math.random() * 30) + "%";
-
-    spark.style.animationDelay =
-      -(Math.random() * 2) + "s";
-
-    sparks.appendChild(spark);
-  }
-}
-
-
-/* =========================================================
-   🌍 ENVIRONNEMENT SELON LE NIVEAU
-========================================================= */
-
-function updateEnvironment() {
-
-  const oldClasses = [
-    "environment-snow",
-    "environment-ice",
-    "environment-forest",
-    "environment-rain",
-    "environment-sun",
-    "environment-sunset",
-    "environment-night",
-    "environment-fire"
-  ];
-
-  document.body.classList.remove(
-    ...oldClasses
-  );
-
-  let environment;
-
-  if (level <= 10) {
-
-    environment = "snow";
-
-  } else if (level <= 30) {
-
-    environment = "ice";
-
-  } else if (level <= 100) {
-
-    environment = "forest";
-
-  } else if (level <= 200) {
-
-    environment = "rain";
-
-  } else if (level <= 400) {
-
-    environment = "sun";
-
-  } else if (level <= 700) {
-
-    environment = "sunset";
-
-  } else if (level <= 900) {
-
-    environment = "night";
-
+  if (lives <= 0) {
+    starBtn.style.opacity = "0.6";
   } else {
-
-    environment = "fire";
-  }
-
-  document.body.classList.add(
-    "environment-" + environment
-  );
-
-  createWeather(environment);
-
-  if (environment === "fire") {
-
-    createSmoke();
-    createSparks();
-
-  } else {
-
-    const smoke =
-      document.getElementById("smoke");
-
-    const sparks =
-      document.getElementById("sparks");
-
-    if (smoke) smoke.innerHTML = "";
-    if (sparks) sparks.innerHTML = "";
+    starBtn.style.opacity = "1";
   }
 }
+const shareBtn = document.getElementById("shareBtn");
+const shareMenu = document.getElementById("shareMenu");
 
+const siteUrl = "https://storybak.vercel.app/";
 
-/* =========================================================
-   🚀 INITIALISATION DU MONDE
-========================================================= */
+document.getElementById("whatsappShare").href =
+  `https://wa.me/?text=Joue%20à%20Memory%20Flash%20Pro%20${encodeURIComponent(siteUrl)}`;
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+document.getElementById("facebookShare").href =
+  `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
 
-    createGameScene();
+shareBtn.addEventListener("click", () => {
+  shareMenu.classList.toggle("hidden");
+});
+const profilePic = document.getElementById("profilePic");
+const profileModal = document.getElementById("profileModal");
 
-    updateEnvironment();
+profilePic.onclick = () => {
+  profileModal.style.display = "flex";
+};
 
-    setInterval(
-      animateWindows,
-      1800
-    );
-
-  }
-);
+profileModal.onclick = () => {
+  profileModal.style.display = "none";
+};
