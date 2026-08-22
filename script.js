@@ -2631,3 +2631,694 @@ if (
   );
 
     }
+
+/* =========================================================
+   🌆 CITY WORLD ENGINE
+   100% CSS + JS
+========================================================= */
+
+let sceneCreated = false;
+
+/* =========================================================
+   🏗️ CRÉATION DE LA SCÈNE
+========================================================= */
+
+function createGameScene() {
+
+  if (sceneCreated) return;
+
+  sceneCreated = true;
+
+  const scene = document.createElement("div");
+  scene.id = "gameScene";
+
+  scene.innerHTML = `
+    <div id="sky"></div>
+    <div id="stars"></div>
+    <div id="moon"></div>
+    <div id="clouds"></div>
+    <div id="mountains"></div>
+    <div id="city"></div>
+    <div id="trees"></div>
+    <div id="river"></div>
+    <div id="road"></div>
+    <div id="cars"></div>
+    <div id="streetLights"></div>
+    <div id="fog"></div>
+    <div id="smoke"></div>
+    <div id="sparks"></div>
+  `;
+
+  document.body.prepend(scene);
+
+  createStars();
+  createClouds();
+  createMountains();
+  createBuildings();
+  createTrees();
+  createRiver();
+  createRoad();
+  createCars();
+  createStreetLights();
+}
+
+
+/* =========================================================
+   ⭐ ÉTOILES
+========================================================= */
+
+function createStars() {
+
+  const stars = document.getElementById("stars");
+
+  if (!stars) return;
+
+  stars.innerHTML = "";
+
+  for (let i = 0; i < 90; i++) {
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    if (Math.random() > 0.85) {
+      star.classList.add("big");
+    }
+
+    star.style.left =
+      Math.random() * 100 + "%";
+
+    star.style.top =
+      Math.random() * 55 + "%";
+
+    star.style.animationDelay =
+      Math.random() * 3 + "s";
+
+    stars.appendChild(star);
+  }
+}
+
+
+/* =========================================================
+   ☁️ NUAGES
+========================================================= */
+
+function createClouds() {
+
+  const clouds = document.getElementById("clouds");
+
+  if (!clouds) return;
+
+  clouds.innerHTML = "";
+
+  for (let i = 0; i < 6; i++) {
+
+    const cloud = document.createElement("div");
+
+    cloud.className = "cloud";
+
+    cloud.style.top =
+      (5 + Math.random() * 35) + "%";
+
+    cloud.style.animationDuration =
+      (35 + Math.random() * 35) + "s";
+
+    cloud.style.animationDelay =
+      -(Math.random() * 30) + "s";
+
+    cloud.style.opacity =
+      0.25 + Math.random() * 0.45;
+
+    clouds.appendChild(cloud);
+  }
+}
+
+
+/* =========================================================
+   🏔️ MONTAGNES
+========================================================= */
+
+function createMountains() {
+
+  const mountains =
+    document.getElementById("mountains");
+
+  if (!mountains) return;
+
+  mountains.innerHTML = "";
+
+  for (let i = 0; i < 7; i++) {
+
+    const mountain =
+      document.createElement("div");
+
+    mountain.className = "mountain";
+
+    mountain.style.left =
+      (-80 + i * 17) + "%";
+
+    mountain.style.transform =
+      `scale(${0.7 + Math.random() * .7})`;
+
+    mountains.appendChild(mountain);
+  }
+}
+
+
+/* =========================================================
+   🏙️ IMMEUBLES
+========================================================= */
+
+function createBuildings() {
+
+  const city =
+    document.getElementById("city");
+
+  if (!city) return;
+
+  city.innerHTML = "";
+
+  const count =
+    window.innerWidth < 500 ? 16 : 28;
+
+  for (let i = 0; i < count; i++) {
+
+    const building =
+      document.createElement("div");
+
+    building.className = "building";
+
+    const width =
+      30 + Math.random() * 55;
+
+    const height =
+      90 + Math.random() * 260;
+
+    building.style.width =
+      width + "px";
+
+    building.style.height =
+      height + "px";
+
+    /* Quelques bâtiments plus colorés */
+
+    const hue =
+      Math.random() > .8
+        ? 210 + Math.random() * 30
+        : 0;
+
+    if (hue) {
+
+      building.style.background =
+        `linear-gradient(
+          90deg,
+          hsl(${hue},25%,8%),
+          hsl(${hue},25%,18%),
+          hsl(${hue},25%,7%)
+        )`;
+    }
+
+    createWindows(building, width, height);
+
+    city.appendChild(building);
+  }
+}
+
+
+/* =========================================================
+   🪟 FENÊTRES
+========================================================= */
+
+function createWindows(building, width, height) {
+
+  const columns =
+    Math.max(2, Math.floor(width / 15));
+
+  const rows =
+    Math.max(3, Math.floor(height / 22));
+
+  for (let y = 0; y < rows; y++) {
+
+    for (let x = 0; x < columns; x++) {
+
+      const window =
+        document.createElement("div");
+
+      window.className = "window";
+
+      window.style.left =
+        (7 + x * 15) + "px";
+
+      window.style.top =
+        (12 + y * 22) + "px";
+
+      /* État aléatoire */
+
+      if (Math.random() > 0.55) {
+        window.classList.add("on");
+      }
+
+      building.appendChild(window);
+    }
+  }
+}
+
+
+/* =========================================================
+   🪟 ANIMATION DES FENÊTRES
+========================================================= */
+
+function animateWindows() {
+
+  const windows =
+    document.querySelectorAll(".window");
+
+  windows.forEach(window => {
+
+    if (Math.random() > 0.65) {
+
+      window.classList.toggle("on");
+    }
+  });
+}
+
+
+/* =========================================================
+   🌲 ARBRES
+========================================================= */
+
+function createTrees() {
+
+  const trees =
+    document.getElementById("trees");
+
+  if (!trees) return;
+
+  trees.innerHTML = "";
+
+  for (let i = 0; i < 18; i++) {
+
+    const tree =
+      document.createElement("div");
+
+    tree.className = "tree";
+
+    tree.style.left =
+      Math.random() * 100 + "%";
+
+    tree.style.transform =
+      `scale(${0.6 + Math.random() * .7})`;
+
+    trees.appendChild(tree);
+  }
+}
+
+
+/* =========================================================
+   🌊 RIVIÈRE
+========================================================= */
+
+function createRiver() {
+
+  const river =
+    document.getElementById("river");
+
+  if (!river) return;
+
+  river.innerHTML = "";
+
+  for (let i = 0; i < 12; i++) {
+
+    const line =
+      document.createElement("div");
+
+    line.className = "river-line";
+
+    line.style.top =
+      (10 + Math.random() * 80) + "%";
+
+    line.style.width =
+      (50 + Math.random() * 150) + "px";
+
+    line.style.left =
+      Math.random() * 100 + "%";
+
+    line.style.animationDuration =
+      (2 + Math.random() * 5) + "s";
+
+    river.appendChild(line);
+  }
+}
+
+
+/* =========================================================
+   🛣️ ROUTE
+========================================================= */
+
+function createRoad() {
+
+  const road =
+    document.getElementById("road");
+
+  if (!road) return;
+
+  road.innerHTML = "";
+
+  for (let i = 0; i < 8; i++) {
+
+    const line =
+      document.createElement("div");
+
+    line.className = "road-line";
+
+    line.style.animationDelay =
+      -(i * .5) + "s";
+
+    road.appendChild(line);
+  }
+}
+
+
+/* =========================================================
+   🚗 VOITURES
+========================================================= */
+
+function createCars() {
+
+  const cars =
+    document.getElementById("cars");
+
+  if (!cars) return;
+
+  cars.innerHTML = "";
+
+  for (let i = 0; i < 5; i++) {
+
+    const car =
+      document.createElement("div");
+
+    car.className = "car";
+
+    car.style.bottom =
+      (3 + Math.random() * 8) + "%";
+
+    car.style.animationDuration =
+      (7 + Math.random() * 8) + "s";
+
+    car.style.animationDelay =
+      -(Math.random() * 10) + "s";
+
+    cars.appendChild(car);
+  }
+}
+
+
+/* =========================================================
+   💡 LAMPADAIRES
+========================================================= */
+
+function createStreetLights() {
+
+  const lights =
+    document.getElementById("streetLights");
+
+  if (!lights) return;
+
+  lights.innerHTML = "";
+
+  for (let i = 0; i < 9; i++) {
+
+    const light =
+      document.createElement("div");
+
+    light.className = "street-light";
+
+    light.style.left =
+      (4 + i * 12) + "%";
+
+    light.style.transform =
+      `scale(${0.7 + Math.random() * .4})`;
+
+    lights.appendChild(light);
+  }
+}
+
+
+/* =========================================================
+   🌨️ MÉTÉO
+========================================================= */
+
+function createWeather(environment) {
+
+  let layer =
+    document.getElementById("weatherLayer");
+
+  if (!layer) {
+
+    layer =
+      document.createElement("div");
+
+    layer.id =
+      "weatherLayer";
+
+    document.body.appendChild(layer);
+  }
+
+  layer.innerHTML = "";
+
+  /* ☀️ Pas de météo */
+
+  if (
+    environment === "sun" ||
+    environment === "sunset" ||
+    environment === "night"
+  ) {
+    return;
+  }
+
+  let amount = 40;
+
+  if (environment === "fire") {
+    amount = 0;
+  }
+
+  for (let i = 0; i < amount; i++) {
+
+    const particle =
+      document.createElement("div");
+
+    particle.className =
+      "weather-particle";
+
+    particle.style.left =
+      Math.random() * 100 + "%";
+
+    particle.style.animationDelay =
+      Math.random() * 5 + "s";
+
+    if (
+      environment === "snow" ||
+      environment === "ice"
+    ) {
+
+      particle.classList.add(
+        "snow-particle"
+      );
+
+      const size =
+        3 + Math.random() * 8;
+
+      particle.style.width =
+        size + "px";
+
+      particle.style.height =
+        size + "px";
+
+      particle.style.animationDuration =
+        (4 + Math.random() * 6) + "s";
+    }
+
+    if (environment === "rain") {
+
+      particle.classList.add(
+        "rain-particle"
+      );
+
+      particle.style.animationDuration =
+        (.4 + Math.random() * .7) + "s";
+    }
+
+    layer.appendChild(particle);
+  }
+}
+
+
+/* =========================================================
+   🔥 FUMÉE
+========================================================= */
+
+function createSmoke() {
+
+  const smoke =
+    document.getElementById("smoke");
+
+  if (!smoke) return;
+
+  smoke.innerHTML = "";
+
+  for (let i = 0; i < 15; i++) {
+
+    const particle =
+      document.createElement("div");
+
+    particle.className =
+      "smoke-particle";
+
+    particle.style.left =
+      (20 + Math.random() * 60) + "%";
+
+    particle.style.bottom =
+      (5 + Math.random() * 15) + "%";
+
+    particle.style.animationDelay =
+      -(Math.random() * 5) + "s";
+
+    smoke.appendChild(particle);
+  }
+}
+
+
+/* =========================================================
+   🔥 ÉTINCELLES
+========================================================= */
+
+function createSparks() {
+
+  const sparks =
+    document.getElementById("sparks");
+
+  if (!sparks) return;
+
+  sparks.innerHTML = "";
+
+  for (let i = 0; i < 25; i++) {
+
+    const spark =
+      document.createElement("div");
+
+    spark.className = "spark";
+
+    spark.style.left =
+      (20 + Math.random() * 60) + "%";
+
+    spark.style.top =
+      (55 + Math.random() * 30) + "%";
+
+    spark.style.animationDelay =
+      -(Math.random() * 2) + "s";
+
+    sparks.appendChild(spark);
+  }
+}
+
+
+/* =========================================================
+   🌍 ENVIRONNEMENT SELON LE NIVEAU
+========================================================= */
+
+function updateEnvironment() {
+
+  const oldClasses = [
+    "environment-snow",
+    "environment-ice",
+    "environment-forest",
+    "environment-rain",
+    "environment-sun",
+    "environment-sunset",
+    "environment-night",
+    "environment-fire"
+  ];
+
+  document.body.classList.remove(
+    ...oldClasses
+  );
+
+  let environment;
+
+  if (level <= 10) {
+
+    environment = "snow";
+
+  } else if (level <= 30) {
+
+    environment = "ice";
+
+  } else if (level <= 100) {
+
+    environment = "forest";
+
+  } else if (level <= 200) {
+
+    environment = "rain";
+
+  } else if (level <= 400) {
+
+    environment = "sun";
+
+  } else if (level <= 700) {
+
+    environment = "sunset";
+
+  } else if (level <= 900) {
+
+    environment = "night";
+
+  } else {
+
+    environment = "fire";
+  }
+
+  document.body.classList.add(
+    "environment-" + environment
+  );
+
+  createWeather(environment);
+
+  if (environment === "fire") {
+
+    createSmoke();
+    createSparks();
+
+  } else {
+
+    const smoke =
+      document.getElementById("smoke");
+
+    const sparks =
+      document.getElementById("sparks");
+
+    if (smoke) smoke.innerHTML = "";
+    if (sparks) sparks.innerHTML = "";
+  }
+}
+
+
+/* =========================================================
+   🚀 INITIALISATION DU MONDE
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    createGameScene();
+
+    updateEnvironment();
+
+    setInterval(
+      animateWindows,
+      1800
+    );
+
+  }
+);
