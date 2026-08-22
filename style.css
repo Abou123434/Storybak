@@ -20,93 +20,202 @@ body {
   text-align: center;
 }
 
+
+/* =========================
+   🔴🟢🔵🟡 GRILLE DES COULEURS
+========================= */
+
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 20px 0;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+
+  margin: 25px auto;
+
+  width: 100%;
+  max-width: 850px;
+
   justify-items: center;
 }
 
+
 /* =========================
-   🔴🟢🔵🟡 ÉLÉMENTS ANIMÉS
+   🔴🟢🔵🟡 BOUTONS
 ========================= */
 
 .btn {
-  width: 140px;
-  height: 140px;
+  width: 170px;
+  height: 90px;
 
-  opacity: 0;
+  opacity: 1;
+  visibility: visible;
 
-  transition:
-    0.25s,
-    border-radius 0.8s ease,
-    box-shadow 0.8s ease;
+  border: 3px solid white;
+  border-radius: 18px;
 
   position: relative;
   overflow: hidden;
 
   background: var(--btn-color);
 
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+
   box-shadow:
-    0 0 10px rgba(255,255,255,0.25),
-    inset 0 0 15px rgba(255,255,255,0.15);
+    0 0 10px rgba(255,255,255,0.7),
+    0 0 25px var(--btn-color),
+    inset 0 0 20px rgba(255,255,255,0.25);
 }
 
-/* Couleurs */
+
+/* =========================
+   🎨 COULEURS
+========================= */
 
 .red {
-  --btn-color: #ff2020;
+  --btn-color: #ff1717;
+
+  background: #ff1717;
+
+  box-shadow:
+    0 0 10px #ff1717,
+    0 0 25px #ff1717,
+    0 0 45px rgba(255, 23, 23, 0.7);
 }
 
 .green {
   --btn-color: #00e676;
+
+  background: #00e676;
+
+  box-shadow:
+    0 0 10px #00e676,
+    0 0 25px #00e676,
+    0 0 45px rgba(0, 230, 118, 0.7);
 }
 
 .blue {
   --btn-color: #168cff;
+
+  background: #168cff;
+
+  box-shadow:
+    0 0 10px #168cff,
+    0 0 25px #168cff,
+    0 0 45px rgba(22, 140, 255, 0.7);
 }
 
 .yellow {
   --btn-color: #ffd600;
-}
 
-/* Quand la couleur s'allume */
+  background: #ffd600;
 
-.btn.active {
-  opacity: 1;
-
-  transform: scale(1.1);
+  color: white;
 
   box-shadow:
-    0 0 25px white,
-    0 0 50px var(--btn-color);
+    0 0 10px #ffd600,
+    0 0 25px #ffd600,
+    0 0 45px rgba(255, 214, 0, 0.7);
+}
 
-  filter: brightness(1.3);
-}
-/* ✨ Quand la couleur est montrée dans la séquence */
+
+/* =========================
+   ✨ EFFET QUAND LA COULEUR EST JOUÉE
+========================= */
+
 .btn.active {
   opacity: 1;
-  transform: scale(1.1);
-  box-shadow: 0 0 35px white;
+
+  transform: scale(1.12);
+
+  filter: brightness(1.5);
+
+  border-color: white;
+
+  box-shadow:
+    0 0 15px white,
+    0 0 35px white,
+    0 0 65px var(--btn-color),
+    0 0 100px var(--btn-color);
 }
-.btn.active {
-  opacity: 1;
-  transform: scale(1.1);
-  box-shadow: 0 0 25px white;
+
+
+/* =========================
+   🖱️ EFFET AU TOUCHER
+========================= */
+
+.btn:hover {
+  transform: scale(1.05);
+
+  filter: brightness(1.2);
+
+  box-shadow:
+    0 0 15px white,
+    0 0 35px var(--btn-color),
+    0 0 60px var(--btn-color);
 }
+
+
+/* Quand on appuie dessus */
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================
+   👻 ÉLÉMENTS CACHÉS
+========================= */
 
 .hidden {
   display: none;
 }
 
+
+/* =========================
+   🔘 AUTRES BOUTONS
+========================= */
+
 button {
   margin: 5px;
   padding: 10px 14px;
+
   border: none;
   border-radius: 10px;
+
   cursor: pointer;
+
   background: white;
+}
+
+
+/* =========================
+   📱 TÉLÉPHONE
+========================= */
+
+@media (max-width: 700px) {
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+
+    max-width: 400px;
+  }
+
+  .btn {
+    width: 140px;
+    height: 75px;
+
+    font-size: 20px;
+  }
 }
 
 #watchAdBtn {
