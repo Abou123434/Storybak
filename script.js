@@ -13,39 +13,50 @@ let adInProgress = false;
 const colors = ["red", "green", "blue", "yellow"];
 
 /* =========================
+/* =========================
 🏙️ IMAGES DE FOND DES VILLES
 ========================= */
 
 const backgrounds = [
-  /ville1.png",
-  ville2.png",
-  ville3.png",
-  ville4.png",
-  ville5.png",
-  ville6.png",
-  ville7.png",
-  ville8.png",
-  ville9.png"
+  "ville1.png",
+  "ville2.png",
+  "ville3.png",
+  "ville4.png",
+  "ville5.png",
+  "ville6.png",
+  "ville7.png",
+  "ville8.png",
+  "ville9.png"
 ];
 
-/* Change automatiquement le fond selon le niveau */
+/* =========================
+   CHANGE LE FOND SELON LE NIVEAU
+========================= */
+
 function updateBackground() {
+
   let backgroundIndex;
 
-  // Images 1 à 8 : 20 niveaux chacune
+  // Niveaux 1 à 20 → ville1
+  // Niveaux 21 à 40 → ville2
+  // ...
+  // Niveaux 141 à 160 → ville8
   if (level <= 160) {
+
     backgroundIndex = Math.floor((level - 1) / 20);
+
   } 
   
-  // Image 9 : du niveau 161 jusqu'au niveau 1000
+  // Niveaux 161 à 1000 → ville9
   else {
+
     backgroundIndex = 8;
+
   }
 
   document.body.style.backgroundImage =
-    `url("${backgrounds[backgroundIndex]}")`;
+    `url("./${backgrounds[backgroundIndex]}")`;
 }
-
 /* =========================
 🔊 SONS
 ========================= */
