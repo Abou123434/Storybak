@@ -6,13 +6,17 @@
 }
 
 body {
-  background: radial-gradient(circle, #111, #000);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   text-align: center;
+
+  transition: background 1.5s ease;
+
+  background:
+    radial-gradient(circle at 50% 20%, #12345c, #020617 70%);
 }
 
 .container {
@@ -30,29 +34,213 @@ body {
 }
 
 .btn {
+/* =========================
+   🎮 BOUTONS DU SIMON
+========================= */
+
+.btn {
   width: 140px;
   height: 140px;
-  border-radius: 15px;
   opacity: 0;
-  transition: 0.2s;
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  transition: 0.25s;
+  position: relative;
+  overflow: hidden;
+
+  background: var(--btn-color);
+
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.25),
+    inset 0 0 15px rgba(255,255,255,0.15);
 }
 
+/* Couleurs des 4 éléments du Simon */
+
 .red {
-  background: red;
+  --btn-color: #ff2020;
 }
 
 .green {
-  background: green;
+  --btn-color: #00e676;
 }
 
 .blue {
-  background: blue;
+  --btn-color: #168cff;
 }
 
 .yellow {
-  background: gold;
+  --btn-color: #ffd600;
 }
+
+/* =========================
+   ✨ LORSQUE LE BOUTON S'ANIME
+========================= */
+
+.btn.active {
+  opacity: 1;
+  transform: scale(1.1);
+
+  box-shadow:
+    0 0 25px white,
+    0 0 50px var(--btn-color);
+
+  filter: brightness(1.3);
+}
+
+/* =========================
+   ❄️ NIVEAUX NEIGE
+========================= */
+
+body.environment-snow .btn {
+  border-radius: 25px 35px 20px 40px;
+  border: 5px solid rgba(255,255,255,0.8);
+
+  box-shadow:
+    0 0 15px rgba(255,255,255,0.7),
+    inset 0 0 20px rgba(255,255,255,0.5);
+}
+
+/* =========================
+   🧊 GLACE
+========================= */
+
+body.environment-ice .btn {
+  border-radius: 45% 20% 40% 25%;
+  border: 4px solid rgba(210,245,255,0.9);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.5),
+      var(--btn-color),
+      rgba(180,240,255,0.6)
+    );
+
+  box-shadow:
+    0 0 20px rgba(180,240,255,0.9),
+    inset 0 0 25px rgba(255,255,255,0.5);
+}
+
+/* =========================
+   🌲 FORÊT
+========================= */
+
+body.environment-forest .btn {
+  border-radius: 50% 20% 45% 25%;
+  border: 4px solid rgba(80,50,20,0.7);
+
+  box-shadow:
+    0 0 20px rgba(80,180,80,0.5),
+    inset 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* =========================
+   🌧️ PLUIE / PIERRE
+========================= */
+
+body.environment-rain .btn {
+  border-radius: 18px 35px 15px 30px;
+  border: 4px solid rgba(100,100,100,0.8);
+
+  box-shadow:
+    0 0 20px rgba(100,180,255,0.6),
+    inset 0 0 20px rgba(255,255,255,0.15);
+}
+
+/* =========================
+   ☀️ SOLEIL
+========================= */
+
+body.environment-sun .btn {
+  border-radius: 50%;
+  border: 5px solid rgba(255,220,50,0.8);
+
+  box-shadow:
+    0 0 25px rgba(255,200,0,0.8);
+}
+
+/* =========================
+   🌅 COUCHER DE SOLEIL
+========================= */
+
+body.environment-sunset .btn {
+  border-radius: 30% 50% 20% 45%;
+  border: 4px solid rgba(255,150,70,0.8);
+
+  box-shadow:
+    0 0 25px rgba(255,100,50,0.7);
+}
+
+/* =========================
+   🌌 NUIT
+========================= */
+
+body.environment-night .btn {
+  border-radius: 50% 25% 50% 30%;
+  border: 4px solid rgba(150,150,255,0.8);
+
+  box-shadow:
+    0 0 25px rgba(100,100,255,0.8);
+}
+
+/* =========================
+   🔥 ENVIRONNEMENT FINAL
+========================= */
+
+body.environment-fire .btn {
+  border-radius: 50% 15% 40% 20%;
+  border: 4px solid rgba(255,120,0,0.9);
+
+  box-shadow:
+    0 0 30px rgba(255,80,0,0.9);
+}
+
+/* =========================
+   👇 BOUTONS STATIQUES
+   🔴🟢🔵🟡
+========================= */
+
+#answerBox button {
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+  min-width: 100px;
+  border: 3px solid white;
+  text-shadow: 0 2px 3px black;
+}
+
+/* Rouge */
+
+#answerBox button[onclick*="'red'"] {
+  background: #f01818;
+  box-shadow: 0 0 15px rgba(255,0,0,0.6);
+}
+
+/* Vert */
+
+#answerBox button[onclick*="'green'"] {
+  background: #00b83d;
+  box-shadow: 0 0 15px rgba(0,255,80,0.6);
+}
+
+/* Bleu */
+
+#answerBox button[onclick*="'blue'"] {
+  background: #087cff;
+  box-shadow: 0 0 15px rgba(0,120,255,0.6);
+}
+
+/* Jaune */
+
+#answerBox button[onclick*="'yellow'"] {
+  background: #e5b900;
+  box-shadow: 0 0 15px rgba(255,220,0,0.7);
+}
+
+/* Animation quand on appuie */
+
+#answerBox button:active {
+  transform: scale(0.92);
+  }
 
 .btn.active {
   opacity: 1;
@@ -200,4 +388,131 @@ a{
 #profileModal img{
   max-width:95%;
   max-height:95%;
+}
+
+/* =========================
+   🌨️ ENVIRONNEMENTS
+========================= */
+
+/* ❄️ NEIGE */
+
+body.environment-snow {
+  background:
+    radial-gradient(circle at 50% 20%, #315b91, #071426 55%, #02050a);
+}
+
+/* 🧊 GLACE */
+
+body.environment-ice {
+  background:
+    radial-gradient(circle at 50% 20%, #8bdcff, #174f75 45%, #06131e);
+}
+
+/* 🌲 FORÊT */
+
+body.environment-forest {
+  background:
+    radial-gradient(circle at 50% 20%, #28623b, #082415 55%, #020b05);
+}
+
+/* 🌧️ PLUIE */
+
+body.environment-rain {
+  background:
+    linear-gradient(#152b3e, #06131c 65%, #020608);
+}
+
+/* ☀️ SOLEIL */
+
+body.environment-sun {
+  background:
+    radial-gradient(circle at 50% 15%, #ffe477, #e87928 40%, #4c1b38 100%);
+}
+
+/* 🌅 COUCHER DE SOLEIL */
+
+body.environment-sunset {
+  background:
+    linear-gradient(
+      180deg,
+      #21134d,
+      #b6415b 45%,
+      #f19a4b 75%,
+      #241329
+    );
+}
+
+/* 🌌 NUIT */
+
+body.environment-night {
+  background:
+    radial-gradient(circle at 50% 15%, #283b78, #080d28 55%, #010207);
+}
+
+/* 🔥 FINAL */
+
+body.environment-fire {
+  background:
+    radial-gradient(circle at 50% 30%, #7c2412, #250806 55%, #030101);
+}
+
+
+/* =========================
+   ❄️ PARTICULES MÉTÉO
+========================= */
+
+#weatherLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.weather-particle {
+  position: absolute;
+  top: -20px;
+  pointer-events: none;
+}
+
+/* Neige */
+
+.snow-particle {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+
+  animation: snowFall linear infinite;
+}
+
+@keyframes snowFall {
+  from {
+    transform: translateY(-20px) translateX(0);
+  }
+
+  to {
+    transform: translateY(110vh) translateX(80px);
+  }
+}
+
+/* Pluie */
+
+.rain-particle {
+  width: 2px;
+  height: 18px;
+  background: rgba(120,200,255,0.7);
+
+  animation: rainFall linear infinite;
+}
+
+@keyframes rainFall {
+  from {
+    transform: translateY(-30px);
+  }
+
+  to {
+    transform: translateY(110vh);
+  }
 }
