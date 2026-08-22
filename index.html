@@ -1,85 +1,421 @@
-<!DOCTYPE html>  <html lang="fr">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>Memory Flash Pro</title>  
-  <link rel="stylesheet" href="style.css">  
-</head>  
-<body>  <div class="container" id="game">  
-<!-- Photo de profil -->
-<div id="profileContainer">
-<img id="profilePic" src="file_00000000fde872439401464a25d6309d.png" alt="Profil">
-</div>
-<!-- Plein écran -->
-<div id="profileModal">
-  <img src="file_00000000fde872439401464a25d6309d.png" alt="Profil">
-</div>
-  <a href="https://storybak.vercel.app/app-release.apk" target="_blank">  
-  <button>📥 Télécharger l’apk </button>  
-</a>  
-<a href="https://1xbet.com/?tag=d_5623202m_97c_1x_4878667" target="_blank">  
-🎁 Bonus 1xBet  
-</a>  
-  <button id="shareBtn">📤 Partager</button>  <div id="shareMenu" class="hidden">  
-  <a id="whatsappShare" target="_blank">📱 WhatsApp</a>  
-  <a id="facebookShare" target="_blank">📘 Facebook</a>  
-</div>  
-  <h1 id="title">🧠 Memory Flash Pro</h1>    <!-- 🌍 LANGUE -->  <label id="langLabel">🌍 Langue :</label>
-<select id="langSelect">
-<option value="fr">Français</option>
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="de">Deutsch</option>
-<option value="ar">العربية</option>
-</select>
+<!DOCTYPE html>
+<html lang="fr">
 
-  <p><span id="levelLabel">Niveau</span> : <span id="level">1</span></p>  
-  <p><span id="scoreLabel">Score</span> : <span id="score">0</span></p>  
-  <p><span id="livesLabel">Vies</span> : <span id="lives">5</span></p>    <!-- 🎥 PUB -->    <button id="watchAdBtn" style="display:none;">  
-    🎥 Regarder une pub (+4 vies)  
-  </button>    <p id="msg">Appuie sur START</p>  
-  <p id="timer"></p>    <!-- 🎨 GRID -->    <div id="flashGrid" class="grid">  
-    <div class="btn red" onclick="pick('red')"></div>  
-    <div class="btn green" onclick="pick('green')"></div>  
-    <div class="btn blue" onclick="pick('blue')"></div>  
-    <div class="btn yellow" onclick="pick('yellow')"></div>  
-  </div>    <!-- 🎮 REPONSE -->    <div id="answerBox" class="hidden">  <p id="questionText">Quelles couleurs as-tu vues ?</p>  
+<head>
+  <meta charset="UTF-8">
 
-<button onclick="pick('red')">  
-  <span class="color-name" data-color="red">Rouge</span>  
-</button>  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<button onclick="pick('green')">  
-  <span class="color-name" data-color="green">Vert</span>  
-</button>  
+  <title>Memory Flash Pro</title>
 
-<button onclick="pick('blue')">  
-  <span class="color-name" data-color="blue">Bleu</span>  
-</button>  
+  <link rel="stylesheet" href="style.css">
+</head>
 
-<button onclick="pick('yellow')">  
-  <span class="color-name" data-color="yellow">Jaune</span>  
-</button>
 
-</div> <!-- fin de answerBox -->
+<body>
 
-<!-- START -->
-<button id="star">
-    <span id="startText">⭐ Commencer</span>
-</button>
+  <!-- =====================================================
+       🎮 CONTENEUR PRINCIPAL
+  ====================================================== -->
 
-</div> <!-- fin de container -->
+  <div class="container" id="game">
 
-<!-- 🔊 SONS -->
-<audio id="clickSound" src="click.mp3"></audio>
-<audio id="winSound" src="win.mp3"></audio>
-<audio id="failSound" src="fail.mp3"></audio>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187273428222373"
-crossorigin="anonymous"></script>
+    <!-- =====================================================
+         👤 PHOTO DE PROFIL
+    ====================================================== -->
 
-<script src="script.js"></script>
-<script defer src="/_vercel/insights/script.js"></script>
+    <div id="profileContainer">
+
+      <img
+        id="profilePic"
+        src="file_00000000fde872439401464a25d6309d.png"
+        alt="Profil"
+      >
+
+    </div>
+
+
+    <!-- =====================================================
+         🖼️ PROFIL EN GRAND
+    ====================================================== -->
+
+    <div id="profileModal">
+
+      <img
+        src="file_00000000fde872439401464a25d6309d.png"
+        alt="Profil"
+      >
+
+    </div>
+
+
+    <!-- =====================================================
+         📥 TÉLÉCHARGER APK
+    ====================================================== -->
+
+    <a
+      href="https://storybak.vercel.app/app-release.apk"
+      target="_blank"
+    >
+      <button type="button">
+        📥 Télécharger l’apk
+      </button>
+    </a>
+
+
+    <!-- =====================================================
+         🎁 1XBET
+    ====================================================== -->
+
+    <a
+      href="https://1xbet.com/?tag=d_5623202m_97c_1x_4878667"
+      target="_blank"
+    >
+      🎁 Bonus 1xBet
+    </a>
+
+
+    <!-- =====================================================
+         📤 PARTAGER
+    ====================================================== -->
+
+    <button
+      id="shareBtn"
+      type="button"
+    >
+      📤 Partager
+    </button>
+
+
+    <!-- =====================================================
+         📱 MENU PARTAGE
+    ====================================================== -->
+
+    <div
+      id="shareMenu"
+      class="hidden"
+    >
+
+      <a
+        id="whatsappShare"
+        target="_blank"
+      >
+        📱 WhatsApp
+      </a>
+
+      <a
+        id="facebookShare"
+        target="_blank"
+      >
+        📘 Facebook
+      </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         🧠 TITRE
+    ====================================================== -->
+
+    <h1 id="title">
+      🧠 Memory Flash Pro
+    </h1>
+
+
+    <!-- =====================================================
+         🌍 LANGUE
+    ====================================================== -->
+
+    <label id="langLabel">
+      🌍 Langue :
+    </label>
+
+    <select id="langSelect">
+
+      <option value="fr">
+        Français
+      </option>
+
+      <option value="en">
+        English
+      </option>
+
+      <option value="es">
+        Español
+      </option>
+
+      <option value="de">
+        Deutsch
+      </option>
+
+      <option value="ar">
+        العربية
+      </option>
+
+    </select>
+
+
+    <!-- =====================================================
+         📊 INFORMATIONS DU JEU
+    ====================================================== -->
+
+    <p>
+      <span id="levelLabel">
+        Niveau
+      </span>
+      :
+      <span id="level">
+        1
+      </span>
+    </p>
+
+
+    <p>
+      <span id="scoreLabel">
+        Score
+      </span>
+      :
+      <span id="score">
+        0
+      </span>
+    </p>
+
+
+    <p>
+      <span id="livesLabel">
+        Vies
+      </span>
+      :
+      <span id="lives">
+        5
+      </span>
+    </p>
+
+
+    <!-- =====================================================
+         🎥 BOUTON PUBLICITÉ
+    ====================================================== -->
+
+    <button
+      id="watchAdBtn"
+      type="button"
+      style="display:none;"
+    >
+      🎥 Regarder une pub (+4 vies)
+    </button>
+
+
+    <!-- =====================================================
+         💬 MESSAGE
+    ====================================================== -->
+
+    <p id="msg">
+      Appuie sur START
+    </p>
+
+
+    <!-- =====================================================
+         ⏱️ TIMER
+    ====================================================== -->
+
+    <p id="timer"></p>
+
+
+    <!-- =====================================================
+         🎨 4 CARRÉS DU JEU
+         ⚠️ CEUX-CI RESTENT INCHANGÉS
+    ====================================================== -->
+
+    <div
+      id="flashGrid"
+      class="grid"
+    >
+
+      <div
+        class="btn red"
+        onclick="pick('red')"
+      ></div>
+
+
+      <div
+        class="btn green"
+        onclick="pick('green')"
+      ></div>
+
+
+      <div
+        class="btn blue"
+        onclick="pick('blue')"
+      ></div>
+
+
+      <div
+        class="btn yellow"
+        onclick="pick('yellow')"
+      ></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         🎮 BOUTONS DE RÉPONSE
+         ⚠️ CE SONT EUX QUI SONT COLORÉS
+    ====================================================== -->
+
+    <div
+      id="answerBox"
+      class="hidden"
+    >
+
+      <p id="questionText">
+        Quelles couleurs as-tu vues ?
+      </p>
+
+
+      <!-- 🔴 ROUGE -->
+
+      <button
+        type="button"
+        class="answer-btn red"
+        onclick="pick('red')"
+      >
+
+        <span
+          class="color-name"
+          data-color="red"
+        >
+          Rouge
+        </span>
+
+      </button>
+
+
+      <!-- 🟢 VERT -->
+
+      <button
+        type="button"
+        class="answer-btn green"
+        onclick="pick('green')"
+      >
+
+        <span
+          class="color-name"
+          data-color="green"
+        >
+          Vert
+        </span>
+
+      </button>
+
+
+      <!-- 🔵 BLEU -->
+
+      <button
+        type="button"
+        class="answer-btn blue"
+        onclick="pick('blue')"
+      >
+
+        <span
+          class="color-name"
+          data-color="blue"
+        >
+          Bleu
+        </span>
+
+      </button>
+
+
+      <!-- 🟡 JAUNE -->
+
+      <button
+        type="button"
+        class="answer-btn yellow"
+        onclick="pick('yellow')"
+      >
+
+        <span
+          class="color-name"
+          data-color="yellow"
+        >
+          Jaune
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         ⭐ START
+    ====================================================== -->
+
+    <button
+      id="star"
+      type="button"
+    >
+
+      <span id="startText">
+        ⭐ Commencer
+      </span>
+
+    </button>
+
+
+  </div>
+
+
+  <!-- =====================================================
+       🔊 SONS
+  ====================================================== -->
+
+  <audio
+    id="clickSound"
+    src="click.mp3"
+  ></audio>
+
+
+  <audio
+    id="winSound"
+    src="win.mp3"
+  ></audio>
+
+
+  <audio
+    id="failSound"
+    src="fail.mp3"
+  ></audio>
+
+
+  <!-- =====================================================
+       📢 GOOGLE ADSENSE
+  ====================================================== -->
+
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187273428222373"
+    crossorigin="anonymous"
+  ></script>
+
+
+  <!-- =====================================================
+       🎮 JAVASCRIPT DU JEU
+  ====================================================== -->
+
+  <script src="script.js"></script>
+
+
+  <!-- =====================================================
+       📊 VERCEL INSIGHTS
+  ====================================================== -->
+
+  <script
+    defer
+    src="/_vercel/insights/script.js"
+  ></script>
+
 
 </body>
-</html>
+
+      </html>
