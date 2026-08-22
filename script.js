@@ -1,4 +1,4 @@
-const GAME_VERSION = "2.0";
+const GAME_VERSION = "3.0";
 
 if (localStorage.getItem("gameVersion") !== GAME_VERSION) {
   localStorage.removeItem("lives");
