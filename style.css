@@ -125,34 +125,72 @@ body {
 
   filter: brightness(1);
 
+  /* On garde les couleurs de chaque bouton */
+}
+
+
+/* 🔴 ROUGE */
+
+.grid.player-mode .btn.red {
+  background: #ff2020;
+
   box-shadow:
-    0 0 10px rgba(255, 255, 255, 0.25);
+    0 0 10px #ff2020,
+    0 0 20px #ff2020;
+}
+
+
+/* 🟢 VERT */
+
+.grid.player-mode .btn.green {
+  background: #00e676;
+
+  box-shadow:
+    0 0 10px #00e676,
+    0 0 20px #00e676;
+}
+
+
+/* 🔵 BLEU */
+
+.grid.player-mode .btn.blue {
+  background: #168cff;
+
+  box-shadow:
+    0 0 10px #168cff,
+    0 0 20px #168cff;
+}
+
+
+/* 🟡 JAUNE */
+
+.grid.player-mode .btn.yellow {
+  background: #ffd600;
+
+  box-shadow:
+    0 0 10px #ffd600,
+    0 0 20px #ffd600;
 }
 
 
 /* =========================
    🖱️ EFFET AU TOUCHER
+   SANS DÉPLACER LES BOUTONS
 ========================= */
 
 .grid.player-mode .btn:hover {
-  transform: scale(1.05);
-
-  filter: brightness(1.2);
-
-  box-shadow:
-    0 0 20px white,
-    0 0 35px var(--btn-color);
+  filter: brightness(1.15);
 }
 
 
 /* =========================
    👆 APPUI
+   SANS DÉPLACER LES BOUTONS
 ========================= */
 
 .grid.player-mode .btn:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
 }
-
 
 /* =========================
    👻 ÉLÉMENTS CACHÉS
