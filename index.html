@@ -4,11 +4,130 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>Le Défi Ultime</title>
+  <!-- =====================================================
+       🔎 SEO PRINCIPAL
+  ====================================================== -->
 
-  <link rel="stylesheet" href="style.css">
+  <title>
+    Storybak – Jeu de mémoire et de réflexion en ligne
+  </title>
+
+  <meta
+    name="description"
+    content="Joue gratuitement à Storybak, un jeu de mémoire, de réflexion et de concentration en ligne. Mémorise des séquences de couleurs, teste tes réflexes et progresse jusqu'au niveau 1000."
+  >
+
+  <meta
+    name="robots"
+    content="index, follow"
+  >
+
+  <meta
+    name="author"
+    content="Storybak"
+  >
+
+  <meta
+    name="application-name"
+    content="Storybak"
+  >
+
+  <meta
+    name="category"
+    content="Game"
+  >
+
+  <link
+    rel="canonical"
+    href="https://storybak.vercel.app/"
+  >
+
+  <!-- =====================================================
+       🌍 LANGUE
+  ====================================================== -->
+
+  <meta
+    http-equiv="content-language"
+    content="fr"
+  >
+
+  <!-- =====================================================
+       📱 MOBILE
+  ====================================================== -->
+
+  <meta
+    name="theme-color"
+    content="#000000"
+  >
+
+  <!-- =====================================================
+       📤 OPEN GRAPH
+       Pour les partages Facebook / WhatsApp / etc.
+  ====================================================== -->
+
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:title"
+    content="Storybak – Jeu de mémoire et de réflexion"
+  >
+
+  <meta
+    property="og:description"
+    content="Teste ta mémoire, ta concentration et tes réflexes avec Storybak. Relève le défi et progresse jusqu'au niveau 1000."
+  >
+
+  <meta
+    property="og:url"
+    content="https://storybak.vercel.app/"
+  >
+
+  <meta
+    property="og:site_name"
+    content="Storybak"
+  >
+
+  <meta
+    property="og:locale"
+    content="fr_FR"
+  >
+
+  <!-- =====================================================
+       🐦 TWITTER / X
+  ====================================================== -->
+
+  <meta
+    name="twitter:card"
+    content="summary"
+  >
+
+  <meta
+    name="twitter:title"
+    content="Storybak – Jeu de mémoire et de réflexion"
+  >
+
+  <meta
+    name="twitter:description"
+    content="Un jeu gratuit pour tester ta mémoire, ta concentration et tes réflexes."
+  >
+
+  <!-- =====================================================
+       🎨 CSS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
 </head>
 
 
@@ -30,7 +149,7 @@
       <img
         id="profilePic"
         src="file_00000000fde872439401464a25d6309d.png"
-        alt="Profil"
+        alt="Profil de Storybak"
       >
 
     </div>
@@ -44,7 +163,7 @@
 
       <img
         src="file_00000000fde872439401464a25d6309d.png"
-        alt="Profil"
+        alt="Image du jeu Storybak"
       >
 
     </div>
@@ -57,6 +176,7 @@
     <a
       href="https://storybak.vercel.app/app-release.apk"
       target="_blank"
+      rel="noopener"
     >
       <button type="button">
         📥 Télécharger l’APK
@@ -88,6 +208,7 @@
       <a
         id="whatsappShare"
         target="_blank"
+        rel="noopener"
       >
         📱 WhatsApp
       </a>
@@ -95,6 +216,7 @@
       <a
         id="facebookShare"
         target="_blank"
+        rel="noopener"
       >
         📘 Facebook
       </a>
@@ -103,12 +225,44 @@
 
 
     <!-- =====================================================
-         🧠 TITRE
+         🧠 TITRE PRINCIPAL
     ====================================================== -->
 
     <h1 id="title">
-      🧠 Memory Flash Pro
+      🧠 Storybak – Memory Flash Pro
     </h1>
+
+
+    <!-- =====================================================
+         📝 CONTENU SEO VISIBLE
+    ====================================================== -->
+
+    <section
+      id="gameDescription"
+      aria-label="Présentation de Storybak"
+    >
+
+      <h2>
+        🎮 Jeu de mémoire et de réflexion
+      </h2>
+
+      <p>
+        Bienvenue sur <strong>Storybak</strong>, un jeu de mémoire
+        et de réflexion en ligne gratuit.
+        Teste ta <strong>mémoire</strong>, ta
+        <strong>concentration</strong> et tes
+        <strong>réflexes</strong> en mémorisant les séquences
+        de couleurs.
+      </p>
+
+      <p>
+        Chaque niveau devient progressivement plus difficile.
+        Observe attentivement la séquence, mémorise-la puis
+        reproduis-la correctement pour continuer ton défi.
+        Le jeu propose jusqu'à <strong>1000 niveaux</strong>.
+      </p>
+
+    </section>
 
 
     <!-- =====================================================
@@ -212,8 +366,6 @@
 
     <!-- =====================================================
          🎨 4 CARRÉS DE SÉQUENCE
-         ⚠️ CEUX-CI RESTENT DES CARRÉS
-         ⚠️ NE PAS CONFONDRE AVEC answerBox
     ====================================================== -->
 
     <div
@@ -221,35 +373,28 @@
       class="grid"
     >
 
-      <!-- 🔴 CARRÉ ROUGE -->
-
       <div
         class="btn red"
         onclick="pick('red')"
+        aria-label="Carré rouge"
       ></div>
-
-
-      <!-- 🟢 CARRÉ VERT -->
 
       <div
         class="btn green"
         onclick="pick('green')"
+        aria-label="Carré vert"
       ></div>
-
-
-      <!-- 🔵 CARRÉ BLEU -->
 
       <div
         class="btn blue"
         onclick="pick('blue')"
+        aria-label="Carré bleu"
       ></div>
-
-
-      <!-- 🟡 CARRÉ JAUNE -->
 
       <div
         class="btn yellow"
         onclick="pick('yellow')"
+        aria-label="Carré jaune"
       ></div>
 
     </div>
@@ -257,8 +402,6 @@
 
     <!-- =====================================================
          🎮 BOUTONS JOUEUR
-         ⚠️ CE SONT EUX QUI SONT ALIGNÉS EN LIGNE
-         ⚠️ ILS SONT INDÉPENDANTS DES CARRÉS CI-DESSUS
     ====================================================== -->
 
     <div
@@ -266,12 +409,11 @@
       class="hidden"
     >
 
-      <!-- 🔴 BOUTON JOUEUR ROUGE -->
-
       <button
         type="button"
         class="answer-btn red"
         onclick="pick('red')"
+        aria-label="Réponse rouge"
       >
 
         <span
@@ -284,12 +426,11 @@
       </button>
 
 
-      <!-- 🟢 BOUTON JOUEUR VERT -->
-
       <button
         type="button"
         class="answer-btn green"
         onclick="pick('green')"
+        aria-label="Réponse verte"
       >
 
         <span
@@ -302,12 +443,11 @@
       </button>
 
 
-      <!-- 🔵 BOUTON JOUEUR BLEU -->
-
       <button
         type="button"
         class="answer-btn blue"
         onclick="pick('blue')"
+        aria-label="Réponse bleue"
       >
 
         <span
@@ -320,12 +460,11 @@
       </button>
 
 
-      <!-- 🟡 BOUTON JOUEUR JAUNE -->
-
       <button
         type="button"
         class="answer-btn yellow"
         onclick="pick('yellow')"
+        aria-label="Réponse jaune"
       >
 
         <span
@@ -366,18 +505,19 @@
   <audio
     id="clickSound"
     src="click.mp3"
+    preload="auto"
   ></audio>
-
 
   <audio
     id="winSound"
     src="win.mp3"
+    preload="auto"
   ></audio>
-
 
   <audio
     id="failSound"
     src="fail.mp3"
+    preload="auto"
   ></audio>
 
 
