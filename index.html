@@ -10,7 +10,9 @@
   >
 
   <!-- =====================================================
-       🔎 SEO PRINCIPAL
+       🔎 SEO
+       Ces informations sont dans le HEAD :
+       elles n'ajoutent rien de visible à l'interface.
   ====================================================== -->
 
   <title>
@@ -19,7 +21,7 @@
 
   <meta
     name="description"
-    content="Joue gratuitement à Storybak, un jeu de mémoire, de réflexion et de concentration en ligne. Mémorise des séquences de couleurs, teste tes réflexes et progresse jusqu'au niveau 1000."
+    content="Storybak est un jeu de mémoire et de réflexion en ligne gratuit. Teste ta mémoire, ta concentration et tes réflexes en mémorisant des séquences de couleurs et progresse jusqu'au niveau 1000."
   >
 
   <meta
@@ -37,27 +39,13 @@
     content="Storybak"
   >
 
-  <meta
-    name="category"
-    content="Game"
-  >
-
   <link
     rel="canonical"
     href="https://storybak.vercel.app/"
   >
 
   <!-- =====================================================
-       🌍 LANGUE
-  ====================================================== -->
-
-  <meta
-    http-equiv="content-language"
-    content="fr"
-  >
-
-  <!-- =====================================================
-       📱 MOBILE
+       📱 INFORMATIONS MOBILE
   ====================================================== -->
 
   <meta
@@ -67,7 +55,7 @@
 
   <!-- =====================================================
        📤 OPEN GRAPH
-       Pour les partages Facebook / WhatsApp / etc.
+       Pour les aperçus lors des partages
   ====================================================== -->
 
   <meta
@@ -82,7 +70,7 @@
 
   <meta
     property="og:description"
-    content="Teste ta mémoire, ta concentration et tes réflexes avec Storybak. Relève le défi et progresse jusqu'au niveau 1000."
+    content="Teste ta mémoire, ta concentration et tes réflexes avec Storybak, un jeu gratuit de réflexion et de mémoire en ligne."
   >
 
   <meta
@@ -116,17 +104,14 @@
 
   <meta
     name="twitter:description"
-    content="Un jeu gratuit pour tester ta mémoire, ta concentration et tes réflexes."
+    content="Jeu gratuit de mémoire, de réflexion et de concentration en ligne."
   >
 
   <!-- =====================================================
        🎨 CSS
   ====================================================== -->
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -149,7 +134,7 @@
       <img
         id="profilePic"
         src="file_00000000fde872439401464a25d6309d.png"
-        alt="Profil de Storybak"
+        alt="Profil"
       >
 
     </div>
@@ -163,7 +148,7 @@
 
       <img
         src="file_00000000fde872439401464a25d6309d.png"
-        alt="Image du jeu Storybak"
+        alt="Profil"
       >
 
     </div>
@@ -176,7 +161,6 @@
     <a
       href="https://storybak.vercel.app/app-release.apk"
       target="_blank"
-      rel="noopener"
     >
       <button type="button">
         📥 Télécharger l’APK
@@ -208,7 +192,6 @@
       <a
         id="whatsappShare"
         target="_blank"
-        rel="noopener"
       >
         📱 WhatsApp
       </a>
@@ -216,7 +199,6 @@
       <a
         id="facebookShare"
         target="_blank"
-        rel="noopener"
       >
         📘 Facebook
       </a>
@@ -225,44 +207,12 @@
 
 
     <!-- =====================================================
-         🧠 TITRE PRINCIPAL
+         🧠 TITRE
     ====================================================== -->
 
     <h1 id="title">
-      🧠 Storybak – Memory Flash Pro
+      🧠 Memory Flash Pro
     </h1>
-
-
-    <!-- =====================================================
-         📝 CONTENU SEO VISIBLE
-    ====================================================== -->
-
-    <section
-      id="gameDescription"
-      aria-label="Présentation de Storybak"
-    >
-
-      <h2>
-        🎮 Jeu de mémoire et de réflexion
-      </h2>
-
-      <p>
-        Bienvenue sur <strong>Storybak</strong>, un jeu de mémoire
-        et de réflexion en ligne gratuit.
-        Teste ta <strong>mémoire</strong>, ta
-        <strong>concentration</strong> et tes
-        <strong>réflexes</strong> en mémorisant les séquences
-        de couleurs.
-      </p>
-
-      <p>
-        Chaque niveau devient progressivement plus difficile.
-        Observe attentivement la séquence, mémorise-la puis
-        reproduis-la correctement pour continuer ton défi.
-        Le jeu propose jusqu'à <strong>1000 niveaux</strong>.
-      </p>
-
-    </section>
 
 
     <!-- =====================================================
@@ -376,25 +326,21 @@
       <div
         class="btn red"
         onclick="pick('red')"
-        aria-label="Carré rouge"
       ></div>
 
       <div
         class="btn green"
         onclick="pick('green')"
-        aria-label="Carré vert"
       ></div>
 
       <div
         class="btn blue"
         onclick="pick('blue')"
-        aria-label="Carré bleu"
       ></div>
 
       <div
         class="btn yellow"
         onclick="pick('yellow')"
-        aria-label="Carré jaune"
       ></div>
 
     </div>
@@ -413,7 +359,6 @@
         type="button"
         class="answer-btn red"
         onclick="pick('red')"
-        aria-label="Réponse rouge"
       >
 
         <span
@@ -430,7 +375,6 @@
         type="button"
         class="answer-btn green"
         onclick="pick('green')"
-        aria-label="Réponse verte"
       >
 
         <span
@@ -447,7 +391,6 @@
         type="button"
         class="answer-btn blue"
         onclick="pick('blue')"
-        aria-label="Réponse bleue"
       >
 
         <span
@@ -464,7 +407,6 @@
         type="button"
         class="answer-btn yellow"
         onclick="pick('yellow')"
-        aria-label="Réponse jaune"
       >
 
         <span
@@ -505,19 +447,16 @@
   <audio
     id="clickSound"
     src="click.mp3"
-    preload="auto"
   ></audio>
 
   <audio
     id="winSound"
     src="win.mp3"
-    preload="auto"
   ></audio>
 
   <audio
     id="failSound"
     src="fail.mp3"
-    preload="auto"
   ></audio>
 
 
