@@ -1,8 +1,26 @@
 {
   "advertisement": {
     "minimumDelayBetweenInterstitial": 60,
+    "initialInterstitialDelay": 0,
     "interstitial": {
-      "placements": []
+      "disable": false,
+      "preloadOnStart": "level_completed",
+      "placementFallback": "level_completed",
+      "placements": [
+        {
+          "id": "level_completed"
+        }
+      ]
+    },
+    "rewarded": {
+      "disable": false,
+      "preloadOnStart": "extra_life",
+      "placementFallback": "extra_life",
+      "placements": [
+        {
+          "id": "extra_life"
+        }
+      ]
     }
   }
 }
