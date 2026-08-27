@@ -553,11 +553,27 @@ function gameOver() {
 }
 
 /* =========================
-   PUB
+   🎥 PUB RÉCOMPENSÉE PLAYGAMA
 ========================= */
 
 function watchAd() {
   if (adInProgress) return;
+
+  // Vérifier que Playgama est prêt
+  if (!playgamaReady) {
+    if (get("msg")) {
+      get("msg").textContent = "⏳ Publicité pas encore disponible...";
+    }
+    return;
+  }
+
+  // Vérifier que les pubs récompensées sont disponibles
+  if (!bridge.advertisement.isRewardedSupported) {
+    if (get("msg")) {
+      get("msg").textContent = "❌ Publicité récompensée indisponible";
+    }
+    return;
+  }
 
   adInProgress = true;
 
@@ -571,28 +587,55 @@ function watchAd() {
     get("msg").textContent = t("ad");
   }
 
-  setTimeout(() => {
-    lives += 4;
+  // Écouter l'état de la publicité
+  const handleRewardedState = (state) => {
 
-    saveGame();
-    updateUI();
-    updateButtonsState();
+    console.log("🎥 Rewarded state :", state);
 
-    adInProgress = false;
+    // ✅ La récompense est accordée UNIQUEMENT ici
+    if (state === "rewarded") {
 
-    if (btn) {
-      btn.disabled = false;
-      btn.style.display = "none";
+      lives += 4;
+
+      saveGame();
+      updateUI();
+      updateButtonsState();
+
+      if (get("msg")) {
+        get("msg").textContent = t("adwin");
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.style.display = "none";
+      }
+
+      adInProgress = false;
     }
 
-    if (get("msg")) {
-      get("msg").textContent = t("adwin");
-    }
+    // ❌ Publicité fermée sans récompense ou échec
+    if (state === "closed" || state === "failed") {
 
-    setTimeout(() => {
-      startGame();
-    }, 1200);
-  }, 5000);
+      if (state === "failed" && get("msg")) {
+        get("msg").textContent = "❌ Publicité indisponible";
+      }
+
+      if (btn) {
+        btn.disabled = false;
+      }
+
+      adInProgress = false;
+    }
+  };
+
+  // Écouter les changements d'état
+  bridge.advertisement.on(
+    bridge.EVENT_NAME.REWARDED_STATE_CHANGED,
+    handleRewardedState
+  );
+
+  // Demander la publicité récompensée
+  bridge.advertisement.showRewarded("extra_life");
 }
 
 /* =========================
