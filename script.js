@@ -541,22 +541,6 @@ function gameOver() {
 function watchAd() {
   if (adInProgress) return;
 
-  // Vérifier que Playgama est prêt
-  if (!playgamaReady) {
-    if (get("msg")) {
-      get("msg").textContent = "⏳ Publicité pas encore disponible...";
-    }
-    return;
-  }
-
-  // Vérifier que les pubs récompensées sont disponibles
-  if (!bridge.advertisement.isRewardedSupported) {
-    if (get("msg")) {
-      get("msg").textContent = "❌ Publicité récompensée indisponible";
-    }
-    return;
-  }
-
   adInProgress = true;
 
   const btn = get("watchAdBtn");
@@ -566,60 +550,32 @@ function watchAd() {
   }
 
   if (get("msg")) {
-    get("msg").textContent = t("ad");
+    get("msg").textContent = "⏳ Chargement...";
+
   }
 
-  // Écouter l'état de la publicité
-  const handleRewardedState = (state) => {
+  // Pour le moment : simulation de récompense
+  setTimeout(() => {
 
-    console.log("🎥 Rewarded state :", state);
+    lives += 4;
 
-    // ✅ La récompense est accordée UNIQUEMENT ici
-    if (state === "rewarded") {
+    saveGame();
+    updateUI();
+    updateButtonsState();
 
-      lives += 4;
-
-      saveGame();
-      updateUI();
-      updateButtonsState();
-
-      if (get("msg")) {
-        get("msg").textContent = t("adwin");
-      }
-
-      if (btn) {
-        btn.disabled = false;
-        btn.style.display = "none";
-      }
-
-      adInProgress = false;
+    if (get("msg")) {
+      get("msg").textContent = "✅ +4 vies ajoutées";
     }
 
-    // ❌ Publicité fermée sans récompense ou échec
-    if (state === "closed" || state === "failed") {
-
-      if (state === "failed" && get("msg")) {
-        get("msg").textContent = "❌ Publicité indisponible";
-      }
-
-      if (btn) {
-        btn.disabled = false;
-      }
-
-      adInProgress = false;
+    if (btn) {
+      btn.disabled = false;
+      btn.style.display = "none";
     }
-  };
 
-  // Écouter les changements d'état
-  bridge.advertisement.on(
-    bridge.EVENT_NAME.REWARDED_STATE_CHANGED,
-    handleRewardedState
-  );
+    adInProgress = false;
 
-  // Demander la publicité récompensée
-  bridge.advertisement.showRewarded("extra_life");
+  }, 1000);
 }
-
 /* =========================
    UPDATE UI
 ========================= */
