@@ -1,499 +1,598 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <!-- =========================
-       SEO
-  ========================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Storybak – Jeu de mémoire et de réflexion en ligne</title>
+  <meta name="description" content="Storybak est un jeu de mémoire et de réflexion en ligne gratuit. Teste ta mémoire, ta concentration et tes réflexes avec des séquences de couleurs.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Storybak">
+  <meta name="application-name" content="Storybak">
+  <link rel="canonical" href="https://storybak.vercel.app/">
+  <meta name="theme-color" content="#050817">
 
-  <meta
-    name="description"
-    content="Storybak est un jeu de mémoire et de réflexion en ligne gratuit. Teste ta mémoire, ta concentration et tes réflexes avec des séquences de couleurs."
-  >
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Storybak – Jeu de mémoire et de réflexion">
+  <meta property="og:description" content="Teste ta mémoire, ta concentration et tes réflexes avec Storybak, un jeu gratuit de réflexion et de mémoire en ligne.">
+  <meta property="og:url" content="https://storybak.vercel.app/">
+  <meta property="og:site_name" content="Storybak">
+  <meta property="og:locale" content="fr_FR">
 
-  <meta
-    name="robots"
-    content="index, follow"
-  >
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Storybak – Jeu de mémoire et de réflexion">
+  <meta name="twitter:description" content="Jeu gratuit de mémoire, de réflexion et de concentration en ligne.">
 
-  <meta
-    name="author"
-    content="Storybak"
-  >
+  <!-- Les styles du jeu sont ici : plus besoin de style.css ni de script.js -->
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%}
+    body{
+      color:#eaf2ff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:radial-gradient(ellipse at 50% 0%,rgba(40,80,190,.30),transparent 60%),
+                 linear-gradient(180deg,#050817,#0a1030 60%,#050817);
+      background-attachment:fixed;-webkit-tap-highlight-color:transparent;
+    }
+    button,select{font:inherit;color:inherit;cursor:pointer}
+    .hidden{display:none!important}
 
-  <meta
-    name="application-name"
-    content="Storybak"
-  >
+    /* ---------- écrans ---------- */
+    .screen{display:none;max-width:460px;margin:0 auto;padding:16px 16px 32px;text-align:center}
+    body[data-screen="menu"] #menu,
+    body[data-screen="game"] #game{display:block}
 
-  <link
-    rel="canonical"
-    href="https://storybak.vercel.app/"
-  >
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+    #profilePic{width:46px;height:46px;border-radius:50%;object-fit:cover;cursor:pointer;
+      border:2px solid rgba(255,214,110,.7);background:#16224d}
+    #profileModal{position:fixed;inset:0;z-index:50;display:none;place-items:center;background:rgba(0,0,0,.82)}
+    #profileModal.open{display:grid}
+    #profileModal img{max-width:86vw;max-height:80vh;border-radius:18px}
+    #langSelect{padding:8px 10px;border-radius:10px;background:#101a42;border:1px solid rgba(140,170,255,.3)}
 
-  <meta
-    name="theme-color"
-    content="#000000"
-  >
+    h1#title{margin:6px 0 2px;font-size:2.1rem;letter-spacing:3px;font-weight:900;
+      text-shadow:0 0 22px rgba(82,167,255,.6)}
+    .tagline{margin:0 0 22px;color:#8da9d9;font-size:.78rem;letter-spacing:3px;font-weight:700}
+    .choose{margin:0 0 12px;color:#c7d8f6;font-weight:700}
 
-  <!-- =========================
-       OPEN GRAPH
-  ========================== -->
+    /* ---------- choix du mode ---------- */
+    .modes{display:grid;gap:14px;margin-bottom:22px}
+    .mode-card{
+      display:grid;grid-template-columns:56px 1fr;gap:4px 14px;align-items:center;
+      text-align:start;padding:16px;border-radius:18px;border:1px solid rgba(110,170,255,.5);
+      background:linear-gradient(135deg,rgba(26,48,110,.9),rgba(10,16,48,.95));
+      box-shadow:0 0 22px rgba(51,120,255,.18);transition:transform .15s,box-shadow .15s;
+    }
+    .mode-card:active{transform:scale(.98)}
+    .mode-card:hover{box-shadow:0 0 30px rgba(80,160,255,.38)}
+    .mode-card.tour{border-color:rgba(200,140,255,.6);background:linear-gradient(135deg,rgba(56,30,112,.9),rgba(10,16,48,.95))}
+    .mode-icon{grid-row:span 3;font-size:2.4rem;text-align:center}
+    .mode-name{font-weight:900;font-size:1.1rem;letter-spacing:1px}
+    .mode-desc{color:#a8badc;font-size:.8rem;line-height:1.35}
+    .mode-stat{color:#ffe08a;font-size:.75rem;font-weight:800}
 
-  <meta
-    property="og:type"
-    content="website"
-  >
+    .links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .links a{text-decoration:none}
+    .small-btn{padding:10px 14px;border-radius:11px;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);font-size:.85rem}
+    #shareMenu{display:flex;gap:10px;justify-content:center;margin-top:12px}
+    #shareMenu.hidden{display:none}
+    #shareMenu a{padding:9px 13px;border-radius:10px;color:#fff;text-decoration:none;
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);font-size:.85rem}
 
-  <meta
-    property="og:title"
-    content="Storybak – Jeu de mémoire et de réflexion"
-  >
+    /* ---------- écran de jeu ---------- */
+    .game-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    #backBtn{padding:9px 13px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18)}
+    #versus{margin:6px 0 10px;padding:8px 12px;border-radius:10px;font-weight:800;font-size:.85rem;
+      color:#ffe08a;border:1px solid rgba(255,205,91,.35);background:rgba(255,190,60,.08)}
+    .stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+    .stat{padding:7px 12px;border-radius:10px;font-size:.82rem;font-weight:800;
+      background:rgba(255,255,255,.06);border:1px solid rgba(125,160,225,.25)}
+    body[data-mode="tour"] .solo-only{display:none!important}
+    #msg{min-height:2.6em;margin:10px 0 4px;font-weight:700;line-height:1.35}
+    #timer{min-height:1.4em;margin:0;color:#9beaff;font-weight:800;font-variant-numeric:tabular-nums}
 
-  <meta
-    property="og:description"
-    content="Teste ta mémoire, ta concentration et tes réflexes avec Storybak, un jeu gratuit de réflexion et de mémoire en ligne."
-  >
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:340px;margin:14px auto 20px}
+    .tile{aspect-ratio:1;border:0;border-radius:22px;opacity:.5;transition:opacity .12s,transform .12s,filter .12s,box-shadow .12s}
+    .tile.red{background:#e5484d;color:#e5484d}
+    .tile.green{background:#30a46c;color:#30a46c}
+    .tile.blue{background:#3e63dd;color:#3e63dd}
+    .tile.yellow{background:#f5d90a;color:#f5d90a}
+    .tile.lit{opacity:1;transform:scale(1.05);filter:brightness(1.35);box-shadow:0 0 34px 6px currentColor}
+    .grid.ready .tile{opacity:.85}
+    .grid:not(.ready) .tile{pointer-events:none}
 
-  <meta
-    property="og:url"
-    content="https://storybak.vercel.app/"
-  >
+    #star,#watchAdBtn{width:100%;max-width:340px;padding:15px 16px;border-radius:14px;font-weight:900;
+      letter-spacing:.5px;border:1px solid rgba(95,190,255,.7);color:#eaf7ff;
+      background:linear-gradient(110deg,#133a86,#4a2288);box-shadow:0 0 20px rgba(57,143,255,.28)}
+    #watchAdBtn{margin:10px 0;background:linear-gradient(110deg,#7a3b00,#b86a00);border-color:rgba(255,200,90,.7)}
 
-  <meta
-    property="og:site_name"
-    content="Storybak"
-  >
-
-  <meta
-    property="og:locale"
-    content="fr_FR"
-  >
-
-  <!-- =========================
-       TWITTER / X
-  ========================== -->
-
-  <meta
-    name="twitter:card"
-    content="summary"
-  >
-
-  <meta
-    name="twitter:title"
-    content="Storybak – Jeu de mémoire et de réflexion"
-  >
-
-  <meta
-    name="twitter:description"
-    content="Jeu gratuit de mémoire, de réflexion et de concentration en ligne."
-  >
-
-  
-
-  <!-- =========================
-       CSS
-  ========================== -->
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
-
+    #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;
+      padding:10px 16px;border-radius:12px;background:#ffe08a;color:#2a1c00;font-weight:800;
+      font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .25s}
+    #toast.show{opacity:1}
+  </style>
 </head>
 
-
-<body>
+<body data-screen="menu">
 
   <!-- =====================================================
-       🎮 CONTENEUR PRINCIPAL
+       🏠 MENU : le joueur choisit Solo ou Tournoi
   ====================================================== -->
+  <main id="menu" class="screen">
 
-  <div
-    class="container"
-    id="game"
-  >
-
-
-    <!-- =====================================================
-         👤 PHOTO DE PROFIL
-    ====================================================== -->
-
-    <div id="profileContainer">
-
-      <img
-        id="profilePic"
-        src="file_0000000097a881f48f3a71f96f908dc0.png"
-        alt="Profil"
-      >
-
+    <div class="topbar">
+      <img id="profilePic" src="file_0000000097a881f48f3a71f96f908dc0.png" alt="Profil"
+           onerror="this.style.visibility='hidden'">
+      <select id="langSelect" aria-label="Langue">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="ar">العربية</option>
+      </select>
     </div>
-
-
-    <!-- =====================================================
-         🖼️ PROFIL EN GRAND
-    ====================================================== -->
 
     <div id="profileModal">
-
-      <img
-        src="file_0000000097a881f48f3a71f96f908dc0.png"
-        alt="Profil"
-      >
-
+      <img src="file_0000000097a881f48f3a71f96f908dc0.png" alt="Profil" onerror="this.style.display='none'">
     </div>
 
+    <h1 id="title">🧠 STORYBAK</h1>
+    <p class="tagline">MEMORY FLASH PRO</p>
 
-    <!-- =====================================================
-         📥 TÉLÉCHARGER APK
-    ====================================================== -->
+    <p class="choose" data-i18n="chooseMode">Choisis ton mode de jeu</p>
 
-    <a
-      href="https://storybak.vercel.app/app-release.apk"
-      target="_blank"
-    >
-      <button type="button">
-        📥 Télécharger l’APK
+    <div class="modes">
+      <button type="button" class="mode-card solo" data-mode="solo">
+        <span class="mode-icon">🎯</span>
+        <span class="mode-name" data-i18n="soloName">MODE SOLO</span>
+        <span class="mode-desc" data-i18n="soloDesc">Progresse niveau par niveau, séquences de plus en plus longues.</span>
+        <span class="mode-stat" id="soloStat"></span>
       </button>
-    </a>
 
-
-    <!-- =====================================================
-         📤 PARTAGER
-    ====================================================== -->
-
-    <button
-      id="shareBtn"
-      type="button"
-    >
-      📤 Partager
-    </button>
-
-
-    <!-- =====================================================
-         📱 MENU PARTAGE
-    ====================================================== -->
-
-    <div
-      id="shareMenu"
-      class="hidden"
-    >
-
-      <a
-        id="whatsappShare"
-        target="_blank"
-      >
-        📱 WhatsApp
-      </a>
-
-      <a
-        id="facebookShare"
-        target="_blank"
-      >
-        📘 Facebook
-      </a>
-
+      <button type="button" class="mode-card tour" data-mode="tour">
+        <span class="mode-icon">🏆</span>
+        <span class="mode-name" data-i18n="tourName">MODE TOURNOI</span>
+        <span class="mode-desc" data-i18n="tourDesc">16 joueurs, élimination directe. Sois juste et plus rapide que tes adversaires.</span>
+        <span class="mode-stat" id="tourStat"></span>
+      </button>
     </div>
 
+    <div class="links">
+      <a href="https://storybak.vercel.app/app-release.apk" target="_blank" rel="noopener">
+        <button type="button" class="small-btn" data-i18n="apk">📥 Télécharger l’APK</button>
+      </a>
+      <button id="shareBtn" type="button" class="small-btn" data-i18n="share">📤 Partager</button>
+    </div>
 
-    <!-- =====================================================
-         🧠 TITRE
-    ====================================================== -->
-
-    <h1 id="title">
-      🧠 Memory Flash Pro
-    </h1>
-
-
-    <!-- =====================================================
-         🌍 LANGUE
-    ====================================================== -->
-
-    <label id="langLabel">
-      🌍 Langue :
-    </label>
-
-    <select id="langSelect">
-
-      <option value="fr">
-        Français
-      </option>
-
-      <option value="en">
-        English
-      </option>
-
-      <option value="es">
-        Español
-      </option>
-
-      <option value="de">
-        Deutsch
-      </option>
-
-      <option value="ar">
-        العربية
-      </option>
-
-    </select>
+    <div id="shareMenu" class="hidden">
+      <a id="whatsappShare" target="_blank" rel="noopener">📱 WhatsApp</a>
+      <a id="facebookShare" target="_blank" rel="noopener">📘 Facebook</a>
+    </div>
+  </main>
 
 
-    <!-- =====================================================
-         📊 INFORMATIONS DU JEU
-    ====================================================== -->
+  <!-- =====================================================
+       🎮 ÉCRAN DE JEU (utilisé par Solo ET par les matchs du Tournoi)
+  ====================================================== -->
+  <main id="game" class="screen">
 
-    <p>
+    <div class="game-top">
+      <button id="backBtn" type="button" data-i18n="back">← Retour</button>
+    </div>
 
-      <span id="levelLabel">
-        Niveau
-      </span>
+    <div id="versus" class="hidden"></div>
 
-      :
+    <div class="stats solo-only">
+      <span class="stat"><span data-i18n="level">Niveau</span> : <span id="level">1</span></span>
+      <span class="stat"><span data-i18n="score">Score</span> : <span id="score">0</span></span>
+      <span class="stat"><span data-i18n="lives">Vies</span> : <span id="lives">5</span></span>
+    </div>
 
-      <span id="level">
-        1
-      </span>
-
-    </p>
-
-
-    <p>
-
-      <span id="scoreLabel">
-        Score
-      </span>
-
-      :
-
-      <span id="score">
-        0
-      </span>
-
-    </p>
-
-
-    <p>
-
-      <span id="livesLabel">
-        Vies
-      </span>
-
-      :
-
-      <span id="lives">
-        5
-      </span>
-
-    </p>
-
-
-    <!-- =====================================================
-         🎥 BOUTON PUBLICITÉ
-    ====================================================== -->
-
-    <button
-      id="watchAdBtn"
-      type="button"
-      style="display:none;"
-    >
-      🎥 Regarder une pub (+4 vies)
-    </button>
-
-
-    <!-- =====================================================
-         💬 MESSAGE
-    ====================================================== -->
-
-    <p id="msg">
-      Appuie sur START
-    </p>
-
-
-    <!-- =====================================================
-         ⏱️ TIMER
-    ====================================================== -->
-
+    <p id="msg"></p>
     <p id="timer"></p>
 
-
-    <!-- =====================================================
-         🎨 4 CARRÉS DE SÉQUENCE
-    ====================================================== -->
-
-    <div
-      id="flashGrid"
-      class="grid"
-    >
-
-      <div
-        class="btn red"
-        onclick="pick('red')"
-      ></div>
-
-      <div
-        class="btn green"
-        onclick="pick('green')"
-      ></div>
-
-      <div
-        class="btn blue"
-        onclick="pick('blue')"
-      ></div>
-
-      <div
-        class="btn yellow"
-        onclick="pick('yellow')"
-      ></div>
-
+    <div id="flashGrid" class="grid">
+      <button type="button" class="tile red"    data-color="red"    aria-label="Rouge"></button>
+      <button type="button" class="tile green"  data-color="green"  aria-label="Vert"></button>
+      <button type="button" class="tile blue"   data-color="blue"   aria-label="Bleu"></button>
+      <button type="button" class="tile yellow" data-color="yellow" aria-label="Jaune"></button>
     </div>
 
+    <button id="watchAdBtn" type="button" class="hidden" data-i18n="ad">🎥 Regarder une pub (+4 vies)</button>
 
-    <!-- =====================================================
-         🎮 BOUTONS JOUEUR
-    ====================================================== -->
+    <button id="star" type="button"><span id="startText" data-i18n="start">⭐ Commencer</span></button>
+  </main>
 
-    <div
-      id="answerBox"
-      class="hidden"
-    >
+  <div id="toast"></div>
 
-      <button
-        type="button"
-        class="answer-btn red"
-        onclick="pick('red')"
-      >
-        <span
-          class="color-name"
-          data-color="red"
-        >
-          Rouge
-        </span>
-      </button>
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="winSound"   src="win.mp3"   preload="auto"></audio>
+  <audio id="failSound"  src="fail.mp3"  preload="auto"></audio>
 
-
-      <button
-        type="button"
-        class="answer-btn green"
-        onclick="pick('green')"
-      >
-        <span
-          class="color-name"
-          data-color="green"
-        >
-          Vert
-        </span>
-      </button>
-
-
-      <button
-        type="button"
-        class="answer-btn blue"
-        onclick="pick('blue')"
-      >
-        <span
-          class="color-name"
-          data-color="blue"
-        >
-          Bleu
-        </span>
-      </button>
-
-
-      <button
-        type="button"
-        class="answer-btn yellow"
-        onclick="pick('yellow')"
-      >
-        <span
-          class="color-name"
-          data-color="yellow"
-        >
-          Jaune
-        </span>
-      </button>
-
-    </div>
-
-
-    <!-- =====================================================
-         ⭐ START
-    ====================================================== -->
-
-    <button
-      id="star"
-      type="button"
-    >
-
-      <span id="startText">
-        ⭐ Commencer
-      </span>
-
-    </button>
-
-
-  </div>
-
+  <!-- 📢 Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187273428222373" crossorigin="anonymous"></script>
 
   <!-- =====================================================
-       🔊 SONS
+       🎮 JAVASCRIPT
+       Ordre : 1) noyau (ci-dessous)  2) solo.js  3) tournoi.js
+       Le noyau démarre sur DOMContentLoaded, donc après que
+       solo.js et tournoi.js se sont enregistrés.
   ====================================================== -->
+  <script>
+  (function () {
+    'use strict';
 
-  <audio
-    id="clickSound"
-    src="click.mp3"
-  ></audio>
+    const $ = (id) => document.getElementById(id);
+    const COLORS = ['red', 'green', 'blue', 'yellow'];
+    const MAX_LEVEL = 100;
+    const SAVE_KEY = 'storybak_save_v2';
+    const LANGS = ['fr', 'en', 'es', 'de', 'ar'];
+    const DEFAULT_SAVE = { level: 1, score: 0, lives: 5, tickets: 1, wins: 0, best: 0, lang: 'fr' };
 
-  <audio
-    id="winSound"
-    src="win.mp3"
-  ></audio>
+    /* ---------- stockage ---------- */
+    function read(key, fallback) {
+      try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+      catch (e) { return fallback; }
+    }
+    function write(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+    }
+    let save = Object.assign({}, DEFAULT_SAVE, read(SAVE_KEY, {}));
+    if (LANGS.indexOf(save.lang) < 0) save.lang = 'fr';
 
-  <audio
-    id="failSound"
-    src="fail.mp3"
-  ></audio>
+    /* ---------- textes ---------- */
+    const TEXTS = {
+      fr: {
+        chooseMode: 'Choisis ton mode de jeu', soloName: 'MODE SOLO', tourName: 'MODE TOURNOI',
+        soloDesc: 'Progresse niveau par niveau, séquences de plus en plus longues.',
+        tourDesc: '16 joueurs, élimination directe. Sois juste et plus rapide que tes adversaires.',
+        apk: '📥 Télécharger l’APK', share: '📤 Partager', back: '← Retour',
+        level: 'Niveau', score: 'Score', lives: 'Vies', best: 'Record', tickets: 'Tickets',
+        start: '⭐ Commencer', next: '⭐ Suivant', continue: '➡️ Continuer',
+        ad: '🎥 Regarder une pub (+4 vies)', adReward: '🎁 +4 vies !',
+        shareText: 'Teste ta mémoire avec Storybak !', ticketWon: '🎟 Ticket gagné !',
+        modeMissing: 'Ce mode n’a pas pu être chargé.'
+      },
+      en: {
+        chooseMode: 'Choose your game mode', soloName: 'SOLO MODE', tourName: 'TOURNAMENT MODE',
+        soloDesc: 'Progress level by level with ever longer sequences.',
+        tourDesc: '16 players, knockout. Be accurate and faster than your opponents.',
+        apk: '📥 Download the APK', share: '📤 Share', back: '← Back',
+        level: 'Level', score: 'Score', lives: 'Lives', best: 'Best', tickets: 'Tickets',
+        start: '⭐ Start', next: '⭐ Next', continue: '➡️ Continue',
+        ad: '🎥 Watch an ad (+4 lives)', adReward: '🎁 +4 lives!',
+        shareText: 'Test your memory with Storybak!', ticketWon: '🎟 Ticket won!',
+        modeMissing: 'This mode could not be loaded.'
+      },
+      es: {
+        chooseMode: 'Elige tu modo de juego', soloName: 'MODO SOLO', tourName: 'MODO TORNEO',
+        soloDesc: 'Avanza nivel a nivel con secuencias cada vez más largas.',
+        tourDesc: '16 jugadores, eliminación directa. Sé preciso y más rápido que tus rivales.',
+        apk: '📥 Descargar el APK', share: '📤 Compartir', back: '← Volver',
+        level: 'Nivel', score: 'Puntos', lives: 'Vidas', best: 'Récord', tickets: 'Tickets',
+        start: '⭐ Empezar', next: '⭐ Siguiente', continue: '➡️ Continuar',
+        ad: '🎥 Ver un anuncio (+4 vidas)', adReward: '🎁 ¡+4 vidas!',
+        shareText: '¡Prueba tu memoria con Storybak!', ticketWon: '🎟 ¡Ticket ganado!',
+        modeMissing: 'No se pudo cargar este modo.'
+      },
+      de: {
+        chooseMode: 'Wähle deinen Spielmodus', soloName: 'SOLO-MODUS', tourName: 'TURNIER-MODUS',
+        soloDesc: 'Steige Level für Level auf, mit immer längeren Sequenzen.',
+        tourDesc: '16 Spieler, K.-o.-System. Sei genau und schneller als deine Gegner.',
+        apk: '📥 APK herunterladen', share: '📤 Teilen', back: '← Zurück',
+        level: 'Level', score: 'Punkte', lives: 'Leben', best: 'Rekord', tickets: 'Tickets',
+        start: '⭐ Start', next: '⭐ Weiter', continue: '➡️ Fortfahren',
+        ad: '🎥 Werbung ansehen (+4 Leben)', adReward: '🎁 +4 Leben!',
+        shareText: 'Teste dein Gedächtnis mit Storybak!', ticketWon: '🎟 Ticket gewonnen!',
+        modeMissing: 'Dieser Modus konnte nicht geladen werden.'
+      },
+      ar: {
+        chooseMode: 'اختر نمط اللعب', soloName: 'النمط الفردي', tourName: 'نمط البطولة',
+        soloDesc: 'تقدّم مستوى بعد مستوى مع تسلسلات أطول.',
+        tourDesc: '16 لاعبًا، إقصاء مباشر. كن دقيقًا وأسرع من منافسيك.',
+        apk: '📥 تحميل APK', share: '📤 مشاركة', back: '← رجوع',
+        level: 'المستوى', score: 'النقاط', lives: 'الأرواح', best: 'الأفضل', tickets: 'التذاكر',
+        start: '⭐ ابدأ', next: '⭐ التالي', continue: '➡️ متابعة',
+        ad: '🎥 شاهد إعلانًا (+4 أرواح)', adReward: '🎁 +4 أرواح!',
+        shareText: 'اختبر ذاكرتك مع Storybak!', ticketWon: '🎟 ربحت تذكرة!',
+        modeMissing: 'تعذّر تحميل هذا النمط.'
+      }
+    };
 
+    function t(key, vars) {
+      const d = TEXTS[save.lang] || {};
+      let s = d[key];
+      if (s === undefined) s = (TEXTS.en || {})[key];
+      if (s === undefined) s = (TEXTS.fr || {})[key];
+      if (s === undefined) s = key;
+      if (vars) s = s.replace(/\{(\w+)\}/g, (m, k) => (vars[k] !== undefined ? vars[k] : m));
+      return s;
+    }
 
-  <!-- =====================================================
-       📢 GOOGLE ADSENSE
-  ====================================================== -->
+    function addTexts(dict) {
+      Object.keys(dict).forEach((lang) => {
+        TEXTS[lang] = Object.assign(TEXTS[lang] || {}, dict[lang]);
+      });
+    }
 
-  <script
-    async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2187273428222373"
-    crossorigin="anonymous"
-  ></script>
+    /* ---------- éléments ---------- */
+    const el = {
+      menu: $('menu'), game: $('game'), msg: $('msg'), timer: $('timer'),
+      grid: $('flashGrid'), star: $('star'), startText: $('startText'),
+      level: $('level'), score: $('score'), lives: $('lives'),
+      ad: $('watchAdBtn'), versus: $('versus'), toast: $('toast'),
+      clickSound: $('clickSound'), winSound: $('winSound'), failSound: $('failSound')
+    };
 
+    let lastMsg = { key: '', vars: null };
+    let toastTimer = null;
 
-  <!-- =====================================================
-       🎮 JAVASCRIPT DU JEU
-  ====================================================== -->
+    function setMsg(key, vars) {
+      lastMsg = { key: key, vars: vars || null };
+      el.msg.textContent = key ? t(key, vars) : '';
+    }
+    function setHidden(node, hidden) { if (node) node.classList.toggle('hidden', !!hidden); }
+    function setStartText(key) {
+      el.startText.dataset.i18n = key;
+      el.startText.textContent = t(key);
+    }
+    function setVersus(text) {
+      el.versus.textContent = text || '';
+      setHidden(el.versus, !text);
+    }
+    function toast(key, vars) {
+      el.toast.textContent = t(key, vars);
+      el.toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2200);
+    }
+    function safePlay(audio) {
+      try {
+        if (!audio) return;
+        audio.currentTime = 0;
+        const p = audio.play();
+        if (p && p.catch) p.catch(() => {});
+      } catch (e) {}
+    }
 
-<script src="solo.js"></script>
-<script src="tournoi.js"></script>
-<script src="script.js"></script>
+    /* ---------- sauvegarde & progression ---------- */
+    const cfg = {
+      COLORS: COLORS,
+      MAX_LEVEL: MAX_LEVEL,
+      lengthFor: (level) => Math.min(3 + Math.floor((level - 1) / 4), 15),
+      timeFor: (level) => Math.round(4 + cfg.lengthFor(level) * 1.3)
+    };
 
+    function get() { return Object.assign({}, save); }
+    function set(patch) {
+      Object.assign(save, patch);
+      write(SAVE_KEY, save);
+      updateUI();
+    }
+    function winLevel() {
+      const finished = save.level >= MAX_LEVEL;
+      const wins = save.wins + 1;
+      const score = save.score + 10 * save.level;
+      const ticket = wins % 3 === 0;
+      set({
+        level: finished ? MAX_LEVEL : save.level + 1,
+        score: score, wins: wins, best: Math.max(save.best, score),
+        tickets: save.tickets + (ticket ? 1 : 0)
+      });
+      return { finished: finished, ticket: ticket };
+    }
+    function loseLife() {
+      set({ lives: Math.max(0, save.lives - 1) });
+      return save.lives;
+    }
 
-  <!-- =====================================================
-       📊 VERCEL INSIGHTS
-  ====================================================== -->
+    /* ---------- plateau de jeu (séquence + réponse + chrono) ---------- */
+    const board = (function () {
+      let token = 0;
+      let state = null;
+      let tick = null;
 
-  <script
-    defer
-    src="/_vercel/insights/script.js"
-  ></script>
+      const tiles = {};
+      el.grid.querySelectorAll('.tile').forEach((tile) => { tiles[tile.dataset.color] = tile; });
 
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+      function flash(color, ms) {
+        const tile = tiles[color];
+        if (!tile) return;
+        tile.classList.add('lit');
+        safePlay(el.clickSound);
+        setTimeout(() => tile.classList.remove('lit'), ms);
+      }
+
+      function stopTick() { if (tick) { clearInterval(tick); tick = null; } }
+
+      function cancel() {
+        token++;
+        state = null;
+        stopTick();
+        el.grid.classList.remove('ready');
+        Object.keys(tiles).forEach((c) => tiles[c].classList.remove('lit'));
+        el.timer.textContent = '';
+      }
+
+      function finish(ok, reason) {
+        if (!state) return;
+        const s = state;
+        state = null;
+        stopTick();
+        el.grid.classList.remove('ready');
+        el.timer.textContent = '';
+        const elapsed = (performance.now() - s.startedAt) / 1000;
+        if (s.opts.onDone) s.opts.onDone({ ok: ok, reason: reason, elapsed: elapsed });
+      }
+
+      async function play(sequence, opts) {
+        cancel();
+        const my = token;
+        opts = opts || {};
+        const speed = opts.speed || 700;
+
+        await sleep(500);
+        if (my !== token) return;
+
+        for (let i = 0; i < sequence.length; i++) {
+          flash(sequence[i], speed * 0.6);
+          await sleep(speed);
+          if (my !== token) return;
+        }
+
+        const seconds = opts.seconds || 10;
+        state = { sequence: sequence, index: 0, opts: opts, startedAt: performance.now() };
+        el.grid.classList.add('ready');
+        if (opts.onAnswer) opts.onAnswer();
+
+        const deadline = performance.now() + seconds * 1000;
+        const draw = () => {
+          const left = Math.max(0, (deadline - performance.now()) / 1000);
+          el.timer.textContent = '⏱ ' + left.toFixed(1) + 's';
+          if (left <= 0) finish(false, 'timeout');
+        };
+        draw();
+        if (state) tick = setInterval(draw, 100);
+      }
+
+      function pick(color) {
+        if (!state) return;
+        flash(color, 180);
+        if (color === state.sequence[state.index]) {
+          state.index++;
+          if (state.index >= state.sequence.length) finish(true, 'done');
+        } else {
+          finish(false, 'wrong');
+        }
+      }
+
+      el.grid.addEventListener('click', (e) => {
+        const tile = e.target.closest('.tile');
+        if (tile) pick(tile.dataset.color);
+      });
+
+      return { play: play, cancel: cancel, pick: pick };
+    })();
+
+    /* ---------- écrans & modes ---------- */
+    const modes = {};
+    let current = null;
+
+    function setScreen(name) { document.body.dataset.screen = name; }
+
+    function updateUI() {
+      el.level.textContent = save.level;
+      el.score.textContent = save.score;
+      el.lives.textContent = save.lives;
+      setHidden(el.ad, !(current && current.id === 'solo' && save.lives <= 0));
+      const soloStat = $('soloStat');
+      const tourStat = $('tourStat');
+      if (soloStat) soloStat.textContent = t('level') + ' ' + save.level + ' · ' + t('best') + ' ' + save.best;
+      if (tourStat) tourStat.textContent = '🎟 ' + t('tickets') + ' : ' + save.tickets;
+      if (current && current.onUpdate) current.onUpdate();
+    }
+
+    function go(id) {
+      const mode = modes[id];
+      if (!mode) { toast('modeMissing'); return; }
+      if (current) current.leave();
+      current = mode;
+      document.body.dataset.mode = id;
+      mode.enter();
+      updateUI();
+    }
+
+    function home() {
+      if (current) {
+        if (current.canLeave && !current.canLeave()) return;
+        current.leave();
+      }
+      current = null;
+      document.body.dataset.mode = '';
+      board.cancel();
+      setVersus('');
+      setScreen('menu');
+      updateUI();
+    }
+
+    /* ---------- langue ---------- */
+    function applyLang() {
+      document.documentElement.lang = save.lang;
+      document.documentElement.dir = save.lang === 'ar' ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-i18n]').forEach((node) => { node.textContent = t(node.dataset.i18n); });
+      if (lastMsg.key) setMsg(lastMsg.key, lastMsg.vars);
+      updateUI();
+      if (current && current.onLang) current.onLang();
+      Object.keys(modes).forEach((id) => { if (modes[id] !== current && modes[id].onLang) modes[id].onLang(); });
+      refreshShare();
+    }
+
+    function refreshShare() {
+      const url = 'https://storybak.vercel.app/';
+      const text = encodeURIComponent(t('shareText') + ' ' + url);
+      $('whatsappShare').href = 'https://wa.me/?text=' + text;
+      $('facebookShare').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    }
+
+    /* ---------- API donnée aux modes ---------- */
+    const api = {
+      el: el, cfg: cfg, board: board,
+      t: t, addTexts: addTexts, setMsg: setMsg, setHidden: setHidden,
+      setStartText: setStartText, setVersus: setVersus, toast: toast,
+      safePlay: safePlay, get: get, set: set, winLevel: winLevel, loseLife: loseLife,
+      updateUI: updateUI, setScreen: setScreen, home: home, go: go,
+      load: read, store: write,
+      profileSrc: () => { const p = $('profilePic'); return p ? p.getAttribute('src') : ''; }
+    };
+
+    /* ---------- démarrage ---------- */
+    function boot() {
+      (window.SBModes || []).forEach((factory) => {
+        try {
+          const mode = factory(api);
+          if (mode && mode.id) modes[mode.id] = mode;
+        } catch (e) { console.error('Mode non chargé :', e); }
+      });
+
+      document.querySelectorAll('[data-mode]').forEach((btn) => {
+        btn.addEventListener('click', () => go(btn.dataset.mode));
+      });
+
+      $('backBtn').addEventListener('click', () => {
+        if (current && current.onBack) current.onBack(); else home();
+      });
+      el.star.addEventListener('click', () => { if (current && current.onStart) current.onStart(); });
+
+      el.ad.addEventListener('click', () => {
+        // 👉 Branche ici ta vraie pub récompensée ; la récompense est donnée à la fin.
+        set({ lives: save.lives + 4 });
+        toast('adReward');
+        if (current && current.onLivesGranted) current.onLivesGranted();
+      });
+
+      $('profilePic').addEventListener('click', () => $('profileModal').classList.add('open'));
+      $('profileModal').addEventListener('click', () => $('profileModal').classList.remove('open'));
+      $('shareBtn').addEventListener('click', () => $('shareMenu').classList.toggle('hidden'));
+
+      const select = $('langSelect');
+      select.value = save.lang;
+      select.addEventListener('change', () => { set({ lang: select.value }); applyLang(); });
+
+      applyLang();
+      setScreen('menu');
+    }
+
+    window.Storybak = api;
+    document.addEventListener('DOMContentLoaded', boot);
+  })();
+  </script>
+
+  <script src="solo.js"></script>
+  <script src="tournoi.js"></script>
+
+  <!-- 📊 Vercel Insights -->
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
-
 </html>
