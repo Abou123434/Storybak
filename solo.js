@@ -1,8 +1,7 @@
 /* =========================================================
    STORYBAK — MODE SOLO
-   Ce fichier s'enregistre auprès du noyau script.js.
-   Il réutilise le plateau, la sauvegarde et les règles
-   de progression déjà présents dans le jeu.
+   Se branche sur le noyau défini dans index.html (window.SBModes).
+   Le joueur monte de niveau : séquences plus longues, plus rapides.
 ========================================================= */
 
 (function () {
@@ -13,7 +12,6 @@
   window.SBModes.push(function (api) {
     const el = api.el;
     let running = false;
-    let round = 0;
 
     api.addTexts({
       fr: {
@@ -22,6 +20,7 @@
         soloPlay: '🎮 Reproduis la séquence !',
         soloWin: '🔥 Bravo ! Manche réussie.',
         soloFail: '❌ Séquence incorrecte. Réessaie !',
+        soloTimeout: '⏰ Temps écoulé ! Réessaie !',
         soloNoLives: '🚫 Tu n’as plus de vies.',
         soloComplete: '🏆 Tous les niveaux sont terminés !'
       },
@@ -31,8 +30,39 @@
         soloPlay: '🎮 Repeat the sequence!',
         soloWin: '🔥 Well done! Round completed.',
         soloFail: '❌ Incorrect sequence. Try again!',
+        soloTimeout: '⏰ Time’s up! Try again!',
         soloNoLives: '🚫 You have no lives left.',
         soloComplete: '🏆 All levels completed!'
+      },
+      es: {
+        soloReady: '🎯 Modo Solo: pulsa Empezar',
+        soloObserve: '👀 ¡Observa bien la secuencia!',
+        soloPlay: '🎮 ¡Repite la secuencia!',
+        soloWin: '🔥 ¡Bravo! Ronda superada.',
+        soloFail: '❌ Secuencia incorrecta. ¡Inténtalo de nuevo!',
+        soloTimeout: '⏰ ¡Se acabó el tiempo!',
+        soloNoLives: '🚫 Ya no te quedan vidas.',
+        soloComplete: '🏆 ¡Todos los niveles completados!'
+      },
+      de: {
+        soloReady: '🎯 Solo-Modus: drücke Start',
+        soloObserve: '👀 Beobachte die Sequenz genau!',
+        soloPlay: '🎮 Wiederhole die Sequenz!',
+        soloWin: '🔥 Bravo! Runde geschafft.',
+        soloFail: '❌ Falsche Sequenz. Versuch es nochmal!',
+        soloTimeout: '⏰ Zeit abgelaufen!',
+        soloNoLives: '🚫 Du hast keine Leben mehr.',
+        soloComplete: '🏆 Alle Level abgeschlossen!'
+      },
+      ar: {
+        soloReady: '🎯 النمط الفردي: اضغط ابدأ',
+        soloObserve: '👀 راقب التسلسل جيدًا!',
+        soloPlay: '🎮 أعد التسلسل!',
+        soloWin: '🔥 أحسنت! أنهيت الجولة.',
+        soloFail: '❌ تسلسل خاطئ. حاول مجددًا!',
+        soloTimeout: '⏰ انتهى الوقت!',
+        soloNoLives: '🚫 لم يعد لديك أرواح.',
+        soloComplete: '🏆 أنهيت جميع المستويات!'
       }
     });
 
@@ -47,25 +77,25 @@
 
     function startRound() {
       const save = api.get();
+
       if (save.lives <= 0) {
         api.setMsg('soloNoLives');
+        api.updateUI();
         return;
       }
 
       running = true;
-      const level = save.level;
-      const length = api.cfg.lengthFor(level);
-      const seconds = api.cfg.timeFor(level);
-
       api.setHidden(el.star, true);
       api.setMsg('soloObserve');
 
-      api.board.play(makeSequence(length), {
-        speed: Math.max(420, 900 - Math.floor(level / 20) * 25),
-        seconds: seconds,
+      api.board.play(makeSequence(api.cfg.lengthFor(save.level)), {
+        speed: Math.max(420, 800 - Math.floor(save.level / 5) * 25),
+        seconds: api.cfg.timeFor(save.level),
+
         onAnswer: function () {
           api.setMsg('soloPlay');
         },
+
         onDone: function (result) {
           running = false;
 
@@ -81,44 +111,49 @@
           } else {
             const remaining = api.loseLife();
             api.safePlay(el.failSound);
-            api.setMsg(remaining > 0 ? 'soloFail' : 'soloNoLives');
+            if (remaining > 0) api.setMsg(result.reason === 'timeout' ? 'soloTimeout' : 'soloFail');
+            else api.setMsg('soloNoLives');
           }
 
-          api.setHidden(el.star, false);
+          // Pas de vies : le bouton pub prend le relais, sinon on propose de continuer.
+          api.setHidden(el.star, api.get().lives <= 0);
+          api.setStartText('next');
           api.updateUI();
         }
       });
     }
 
-    function onStart() {
-      if (running) return;
-      startRound();
-    }
-
     return {
       id: 'solo',
-      screen: 'solo',
 
       enter: function () {
-        round = 0;
-        api.setMsg('soloReady');
-        api.setHidden(el.star, false);
-        if (el.star) el.star.addEventListener('click', onStart);
+        running = false;
+        api.setScreen('game');
+        api.setVersus('');
+        api.setStartText('start');
+        api.setHidden(el.star, api.get().lives <= 0);
+        api.setMsg(api.get().lives > 0 ? 'soloReady' : 'soloNoLives');
       },
 
       leave: function () {
         running = false;
         api.board.cancel();
-        if (el.star) el.star.removeEventListener('click', onStart);
         api.setHidden(el.star, false);
       },
 
-      pause: function () {
-        if (running) api.board.cancel();
-        running = false;
+      onStart: function () {
+        if (!running) startRound();
       },
 
-      resume: function () {},
+      onBack: function () {
+        api.home();
+      },
+
+      // Appelé par le noyau quand le joueur récupère des vies grâce à la pub.
+      onLivesGranted: function () {
+        api.setMsg('soloReady');
+        api.setHidden(el.star, false);
+      },
 
       canLeave: function () {
         return true;
