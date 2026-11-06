@@ -12,7 +12,7 @@
    06. Les 4 boutons joueur (#answerBox)
    07. Boutons (Commencer, pub, partager, APK, langue)
    08. Profil
-   09. Sélecteur de villes (villes verrouillées / débloquées)
+   09. Carte des villes (verrouillées / débloquées), bouton Carte, message
    10. Animations
    11. Petits écrans, écrans bas, accessibilité
 ========================================================= */
@@ -697,6 +697,43 @@ button:disabled {
   color: #fff;
   background: rgba(255, 255, 255, 0.14);
   border: 1px solid var(--line);
+}
+
+
+/* bouton « Carte » (créé par le script) */
+#mapBtn {
+  order: 8;
+  flex: 0 0 auto;
+  padding: 10px 18px;
+  color: #fff;
+  background: rgba(70, 130, 255, 0.3);
+  border: 1px solid rgba(150, 195, 255, 0.6);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* message temporaire (ville débloquée, ville verrouillée…) */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--safe-b) + 28px);
+  z-index: 6000;
+  max-width: min(92vw, 420px);
+  padding: 11px 18px;
+  border-radius: 14px;
+  background: rgba(10, 12, 40, 0.94);
+  border: 2px solid var(--gold);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 16px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 
