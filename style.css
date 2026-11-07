@@ -992,3 +992,8 @@ body[data-mode="tournoi"] #mapBtn { display: none; }
 .versus .rn { opacity: .6; font-size: .8rem; } .versus small { color: var(--muted); }
 .hist-row { width: 100%; }
 body[data-mode="defi"] #mapBtn { display: none; }
+
+/* choix Facile / Difficile */
+.diff-row { display: flex; align-items: center; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.diff-row b { margin-inline-end: 4px; }
+.diff-row button { min-width: 96px; }
